@@ -78,7 +78,7 @@ describe('salt: load-step flux against a hand calculation', () => {
     const nx = 40
     const h0 = 1500
     const solid = 100
-    const P = baseP({ nx, saltVisc: 1e18, nSaltSub: 1 })
+    const P = baseP({ nx, saltVisc: 1e18, nSaltSub: 1, coverBend: 0 }) // thin-sheet hand calculation: no bending
     const eng = bareSalt(P, nx, () => h0)
     // 100 m of mud solids (porosity 0.4) on the left half, layer 1
     const rec = eng.rec

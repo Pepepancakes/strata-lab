@@ -36,8 +36,10 @@ Update it whenever something here changes, in the same commit as the change.
   other breaks determinism by rounding error, and the determinism test catches it.
 - **Snapshot memory.** Spike 001 snapshots are full copies (about 75 MB of heap per branch at one
   snapshot per 75 kyr). M1 should store changed layers only, or cap the number of branches.
-- **Thin-sheet salt has no diapir width.** Under a heavy cover the narrowest bumps grow fastest,
-  so diapirs collapse to 1–4 grid cells. Always run a grid-refinement check on salt structures.
+- **Thin-sheet salt has no diapir width** (`coverBend` = 0, M3.1). Under a heavy cover the narrowest bumps
+  grow fastest, so diapirs collapse to 1–4 grid cells. M3.2 `coverBend` = 1 (default) fixes that for the
+  linear stage; a finite-amplitude needle from a strong thin spot is still a few cells wide and its width
+  is not stable across machines (note in `tests/coverConvergence.test.ts`). Always run a grid-refinement check.
 - **Headless screenshots.** To check the UI, drive headless Chrome over CDP with a separate
   `--user-data-dir`. John's own Edge profile is locked while Edge is open.
 

@@ -47,8 +47,42 @@
 // diag.saltClip (and booked as salt coming in, so the ledger still closes). It must be 0 in every
 // benchmark of this card. Welds and their limiter come in M3.3.
 //
-// Cover bending stiffness (M3.2) is NOT here: thin-sheet flow alone makes the narrowest bumps grow
-// fastest, so diapirs collapse to a few grid cells (handover trap). Do not read widths off this yet.
+// Cover bending stiffness (M3.2). Thin-sheet flow alone makes the narrowest bumps grow fastest (spike
+// 002: diapirs 1 to 4 grid cells wide whatever the cell size). The sediment above the salt is treated
+// as ONE thin viscous plate of thickness h_c (bulk thickness of everything above the salt) and
+// effective viscosity eta_c (coverVisc). A viscous plate bending at rate d(w)/dt (w = roof
+// elevation) with curvature rate d2(dw/dt)/dx2 carries the moment  M = D d2(dw/dt)/dx2  with
+//     D = eta_c h_c^3 / 3          (plane-strain incompressible viscous plate: the elastic
+//                                   D = E h^3 / (12 (1 - nu^2)) with E -> 3 eta, nu -> 1/2;
+//                                   Turcotte & Schubert, Geodynamics, plate flexure chapter)
+// and the plate hands the load  d2M/dx2  to the salt, so the pressure on the roof is
+//     p_b = d2/dx2 ( D d2(dw/dt)/dx2 )                                            [Pa]
+// (conservative, self-adjoint form; reduces to (eta_c h_c^3 / 3) d4(dw/dt)/dx4 for constant h_c).
+// It is added to the roof pressure: Phi = W + rho_w g wd + rho_salt g z_roof + p_b. Because w moves
+// with the salt thickness (basement fixed), dw/dt = dh/dt, and p_b is IMPLICIT in the new thickness:
+//     Phi = Phi_0 + a dh + K dh / dtS,   K = G^T diag(D) G / dx^4
+// G = second difference [1 -2 1] (mirror ends: zero slope at both ends, like the zero-flux ends of
+// the salt). The system becomes (I + c T (diag(a) + K/dtS)) dh = rhs, with T the flux operator of
+// M3.1: seven diagonals, solved by banded LU (banded.ts). Flux form is kept (dh is a divergence of
+// fluxes), so salt is conserved to rounding. With coverBend = 0 the M3.1 tridiagonal path runs and
+// results are bit-identical to M3.1.
+//
+// Linear theory (what the dispersion test checks). Salt channel of thickness h, cover h_c, seafloor
+// held level (sedimentation fills lows and erodes highs: the differential-loading setup of Gemmer
+// et al. 2004), cover density rho_c > rho_salt. A roof bump w = A cos(kx) changes the load by
+// -rho_c g w and the salt weight by +rho_salt g w, so the drive is -(rho_c - rho_salt) g w
+// (destabilising). Thin-sheet flow dh/dt = (h^3 / 12 eta_s) d2Phi/dx2 then gives
+//     sigma(k) = drho g h^3 k^2 / (12 eta_s + (eta_c h_c^3 / 3) h^3 k^6),  drho = rho_c - rho_salt
+// fastest at k*^6 = 18 eta_s / (eta_c h_c^3 h^3), lambda* = 2 pi (eta_c h_c^3 h^3 / (18 eta_s))^(1/6).
+// A cover that simply rides on the roof under water has drho -> -(rho_salt - rho_w): the same
+// formula gives decay (stable), and with h_c = 0 it is the M3.1 decay rate.
+// Elastic flexure with the whole cover as the plate (E = 10 GPa, nu = 0.25, D = E h_c^3 / (12 (1 - nu^2)))
+// gives sigma = (h^3 k^2 / 12 eta_s)(drho g - D k^4): unstable only longer than 2 pi (D / (drho g))^(1/4)
+// = 23 km for 1 km of cover (53 km for 3 km), fastest at 2 pi (3 D / (drho g))^(1/4) = 31 km (70 km).
+// Rejected: see docs/physics-references.md.
+// Approximation for a laterally varying h_c: D(x) is evaluated per column from the local bulk
+// thickness (thin-plate / lubrication-style local thickness), inside the conservative operator.
+// Where the cover thins to nothing, D -> 0 and the bending resistance disappears there (welds: M3.3).
 //
 // References: Turcotte & Schubert, Geodynamics (channel flow); Hudec & Jackson (2007), Earth-Sci.
 // Rev. 82 (halite density 2,160 kg/m^3, viscosity range); Ge, Jackson & Vendeville (1997) for the
@@ -60,6 +94,7 @@ import { cellBulk } from './compaction'
 import type { EngineParams } from './engineParams'
 import { createRng } from './rng'
 import { SALT, type LayerRecord } from './record'
+import { bandIndex, solveBanded } from './banded'
 import type { EngineState, SaltScratch } from './state'
 import { thomas } from './thomas'
 
@@ -188,6 +223,87 @@ export function saltFluxes(eng: EngineState, P: EngineParams, out: Float64Array)
 }
 
 /**
+ * Plate stiffness and the bending part of the system matrix (M3.2), built once per record step.
+ * D_i = eta_c h_c,i^3 / 3 at each column centre (h_c = bulk thickness of the sediment above the
+ * salt, saltSedimentLoads). K = G^T diag(D) G / dx^4, G the second difference [1 -2 1] at the
+ * columns, with mirror ends (zero slope at the first and last column, like the zero-flux ends of the salt). Then the pressure the
+ * bending cover puts on the roof is K (dh / dt), a conservative (self-adjoint) form of
+ * d2/dx2 (D d2(dw/dt)/dx2); K is symmetric, positive semi-definite, and zero for a constant or
+ * tilted roof (a rigid shift costs nothing). Stored divided by the substep length `dtS` (s) as
+ * three bands: s0 (K_kk), s1 (K_k,k+1), s2 (K_k,k+2), plus the water/gravity response a on the diagonal.
+ */
+function coverStiffness(eng: EngineState, P: EngineParams, dtS: number): void {
+  const S = eng.salt
+  const nx = eng.rec.nx
+  const dx = eng.rec.dx
+  const f = P.coverVisc / 3 / (dx * dx * dx * dx) / dtS
+  S.s0.fill(0)
+  S.s1.fill(0)
+  S.s2.fill(0)
+  for (let i = 0; i < nx; i++) {
+    const hc = S.Sb[i]
+    const Di = f * hc * hc * hc
+    S.Dc[i] = Di
+    if (i === 0) {
+      // mirror end (zero slope, like the zero-flux end of the salt): curvature w_1 - w_0
+      S.s0[0] += Di
+      S.s0[1] += Di
+      S.s1[0] += -Di
+    } else if (i === nx - 1) {
+      S.s0[nx - 2] += Di
+      S.s0[nx - 1] += Di
+      S.s1[nx - 2] += -Di
+    } else {
+      // G row i: columns i-1, i, i+1 with weights 1, -2, 1
+      S.s0[i - 1] += Di
+      S.s0[i] += 4 * Di
+      S.s0[i + 1] += Di
+      S.s1[i - 1] += -2 * Di
+      S.s1[i] += -2 * Di
+      S.s2[i - 1] += Di
+    }
+  }
+}
+
+/**
+ * One substep with bending: solve (I + c T (diag(a) + K/dt)) u = rhs for the thickness change u,
+ * where T is the (symmetric) flux operator of the existing scheme, T v_j = Mp (v_j - v_j+1) + Mm (v_j - v_j-1),
+ * and rhs is the explicit part c (Mp dPhi+ - Mm dPhi-). With K = 0 this is exactly the tridiagonal
+ * system of M3.1. Seven diagonals; banded LU with pivoting (banded.ts). Result in S.x.
+ */
+function solveBent(eng: EngineState, c: number): void {
+  const S = eng.salt
+  const nx = eng.rec.nx
+  const M = S.M
+  const a = S.aw
+  const Phi = S.Phi
+  const band = S.band
+  band.ab.fill(0)
+  // S matrix entry (k, m): diagonal a_k + s0_k, off-diagonals s1, s2 (symmetric)
+  const sEntry = (k: number, m: number): number => {
+    if (k < 0 || m < 0 || k >= nx || m >= nx) return 0
+    const d = m - k
+    if (d === 0) return a[k] + S.s0[k]
+    if (d === 1) return S.s1[k]
+    if (d === -1) return S.s1[m]
+    if (d === 2) return S.s2[k]
+    if (d === -2) return S.s2[m]
+    return 0
+  }
+  for (let j = 0; j < nx; j++) {
+    const Mm = j > 0 ? M[j - 1] : 0
+    const Mp = j < nx - 1 ? M[j] : 0
+    for (let m = Math.max(0, j - 3); m <= Math.min(nx - 1, j + 3); m++) {
+      let v = c * ((Mp + Mm) * sEntry(j, m) - Mp * sEntry(j + 1, m) - Mm * sEntry(j - 1, m))
+      if (m === j) v += 1
+      band.ab[bandIndex(nx, 3, 3, j, m)] = v
+    }
+    S.x[j] = c * ((j < nx - 1 ? Mp * (Phi[j + 1] - Phi[j]) : 0) - (j > 0 ? Mm * (Phi[j] - Phi[j - 1]) : 0))
+  }
+  solveBanded(nx, 3, 3, band, S.x)
+}
+
+/**
  * Move salt for one record step of dtYr years at sea level SL (m): `nSaltSub` substeps of the
  * semi-implicit scheme in the header. Writes the new thickness to layer 0 and the change per
  * column to eng.salt.dh (the caller adds it to the surface H). Does nothing when saltOn = 0.
@@ -209,19 +325,25 @@ export function saltStep(eng: EngineState, P: EngineParams, SL: number, dtYr: nu
   const base = SALT_LAYER * nx
   for (let j = 0; j < nx; j++) h[j] = rec.mud[base + j]
   saltSedimentLoads(eng, P)
+  const bend = P.coverBend === 1 && P.coverVisc > 0 && nx >= 5
+  if (bend) coverStiffness(eng, P, (dtYr * YR) / n)
   for (let s = 0; s < n; s++) {
     saltPotentialOf(eng, SL, h)
     const Phi = S.Phi
     faceMobility(S, h, nx, P.saltVisc)
-    for (let j = 0; j < nx; j++) {
-      const Mm = j > 0 ? M[j - 1] : 0
-      const Mp = j < nx - 1 ? M[j] : 0
-      S.lo[j] = j > 0 ? -c * Mm * a[j - 1] : 0
-      S.up[j] = j < nx - 1 ? -c * Mp * a[j + 1] : 0
-      S.di[j] = 1 + c * (Mm + Mp) * a[j]
-      S.rhs[j] = c * ((j < nx - 1 ? Mp * (Phi[j + 1] - Phi[j]) : 0) - (j > 0 ? Mm * (Phi[j] - Phi[j - 1]) : 0))
+    if (bend) {
+      solveBent(eng, c)
+    } else {
+      for (let j = 0; j < nx; j++) {
+        const Mm = j > 0 ? M[j - 1] : 0
+        const Mp = j < nx - 1 ? M[j] : 0
+        S.lo[j] = j > 0 ? -c * Mm * a[j - 1] : 0
+        S.up[j] = j < nx - 1 ? -c * Mp * a[j + 1] : 0
+        S.di[j] = 1 + c * (Mm + Mp) * a[j]
+        S.rhs[j] = c * ((j < nx - 1 ? Mp * (Phi[j + 1] - Phi[j]) : 0) - (j > 0 ? Mm * (Phi[j] - Phi[j - 1]) : 0))
+      }
+      thomas(nx, S.lo, S.di, S.up, S.rhs, S.x, S.cp, S.dp)
     }
-    thomas(nx, S.lo, S.di, S.up, S.rhs, S.x, S.cp, S.dp)
     for (let j = 0; j < nx; j++) {
       let t = h[j] + S.x[j]
       if (t < 0) {

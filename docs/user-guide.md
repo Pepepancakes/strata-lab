@@ -190,10 +190,12 @@ Salt (M3.1; off by default, so the default run is unchanged)
 | Salt pinch-out: full thickness basinward of (km) | 45 | start. tuned |
 | Salt viscosity (Pa s) | 1e17 | tuned. Hudec & Jackson (2007) range about 1e17 to 1e19, to verify; the default is the fast end so flow shows in 3 Myr |
 | Salt substeps per record step | 5 | start. tuned. Numerical |
+| Cover resists bending (1) / not (0) (salt on) | 1 | tuned (switch). 1: the sediment above the salt is a viscous plate, so a preferred diapir width emerges. 0: thin-sheet flow only (M3.1), where the narrowest bumps grow fastest |
+| Cover effective viscosity as a plate (salt on) (Pa s) | 1e19 | tuned. No published value for a whole cover is in the references (to verify). Widths scale as its 1/6 power |
 | Unevenness of the older cover (salt on) | 0 | start. tuned. Seeded random thickness variation of the older cover |
 | Seed of the cover unevenness | 1 | start. tuned |
 
-With salt on, the sediment loads the salt and squeezes it basinward; the cover above rides up and down on the salt. Salt volume is conserved and has its own line in the mass balance. Cover bending stiffness and welds are not in yet (M3.2, M3.3), so do not read diapir widths from it.
+With salt on, the sediment loads the salt and squeezes it basinward; the cover above rides up and down on the salt. Salt volume is conserved and has its own line in the mass balance. The cover resists bending (M3.2), so the width of the structures is set by the cover viscosity and thickness, not by the cell size: check by halving the cell size. Welds are not in yet (M3.3).
 
 Two things to know about the edit boxes:
 - **Subsidence history (piecewise factors)** has no boxes in the app yet. It is a list the
@@ -564,8 +566,9 @@ look right for an overpressured slope is your call. Nothing here is calibrated t
   muddy slopes and a 0.3 m/km coastal plain, not calibrated to data.
 - **Default overpressure is mild** (maximum about 14 % of the load, at 20 m²/yr supply). To see
   strong overpressure lower **Mud permeability multiplier** or raise **Sediment supply**.
-- **Salt is early (M3.1).** Salt flows under the sediment load when Salt layer is on (section 3.3), but
-  there is no cover bending stiffness yet (so diapir widths mean nothing), no weld limiter, and salt
+- **Salt is early (M3.2).** Salt flows under the sediment load when Salt layer is on (section 3.3) and the
+  cover resists bending, so a preferred width appears (it depends on the tuned cover viscosity). There
+  is no weld limiter, and salt
   is not yet checked against a published field example.
 - **Supply and subsidence are tuned**, not taken from a published Gulf of America rate.
 - **Temperature is steady conduction.** It ignores the cooling effect of fast burial, so deep

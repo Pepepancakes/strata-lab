@@ -9,6 +9,7 @@
 // makes rewind bit-identical.
 
 import type { LayerRecord } from './record'
+import { makeBandedScratch, type BandedScratch } from './banded'
 import { createHistory, type TriggerCause, type TriggerHistory } from './triggers'
 
 export interface Scratch {
@@ -79,11 +80,17 @@ export interface SaltScratch {
   x: Float64Array
   cp: Float64Array
   dp: Float64Array
+  /** Cover bending (M3.2): plate stiffness D = eta_c h_c^3 / 3 per column, the stiffness matrix K / dt in three bands (diagonal, +1, +2), and the banded system. */
+  Dc: Float64Array
+  s0: Float64Array
+  s1: Float64Array
+  s2: Float64Array
+  band: BandedScratch
 }
 
 export function makeSaltScratch(nx: number): SaltScratch {
   const f = () => new Float64Array(nx)
-  return { W: f(), Sb: f(), Phi: f(), aw: f(), M: f(), h: f(), dh: f(), lo: f(), di: f(), up: f(), rhs: f(), x: f(), cp: f(), dp: f() }
+  return { W: f(), Sb: f(), Phi: f(), aw: f(), M: f(), h: f(), dh: f(), lo: f(), di: f(), up: f(), rhs: f(), x: f(), cp: f(), dp: f(), Dc: f(), s0: f(), s1: f(), s2: f(), band: makeBandedScratch(nx, 3, 3) }
 }
 
 /**

@@ -194,8 +194,23 @@ small thickness bump against linear thin-sheet theory (within 1 % for wavelength
 and 1e18; the 25 km case is the worst at -0.57 %, from the first-order time step), and the flux under a
 load step against a hand calculation (-0.02 %). Salt, sand and mud balance separately.
 
-Not in M3.1 (later cards): cover bending stiffness (M3.2; without it the narrowest bumps grow fastest, so
-diapir widths are not meaningful yet), weld limiter (M3.3; clipped volume is counted in `saltClip` and must be 0),
+Cover bending (M3.2). `salt.ts` header has the derivation. The cover above the salt is one thin viscous
+plate, D = eta_c h_c^3 / 3 (the elastic D = E h^3 / (12 (1 - nu^2)) with E -> 3 eta, nu -> 1/2;
+Turcotte & Schubert, *Geodynamics*, plate flexure), adding the pressure d2/dx2(D d2(dh/dt)/dx2) to the
+roof. Linear theory for a level seafloor and a dense cover: sigma(k) = drho g h^3 k^2 / (12 eta_s +
+(eta_c h_c^3 / 3) h^3 k^6), fastest at lambda* = 2 pi (eta_c h_c^3 h^3 / (18 eta_s))^(1/6); the
+dispersion test in `tests/coverBending.test.ts` checks the engine against it. Width of a diapir
+here means the power-weighted mean wavelength of the roof relief
+(`tests/coverConvergence.test.ts`).
+  - Turcotte, D.L. & Schubert, G. (2014). *Geodynamics*, 3rd ed. Cambridge University Press.
+  - eta_c, `coverVisc`, default 1e19 Pa s: **tuned** (100 times the salt viscosity); no published
+    value for a whole sediment cover is in these references (to verify). It sets the width:
+    lambda* scales as eta_c^(1/6).
+  - Rejected: elastic flexure of the whole cover (E = 10 GPa, nu 0.25) is stable below 23 km (1 km of
+    cover) to 53 km (3 km) and fastest at 31 to 70 km, far wider than minibasins.
+  - Not modelled: faulting of the cover; the cover is one plate.
+
+Not in M3.2 (later cards): weld limiter (M3.3; clipped volume is counted in `saltClip` and must be 0),
 salt thermal and pore-pressure effects beyond the placeholder conductivity.
 
 ## Set-up parameters and what the registry adds (M1.8)
@@ -248,7 +263,7 @@ References (24):
 - `eaton-1969`: Eaton (1969)
 - `matthews-kelly-1967`: Matthews & Kelly (1967)
 
-Parameters (74), as `key`: status, reference id:
+Parameters (76), as `key`: status, reference id:
 - `nx`: tuned
 - `dx`: tuned
 - `duration`: tuned
@@ -323,4 +338,6 @@ Parameters (74), as `key`: status, reference id:
 - `nSaltSub`: tuned
 - `coverUneven`: tuned
 - `coverSeed`: tuned
+- `coverBend`: tuned, turcotte-schubert
+- `coverVisc`: tuned, turcotte-schubert
 <!-- registry-index:end -->

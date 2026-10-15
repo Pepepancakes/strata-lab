@@ -212,6 +212,11 @@ export const PARAMS: readonly ParamDef[] = [
     source: { kind: 'tuned', note: 'Plus or minus fraction of the older cover thickness, a seeded smooth random pattern (rng.ts). 0 = flat. Gives the salt something to start flowing from.' } },
   { key: 'coverSeed', label: 'Seed of the cover unevenness', unit: '-', displayUnit: '-', default: 1, min: 0, max: 4294967295, startOnly: true,
     source: { kind: 'tuned', note: SETUP } },
+  // ---- cover bending stiffness (M3.2) ----
+  { key: 'coverBend', label: 'Cover resists bending (1) / not (0) (salt on)', unit: '-', displayUnit: '-', default: 1, min: 0, max: 1, startOnly: false,
+    source: { kind: 'tuned', refId: 'turcotte-schubert', note: 'Switch. With 0 the salt flows as in M3.1 and the narrowest bumps grow fastest (diapir width = a few grid cells). With 1 the sediment above the salt acts as a viscous plate that resists bending, so a preferred width appears (salt.ts). Only matters when salt is on.' } },
+  { key: 'coverVisc', label: 'Cover effective viscosity as a plate (salt on)', unit: 'Pa s', displayUnit: 'Pa s', default: 1e19, min: 1e17, max: 1e22, startOnly: false,
+    source: { kind: 'tuned', refId: 'turcotte-schubert', note: 'Effective viscosity of the sediment above the salt, treated as one viscous plate. No published value for a sediment cover is in this project\'s references (to verify). 1e19 is 100 times the default salt viscosity: tuned, it gives a preferred diapir spacing of about 8 km under 1 km of cover over 1.5 km of salt (physics-references, M3.2).' } },
 ]
 
 const BY_KEY = new Map(PARAMS.map((p) => [p.key, p]))
