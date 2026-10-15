@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-14):** spikes 001 and 002 done and reviewed by John. M1 is done and on main (merged 2026-10-15, review M1.9 APPROVE). Open: the Linux CI run is red (floating-point results differ from Windows; see docs/decisions.md D14).
+**Status (2026-10-14):** spikes 001 and 002 done and reviewed by John. M1 is done and on main (merged 2026-10-15, review M1.9 APPROVE). M2 (slope failure and MTDs) is built and under review, not on main. Open: the Linux CI run is red (floating-point results differ from Windows; see docs/decisions.md D14).
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -126,6 +126,22 @@ the previous card's branch, and nothing reaches main until John approves the tip
 - Mass is conserved through failures.
 - With low mud permeability and high supply, MTDs come off the overpressured upper slope, and
   John judges where and when they happen.
+
+**Status (2026-10-15): built, under review.** M2.1 to M2.4 are built on the stacked branches
+`strata-lab/m2-01-stability` to `m2-04-views`, M2.5 (docs) on `m2-05-docs`. Nothing is on main yet.
+Results so far (`npm run check`: 262 passed, 1 skipped at M2.4; build and offline check pass):
+- Factor of safety matches the infinite-slope hand calculations to 1e-9 (`tests/stability.test.ts`).
+  Default run: minimum FS 4.08 at km 70.5, 905 ft below the seafloor.
+- Mass is conserved per grain size through failures (`tests/failure.test.ts`); the Bingham run-out
+  matches its uniform-flow solution within 1 % (`tests/runout.test.ts`).
+- The preset *Overpressured slope (MTD-prone)* gives 30 events (km 47 to 95, run-outs up to 17 km),
+  25 tagged lowstand and 5 rapid loading. **John still has to judge** whether places and times look right.
+- Open: failure on costs +9 % (3 Myr), +38 % (Miocene), +45 % (Cenozoic) run time, over the 15 %
+  budget for the two long presets. Friction angle and cohesion are "to verify"; the run-out
+  parameters are tuned and the Imran et al. (2001) form is unchecked against the paper.
+- Limits: 2D infinite slope (no rotational slumps, no 3D), no earthquakes, no gentle-slope failures
+  (under 0.5 deg).
+- Still to do: M2.6 integrity review, then John's decision to merge.
 
 ## M3 — Salt
 Spike 002 built into the engine as maintained code: minibasins, welds, passive diapirs, and salt

@@ -4,9 +4,13 @@ This file exists from day one so the project can move to another machine or agen
 Update it whenever something here changes, in the same commit as the change.
 
 ## Where things stand
+- 2026-10-15: M1 is on main (merge 56b964a). Linux CI is red because floating-point results differ
+  from Windows (`docs/decisions.md` D14).
+- 2026-10-15: M2 (slope failure and MTDs) is built on the branch chain `strata-lab/m2-01-stability`
+  to `m2-05-docs` and is under review (M2.6). It is not on main. See "M2 slope failure and MTDs" below.
 - 2026-10-14: spike 001 (2D deepwater shelf-to-basin) built and accepted. John said go for a core
   project. Repo created, docs written. Spike 002 (salt) built the same day; see
-  `spikes/002-salt/README.md`. Waiting on John's look at it. Then M1 cards go to John for approval.
+  `spikes/002-salt/README.md`.
 
 ## How to run what exists
 - Open `spikes/001-shelf-to-basin/dist/strata-spike-001.html` in a browser. It is one offline file.
@@ -50,3 +54,19 @@ Update it whenever something here changes, in the same commit as the change.
 - Replace warning (`src/app/replaceGuard.ts`): New, Open and Reset warn when there are changes not saved to a file; preset, run-length and main-run edits warn only when they would drop branches.
 - Raise `ENGINE_VERSION` in `src/version.ts` by hand when an engine change alters results, and rewrite the fixture: `STRATA_WRITE_FIXTURE=1 npm run test:run -- scenarioFile` (tests/fixtures/scenario-v1.strata.json is a golden for the hashes).
 - `node scripts/verify-scenario-built.mjs` checks the round trip in the built file (real download through CDP).
+
+## M2 slope failure and MTDs (2026-10-15)
+Built as a chain `strata-lab/m2-01-stability` -> `m2-02-failure-runout` -> `m2-03-triggers` -> `m2-04-views` -> `m2-05-docs`. Under review (M2.6), not on main.
+- Code: `src/engine/stability.ts` (`computeStability`, `infiniteSlopeFS`, `seafloorSlope`), `failure.ts` (failure and MTD deposit), `runout.ts` (Bingham run-out), `triggers.ts` (cause tag and its history). Views: `src/views/events` (event list), FS mode in `src/views/section`, MTD intervals in `src/views/well`. Registry keys and their sources: `docs/physics-references.md`, "M2 parameter summary".
+- **Trap: failure is OFF by default (`failOn` = 0, start-only).** That is what keeps the M1 golden runs bit-identical, so `ENGINE_VERSION` is still 1. Anything that changes failure, run-out, stability or trigger code changes the hashes of runs with failure on (the MTD-prone preset) but not the M1 fixtures, so no test warns you. Raise `ENGINE_VERSION` by hand if you change results.
+- **Trap: FS is not stored.** `computeStability()` recomputes it from the record each time, so nothing has to be rebuilt on restore. Do not cache it in the record. The worker sends an `fs` field to the section and has an `events` request for the list.
+- **Trap: the trigger history IS state.** `EngineState.hist` (the last `LOOKBACK_STEPS` end-of-step slopes, pressures, sea levels and loads, `HIST_SLOTS` slots) is cloned in every keyframe and copied back on restore (`src/worker/keyframes.ts`). Without it a rewound run tags events differently. Events are never edited after they are made, so snapshots keep a shallow copy of the list. `TimeMachine.eventsAt(branchId, step)` gives the events up to a step.
+- **Trap: a deposit goes into the layer of the step that failed.** Two events in one step share that layer. The engine tags a cell MTD only when debris is at least half of its solids, so the views also mark every cell in an event's deposit. Do not use `material === MTD` alone to find a deposit.
+- **Trap: the top cells of a fresh layer look unstable** (their excess pressure has not drained). `failMinDepth` (10 m) and `failSlopeMin` (0.5 deg) hide that and are stated limits, not tuning to hit a target. Lowering them makes thin skin failures every step.
+- **Trap: the default parameters produce no failures** on the default scenario (friction 33/25 deg on 6 deg slopes). Tests that need events either use the preset (`'mtd'`) or set `phiFric` to [16, 9] (about 40 events).
+- **Open: speed.** With failure on, run time rises 9 % (3 Myr), 38 % (Miocene) and 45 % (Cenozoic) at M2.3 (min of 3 runs). The card budget was 15 %, so it is NOT met for the two long presets. The cost is in the slope search of every sloping column at every step.
+- **Open: the MTD-prone preset gives 30 events, tagged 25 lowstand and 5 rapid loading, none overpressure or oversteepening.** Sea-level fall is tested first in the tag. John has to judge whether the places (km 47 to 95) and times look right (roadmap, M2 done-when).
+- `src/engine/params.ts` is one long registry array and every card adds rows to it. Expect merge conflicts there.
+- Same-step events stack their headwall labels in the section (#1 to #6 at 2.485 Ma in the preset). The right column was widened from 340 to 420 px for the event table. The 390 px phone width was not checked.
+- Screenshots of the built file: `docs/screenshots/m2-04/` (script `scripts/screenshots-m24.mjs`, `report.json` shows 0 console errors and 0 external requests).
+- `tests/docs.test.ts` now also checks the M2 control labels in the user guide. When you rename a label, rename it in section 13 of `docs/user-guide.md`.
