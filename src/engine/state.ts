@@ -52,6 +52,8 @@ export interface Diagnostics {
   tcShare: number
   /** Failures that were still unstable after failMaxIters rechecks (M2.2). */
   failUnresolved: number
+  /** 1 when the record may hold a cell tagged MTD (set when a deposit tags one, cleared when a scan finds none). Lets the failure step skip the full-record scan (M2.10). Copied with diag in snapshots and keyframes. */
+  mtdPresent: number
 }
 
 /**
@@ -152,7 +154,7 @@ export function allocateEngine(rec: LayerRecord): EngineState {
     kpm: new Float64Array(cells),
     ld: new Float64Array(cells),
     scratch: makeScratch(rec.nx, rec.capacity),
-    diag: { stepIndex: 0, deficit: 0, clamps: 0, short: 0, shore: -1, shelfEdge: -1, tcShare: 0, failUnresolved: 0 },
+    diag: { stepIndex: 0, deficit: 0, clamps: 0, short: 0, shore: -1, shelfEdge: -1, tcShare: 0, failUnresolved: 0, mtdPresent: 0 },
     lagLoads: false,
     temp: new Float64Array(cells),
     tempOk: false,

@@ -475,8 +475,11 @@ That is a property of the tuned thresholds, not a finding about the sea level. R
 - **Stalled.** A row marked *(stalled)* says *failed but debris stayed: column unresolved*. The slope
   failed, but the debris moved less than 0.5 km, so the columns are still unstable. The model
   does not fail the same columns again in the same step, so they are counted, not hidden: the
-  list header gives *N events, M stalled; K unresolved columns*. Treat an unresolved column as
-  "still unstable, not modelled further in that step". Tap the (i) next to the note.
+  list header gives *N events, M stalled; K unresolved columns*. K adds up the columns of the
+  stalled events only. Treat an unresolved column as
+  "still unstable, not modelled further in that step". Tap the (i) next to the note. A step that
+  hits the limit of rechecks while a column is still unstable is not flagged on any row; the model
+  counts it internally (the MTD-prone preset in Node: header 2, internal count 4).
 - **Window-limited.** A note *scar depth equals the search window (300 m, tuned)* means the
   scar went as deep as the search allows, so the real failure may be deeper and the scar depth and
   volume are lower bounds.
@@ -490,8 +493,8 @@ The default scenario with **Mud permeability multiplier** 0.1 and **Sediment sup
 (both tuned), slope failure on, 3 Myr, 5 kyr steps. Slow draining plus fast loading overpressures
 the slope mud. The run is deterministic: the same code in the same runtime gives the same events. It does
 **not** give the same events on every platform (section 14). After the M2.7 fixes it gave:
-- Node 26 (the tests): 24 events, 16 tagged rapid loading and 8 oversteepening, 2 stalled, 4 unresolved
-  columns, 3 window-limited (deepest scar 299.3 m of the 300 m window).
+- Node 26 (the tests): 24 events, 16 tagged rapid loading and 8 oversteepening, 2 stalled (header: 2 unresolved columns;
+  the engine's own count is 4, because two steps ended at the recheck limit with the slope still unstable and no stalled flag), 3 window-limited (deepest scar 299.3 m of the 300 m window).
 - The built app in Chrome 155: 37 events from 2.49 Ma to 0.02 Ma, 32 rapid loading and 5
   oversteepening, 9 stalled, 10 unresolved columns, 1 window-limited. The sources are between km 47 and km 98.
 - No event is tagged lowstand, overpressure or mixed. The M2.3 version tagged 32 of 33 events
@@ -528,10 +531,12 @@ look right for an overpressured slope is your call. Nothing here is calibrated t
   threshold process, so a last-digit difference can move an event by whole steps: the same preset gave
   24 events in Node and 37 in Chrome. Compare event lists only on one runtime. A project file opened
   on another machine can show a different list of failures.
-- **Slope failure costs run time.** The M2.3 aim of at most 15 % extra was missed on the long presets
-  with failure on: the Miocene preset takes 37 to 55 % longer and the Cenozoic preset 47 to 75 %
-  longer (three runs each, noisy machine). Every preset still finishes in about 5 s. Failure off
-  costs nothing.
+- **Slope failure costs run time.** The M2.3 aim of at most 15 % extra is met only on the 3 Myr
+  preset and missed elsewhere with failure on. Measured (M2.10, five runs each, best time with
+  failure on against best time with it off, noisy machine): 3 Myr +11 %, Miocene +48 % (single runs
+  +20 to +73 %; about 3.3 to 4.1 s against 2.2 to 2.9 s), Cenozoic +45 % (+17 to +52 %; about 3.9 to
+  4.4 s against 2.7 to 3.4 s), the MTD-prone preset +20 % (+16 to +31 %). Every preset finishes in
+  under 5 s. Failure off costs nothing.
 - **Turbidites are a transport-length rule, not flow physics.** No turbidity-current flow, no
   channels or levees, slope failure is off by default and limited (section 13.6), no faults, salt or 3D yet.
 - **The slopes are tuned.** Slope and coastal-plain diffusivities were tuned by eye to about 6°

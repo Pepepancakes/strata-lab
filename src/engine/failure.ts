@@ -265,7 +265,10 @@ function failOnce(eng: EngineState, P: EngineParams, st: StabilityResult, from: 
     rec.smax[i] = (sOld * rec.smax[i] + sNew * smaxM) / (sOld + sNew)
     rec.sand[i] += dS
     rec.mud[i] += dM
-    if (rec.material[i] !== MTD && sNew >= sOld) rec.material[i] = MTD
+    if (rec.material[i] !== MTD && sNew >= sOld) {
+      rec.material[i] = MTD
+      eng.diag.mtdPresent = 1
+    }
     setPor(eng, P, i, rec.smax[i])
     depositedSand += dS * dx
     depositedMud += dM * dx
@@ -414,7 +417,7 @@ export function failureStep(eng: EngineState, P: EngineParams, step: number, tYr
   }
   if (iter === P.failMaxIters && pickFailure(fs, P.failMaxCells)) eng.diag.failUnresolved++
   recordHistory(eng.hist, eng.rec.nx, step, tYr, st)
-  clearEmptyMtd(eng.rec)
+  if (eng.diag.mtdPresent) eng.diag.mtdPresent = clearEmptyMtd(eng.rec) ? 1 : 0 // no MTD cell, no scan (M2.10)
   return out
 }
 
@@ -425,10 +428,16 @@ function maskFrozen(fsMin: ArrayLike<number>, frozen: Uint8Array): number[] {
   return out
 }
 
-/** Cells tagged MTD whose sediment has all gone (eroded since) are plain empty cells again (M2.7). Tag only; no solids change. */
-function clearEmptyMtd(rec: LayerRecord): void {
+/** Cells tagged MTD whose sediment has all gone (eroded since) are plain empty cells again (M2.7). Tag only; no solids change. Returns true when an MTD cell is left. */
+function clearEmptyMtd(rec: LayerRecord): boolean {
   const n = rec.nLayers * rec.nx
-  for (let i = 0; i < n; i++) if (rec.material[i] === MTD && rec.sand[i] + rec.mud[i] <= EMPTY) rec.material[i] = SEDIMENT
+  let left = false
+  for (let i = 0; i < n; i++) {
+    if (rec.material[i] !== MTD) continue
+    if (rec.sand[i] + rec.mud[i] <= EMPTY) rec.material[i] = SEDIMENT
+    else left = true
+  }
+  return left
 }
 
 export interface MtdLine {

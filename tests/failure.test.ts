@@ -227,6 +227,51 @@ describe('zero-sediment cells lose the MTD tag (finding 6)', () => {
   })
 })
 
+describe('the MTD clean-up scan only runs when an MTD cell may exist (M2.10)', () => {
+  it('a stable section never sets the flag, and the scan is skipped (a hand-made empty MTD cell is left alone)', () => {
+    const { eng, P } = slopeSection(0, { failMaxIters: 20 })
+    failureStep(eng, P, 3, 4000, 0.996)
+    expect(eng.events.length).toBe(0)
+    expect(eng.diag.mtdPresent).toBe(0)
+    const i = top(eng) * NX + 50
+    eng.rec.sand[i] = 0
+    eng.rec.mud[i] = 0
+    eng.rec.material[i] = MTD
+    failureStep(eng, P, 4, 5000, 0.995)
+    expect(eng.rec.material[i]).toBe(MTD) // the old code scanned every step and cleared it
+  })
+
+  it('a deposit sets the flag; it drops again once no MTD cell is left', () => {
+    const { eng, P } = slopeSection(0.8, { failMaxIters: 20 })
+    failureStep(eng, P, 3, 4000, 0.996)
+    expect(eng.diag.mtdPresent).toBe(1)
+    const rec = eng.rec
+    for (let i = 0; i < rec.nLayers * rec.nx; i++) {
+      if (rec.material[i] === MTD) {
+        rec.sand[i] = 0
+        rec.mud[i] = 0
+      }
+    }
+    failureStep(eng, P, 4, 5000, 0.995)
+    expect(rec.material.some((m) => m === MTD)).toBe(false)
+    expect(eng.diag.mtdPresent).toBe(rec.material.some((m) => m === MTD) ? 1 : 0)
+  })
+
+  it('the flag is part of snapshots and keyframes, so a rewound run clears exactly as the straight run does', () => {
+    const { eng, P } = slopeSection(0.8, { failMaxIters: 20 })
+    failureStep(eng, P, 3, 4000, 0.996)
+    expect(eng.diag.mtdPresent).toBe(1)
+    expect(snapshotEngine(eng).diag.mtdPresent).toBe(1)
+    expect(packKeyframe(eng).diag.mtdPresent).toBe(1)
+  })
+
+  it('whole run with failure on: flag is 1 exactly when the record holds an MTD cell', () => {
+    const run = runFull(undefined, [], { failOn: 1, phiFric: [16, 9] })
+    expect(run.eng.events.length).toBeGreaterThan(0)
+    expect(run.eng.diag.mtdPresent).toBe(run.eng.rec.material.some((m) => m === MTD) ? 1 : 0)
+  }, 60000)
+})
+
 describe('remoulded porosity', () => {
   it('mtdSmax inverts the porosity law for mud', () => {
     const P = defaultEngineParams()

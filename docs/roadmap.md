@@ -138,8 +138,11 @@ Results so far (`npm run check`: 262 passed, 1 skipped at M2.4; build and offlin
   Chrome (D14: event lists differ between runtimes). After M2.7 the tag is the dominant term: rapid
   loading and oversteepening, none lowstand (M2.3 had 32 of 33 lowstand). **John still has to judge**
   whether places and times look right.
-- **The 15 % speed budget of M2.3 was MISSED** on the long presets with failure on: Miocene +37 to
-  55 %, Cenozoic +47 to 75 % (M2.6 review, three runs). Every preset still finishes in about 5 s.
+- **The 15 % speed budget of M2.3 is still MISSED** except on `last3`, with failure on (M2.10,
+  five paired runs, best-of-5 against best-of-5): `last3` +11 % (met), Miocene +48 % (runs +20 to
+  73 %), Cenozoic +45 % (runs +17 to 52 %), MTD-prone preset +20 % (runs +16 to 31 %). Every preset
+  finishes in under 5 s. M2.7 had made it about double (Miocene +88 to 125 %, Cenozoic +185 to 197 %) through a
+  full-record scan every step; M2.10 removed that scan when no MTD exists.
 - Results are identical on one runtime and rewind is bit-exact, but event lists can differ between
   Node, Chrome and Linux. The test strategy for this is John's decision (open).
 - The Physics checks panel has five M2 rows (M2.8); the event list shows all three cause terms,
