@@ -124,6 +124,8 @@ export interface EngineParams {
   /** +- relative thickness variation of the older cover, and its seed. */
   coverUneven: number
   coverSeed: number
+  /** Bulk thickness of the pre-run cover over the salt at the start, m (M3.4). Only used when saltOn = 1. */
+  coverThick: number
   /** 1 = the older cover resists bending (M3.2); 0 = thin-sheet flow alone (M3.1). Only used when saltOn = 1. */
   coverBend: number
   /** Effective viscosity of the cover as a viscous plate, Pa s (M3.2). */

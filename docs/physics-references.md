@@ -187,6 +187,7 @@ dh/dt = -dq/dx. Columns do not move sideways; they ride on the salt (D10). Salt 
 | `saltVisc` | 1e17 Pa s | tuned | published range about 1e17 to 1e19 (Hudec & Jackson 2007, not checked); default is the fast end so flow shows within 3 Myr |
 | `nSaltSub` | 5 | tuned | numerical |
 | `coverUneven`, `coverSeed` | 0, 1 | tuned | optional seeded unevenness of the older cover |
+| `coverThick` | 200 m | tuned | thickness of the older cover over the salt at the start; 200 m is the salt-off substrate (M3.4) |
 
 Numerics: flux form (salt volume conserved to rounding), upstream face mobility, water-load response
 implicit (tridiagonal solve per substep), first order in time. Benchmarks (`tests/salt.test.ts`): decay of a
@@ -263,7 +264,7 @@ References (24):
 - `eaton-1969`: Eaton (1969)
 - `matthews-kelly-1967`: Matthews & Kelly (1967)
 
-Parameters (80), as `key`: status, reference id:
+Parameters (81), as `key`: status, reference id:
 - `nx`: tuned
 - `dx`: tuned
 - `duration`: tuned
@@ -338,6 +339,7 @@ Parameters (80), as `key`: status, reference id:
 - `nSaltSub`: tuned
 - `coverUneven`: tuned
 - `coverSeed`: tuned
+- `coverThick`: tuned
 - `coverBend`: tuned, turcotte-schubert
 - `coverVisc`: tuned, turcotte-schubert
 - `weldThick`: tuned, hudec-jackson-2007

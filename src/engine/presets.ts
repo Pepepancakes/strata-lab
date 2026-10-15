@@ -11,7 +11,7 @@
 import { defaultEngineParams, type EngineParams } from './engineParams'
 import { buildSchedule, DEFAULT_SEGMENTS, type Schedule, type Segment } from './schedule'
 
-export type PresetId = 'last3' | 'miocene' | 'cenozoic' | 'mtd'
+export type PresetId = 'last3' | 'miocene' | 'cenozoic' | 'mtd' | 'gulf'
 
 export interface Preset {
   id: PresetId
@@ -63,6 +63,17 @@ export const PRESETS: readonly Preset[] = [
       kMudMult: 0.1, failOn: 1,
     },
     note: 'The default scenario with mud permeability x0.1 and supply x1.5 (30 m^2/yr), slope failure on, no slip surface shallower than 10 m. Both changes are tuned, not measured: the point is that slow pore-pressure dissipation plus fast loading overpressures the slope mud until it fails. No trigger is imposed; the events come from the factor of safety (stability.ts) and are tagged by triggers.ts.',
+  },
+  {
+    id: 'gulf',
+    label: 'Gulf-style: wedge over salt (66 Ma)',
+    runLengthMa: 66,
+    segments: [{ fromAgeMa: 66, toAgeMa: 23, dt: 100000 }, { fromAgeMa: 23, toAgeMa: 3, dt: 50000 }, RECENT],
+    params: {
+      duration: 66e6, nx: 400, dx: 1000, supply: 22, subsShelf: 40, subsBasin: 80, bundleEvery: 20, bundleAgeYr: 100000,
+      saltOn: 1, saltThick: 2000, saltPinchStart: 40000, saltPinchEnd: 120000, saltVisc: 1e18, coverThick: 1000, coverUneven: 0.2, coverVisc: 3e20,
+    },
+    note: 'draft',
   },
 ]
 

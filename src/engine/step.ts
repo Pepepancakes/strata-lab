@@ -17,7 +17,7 @@ import type { Schedule } from './schedule'
 import type { SeaLevelCurve } from './sealevel'
 import { subside } from './subsidence'
 import { cloneHistory, copyHistory, type TriggerHistory } from './triggers'
-import { initialSaltThickness, coverUnevenness, saltStep } from './salt'
+import { initialSaltThickness, coverUnevenness, saltStep, type DeepWindow } from './salt'
 import { allocateEngine, type Diagnostics, type EngineState, type FailureEvent } from './state'
 import { columnTemperatures, computeTemperatures } from './thermal'
 import { transportSubstep } from './transport'
@@ -48,7 +48,8 @@ export function createEngine(P: EngineParams, schedule: Schedule, extraLayers = 
   const rec = createRecord({ nx, dx: P.dx, capacity: schedule.nSteps + nPre + extraLayers, startAgeMa: schedule.startAgeMa, preLayers: nPre })
   const eng = allocateEngine(rec)
   eng.lagLoads = bundlingOn(P)
-  const { bulk, smax, sandShare: f } = SUBSTRATE
+  const { bulk: substrateBulk, smax, sandShare: f } = SUBSTRATE
+  const bulk = P.saltOn === 1 ? P.coverThick : substrateBulk // salt on: the older cover has its own thickness (M3.4; default 200 m = the substrate)
   const e = f * voidRatio(P, SAND, smax) + (1 - f) * voidRatio(P, MUD, smax)
   const uneven = nPre === 2 ? coverUnevenness(P) : null
   const cover = (nPre - 1) * nx // first cell of the older cover
@@ -112,8 +113,16 @@ export function step(eng: EngineState, P: EngineParams, schedule: Schedule, seaL
     // Salt flow (M3.1): columns ride on the salt, so H follows the thickness change. Mid-cycle in a
     // bundled run H is a running value (a snapshot keeps it), so add the change. Everywhere else H is
     // the exact sum (restore and keyframes recompute it), so recompute: compactStep did so just before.
-    saltStep(eng, P, seaLevel(t0 + 0.5 * dtRec), dtRec, schedule.stepAgeMa[k])
     const midCycle = bundlingOn(P) && (k + 1) % P.bundleEvery !== 0 && k !== schedule.nSteps - 1
+    // Mid-cycle the old layers are unchanged (only transport erosion can reach them and it is
+    // tracked), so their weight is kept from the cycle's first step. Not when failure or cement can
+    // change old cells in ways the cache does not see.
+    let deep: DeepWindow | undefined
+    if (midCycle && P.failOn !== 1 && P.cement !== 1) {
+      const N = P.bundleEvery
+      deep = { cycle: Math.floor(k / N), lw: windowBase(schedule, P, Math.floor(k / N) * N - 1, rec.nPre) }
+    }
+    saltStep(eng, P, seaLevel(t0 + 0.5 * dtRec), dtRec, schedule.stepAgeMa[k], deep)
     if (midCycle) for (let j = 0; j < nx; j++) rec.H[j] += eng.salt.dh[j]
     else recomputeH(eng, P)
   }
@@ -217,6 +226,7 @@ export function restoreEngine(snap: EngineSnapshot, eng: EngineState, P: EngineP
   eng.events = snap.events.slice()
   copyHistory(eng.hist, snap.hist)
   eng.weldAge.set(snap.weldAge)
+  eng.salt.cacheId = -1 // the old-layer load cache (salt.ts) is rebuilt from the restored record
   eng.temp.fill(0)
   if (snap.temp) eng.temp.set(snap.temp)
   eng.tempOk = snap.temp !== undefined // otherwise rebuilt from the restored record at the next step

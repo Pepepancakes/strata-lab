@@ -51,11 +51,12 @@ Every control has a small **ⓘ** button and a tag next to its name:
 ranges**. A published range is given only where one exists.
 
 ### 3.1 Scenario (top of the controls)
-**Scenario preset** (tuned): four standard runs. Choosing one replaces the main run.
+**Scenario preset** (tuned): five standard runs. Choosing one replaces the main run.
 - *Last 3 Myr (default)*: 150 columns of 1 km, 5 kyr steps, 600 steps.
 - *Miocene to present (23 Myr)*: 400 columns of 1 km, 50 kyr steps back to 3 Ma, then 5 kyr.
 - *Full Cenozoic (66 Myr)*: 400 columns, 100 kyr steps back to 23 Ma, then as the Miocene run.
 - *Overpressured slope (MTD-prone)*: the 3 Myr default with mud permeability x0.1, supply 30 m²/yr and slope failure on; 5 kyr steps.
+- *Gulf-style: wedge over salt (66 Ma)*: 400 columns, 100 kyr steps back to 23 Ma then 50 kyr and 5 kyr, salt on (2000 m thick, pinching out between 40 and 120 km) under a 1000 m cover, supply 22 m²/yr. A draft (M3.4): tuned, not matched to a field.
 
 **Run length (Myr)** (tuned): how long to run, from 0.5 Myr up to the preset's length. A shorter
 run keeps the **youngest** part of the preset's schedule, so a 10 Myr run of the Miocene preset
@@ -194,6 +195,7 @@ Salt (M3.1 to M3.3; off by default, so the default run is unchanged)
 | Cover effective viscosity as a plate (salt on) (Pa s) | 1e19 | tuned. No published value for a whole cover is in the references (to verify). Widths scale as its 1/6 power |
 | Unevenness of the older cover (salt on) | 0 | start. tuned. Seeded random thickness variation of the older cover |
 | Seed of the cover unevenness | 1 | start. tuned |
+| Thickness of the older cover (salt on) (ft) | 656 (200 m) | start. tuned (allowed 164 to 9,843). The pre-run cover over the salt; the Gulf-style preset uses a thicker one |
 | Weld: salt thinner than (ft) | 32.8 (10 m) | tuned (allowed 0 to 656). Hudec & Jackson (2007). A column counts as welded once its salt, which was thicker, falls below this. A label and an age only |
 | Salt thermal conductivity at 0 deg C (W/m/K) | 6.0 | to verify (Clauser & Huenges 1995). Halite is about 5 to 6.5 near the surface, 2 to 4 times the sediment |
 | Salt conductivity falls with temperature: a (1/K) | 0.0030 | to verify (Clauser & Huenges 1995). Coefficients as remembered for crystalline rock, not checked for halite |

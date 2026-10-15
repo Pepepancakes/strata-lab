@@ -92,11 +92,24 @@ export interface SaltScratch {
   s1: Float64Array
   s2: Float64Array
   band: BandedScratch
+  /**
+   * Cache of the load of the OLD layers (M3.4, bundled runs only): W and Sb summed over the layers
+   * below `cacheLw`, for the bundling cycle `cacheId` (-1 = no cache). `low[j]` is the lowest layer
+   * of column j that transport removed sediment from since the cache was built. Derived, never stored.
+   */
+  Wd: Float64Array
+  Sbd: Float64Array
+  low: Int32Array
+  cacheId: number
+  cacheLw: number
 }
+
+/** `low` value of a column nothing has been removed from. */
+export const NOT_TOUCHED = 0x7fffffff
 
 export function makeSaltScratch(nx: number): SaltScratch {
   const f = () => new Float64Array(nx)
-  return { W: f(), Sb: f(), Phi: f(), aw: f(), M: f(), h: f(), hs: f(), dh: f(), lo: f(), di: f(), up: f(), rhs: f(), x: f(), cp: f(), dp: f(), Dc: f(), s0: f(), s1: f(), s2: f(), band: makeBandedScratch(nx, 3, 3) }
+  return { W: f(), Sb: f(), Phi: f(), aw: f(), M: f(), h: f(), hs: f(), dh: f(), lo: f(), di: f(), up: f(), rhs: f(), x: f(), cp: f(), dp: f(), Dc: f(), s0: f(), s1: f(), s2: f(), band: makeBandedScratch(nx, 3, 3), Wd: f(), Sbd: f(), low: new Int32Array(nx).fill(NOT_TOUCHED), cacheId: -1, cacheLw: 0 }
 }
 
 /**

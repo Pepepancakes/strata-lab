@@ -58,6 +58,7 @@ function erode(eng: EngineState, j: number, lith: number, amount: number, top: n
   const rec = eng.rec
   const nx = rec.nx
   const arr = lith === SAND ? rec.sand : rec.mud
+  const low = eng.salt.low
   let need = amount
   let bulk = 0
   for (let l = top; l >= 0 && need > 1e-12; l--) {
@@ -66,6 +67,7 @@ function erode(eng: EngineState, j: number, lith: number, amount: number, top: n
     const a = arr[i]
     if (a <= 0) continue
     const take = a < need ? a : need
+    if (l < low[j]) low[j] = l // an old layer changed: the salt load cache of this column is stale (salt.ts)
     arr[i] = a - take
     if (lith === SAND && rec.cem[i] > 0) shedCement(rec, i, take / a)
     need -= take
@@ -206,6 +208,7 @@ export function transportSubstep(eng: EngineState, P: EngineParams, sl: number, 
           if (s + m <= 0) continue
           const b = s / pS + m / pM
           const fr = b <= need ? 1 : need / b
+          if (l < eng.salt.low[j]) eng.salt.low[j] = l // see erode()
           const ts = s * fr, tm = m * fr
           sand[i] = s - ts
           mud[i] = m - tm

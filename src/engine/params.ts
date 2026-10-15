@@ -212,6 +212,8 @@ export const PARAMS: readonly ParamDef[] = [
     source: { kind: 'tuned', note: 'Plus or minus fraction of the older cover thickness, a seeded smooth random pattern (rng.ts). 0 = flat. Gives the salt something to start flowing from.' } },
   { key: 'coverSeed', label: 'Seed of the cover unevenness', unit: '-', displayUnit: '-', default: 1, min: 0, max: 4294967295, startOnly: true,
     source: { kind: 'tuned', note: SETUP } },
+  { key: 'coverThick', label: 'Thickness of the older cover (salt on)', unit: 'm', displayUnit: 'ft', default: 200, min: 50, max: 3000, startOnly: true,
+    source: { kind: 'tuned', note: 'Bulk thickness of the pre-run cover over the salt at the start (the Mesozoic cover of the Gulf-style preset). 200 m is the substrate of the salt-off scenarios, which keeps the M3.1 to M3.3 runs unchanged; the Gulf-style preset uses a thicker cover. Synthetic, not a stratigraphic column.' } },
   // ---- cover bending stiffness (M3.2) ----
   { key: 'coverBend', label: 'Cover resists bending (1) / not (0) (salt on)', unit: '-', displayUnit: '-', default: 1, min: 0, max: 1, startOnly: false,
     source: { kind: 'tuned', refId: 'turcotte-schubert', note: 'Switch. With 0 the salt flows as in M3.1 and the narrowest bumps grow fastest (diapir width = a few grid cells). With 1 the sediment above the salt acts as a viscous plate that resists bending, so a preferred width appears (salt.ts). Only matters when salt is on.' } },

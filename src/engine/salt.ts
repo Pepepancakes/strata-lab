@@ -107,16 +107,24 @@
 // thickness bump against linear theory, load-step flux against a hand calculation).
 
 import { G, RHO_S, RHO_SALT, RHO_W, YR } from './constants'
-import { cellBulk } from './compaction'
 import type { EngineParams } from './engineParams'
 import { createRng } from './rng'
 import { SALT, type LayerRecord } from './record'
 import { bandIndex, solveBanded } from './banded'
-import { WELD_NONE, type EngineState, type SaltScratch } from './state'
+import { NOT_TOUCHED, WELD_NONE, type EngineState, type SaltScratch } from './state'
 import { thomas } from './thomas'
 
 /** Record layer that holds the salt (M3.1: only layer 0). */
 export const SALT_LAYER = 0
+
+/**
+ * Where bundled deep compaction stands (M3.4): the bundling cycle number and the first layer of the
+ * always-updated window. Layers below `lw` are old and unchanged mid-cycle (see saltSedimentLoads).
+ */
+export interface DeepWindow {
+  cycle: number
+  lw: number
+}
 
 /** Smooth start-up thickness: 0 landward of the first pinch-out edge, full basinward of the second (smoothstep). */
 export function initialSaltThickness(P: EngineParams, x: number): number {
@@ -169,25 +177,69 @@ export function saltVolume(rec: LayerRecord): number {
  * record as it is now: every non-salt cell above the salt layer counts solids at rho_s and pore
  * water at rho_w. Salt cells have no pores and are not counted here.
  */
-export function saltSedimentLoads(eng: EngineState, P: EngineParams): void {
+export function saltSedimentLoads(eng: EngineState, P: EngineParams, deep?: DeepWindow): void {
   const rec = eng.rec
   const nx = rec.nx
   const S = eng.salt
-  for (let j = 0; j < nx; j++) {
-    let w = 0
-    let sb = 0
-    for (let l = SALT_LAYER + 1; l < rec.nLayers; l++) {
-      const i = l * nx + j
-      if (rec.material[i] === SALT) continue
-      const sol = rec.sand[i] + rec.mud[i]
-      if (sol <= 0) continue
-      const bulk = cellBulk(eng, P, i)
-      w += sol * RHO_S + (bulk - sol) * RHO_W
-      sb += bulk
+  const w = S.W
+  const sb = S.Sb
+  const { sand, mud, material } = rec
+  const { phs, phm } = eng
+  const linear = P.linear
+  // Adds the layers [from, to) of columns [j0, j1) onto w and sb.
+  // Layer by layer (memory order) for all columns: the record is layer-major and a column walk strides
+  // by nx, which was a large part of the cost of a long salt run (M3.4). Each column still adds its
+  // layers bottom to top, so the sums are the same bits as a walk down one column.
+  const addLayers = (from: number, to: number, j0: number, j1: number): void => {
+    for (let l = from; l < to; l++) {
+      const row = l * nx
+      for (let j = j0; j < j1; j++) {
+        const i = row + j
+        if (material[i] === SALT) continue
+        const sol = sand[i] + mud[i]
+        if (sol <= 0) continue
+        // the value of cellBulk(), written out: this runs layers x columns x steps times
+        const bulk = linear ? sol * (1 + linear.e0) : sand[i] / (1 - phs[i]) + mud[i] / (1 - phm[i])
+        w[j] += sol * RHO_S + (bulk - sol) * RHO_W
+        sb[j] += bulk
+      }
     }
-    S.W[j] = w * G
-    S.Sb[j] = sb
   }
+  let from = SALT_LAYER + 1
+  if (deep && deep.lw > from) {
+    // Mid-cycle of bundled compaction the layers below `lw` do not change, except where transport
+    // eroded into them (S.low). Their sum is kept from the first step of the cycle, so only the
+    // window layers are summed again. The additions happen in the same order, so the bits are the
+    // same as the full sum (tests/saltSpeed.test.ts).
+    if (S.cacheId !== deep.cycle || S.cacheLw !== deep.lw) {
+      w.fill(0)
+      sb.fill(0)
+      addLayers(from, deep.lw, 0, nx)
+      S.Wd.set(w)
+      S.Sbd.set(sb)
+      S.low.fill(NOT_TOUCHED)
+      S.cacheId = deep.cycle
+      S.cacheLw = deep.lw
+    } else {
+      for (let j = 0; j < nx; j++) {
+        if (S.low[j] >= deep.lw) continue
+        w.fill(0, j, j + 1)
+        sb.fill(0, j, j + 1)
+        addLayers(from, deep.lw, j, j + 1)
+        S.Wd[j] = w[j]
+        S.Sbd[j] = sb[j]
+        S.low[j] = NOT_TOUCHED
+      }
+      w.set(S.Wd)
+      sb.set(S.Sbd)
+    }
+    from = deep.lw
+  } else {
+    w.fill(0)
+    sb.fill(0)
+  }
+  addLayers(from, rec.nLayers, 0, nx)
+  for (let j = 0; j < nx; j++) w[j] *= G
 }
 
 /**
@@ -326,7 +378,7 @@ function solveBent(eng: EngineState, c: number): void {
  * column to eng.salt.dh (the caller adds it to the surface H). Does nothing when saltOn = 0.
  * `ageMa` is the age at the end of the step; it is written to eng.weldAge for columns that weld in it.
  */
-export function saltStep(eng: EngineState, P: EngineParams, SL: number, dtYr: number, ageMa = 0): void {
+export function saltStep(eng: EngineState, P: EngineParams, SL: number, dtYr: number, ageMa = 0, deep?: DeepWindow): void {
   const S = eng.salt
   if (P.saltOn !== 1) {
     S.dh.fill(0)
@@ -344,7 +396,7 @@ export function saltStep(eng: EngineState, P: EngineParams, SL: number, dtYr: nu
   for (let j = 0; j < nx; j++) h[j] = rec.mud[base + j]
   const hStart = S.hs
   hStart.set(h)
-  saltSedimentLoads(eng, P)
+  saltSedimentLoads(eng, P, deep)
   const bend = P.coverBend === 1 && P.coverVisc > 0 && nx >= 5
   if (bend) coverStiffness(eng, P, (dtYr * YR) / n)
   for (let s = 0; s < n; s++) {
