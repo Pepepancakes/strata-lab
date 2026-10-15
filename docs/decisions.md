@@ -90,3 +90,5 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
     Its done-when includes John judging where and when the MTDs happen.
   - **F.** No messages overnight. One morning summary at 7:30 AM.
   Standing rules still hold: never deploy, never touch other repos or boards, never edit CLAUDE.md.
+
+- **D14. Linux CI is red after the M1 merge (2026-10-15, shepherd note, for John).** All gates passed on Windows (198 tests, build, offline). On the GitHub Linux runner `npm run check` failed 8 tests: golden parity with spike 001 (largest height difference 55.7 m against 0.01 m), the committed scenario fixture hashes, and the burial rewind test timed out at 5 s. Wall-clock limits also failed (runner is slower). The parity and hash failures mean results are not bit-identical across operating systems (likely `Math.pow`/`Math.exp` differences amplified by threshold logic). Same inputs give the same result on one machine; across machines they do not. Nothing deploys from CI. Needs a decision: loosen goldens to a tolerance and hash with rounding, or make the engine platform-independent. M2 was started anyway because it is local work.

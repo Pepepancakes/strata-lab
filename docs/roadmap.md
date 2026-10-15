@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-14):** spikes 001 and 002 done and reviewed by John. M1 is approved and being built as a chain of cards.
+**Status (2026-10-14):** spikes 001 and 002 done and reviewed by John. M1 is done and on main (merged 2026-10-15, review M1.9 APPROVE). Open: the Linux CI run is red (floating-point results differ from Windows; see docs/decisions.md D14).
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
