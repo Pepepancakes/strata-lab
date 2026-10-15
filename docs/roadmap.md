@@ -87,6 +87,8 @@ the previous card's branch, and nothing reaches main until John approves the tip
 | M1.2 | coder | Layer record (units tagged sediment/salt, per spike 002), parameter registry with sources, sea-level interface, determinism harness |
 | M1.3 | coder | Port spike 001 physics test-first; must match spike 001's output column by column (golden file) |
 | M1.4 | coder | Published 3 Myr sea-level curve as default (licence checked, cited); sine kept for teaching |
+| M1.4b | coder | Long runs: variable time steps, bundled deep compaction, presets (last 3 Myr, Miocene ~23 Myr, Cenozoic 66 Myr) |
+| M1.4c | coder | Burial physics: temperature, quartz cement (Walderhaug 1996), thermal-decay subsidence (McKenzie 1978) |
 | M1.5 | coder | Worker + time machine: scrub, play, branches, compare; ≤ 25 MB per branch (spike: ~75 MB) |
 | M1.6 | frontend-dev | The app: section colour modes, pseudo-well, sea-level chart, balance, checks panel, ⓘ source on every control |
 | M1.7 | frontend-dev | Save/open scenario files (recomputed, hash-checked), autosave, warn before replacing work |
@@ -96,7 +98,8 @@ the previous card's branch, and nothing reaches main until John approves the tip
 **Picks (accepted with the approval):**
 - The default sea level is a published global curve covering 3 Myr. M1.4 chooses it by licence;
   Bintanja & van de Wal (2008) is checked first. If none can be bundled, the card stops and asks.
-- The grid, run length and time step stay as in the spike: 150 km of 1 km columns, 3 Myr, 5 kyr steps.
+- Runs can be up to 66 Myr (D12). The default stays the spike's 150 km of 1 km columns over 3 Myr at
+  5 kyr steps, and there are Miocene (~23 Myr) and Cenozoic presets. Jurassic-to-present runs come with M3 salt.
 - Depths are in ft and pressures in ppg; horizontal distance is in km. A metric toggle stays in the Backlog.
 
 ## M2 — Slope failure and MTDs

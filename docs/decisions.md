@@ -62,3 +62,18 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
 - **D11. M1 approved** (John, 2026-10-14: "approve"). Nine stacked cards as listed in the
   roadmap, with the recommended picks: a published 3 Myr sea-level curve as default (chosen by
   licence), the spike's grid and timing, and ft/ppg/km units.
+- **D12. Runs up to 66 Myr** (John, 2026-10-14: "I'm good with your suggestions"). John said
+  3 Myr is too short. It was a proof-of-concept choice: it resolves the glacial sea-level cycles,
+  the detailed published curves cover about 3–5 Myr, and the run took under 2 s.
+  - Speed depends on the number of steps, not the number of years. Measured on spike 001:
+    600 steps take 2.0 s, 1,200 take 6.8 s, 2,400 take 24 s. 30 Myr at 50 kyr steps takes 1.9 s.
+  - A hosted page or desktop app would not fix this, so D9 stands.
+  - What M1 adds:
+    - variable time steps
+    - bundled deep compaction (the record keeps every layer)
+    - presets: last 3 Myr (default), Miocene to present (~23 Myr) and full Cenozoic (66 Myr)
+    - a published Cenozoic sea-level curve spliced to the high-resolution one
+    - burial temperature and quartz cement (Walderhaug 1996)
+    - thermal-decay subsidence (McKenzie 1978)
+  - Targets: Miocene preset < 3 s, 66 Myr < 5 s.
+  - Runs back to the Jurassic (salt deposition) come with M3.
