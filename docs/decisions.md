@@ -110,3 +110,23 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      tuned) and the slope strength defaults (friction 33/25 deg, no cohesion, "to verify").
   6. **Overnight D13 calls kept:** Miocene wall-clock limit 5 s, starting M2 while CI was red, two
      M2 fix rounds.
+
+- **D17. M3 salt approved (John, 2026-10-15: "go").** The D14 fix (D16.4) was merged to main the
+  same day. M3 is a seven-card stacked chain (roadmap M3). Picks:
+  1. **Approach (a): thin-sheet salt flow plus cover bending stiffness**, not a full Stokes solver.
+     The cover over the salt resists bending, which stops the narrowest bumps from growing fastest,
+     so diapir width comes from cover thickness and strength, not from the grid (spike 002). Stokes
+     flow stays in the backlog as the route to canopies.
+  2. **Salt is off by default** (a start-only switch, like `failOn`). The M1 and M2 runs, goldens
+     and scenario fixtures do not change, so `ENGINE_VERSION` stays as it is unless a default
+     result changes.
+  3. **Columns stay fixed in x** (D10). They ride up and down on the salt.
+  4. **The Gulf-style example starts at 66 Ma** on autochthonous salt under an older (Mesozoic)
+     cover, using the bundled Cenozoic sea-level curve. Jurassic-start runs (D12) move to the
+     backlog: no redistributable pre-Cenozoic sea-level curve is bundled yet.
+  5. **Salt viscosity:** the Gulf-style preset uses 1e18 Pa·s (middle of the published range, to
+     verify). The spike's 1e17 (tuned, so flow shows in 3 Myr) stays available as a control value.
+  6. **Merging:** nothing merges to main without John (D6). The shepherd advances the chain, verifies
+     each card on Windows and Linux, and may write one fix round plus a re-review after REQUEST
+     CHANGES. Geology or product questions go to John with a recommended pick; D13 overnight
+     authority does not carry over.

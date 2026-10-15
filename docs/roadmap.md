@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-15):** spikes 001 and 002 done and reviewed by John. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Next: Linux CI compares results with tolerances (D16.4), then M3 salt.
+**Status (2026-10-15):** spikes 001 and 002 done and reviewed by John. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. Now: M3 salt, cards running (D17).
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -160,7 +160,18 @@ Results (`npm run check`: 262 passed, 1 skipped at M2.4; build and offline check
 Spike 002 built into the engine as maintained code: minibasins, welds, passive diapirs, and salt
 in all views and in the pseudo-well (density, no porosity, pressure across salt). Adds cover
 bending stiffness to the thin-sheet flow, so diapir width comes from physics, not the grid
-(spike 002 finding). John decides this approach before M3 cards are written.
+(spike 002 finding). Approach approved by John 2026-10-15 (D17).
+
+**Cards (written 2026-10-15, D17; stacked chain, branches `strata-lab/m3-NN-<slug>`):**
+| Card | Who | What |
+|---|---|---|
+| M3.1 | coder | Salt flow in the engine: spike 002 thin-sheet flow ported test-first, off by default, salt conserved |
+| M3.2 | coder | Cover bending stiffness: dispersion-relation benchmark, diapir width converges with grid size |
+| M3.3 | coder | Welds, and salt in the burial physics (load, no pores, seal, conductivity) |
+| M3.4 | coder | Gulf-style preset from 66 Ma (prograding wedge over autochthonous salt); speed budget |
+| M3.5 | frontend-dev | Salt in every view: section, salt-thickness mode, welds, pseudo-well, checks panel |
+| M3.6 | doc-writer | User guide, references, handover |
+| M3.7 | safety-reviewer | Integrity review with its own checks; verdict |
 
 **Done when:**
 - The channel-flow benchmark passes.
@@ -192,6 +203,8 @@ A 3D version on the GPU (WebGPU). Opens with a spike on speed.
 
 ## Backlog
 - Salt canopies and allochthonous sheets (salt flowing over the seafloor like a glacier).
+- Jurassic-to-present runs (salt deposition onward; D12, moved here by D17): needs a
+  redistributable pre-Cenozoic sea-level curve.
 - More published sea-level curves, and tectonic tilt or flexure.
 - Calibration: compare against published Gulf of America shelf-margin progradation rates,
   published pressure-depth profiles, and other forward models (for example, Landlab components).
