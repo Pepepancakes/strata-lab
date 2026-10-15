@@ -21,7 +21,7 @@
 //               failure step, and re-derives the trigger tag of every first event of a step.
 // The engine under test is loaded only to be RUN (through Vite's SSR loader). No expected value
 // comes from src/ and no helper from tests/ is used.
-// Results go to docs/reviews/m2-review-results.json.
+// Results go to docs/reviews/m2-rereview-results.json (the M2.6 file is kept).
 
 import { createRequire } from 'node:module'
 import { createHash } from 'node:crypto'
@@ -642,8 +642,9 @@ if (run('geology')) {
   }
   out('geology', 'consecutive events in one step on the same columns with the same volume (within 2 %)', same)
   check('geology', 'FOLLOW-UP probe: no event re-fails the same columns with an unchanged volume in the same step', same.length === 0, `${same.length} repeats: ${same.join(' ')}`)
-  check('geology', 'FOLLOW-UP probe: no failure leaves its debris where it was (zero run-out)', zero.length === 0, `${zero.length} of ${ev.length}`)
-  check('geology', 'FOLLOW-UP probe: no scar is cut off by the stability search window', atCap.length === 0, `${atCap.length} at the ${Math.round(cap * 3.28084)} ft window`)
+  // M2.9: M2.7 keeps zero-run-out events but must mark them (stalled) and flag window-limited scars
+  check('geology', 'M2.9: every zero-run-out event is stalled or last in its step (was: none allowed; M2.7 marks, not removes)', zero.every((e) => e.stalled || !ev.some((x) => x.step === e.step && x.id > e.id)), `${zero.length} of ${ev.length}, ${zero.filter((e) => e.stalled).length} stalled`)
+  check('geology', 'M2.9: every scar at the search window is flagged windowLimited (was: none allowed)', atCap.every((e) => e.windowLimited), `${atCap.length} at the ${Math.round(cap * 3.28084)} ft window, ${atCap.filter((e) => e.windowLimited).length} flagged`)
 
   // (3) tag audit. Re-derive dSlope, dPress, dSea, loadRate and the tag for the first event of each step
   const T = { floor: 1e-4, ruCap: 0.999 }
@@ -666,11 +667,15 @@ if (run('geology')) {
     const diff = Math.max(Math.abs(dSlope - full.dSlope), Math.abs(dPress - full.dPress), Math.abs(dSea - full.dSeaLevel))
     worstDiff = Math.max(worstDiff, diff)
     if (diff < 1e-6) matchNum++
-    let cause
-    if (dSea <= -M.P.failLowstandDrop) cause = 'lowstand'
-    else if (dSlope > 0 && dSlope >= dPress) cause = 'oversteepening'
-    else if (full.loadRate >= M.P.failRapidRate) cause = 'rapid loading'
-    else cause = 'overpressure'
+    // M2.7 rule (re-written here from the docs): score = term / own threshold, largest score >= 1 wins,
+    // ties go to slope, then pressure, then sea level; no score >= 1 gives 'mixed'.
+    const sc = [
+      [dSlope > 0 ? dSlope / M.P.failSlopeTerm : 0, 'oversteepening'],
+      [dPress > 0 ? dPress / M.P.failPressTerm : 0, full.loadRate >= M.P.failRapidRate ? 'rapid loading' : 'overpressure'],
+      [dSea < 0 ? -dSea / M.P.failLowstandDrop : 0, 'lowstand'],
+    ]
+    let cause = 'mixed', best = 0
+    for (const [s, l] of sc) if (s >= 1 && s > best) { best = s; cause = l }
     if (cause === full.cause) matchTag++
   }
   out('geology', 'tag re-derivation of the first event in each step: events checked, numbers matching to 1e-6, tags matching, worst number difference', [nChecked, matchNum, matchTag, worstDiff])
@@ -690,6 +695,50 @@ if (run('geology')) {
     if (e.dPress > e.dSlope) pressureDominated++
     if (e.cause === 'lowstand' && e.dPress > e.dSlope) lowstandAndPressureDominated++
     if (e.cause === 'lowstand' && e.dSeaLevel > -10) lowstandSmall++
+  }
+  // M2.9 re-review probes: every event (not only each step's first) re-tagged from its stored numbers
+  {
+    const P = M.P
+    let ok = 0
+    const lab = {}, scoreRows = []
+    for (const e of ev) {
+      const sS = e.dSlope > 0 ? e.dSlope / P.failSlopeTerm : 0
+      const sP = e.dPress > 0 ? e.dPress / P.failPressTerm : 0
+      const sL = e.dSeaLevel < 0 ? -e.dSeaLevel / P.failLowstandDrop : 0
+      let c = 'mixed', b = 0
+      for (const [s, l] of [[sS, 'oversteepening'], [sP, e.loadRate >= P.failRapidRate ? 'rapid loading' : 'overpressure'], [sL, 'lowstand']]) if (s >= 1 && s > b) { b = s; c = l }
+      if (c === e.cause) ok++
+      lab[e.cause] = (lab[e.cause] ?? 0) + 1
+      scoreRows.push(`#${e.id} ${e.cause} slope ${sS.toFixed(1)} press ${sP.toFixed(1)} sea ${sL.toFixed(1)}`)
+    }
+    out('rereview', 'cause labels by count', lab)
+    out('rereview', 'scores per event (term / own threshold)', scoreRows)
+    check('rereview', 'every event\'s stored label equals the M2.7 rule applied to its stored terms (re-derived here)', ok === ev.length, `${ok}/${ev.length}`)
+    const seaWins = ev.filter((e) => e.dSeaLevel < 0 && -e.dSeaLevel / P.failLowstandDrop > Math.max(e.dSlope / P.failSlopeTerm, e.dPress / P.failPressTerm)).length
+    out('rereview', 'events where the sea-level score would beat both other scores (lowstand reachable?)', [seaWins, ev.length])
+    const lowFalls = ev.filter((e) => e.dSeaLevel <= -P.failLowstandDrop).length
+    out('rereview', 'events with a sea-level fall of at least failLowstandDrop over the window (a real lowstand)', [lowFalls, ev.length])
+    // stalled / window-limited / empty / counts
+    const wlOK = ev.every((e) => e.windowLimited === (e.scarDepth >= 0.95 * P.stabMaxDepth))
+    check('rereview', 'windowLimited equals (scar >= 95 % of the search window) for every event', wlOK, `${ev.filter((e) => e.windowLimited).length} flagged`)
+    const stalled = ev.filter((e) => e.stalled)
+    out('rereview', 'events / stalled / window-limited / failUnresolved', [ev.length, stalled.length, ev.filter((e) => e.windowLimited).length, M.eng.diag.failUnresolved])
+    const stalledCols = stalled.reduce((a, e) => a + (e.sourceTo - e.sourceFrom + 1), 0)
+    out('rereview', 'columns in stalled events (the UI derives unresolved columns from these)', stalledCols)
+    // after a stalled event, no later event in the same step touches its columns
+    let reFail = 0, lowRunSameCols = 0
+    for (let a = 0; a < ev.length; a++) {
+      for (let b = a + 1; b < ev.length && ev[b].step === ev[a].step; b++) {
+        const overlap = ev[b].sourceFrom <= ev[a].sourceTo && ev[b].sourceTo >= ev[a].sourceFrom
+        if (ev[a].stalled && overlap) reFail++
+        if (ev[a].runout < P.failStallRunout && overlap && b === a + 1) lowRunSameCols++
+      }
+    }
+    check('rereview', 'no failure repeats on a column after a stalled event in the same step', reFail === 0, `${reFail} repeats`)
+    check('rereview', 'no event with run-out < failStallRunout is followed at once by an event on overlapping columns', lowRunSameCols === 0, `${lowRunSameCols}`)
+    const zeroRun = ev.filter((e) => e.runout < P.failStallRunout)
+    out('rereview', 'events with run-out < 0.5 km: id, stalled?, last event of its step?', zeroRun.map((e) => `#${e.id} stalled=${e.stalled} lastInStep=${!ev.some((x) => x.step === e.step && x.id > e.id)}`))
+    check('rereview', 'every sub-0.5 km event is stalled or the last event of its step (nothing is retried unmarked)', zeroRun.every((e) => e.stalled || !ev.some((x) => x.step === e.step && x.id > e.id)), `${zeroRun.length} events`)
   }
   out('geology', 'tags as stored vs tags if the sea-level test were skipped', counts)
   out('geology', 'events where the pressure term beats the slope term (dPress > dSlope)', [pressureDominated, ev.length])
@@ -757,7 +806,7 @@ if (run('licences')) {
 const failed = verdicts.filter((v) => !v.ok)
 console.log(`\n${verdicts.length - failed.length}/${verdicts.length} checks passed`)
 for (const f of failed) console.log(`  FAILED: ${f.section}: ${f.name}`)
-const file = join(root, 'docs/reviews/m2-review-results.json')
+const file = join(root, 'docs/reviews/m2-rereview-results.json')
 let prev = {}
 if (want.size && existsSync(file)) prev = JSON.parse(readFileSync(file, 'utf8'))
 writeFileSync(file, JSON.stringify({ ...prev, ...results }, (k, v) => (typeof v === 'number' && !Number.isFinite(v) ? String(v) : v), 1) + '\n')
