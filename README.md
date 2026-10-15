@@ -14,7 +14,8 @@ It runs in the browser from one offline HTML file. Nothing is sent anywhere.
 Early, and built in the open. The foundation (milestone M1) is on `main`: a 2D section with sediment
 transport, turbidity currents, subsidence, compaction coupled to pore pressure, burial temperature
 and quartz cement, a published sea-level curve, rewind, branches, and save/open. Slope failure and
-mass-transport deposits (M2) are next. See [`docs/roadmap.md`](docs/roadmap.md).
+mass-transport deposits (M2) are on `main` too (off by default; try the *Overpressured slope
+(MTD-prone)* preset). Salt (M3) is next. See [`docs/roadmap.md`](docs/roadmap.md).
 
 **This is a learning and exploration tool.** It is not calibrated to any real basin and must not be
 used for operational well design or pore-pressure prediction.
@@ -76,7 +77,9 @@ For development with hot reload, run `npm run dev` instead.
   and stored-hash tests fail, because floating-point results are not bit-identical across
   operating systems and the threshold logic amplifies the difference; several timed tests also
   exceed their limits on the slower runner. Same inputs give the same result on one machine, not
-  across machines. How to fix it is an open decision ([`docs/decisions.md`](docs/decisions.md), D14).
+  across machines. The fix is decided: cross-machine tests will compare with tolerances and
+  summary statistics, while exact equality stays the rule on one machine
+  ([`docs/decisions.md`](docs/decisions.md), D14 and D16).
 - More limits are listed in section 13 of the user guide.
 
 ## Development
