@@ -29,3 +29,9 @@ Update it whenever something here changes, in the same commit as the change.
   so diapirs collapse to 1–4 grid cells. Always run a grid-refinement check on salt structures.
 - **Headless screenshots.** To check the UI, drive headless Chrome over CDP with a separate
   `--user-data-dir`. John's own Edge profile is locked while Edge is open.
+
+## M1.3 engine port (2026-10-14)
+- Spike 001 physics now lives in `src/engine` (`transport`, `turbidites`, `subsidence`, `compaction`, `step`); results are bit-identical to the spike on the default run.
+- `node scripts/spike001-golden.mjs` rewrites `tests/golden/spike001-default.json` from the spike. Only do that if the spike itself changes.
+- Cached porosity, permeability and loads are NOT in the record. `restoreEngine` rebuilds them from `smax` and the stored thicknesses; `buoyantLoad()` in `compaction.ts` is the one load expression shared by compaction and restore.
+- Salt cells are skipped by transport and compaction: they stop erosion, the active layer and the load. Salt weight on the sediment below is not counted until M3.

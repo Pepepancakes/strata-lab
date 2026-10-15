@@ -1,0 +1,6 @@
+body { margin: 0; font-family: system-ui, sans-serif; background: #14181d; color: #dde3ea; }
+.shell { display: grid; height: 100vh; grid-template-columns: 240px 1fr 280px; grid-template-rows: auto 1fr 1fr;
+  grid-template-areas: "h h h" "c s r" "c w r"; gap: 6px; padding: 6px; box-sizing: border-box; }
+header { grid-area: h; } h1 { margin: 0; font-size: 18px; }
+.region { border: 1px solid #2a323c; border-radius: 4px; padding: 8px; overflow: auto; }
+.controls { grid-area: c; } .section { grid-area: s; } .well { grid-area: w; } .right { grid-area: r; }

@@ -49,12 +49,30 @@ geoblock, so agents and tooling carry over.
 - `spikes/NNN-*/`: throwaway prototypes. Nothing imports them; read them as references.
   `spikes/001-shelf-to-basin/engine.js` is the reference implementation of the spike physics.
 - `docs/`: agent guide, roadmap, decisions, handover, physics references.
-- `src/` will arrive with M1.
+- `src/engine/`: pure physics, runs in the worker. Lint bans DOM, React, app/view imports,
+  `Math.random`, `Date.now`, `performance.now` here.
+- `src/worker/`: `protocol.ts` (message types), `handler.ts` (pure request -> response),
+  `engine.worker.ts` (entry), `client.ts` (`EngineClient`, used by the app).
+- `src/app/`: React shell (`App.tsx`, four regions filled from the view registry).
+- `src/views/`: one folder per view (`<name>/index.tsx` default-exports a `ViewDefinition`).
+  `registry.ts` finds them by glob, so adding a view never edits a shared switch.
+- `src/units.ts`: the only place unit conversions live (m/ft/km, Pa/psi, gradient to ppg EMW).
+- `tests/`: cross-cutting tests and shared fixtures. Unit tests sit beside the code (`*.test.ts`).
+- `scripts/`: node scripts (`check-offline.mjs`, `verify-built.mjs`).
+- `vite.config.ts`: the one-file build lives ONLY here (inlines the worker, renames to
+  `dist/strata-lab.html`). `STRATA_SINGLE_FILE=0` gives a normal multi-file build instead.
+  The one-file worker is a classic (iife) script: a Blob-URL module worker is refused on file://.
 
 ## Commands
-Before M1 (spike only): `node spikes/001-shelf-to-basin/test.js` runs the physics checks.
-`node spikes/001-shelf-to-basin/build.js` rebuilds the spike's single HTML file.
-M1 defines `npm run check` (typecheck + lint + tests; CI runs exactly this) and `npm run build`.
+- `npm ci` then `npm run check`: typecheck + lint + tests (CI runs exactly this).
+- `npm run build`: writes `dist/strata-lab.html`. `npm run check:offline`: fails on any remote URL
+  or network call in it, or any extra file in `dist/`.
+- `npm run verify:built`: opens the built file from file:// in headless Chrome/Edge over CDP
+  and requires "Engine worker: OK" and zero console errors.
+- `npm run dev`: dev server (module worker).
+- Local Node 26: if localStorage tests misbehave, prefix `NODE_OPTIONS=--no-experimental-webstorage`.
+- Spikes (CommonJS, `spikes/package.json` keeps them so): `node spikes/001-shelf-to-basin/test.js`,
+  `node spikes/002-salt/test.js`; each ends `ALL PASS`.
 
 ## Domain glossary
 - **Clinoform:** a sloping depositional surface (shelf → slope → basin floor). It builds out
