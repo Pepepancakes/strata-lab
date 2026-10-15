@@ -126,6 +126,18 @@ describe('mtd preset', () => {
     expect(stateHash(again.eng.rec)).toBe(stateHash(run.eng.rec))
     expect(again.eng.events).toEqual(run.eng.events)
   }, 60000)
+  it('a branch at 1 Ma with supply raised keeps the earlier events and changes the later ones', () => {
+    const tm = new TimeMachine()
+    const info = tm.run({ presetId: 'mtd', segments: [{ fromAgeMa: 3, toAgeMa: 0, dt: 25000 }], overrides: {} }, 1)
+    const fork = Math.round((info.nSteps * 2) / 3) // 2 Ma elapsed of 3 = 1 Ma
+    const main = tm.eventsAt(tm.root, info.nSteps)
+    const b = tm.branch(tm.root, fork, { supply: 45 })
+    const alt = tm.eventsAt(b.id, info.nSteps)
+    const before = (ev: typeof main) => ev.filter((e) => e.step < fork)
+    expect(before(main).length).toBeGreaterThan(0)
+    expect(before(alt)).toEqual(before(main))
+    expect(alt.filter((e) => e.step >= fork)).not.toEqual(main.filter((e) => e.step >= fork))
+  }, 120000)
   it('the time machine returns the same events (tags included) at the end as a straight run', () => {
     const preset = getPreset('mtd')
     const tm = new TimeMachine()
