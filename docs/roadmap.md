@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-14):** spikes 001 and 002 done. Spike 002 is waiting on John's look. M1 cards are next.
+**Status (2026-10-14):** spikes 001 and 002 done and reviewed by John. M1 is approved and being built as a chain of cards.
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -32,7 +32,7 @@ Results:
 John: "one of the coolest things I've ever played with when it comes to geology". He found the
 geology convincing, with nothing obviously wrong, and said go for a core project.
 
-## S2 — Spike 002: salt under the prograding wedge  *(built 2026-10-14; waiting on John's look)*
+## S2 — Spike 002: salt under the prograding wedge  *(built 2026-10-14; John reviewed it the same day: "very impressed")*
 Question: can salt flow in the column model, interactively, and does it look like Gulf salt?
 - A salt layer at the base of each column. It flows sideways as a viscous channel (thin-sheet
   / lubrication approximation), driven by differences in overburden load and seafloor
