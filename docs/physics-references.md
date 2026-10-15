@@ -169,6 +169,35 @@ Status of every M2 registry key, as shown next to the control. "to verify" means
 
 Method list: infinite-slope FS (Hampton et al. 1996 and soil mechanics), Bingham depth-averaged run-out (Imran et al. 2001), FS-drop attribution for the trigger tag (our own bookkeeping split, no citation). Benchmarks: `tests/stability.test.ts`, `tests/runout.test.ts`, `tests/failure.test.ts`, `tests/triggers.test.ts`.
 
+## M3.1 Salt flow (thin-sheet viscous flow)
+Source code: `src/engine/salt.ts`; tests: `tests/salt.test.ts`. Ported from spike 002. Off by default (`saltOn` = 0).
+
+Salt is one layer (record layer 0, every cell tagged salt, thickness stored in `mud`) on the basement,
+under an older cover (layer 1). It flows sideways as a thin viscous sheet between two no-slip surfaces
+(Poiseuille channel flow; Turcotte & Schubert, *Geodynamics*): flux q = -(h^3 / 12 eta) dPhi/dx, with
+Phi = W + rho_w g (water depth) + rho_salt g z_roof, W the weight of the sediment above the salt, and
+dh/dt = -dq/dx. Columns do not move sideways; they ride on the salt (D10). Salt density 2,160 kg/m3
+(Hudec & Jackson 2007).
+
+| Quantity | Value | Status | Note |
+|---|---|---|---|
+| `saltOn` | 0 (off) | tuned | switch; off keeps every earlier run bit-identical |
+| `saltThick` | 1500 m | tuned | start thickness basinward of the pinch-out; synthetic |
+| `saltPinchStart`, `saltPinchEnd` | 25 km, 45 km | tuned | smooth pinch-out of the start thickness |
+| `saltVisc` | 1e17 Pa s | tuned | published range about 1e17 to 1e19 (Hudec & Jackson 2007, not checked); default is the fast end so flow shows within 3 Myr |
+| `nSaltSub` | 5 | tuned | numerical |
+| `coverUneven`, `coverSeed` | 0, 1 | tuned | optional seeded unevenness of the older cover |
+
+Numerics: flux form (salt volume conserved to rounding), upstream face mobility, water-load response
+implicit (tridiagonal solve per substep), first order in time. Benchmarks (`tests/salt.test.ts`): decay of a
+small thickness bump against linear thin-sheet theory (within 1 % for wavelengths 25 to 200 km and eta 1e17
+and 1e18; the 25 km case is the worst at -0.57 %, from the first-order time step), and the flux under a
+load step against a hand calculation (-0.02 %). Salt, sand and mud balance separately.
+
+Not in M3.1 (later cards): cover bending stiffness (M3.2; without it the narrowest bumps grow fastest, so
+diapir widths are not meaningful yet), weld limiter (M3.3; clipped volume is counted in `saltClip` and must be 0),
+salt thermal and pore-pressure effects beyond the placeholder conductivity.
+
 ## Set-up parameters and what the registry adds (M1.8)
 These are numerical or set-up choices, not measured quantities, so they are all **tuned** and the
 app labels them so: columns (`nx`, default 150), column width (`dx`, 1 km), run length
@@ -219,7 +248,7 @@ References (24):
 - `eaton-1969`: Eaton (1969)
 - `matthews-kelly-1967`: Matthews & Kelly (1967)
 
-Parameters (66), as `key`: status, reference id:
+Parameters (74), as `key`: status, reference id:
 - `nx`: tuned
 - `dx`: tuned
 - `duration`: tuned
@@ -286,4 +315,12 @@ Parameters (66), as `key`: status, reference id:
 - `failSlopeTerm`: tuned
 - `failPressTerm`: tuned
 - `failStallRunout`: tuned
+- `saltOn`: tuned
+- `saltThick`: tuned
+- `saltPinchStart`: tuned
+- `saltPinchEnd`: tuned
+- `saltVisc`: tuned, hudec-jackson-2007
+- `nSaltSub`: tuned
+- `coverUneven`: tuned
+- `coverSeed`: tuned
 <!-- registry-index:end -->

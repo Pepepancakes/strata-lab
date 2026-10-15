@@ -12,11 +12,12 @@ import { failureStep } from './failure'
 import { rebuildCaches, compactColumn, recomputeH, setPor, voidRatio } from './compaction'
 import { restore as restoreRecord, snapshot as snapshotRecord, type Snapshot } from './determinism'
 import type { EngineParams } from './engineParams'
-import { appendLayer, createRecord, markInitialLedger } from './record'
+import { appendLayer, createRecord, markInitialLedger, SALT } from './record'
 import type { Schedule } from './schedule'
 import type { SeaLevelCurve } from './sealevel'
 import { subside } from './subsidence'
 import { cloneHistory, copyHistory, type TriggerHistory } from './triggers'
+import { initialSaltThickness, coverUnevenness, saltStep } from './salt'
 import { allocateEngine, type Diagnostics, type EngineState, type FailureEvent } from './state'
 import { columnTemperatures, computeTemperatures } from './thermal'
 import { transportSubstep } from './transport'
@@ -42,18 +43,28 @@ export const SUBSTRATE = { bulk: 200, smax: 20e6, sandShare: 0.3 }
  */
 export function createEngine(P: EngineParams, schedule: Schedule, extraLayers = 0): EngineState {
   const nx = P.nx
-  const rec = createRecord({ nx, dx: P.dx, capacity: schedule.nSteps + 1 + extraLayers, startAgeMa: schedule.startAgeMa })
+  // Salt on: two pre-run layers (layer 0 salt, layer 1 the older cover); off: one (the substrate).
+  const nPre = P.saltOn === 1 ? 2 : 1
+  const rec = createRecord({ nx, dx: P.dx, capacity: schedule.nSteps + nPre + extraLayers, startAgeMa: schedule.startAgeMa, preLayers: nPre })
   const eng = allocateEngine(rec)
   eng.lagLoads = bundlingOn(P)
   const { bulk, smax, sandShare: f } = SUBSTRATE
   const e = f * voidRatio(P, SAND, smax) + (1 - f) * voidRatio(P, MUD, smax)
-  const solid = bulk / (1 + e)
+  const uneven = nPre === 2 ? coverUnevenness(P) : null
+  const cover = (nPre - 1) * nx // first cell of the older cover
   for (let j = 0; j < nx; j++) {
-    rec.b[j] = initialSurface((j + 0.5) * P.dx) - bulk
-    rec.sand[j] = f * solid
-    rec.mud[j] = (1 - f) * solid
-    rec.smax[j] = smax
-    setPor(eng, P, j, smax)
+    const cj = uneven ? bulk * (1 + uneven[j]) : bulk
+    const sj = cj / (1 + e)
+    const hs = uneven ? initialSaltThickness(P, (j + 0.5) * P.dx) : 0
+    rec.b[j] = initialSurface((j + 0.5) * P.dx) - cj - hs
+    if (uneven) {
+      rec.mud[j] = hs // salt layer: thickness in mud
+      rec.material[j] = SALT
+    }
+    rec.sand[cover + j] = f * sj
+    rec.mud[cover + j] = (1 - f) * sj
+    rec.smax[cover + j] = smax
+    setPor(eng, P, cover + j, smax)
   }
   markInitialLedger(rec)
   rebuildCaches(eng, P)
@@ -68,15 +79,15 @@ export function bundlingOn(P: EngineParams): boolean {
 
 /**
  * First layer of the always-updated window, as fixed at the full solve of step `kFull`
- * (-1 = before any: the whole column is the window). Layer l >= 1 was deposited by step l-1, so
+ * (-1 = before any: the whole column is the window). Layer l >= nPre was deposited by step l-nPre (nPre = 1 without salt), so
  * the window is the layers younger than P.bundleAgeYr at the end of that step. Computed from the
  * schedule alone, so it is the same after a rewind.
  */
-export function windowBase(schedule: Schedule, P: EngineParams, kFull: number): number {
+export function windowBase(schedule: Schedule, P: EngineParams, kFull: number, nPre = 1): number {
   if (kFull < 0) return 0
   const cutoff = schedule.tEndYr[kFull] - P.bundleAgeYr
-  let l = kFull + 1 // newest layer existing at that step
-  while (l > 1 && schedule.tEndYr[l - 2] > cutoff) l--
+  let l = kFull + nPre // newest layer existing at that step
+  while (l > nPre && schedule.tEndYr[l - nPre - 1] > cutoff) l--
   return l
 }
 
@@ -97,6 +108,15 @@ export function step(eng: EngineState, P: EngineParams, schedule: Schedule, seaL
   const dt = dtRec / P.nSub
   for (let s = 0; s < P.nSub; s++) transportSubstep(eng, P, seaLevel(t0 + (s + 0.5) * dt), dt)
   compactStep(eng, P, schedule, k, k1)
+  if (P.saltOn === 1) {
+    // Salt flow (M3.1): columns ride on the salt, so H follows the thickness change. Mid-cycle in a
+    // bundled run H is a running value (a snapshot keeps it), so add the change. Everywhere else H is
+    // the exact sum (restore and keyframes recompute it), so recompute: compactStep did so just before.
+    saltStep(eng, P, seaLevel(t0 + 0.5 * dtRec), dtRec)
+    const midCycle = bundlingOn(P) && (k + 1) % P.bundleEvery !== 0 && k !== schedule.nSteps - 1
+    if (midCycle) for (let j = 0; j < nx; j++) rec.H[j] += eng.salt.dh[j]
+    else recomputeH(eng, P)
+  }
   if (thermalOn && ((k + 1) % P.thermalEvery === 0 || k === schedule.nSteps - 1)) thermalStep(eng, P, schedule, k, k1, seaLevel(schedule.tEndYr[k]))
   if (P.failOn === 1) failureStep(eng, P, k, schedule.tEndYr[k], schedule.stepAgeMa[k], seaLevel)
   eng.diag.stepIndex = k + 1
@@ -118,7 +138,7 @@ function thermalStep(eng: EngineState, P: EngineParams, schedule: Schedule, k: n
   const col = eng.scratch.hh
   const kPrev = Math.floor(k / P.thermalEvery) * P.thermalEvery - 1 // step of the previous update (-1 = the start)
   const dtYr = schedule.tEndYr[k] - (kPrev >= 0 ? schedule.tEndYr[kPrev] : 0)
-  const lastOld = kPrev + 1 // newest layer that existed at the previous update (layer 0 = substrate)
+  const lastOld = kPrev + rec.nPre // newest layer that existed at the previous update (pre-run layers first)
   const cementOn = P.cement === 1
   const onset = P.cemTonset
   for (let j = 0; j < nx; j++) {
@@ -148,7 +168,7 @@ export function compactStep(eng: EngineState, P: EngineParams, schedule: Schedul
   if (bundlingOn(P)) {
     const N = P.bundleEvery
     const full = (k + 1) % N === 0 || k === schedule.nSteps - 1
-    const lw = windowBase(schedule, P, Math.floor(k / N) * N - 1) // window held since the last full solve
+    const lw = windowBase(schedule, P, Math.floor(k / N) * N - 1, rec.nPre) // window held since the last full solve
     if (full) {
       const dtDeep = schedule.tEndYr[k] - schedule.tStartYr[Math.floor(k / N) * N]
       for (let j = 0; j < nx; j++) compactColumn(eng, P, j, k1, dtRec, 0, lw, dtDeep)
@@ -209,6 +229,7 @@ export function columnSolids(eng: EngineState, j: number): { sand: number; mud: 
   const { rec } = eng
   let sand = 0, mud = 0
   for (let l = 0; l < rec.nLayers; l++) {
+    if (rec.material[l * rec.nx + j] === SALT) continue // salt is not sand or mud
     sand += rec.sand[l * rec.nx + j]
     mud += rec.mud[l * rec.nx + j]
   }

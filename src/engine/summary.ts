@@ -21,7 +21,7 @@
 //
 // Pure functions, no DOM.
 
-import type { LayerRecord } from './record'
+import { SALT, type LayerRecord } from './record'
 
 export interface RunSummary {
   nx: number
@@ -43,6 +43,7 @@ export function summarizeRecord(rec: LayerRecord, events = 0): RunSummary {
   let mud = 0
   let maxU = 0
   for (let i = 0; i < n; i++) {
+    if (rec.material[i] === SALT) continue // salt is its own class (its thickness lives in mud)
     sand += rec.sand[i]
     mud += rec.mud[i]
     if (rec.u[i] > maxU) maxU = rec.u[i]

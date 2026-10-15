@@ -110,6 +110,20 @@ export interface EngineParams {
   failPressTerm: number
   /** Run-out (m) below which a repeat failure of the same columns in one step is not tried again; 0 = off (M2.7). */
   failStallRunout: number
+  /** 1 = mobile salt layer (M3.1). */
+  saltOn: number
+  /** Initial salt thickness basinward of the pinch-out, m. */
+  saltThick: number
+  /** Salt pinch-out: none landward of this distance, full thickness basinward of saltPinchEnd, m. */
+  saltPinchStart: number
+  saltPinchEnd: number
+  /** Salt viscosity, Pa s. */
+  saltVisc: number
+  /** Salt substeps per record step. */
+  nSaltSub: number
+  /** +- relative thickness variation of the older cover, and its seed. */
+  coverUneven: number
+  coverSeed: number
 }
 
 /** Fresh copy of the registry defaults, typed. */

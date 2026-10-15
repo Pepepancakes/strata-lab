@@ -194,6 +194,24 @@ export const PARAMS: readonly ParamDef[] = [
     source: { kind: 'tuned', note: 'Trigger tagging only (triggers.ts). The pressure term dPress = ln((1 - ru then) / (1 - ru now)) over the lookback, divided by this number, competes with the slope and sea-level terms. 0.1 = the effective-stress share of the load fell by about 10 percent. Does not change the physics.' } },
   { key: 'failStallRunout', label: 'Run-out below which a repeat failure is not tried again', unit: 'm', displayUnit: 'km', default: 500, min: 0, max: 10000, startOnly: false,
     source: { kind: 'tuned', note: 'If a failure runs out less than this and the next recheck in the same step picks the same columns, they are not failed again that step: the event is flagged stalled and the columns are counted in failUnresolved (retried next step). Stops the engine failing the same thin cover again and again without moving it. 500 m is a tuned number; 0 turns the rule off (M2.3 behaviour).' } },
+
+  // ---- salt flow (M3.1) ----
+  { key: 'saltOn', label: 'Salt layer on (1) / off (0)', unit: '-', displayUnit: '-', default: 0, min: 0, max: 1, startOnly: true,
+    source: { kind: 'tuned', note: 'Off switch, OFF by default so every earlier run stays bit-identical. When on, a mobile salt layer lies between the basement and the sediment and flows under the load of the sediment (salt.ts; spike 002).' } },
+  { key: 'saltThick', label: 'Initial salt thickness', unit: 'm', displayUnit: 'ft', default: 1500, min: 100, max: 4000, startOnly: true,
+    source: { kind: 'tuned', note: 'Thickness basinward of the pinch-out at the start of the run. Synthetic; real salt basins range from a few hundred metres to several kilometres.' } },
+  { key: 'saltPinchStart', label: 'Salt pinch-out: no salt landward of', unit: 'm', displayUnit: 'km', default: 25000, min: 0, max: 400000, startOnly: true,
+    source: { kind: 'tuned', note: 'Distance from the landward edge. Salt thickness rises smoothly from 0 here to its full value at the next parameter.' } },
+  { key: 'saltPinchEnd', label: 'Salt pinch-out: full thickness basinward of', unit: 'm', displayUnit: 'km', default: 45000, min: 100, max: 400000, startOnly: true,
+    source: { kind: 'tuned', note: 'Must be larger than the previous parameter.' } },
+  { key: 'saltVisc', label: 'Salt viscosity', unit: 'Pa s', displayUnit: 'Pa s', default: 1e17, min: 1e16, max: 1e20, startOnly: false,
+    source: { kind: 'tuned', refId: 'hudec-jackson-2007', note: 'Published range for natural rock salt about 1e17 to 1e19 Pa s (Hudec & Jackson 2007; value range not checked against the paper). The default is the fast end, tuned so that flow shows within 3 Myr.' } },
+  { key: 'nSaltSub', label: 'Salt substeps per record step', unit: '-', displayUnit: '-', default: 5, min: 1, max: 50, startOnly: true,
+    source: { kind: 'tuned', note: SETUP } },
+  { key: 'coverUneven', label: 'Unevenness of the older cover (salt on)', unit: '-', displayUnit: '-', default: 0, min: 0, max: 0.5, startOnly: true,
+    source: { kind: 'tuned', note: 'Plus or minus fraction of the older cover thickness, a seeded smooth random pattern (rng.ts). 0 = flat. Gives the salt something to start flowing from.' } },
+  { key: 'coverSeed', label: 'Seed of the cover unevenness', unit: '-', displayUnit: '-', default: 1, min: 0, max: 4294967295, startOnly: true,
+    source: { kind: 'tuned', note: SETUP } },
 ]
 
 const BY_KEY = new Map(PARAMS.map((p) => [p.key, p]))

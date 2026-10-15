@@ -180,6 +180,21 @@ With the switch on, any column whose factor of safety falls below 1 fails: the s
 
 Why did it fail? (M2.3, rule changed in M2.7.) Every failure carries one trigger tag, worked out from the weakest column's change over the last 4 steps (20 kyr at 5 kyr steps). Nothing is imposed; the factor of safety falls for physical reasons and the tag says which one did most of it. Each of three terms (steeper sea floor, rising pore pressure, falling sea level) is divided by its own tuned threshold, and the term with the largest ratio wins if that ratio is at least 1: *oversteepening*, *rapid loading* (the pressure term, when the column gained sediment faster than the rapid-loading rate), *overpressure* (the pressure term, when loading was slow) or *lowstand*. If no ratio reaches 1 the tag is *mixed*. The tag does not change the physics; it is a label on the cause, and the list shows all three terms behind it (section 13.4). Failures that move almost nothing are flagged *stalled*, and failures cut by the search depth limit are flagged *window-limited* (section 13.4). The preset *Overpressured slope (MTD-prone)* turns failure on with mud permeability x0.1 and supply 30 m²/yr (both tuned) so there are events to look at. Limits: slopes under 0.5° and slip surfaces shallower than 10 m are not searched.
 
+Salt (M3.1; off by default, so the default run is unchanged)
+
+| Control | Default | Source |
+|---|---|---|
+| Salt layer on (1) / off (0) | 0 | start. tuned (switch). A mobile salt layer between the basement and the sediment |
+| Initial salt thickness (ft) | 4921 (1500 m) | start. tuned. Synthetic |
+| Salt pinch-out: no salt landward of (km) | 25 | start. tuned |
+| Salt pinch-out: full thickness basinward of (km) | 45 | start. tuned |
+| Salt viscosity (Pa s) | 1e17 | tuned. Hudec & Jackson (2007) range about 1e17 to 1e19, to verify; the default is the fast end so flow shows in 3 Myr |
+| Salt substeps per record step | 5 | start. tuned. Numerical |
+| Unevenness of the older cover (salt on) | 0 | start. tuned. Seeded random thickness variation of the older cover |
+| Seed of the cover unevenness | 1 | start. tuned |
+
+With salt on, the sediment loads the salt and squeezes it basinward; the cover above rides up and down on the salt. Salt volume is conserved and has its own line in the mass balance. Cover bending stiffness and welds are not in yet (M3.2, M3.3), so do not read diapir widths from it.
+
 Two things to know about the edit boxes:
 - **Subsidence history (piecewise factors)** has no boxes in the app yet. It is a list the
   engine accepts but the controls have no editor for, so the *history* choice of **Subsidence
@@ -299,7 +314,7 @@ Depth is TVDSS in ft (below the sea surface). It has four tracks:
    Hover (or tab to) a hatched interval to read the event: time, cause, source position, scar depth,
    volume and run-out. The same text appears under the plot.
 
-If salt is ever present (it is not, in M1) it is drawn pink and labelled "salt".
+Salt (when Salt layer is on) is drawn pink and labelled "salt".
 
 The temperature in this panel and in the Temperature colour mode is **steady conduction**: it
 assumes the heat has had time to reach its balance. Real, fast-buried basins are colder at depth
@@ -549,9 +564,9 @@ look right for an overpressured slope is your call. Nothing here is calibrated t
   muddy slopes and a 0.3 m/km coastal plain, not calibrated to data.
 - **Default overpressure is mild** (maximum about 14 % of the load, at 20 m²/yr supply). To see
   strong overpressure lower **Mud permeability multiplier** or raise **Sediment supply**.
-- **No salt yet.** The record can hold salt (and the pseudo-well and balance panel will draw
-  it), but nothing creates it until a later milestone. Salt weight on the sediment below is not
-  counted.
+- **Salt is early (M3.1).** Salt flows under the sediment load when Salt layer is on (section 3.3), but
+  there is no cover bending stiffness yet (so diapir widths mean nothing), no weld limiter, and salt
+  is not yet checked against a published field example.
 - **Supply and subsidence are tuned**, not taken from a published Gulf of America rate.
 - **Temperature is steady conduction.** It ignores the cooling effect of fast burial, so deep
   temperatures read too warm. Several thermal inputs are marked to verify.

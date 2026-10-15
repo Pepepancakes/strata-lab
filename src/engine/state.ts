@@ -54,6 +54,36 @@ export interface Diagnostics {
   failUnresolved: number
   /** 1 when the record may hold a cell tagged MTD (set when a deposit tags one, cleared when a scan finds none). Lets the failure step skip the full-record scan (M2.10). Copied with diag in snapshots and keyframes. */
   mtdPresent: number
+  /** Salt volume that was clipped (a thickness that would have gone below 0), m^2 (M3.1). Must stay 0; the weld limiter comes in M3.3. */
+  saltClip: number
+}
+
+/** Work arrays of the salt flow (salt.ts), one value per column. Rebuilt every step, never stored. */
+export interface SaltScratch {
+  /** Weight of the sediment above the salt, Pa, and its bulk thickness, m. */
+  W: Float64Array
+  Sb: Float64Array
+  /** Driving potential at the salt roof, Pa, and d(potential)/d(salt thickness), Pa/m. */
+  Phi: Float64Array
+  aw: Float64Array
+  /** Face mobility, m^3/(Pa s) x 12 eta folded in (see salt.ts). */
+  M: Float64Array
+  /** Working thickness during the substeps, m. */
+  h: Float64Array
+  /** Change of salt thickness in the last step, m (columns ride on it). */
+  dh: Float64Array
+  lo: Float64Array
+  di: Float64Array
+  up: Float64Array
+  rhs: Float64Array
+  x: Float64Array
+  cp: Float64Array
+  dp: Float64Array
+}
+
+export function makeSaltScratch(nx: number): SaltScratch {
+  const f = () => new Float64Array(nx)
+  return { W: f(), Sb: f(), Phi: f(), aw: f(), M: f(), h: f(), dh: f(), lo: f(), di: f(), up: f(), rhs: f(), x: f(), cp: f(), dp: f() }
 }
 
 /**
@@ -120,6 +150,8 @@ export interface EngineState {
   kpm: Float64Array
   ld: Float64Array
   scratch: Scratch
+  /** Work arrays of the salt flow (M3.1). */
+  salt: SaltScratch
   diag: Diagnostics
   /** True when bundled deep compaction is on: cached loads of deep layers lag, so snapshots must store them. */
   lagLoads: boolean
@@ -154,7 +186,8 @@ export function allocateEngine(rec: LayerRecord): EngineState {
     kpm: new Float64Array(cells),
     ld: new Float64Array(cells),
     scratch: makeScratch(rec.nx, rec.capacity),
-    diag: { stepIndex: 0, deficit: 0, clamps: 0, short: 0, shore: -1, shelfEdge: -1, tcShare: 0, failUnresolved: 0, mtdPresent: 0 },
+    salt: makeSaltScratch(rec.nx),
+    diag: { stepIndex: 0, deficit: 0, clamps: 0, short: 0, shore: -1, shelfEdge: -1, tcShare: 0, failUnresolved: 0, mtdPresent: 0, saltClip: 0 },
     lagLoads: false,
     temp: new Float64Array(cells),
     tempOk: false,

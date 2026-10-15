@@ -18,6 +18,10 @@
 // Layer 0 is the pre-existing substrate (stepDt 0, stepAgeMa = age at run start). Each record
 // step then appends one layer to every column with appendLayer(). Steps may differ in length
 // (see schedule.ts); nothing here assumes a fixed dtRec.
+// Salt on (M3.1): there are TWO pre-run layers. Layer 0 = salt (every cell tagged SALT, thickness
+// in `mud`, possibly 0) on the basement; layer 1 = the older cover (SEDIMENT). Both have stepDt 0
+// and the age of the run start. `nPre` (1 or 2) is the number of pre-run layers: record step k
+// fills layer nPre + k. Code that maps a layer to its step or age must use `nPre`, never a literal 1.
 //
 // Salt rule (spike 002): salt is a material tag on cells, NOT a special bottom layer, so a column
 // may hold salt above sediment (a canopy). A salt cell stores its thickness in `mud`, with
@@ -57,8 +61,10 @@ export interface LayerRecord {
   nx: number
   dx: number
   capacity: number
-  /** Layers in use, including layer 0 (the substrate). */
+  /** Layers in use, including the pre-run layers. */
   nLayers: number
+  /** Pre-run layers: 1 (substrate) or 2 with salt (layer 0 salt, layer 1 older cover). Step k fills layer nPre + k. */
+  nPre: number
   b: Float64Array
   H: Float64Array
   sand: Float64Array
@@ -88,6 +94,8 @@ export interface RecordOptions {
   capacity: number
   /** Age at run start, Ma. */
   startAgeMa: number
+  /** Pre-run layers (default 1; 2 when the run starts with a salt layer). */
+  preLayers?: number
 }
 
 export const zeroVolumes = (): ClassVolumes => ({ sand: 0, mud: 0, salt: 0, cement: 0 })
@@ -106,6 +114,9 @@ export function recordBytes(nx: number, capacity: number): number {
 
 export function createRecord(opts: RecordOptions): LayerRecord {
   const { nx, dx, capacity, startAgeMa } = opts
+  const nPre = opts.preLayers ?? 1
+  if (nPre !== 1 && nPre !== 2) throw new Error('record: preLayers must be 1 or 2')
+  if (capacity < nPre) throw new Error('record: capacity smaller than the pre-run layers')
   if (!Number.isInteger(nx) || nx < 1 || nx > MAX_COLUMNS) throw new Error(`record: nx must be 1..${MAX_COLUMNS}`)
   if (!(dx > 0)) throw new Error('record: dx must be positive')
   if (!Number.isInteger(capacity) || capacity < 1) throw new Error('record: capacity must be >= 1')
@@ -114,7 +125,8 @@ export function createRecord(opts: RecordOptions): LayerRecord {
     nx,
     dx,
     capacity,
-    nLayers: 1,
+    nLayers: nPre,
+    nPre,
     b: new Float64Array(nx),
     H: new Float64Array(nx),
     sand: new Float64Array(cells),
@@ -129,7 +141,7 @@ export function createRecord(opts: RecordOptions): LayerRecord {
     stepAgeMa: new Float64Array(capacity),
     ledger: { cumIn: zeroVolumes(), cumOut: zeroVolumes(), init: zeroVolumes() },
   }
-  rec.stepAgeMa[0] = startAgeMa
+  for (let l = 0; l < nPre; l++) rec.stepAgeMa[l] = startAgeMa
   return rec
 }
 
@@ -203,7 +215,7 @@ const VERSION = 2 // 2: added cem and cemS (M1.4c)
 
 export function serialiseRecord(rec: LayerRecord): Uint8Array {
   const header = new TextEncoder().encode(
-    JSON.stringify({ format: FORMAT, version: VERSION, nx: rec.nx, dx: rec.dx, nLayers: rec.nLayers, ledger: rec.ledger }),
+    JSON.stringify({ format: FORMAT, version: VERSION, nx: rec.nx, dx: rec.dx, nLayers: rec.nLayers, ...(rec.nPre !== 1 ? { nPre: rec.nPre } : {}), ledger: rec.ledger }),
   )
   const cells = rec.nLayers * rec.nx
   const parts: Uint8Array[] = []
@@ -229,7 +241,7 @@ export function deserialiseRecord(bytes: Uint8Array, capacity?: number): LayerRe
   const hlen = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength).getUint32(0, true)
   const head = JSON.parse(new TextDecoder().decode(bytes.subarray(4, 4 + hlen)))
   if (head.format !== FORMAT || head.version !== VERSION) throw new Error('record: unknown file format')
-  const rec = createRecord({ nx: head.nx, dx: head.dx, capacity: capacity ?? head.nLayers, startAgeMa: 0 })
+  const rec = createRecord({ nx: head.nx, dx: head.dx, capacity: capacity ?? head.nLayers, startAgeMa: 0, preLayers: head.nPre ?? 1 })
   if (rec.capacity < head.nLayers) throw new Error('record: capacity smaller than stored layers')
   rec.nLayers = head.nLayers
   rec.ledger = head.ledger
