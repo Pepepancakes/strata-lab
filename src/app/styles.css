@@ -36,3 +36,6 @@ ul.branches, ul.checks { list-style: none; padding: 0; margin: 6px 0; } ul.branc
 .busy progress { width: 100%; }
 .errbar { background: #5a2622; border: 1px solid #a8453c; padding: 6px 10px; border-radius: 4px; margin: 0 6px; display: flex; justify-content: space-between; gap: 8px; }
 @media (max-width: 1100px) { .shell { height: auto; grid-template-columns: 1fr; grid-template-areas: "h" "c" "s" "w" "r"; } }
+/* A tall side column (event list, checks) must not stretch the section's row and push the
+   pseudo-well down the page: the last row is a filler that absorbs the extra height. */
+@media (min-width: 1101px) { .shell { grid-template-rows: auto auto auto 1fr; grid-template-areas: "h h h" "c s r" "c w r" "c . r"; } }
