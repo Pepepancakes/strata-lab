@@ -11,15 +11,13 @@
 //                no pores and uses RHO_SALT.
 //   TVDSS        depth below the sea surface at this time (negative = above it), ft.
 
-import { G, RHO_S, RHO_W } from '../../engine/constants'
+import { G, RHO_S, RHO_SALT, RHO_W } from '../../engine/constants'
 import { MTD, SALT } from '../../engine/record'
 import type { FailureEvent } from '../../engine/state'
 import { eventsAtCell } from '../events/format'
 import { cToF, densityToPpg, mToFt } from '../../units'
 import type { WellColumn } from '../../worker/protocol'
 
-/** Halite grain density, kg/m^3 (typical handbook value, 2160-2170). Display only. */
-export const RHO_SALT = 2160
 /** Cells shallower than this below the datum are left out of the ppg curves (EMW blows up at zero depth), m. */
 const MIN_PRESSURE_DEPTH_M = 30
 
@@ -51,6 +49,14 @@ export interface WellProfile {
   cemOnsetF: number
   /** Salt intervals as [top ft, bottom ft]. */
   saltIntervals: [number, number][]
+  /**
+   * Salt weld at this column (M3.5): the salt that was once at least weldThick thick is now thinner than it, so the
+   * cover rests (almost) directly on the basement. `depthFt` is the base of the sediment column (the weld surface),
+   * ft below the sea surface; `ageMa` is when the column first welded. Null when the column never welded.
+   */
+  weld: { ageMa: number; depthFt: number; remnantFt: number } | null
+  /** Salt density used in the overburden, ppg (RHO_SALT; salt has no pores). */
+  saltDensityPpg: number
   /** Runs of adjacent MTD cells: top and bottom depth (ft below the sea surface) and the layers in them (top first). */
   mtdIntervals: { topFt: number; botFt: number; layers: number[] }[]
 }
@@ -93,7 +99,7 @@ export function wellProfile(w: WellColumn, events: readonly FailureEvent[] = [])
       layer: l,
       tvdssFt: mToFt(w.seaLevelM - zMid),
       thickFt: mToFt(w.thick[l]),
-      poreEmw: ok ? emw(hydro + w.u[l], depthBelowDatum) : null,
+      poreEmw: ok && !isSalt ? emw(hydro + w.u[l], depthBelowDatum) : null, // salt has no pore fluid: no pore pressure (M3.5)
       overburdenEmw: ok ? emw(sv[l], depthBelowDatum) : null,
       hydroEmw: ok ? emw(hydro, depthBelowDatum) : null,
       porosity: isSalt ? 0 : 1 - solid / w.thick[l],
@@ -123,7 +129,12 @@ export function wellProfile(w: WellColumn, events: readonly FailureEvent[] = [])
   const topFt = points.length ? points[0].tvdssFt - points[0].thickFt / 2 : 0
   const last = points[points.length - 1]
   const bottomFt = last ? last.tvdssFt + last.thickFt / 2 : 0
-  return { points, topFt, bottomFt, cemOnsetFt: cementationOnsetDepthFt(points, cToF(w.cemTonsetC)), cemOnsetF: cToF(w.cemTonsetC), saltIntervals, mtdIntervals }
+  let saltBulk = 0
+  for (let l = 0; l < n; l++) if (w.material[l] === SALT && w.sand[l] + w.mud[l] > 0) saltBulk += w.thick[l]
+  const weld = w.weldAge != null && w.weldAge >= 0 && saltBulk < (w.weldThick ?? 10)
+    ? { ageMa: w.weldAge, depthFt: mToFt(w.seaLevelM - w.b), remnantFt: mToFt(saltBulk) }
+    : null
+  return { points, topFt, bottomFt, cemOnsetFt: cementationOnsetDepthFt(points, cToF(w.cemTonsetC)), cemOnsetF: cToF(w.cemTonsetC), saltIntervals, weld, saltDensityPpg: densityToPpg(RHO_SALT), mtdIntervals }
 }
 
 function cellDensity(w: WellColumn, l: number): number {

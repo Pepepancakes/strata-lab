@@ -227,6 +227,7 @@ Pick a colour mode with the buttons above it. The legend below the picture shows
 - **Temperature (°F)**: 32 to 392 °F, blue to red, steady conduction from the basal heat flow.
   It is always available. It does not need the temperature switch (that switch matters for
   cement, section 9).
+- **Salt thickness** (only when **Salt layer** is on): the salt is coloured by how thick it is in each column, pale pink for thin to dark plum for 16,404 ft (5,000 m) or more. The scale is fixed, so colours compare across time steps. Sediment is grey, and the older cover (the sediment that lay on the salt before the run) is a shade darker than the sediment the run lays down. In every colour mode a run with salt also shows a magenta line on the top of the salt, a dashed brown line on the top of the older cover, and a heavy dark line labelled *weld* where the salt has been squeezed out. A key under the section explains each, with an (i) button.
 - **Factor of safety**: the slope-stability result for every cell, on a log scale from 0.25 to 4 with 1.0
   in the middle. Reds are cells with a factor of safety below 1.2 (below 1 the slab would slide);
   pale to blue is safe. Flat seafloor has nothing pulling the slab down, so it is blue. A black
@@ -322,7 +323,7 @@ Depth is TVDSS in ft (below the sea surface). It has four tracks:
    Hover (or tab to) a hatched interval to read the event: time, cause, source position, scar depth,
    volume and run-out. The same text appears under the plot.
 
-Salt (when Salt layer is on) is drawn pink and labelled "salt".
+Salt (when **Salt layer** is on) is drawn pink and labelled "salt", with its top and base depths. Salt has no pores and no pore fluid, so the pore-pressure and porosity lines stop at the top of the salt and start again below its base; the overburden line carries on and counts the salt at its own weight (about 18 ppg). If the column is welded, a heavy line marks the weld and a note under the plot gives its age and the salt left.
 
 The temperature in this panel and in the Temperature colour mode is **steady conduction**: it
 assumes the heat has had time to reach its balance. Real, fast-buried basins are colder at depth
@@ -384,8 +385,8 @@ Under each row a grey line gives the three terms behind the cause in words, and 
 **Physics checks**: see section 11.
 
 ## 11. The physics checks panel
-Press **Run checks**. It runs eight benchmarks in the browser, each against an exact solution or
-a hand calculation, takes about 0.2 s and prints **ALL PASS (8/8)** or says what failed. Each row
+Press **Run checks**. It runs the benchmarks below in the browser (eleven groups, some with several rows), each against an exact solution or
+a hand calculation, takes about 0.5 s and prints **ALL PASS (n/n)** or says what failed. Each row
 shows the measured number, its limit and its source.
 
 | Check | What it proves |
@@ -397,6 +398,9 @@ shows the measured number, its limit and its source.
 | **FS crosses 1 at r_u = 1 − tan β / tan φ** | For 6° and 25° that is r_u = 0.7746. The engine gives FS = 1 there, above 1 just below it and below 1 just above it |
 | **Bingham plug thickness** | A debris flow on a 5° slope has a rigid plug of thickness τ_y / (ρ′ g sin θ); a flow thinner than that does not move |
 | **Mass balance through a slope failure, sand** and **... mud** | On a steep, overpressured hand-built slope, the sand (and the mud) before the failure equals what is left in the section plus what ran off the end, to 1e-12 |
+| **Salt channel-flow decay** | A small bump on a flat salt sheet relaxes at h³ (ρ_salt − ρ_w) g k² / 12η (thin-sheet flow). Within 1 % |
+| **Cover bending: fastest-growing wavelength** | With the cover as a viscous plate, the width that grows fastest is λ* = 2π (η_c h_c³ h³ / 18η_s)^(1/6). Within 5 % |
+| **Mass balance, salt only** | Salt volume is the same before and after the flow, none clipped; sand and mud are not touched by the salt step |
 | **Rewind is bit-identical** | A state restored from a saved state and replayed equals an uninterrupted run exactly. This is why scrubbing and branching can be trusted |
 
 What the checks do **not** prove: that the parameters are right for any real basin, that the
