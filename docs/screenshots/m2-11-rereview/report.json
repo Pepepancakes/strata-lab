@@ -1,0 +1,547 @@
+{
+  "errors": [],
+  "externalRequests": [],
+  "requestsSeen": 3,
+  "checks": {
+    "defaultPreset": {
+      "checks": {
+        "summary": "ALL PASS (13/13, 604 ms)",
+        "rows": [
+          "PASS Consolidation vs Gibson (1958), T = 0.14.32e-6 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact solut",
+          "PASS Consolidation vs Gibson (1958), T = 18.10e-5 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact solutio",
+          "PASS Consolidation vs Gibson (1958), T = 101.41e-4 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact soluti",
+          "PASS Drained sand porosity at 2 km vs Sclater & Christie (1980)0.00439 (limit 0.02 porosity)Engine porosity at 2 km burial against 0.286 from the published curv",
+          "PASS Drained mud porosity at 2 km vs Sclater & Christie (1980)0.0179 (limit 0.02 porosity)Engine porosity at 2 km burial against 0.227 from the published curve,",
+          "PASS Mass balance, sand only2.66e-15 (limit 1.00e-9 relative)Sand stored in the record against sand supplied minus sand removed, over a 1 Myr coupled run.Source",
+          "PASS Mass balance, mud only1.58e-15 (limit 1.00e-9 relative)Mud stored in the record against mud supplied minus mud removed, over a 1 Myr coupled run.Source: Pr",
+          "PASS Rewind is bit-identical0 (limit 1 differences)Record restored from a saved state and replayed to step 63 against the same step of an uninterrupted run (0 =",
+          "PASS Infinite-slope FS, 6° slope, 25° friction, r_u 0.52.00e-16 (limit 1.00e-12 relative)Engine FS 2.2183 against tan(25°)/tan(6°) × (1 − 0.5) = 2.2183.Source: ",
+          "PASS FS crosses 1 at r_u = 1 − tan(β)/tan(φ) (6°, 25°)2.22e-16 (limit 1.00e-12 FS)Hand value r_u = 0.7746; the engine gives FS = 1.000000 there, 1.222 at r_u − ",
+          "PASS Bingham plug thickness h_p = τ_y / (ρ′ g sin θ), 5° slope1.14e-16 (limit 1.00e-9 relative)Hand h_p = 3.899 m for a flow 3 × h_p thick (engine plug 3.899 m,",
+          "PASS Mass balance through a slope failure, sand1.62e-16 (limit 1.00e-12 relative)1 event(s) on a 0.15 slope at r_u 0.8: sand before = sand after + sand that ran",
+          "PASS Mass balance through a slope failure, mud1.62e-16 (limit 1.00e-12 relative)Same event(s): mud before = mud after + mud that ran off the end (1440000 m² in "
+        ]
+      },
+      "toggleOff": true,
+      "noEventsMsg": "Slope failure is off. Turn it on under Controls (it restarts the run), or pick the “Overpressured slope (MTD-prone)” preset."
+    },
+    "mtdToggleOn": true,
+    "eventRows": [
+      "1 2.485 rapid loading 47 110 0.033 4.5",
+      "2 2.485 rapid loading 47 55 0.017 2.3",
+      "3 2.430 rapid loading 49 137 0.042 7.8",
+      "4 2.065 rapid loading 52 73 0.022 2.8",
+      "5 2.065 rapid loading 52 46 0.014 1.6",
+      "6 2.065 rapid loading 52 35 0.011 0.4",
+      "7 0.880 rapid loading 73–74 915 0.292 15.1",
+      "8 0.880 rapid loading 73 50 0.015 0.8",
+      "9 0.880 rapid loading 73–74 731 0.239 11.3",
+      "10 0.880 rapid loading 72 144 0.044 3.5",
+      "11 0.880 rapid loading 77 52 0.016 0.2",
+      "12 0.875 rapid loading 74 219 0.067 3.5",
+      "13 0.745 rapid loading 76 153 0.047 4.5",
+      "14 0.735 rapid loading (stalled) 78 40 0.012 0.0",
+      "15 0.645 rapid loading 80–81 678 0.219 11.5",
+      "16 0.645 rapid loading (stalled) 86 41 0.013 0.0",
+      "17 0.630 oversteepening 83 724 0.221 9.8",
+      "18 0.630 rapid loading 82 225 0.069 5.3",
+      "19 0.630 rapid loading 82 118 0.036 2.5",
+      "20 0.630 rapid loading 82–83 690 0.229 7.7",
+      "21 0.630 rapid loading 82–83 90 0.052 0.0",
+      "22 0.625 rapid loading 90 121 0.037 0.6",
+      "23 0.625 rapid loading (stalled) 90 43 0.013 0.0",
+      "24 0.625 rapid loading 83 207 0.063 2.6",
+      "25 0.625 oversteepening 82 322 0.098 5.5",
+      "26 0.625 oversteepening 85–86 220 0.131 4.0",
+      "27 0.620 rapid loading (stalled) 86 75 0.023 0.3",
+      "28 0.620 rapid loading 90 174 0.053 1.5",
+      "29 0.620 rapid loading (stalled) 90 44 0.014 0.0",
+      "30 0.615 rapid loading (stalled) 86 89 0.027 0.3",
+      "31 0.145 rapid loading 93 54 0.016 1.1",
+      "32 0.145 rapid loading (stalled) 93 39 0.012 0.3",
+      "33 0.135 oversteepening 95–96 969 0.319 13.7",
+      "34 0.135 rapid loading 94 91 0.028 0.9",
+      "35 0.135 rapid loading (stalled) 94–95 62 0.033 0.2",
+      "36 0.020 oversteepening 98 712 0.217 8.3",
+      "37 0.020 rapid loading (stalled) 98 98 0.030 0.0"
+    ],
+    "eventCountHeader": "37 events, 9 stalled; 10 unresolved columnsⓘ",
+    "eventDetails": [
+      "no steepening; pressure rise: effective stress fell to 15% of its earlier value; sea-level fall 45.8 m",
+      "no steepening; pressure rise: effective stress fell to 30% of its earlier value; sea-level fall 45.8 m",
+      "steepening ×1.51 in the last 4 steps; pressure rise: effective stress fell to 36% of its earlier value; sea-level fall 33.1 m",
+      "no steepening; pressure rise: effective stress fell to 4% of its earlier value; sea-level fall 26.6 m",
+      "no steepening; pressure rise: effective stress fell to 5% of its earlier value; sea-level fall 26.6 m",
+      "no steepening; pressure rise: effective stress fell to 7% of its earlier value; sea-level fall 26.6 m",
+      "no steepening; pressure rise: effective stress fell to 11% of its earlier value; sea-level fall 30.7 m",
+      "steepening ×2.66 in the last 4 steps; pressure rise: effective stress fell to 9% of its earlier value; sea-level fall 30.7 m",
+      "steepening ×2.12 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea-level fall 30.7 m",
+      "steepening ×1.31 in the last 4 steps; pressure rise: effective stress fell to 19% of its earlier value; sea-level fall 30.7 m",
+      "steepening ×1.30 in the last 4 steps; pressure rise: effective stress fell to 15% of its earlier value; sea-level fall 30.7 m",
+      "steepening ×1.64 in the last 4 steps; pressure rise: effective stress fell to 40% of its earlier value; sea-level fall 23.4 m",
+      "no steepening; pressure rise: effective stress fell to 15% of its earlier value; sea-level fall 38.5 m",
+      "steepening ×1.33 in the last 4 steps; pressure rise: effective stress fell to 32% of its earlier value; sea level rose 22.8 m failed but debris stayed: column unresolved ⓘ",
+      "no steepening; pressure rise: effective stress fell to 2% of its earlier value; sea-level fall 15.3 m",
+      "no steepening; pressure rise: effective stress fell to 5% of its earlier value; sea-level fall 15.3 m failed but debris stayed: column unresolved ⓘ",
+      "steepening ×2.72 in the last 4 steps; pressure rise: effective stress fell to 55% of its earlier value; sea-level fall 25.4 m",
+      "steepening ×2.72 in the last 4 steps; pressure rise: effective stress fell to 18% of its earlier value; sea-level fall 25.4 m",
+      "steepening ×2.66 in the last 4 steps; pressure rise: effective stress fell to 35% of its earlier value; sea-level fall 25.4 m",
+      "steepening ×1.41 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea-level fall 25.4 m",
+      "steepening ×2.39 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea-level fall 25.4 m",
+      "steepening ×1.26 in the last 4 steps; pressure rise: effective stress fell to 14% of its earlier value; sea-level fall 4.4 m",
+      "steepening ×1.02 in the last 4 steps; pressure rise: effective stress fell to 1% of its earlier value; sea-level fall 4.4 m failed but debris stayed: column unresolved ⓘ",
+      "steepening ×1.33 in the last 4 steps; pressure rise: effective stress fell to 58% of its earlier value; sea-level fall 4.4 m",
+      "steepening ×16.54 in the last 4 steps; no pressure rise; sea-level fall 4.4 m",
+      "steepening ×2.38 in the last 4 steps; no pressure rise; sea-level fall 4.4 m",
+      "steepening ×1.17 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea level rose 51.0 m failed but debris stayed: column unresolved ⓘ",
+      "steepening ×1.85 in the last 4 steps; pressure rise: effective stress fell to 17% of its earlier value; sea level rose 51.0 m",
+      "steepening ×1.45 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea level rose 51.0 m failed but debris stayed: column unresolved ⓘ",
+      "no steepening; pressure rise: effective stress fell to under 1% of its earlier value; sea level rose 91.2 m failed but debris stayed: column unresolved ⓘ",
+      "steepening ×1.12 in the last 4 steps; pressure rise: effective stress fell to 5% of its earlier value; sea-level fall 20.2 m",
+      "steepening ×1.08 in the last 4 steps; pressure rise: effective stress fell to 7% of its earlier value; sea-level fall 20.2 m failed but debris stayed: column unresolved ⓘ",
+      "steepening ×3.45 in the last 4 steps; pressure rise: effective stress fell to 51% of its earlier value; sea-level fall 7.2 m scar depth equals the search window (300 m, tuned) ⓘ",
+      "steepening ×2.21 in the last 4 steps; pressure rise: effective stress fell to 15% of its earlier value; sea-level fall 7.2 m",
+      "steepening ×3.39 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea-level fall 7.2 m failed but debris stayed: column unresolved ⓘ",
+      "steepening ×3.02 in the last 4 steps; pressure rise: effective stress fell to 59% of its earlier value; sea-level fall 37.3 m",
+      "steepening ×2.57 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea-level fall 37.3 m failed but debris stayed: column unresolved ⓘ"
+    ],
+    "stalledNotes": 9,
+    "windowNotes": 1,
+    "eventHeader": [
+      "#",
+      "Time (Ma)",
+      "Cause ⓘ",
+      "Source (km)",
+      "Scar (ft)",
+      "Volume (km²)",
+      "Run-out (km)"
+    ],
+    "eventHeading": null,
+    "nSteps": 600,
+    "mtdChecks": {
+      "summary": "ALL PASS (13/13, 604 ms)",
+      "rows": [
+        "PASS Consolidation vs Gibson (1958), T = 0.14.32e-6 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact solut",
+        "PASS Consolidation vs Gibson (1958), T = 18.10e-5 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact solutio",
+        "PASS Consolidation vs Gibson (1958), T = 101.41e-4 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact soluti",
+        "PASS Drained sand porosity at 2 km vs Sclater & Christie (1980)0.00439 (limit 0.02 porosity)Engine porosity at 2 km burial against 0.286 from the published curv",
+        "PASS Drained mud porosity at 2 km vs Sclater & Christie (1980)0.0179 (limit 0.02 porosity)Engine porosity at 2 km burial against 0.227 from the published curve,",
+        "PASS Mass balance, sand only2.66e-15 (limit 1.00e-9 relative)Sand stored in the record against sand supplied minus sand removed, over a 1 Myr coupled run.Source",
+        "PASS Mass balance, mud only1.58e-15 (limit 1.00e-9 relative)Mud stored in the record against mud supplied minus mud removed, over a 1 Myr coupled run.Source: Pr",
+        "PASS Rewind is bit-identical0 (limit 1 differences)Record restored from a saved state and replayed to step 63 against the same step of an uninterrupted run (0 =",
+        "PASS Infinite-slope FS, 6° slope, 25° friction, r_u 0.52.00e-16 (limit 1.00e-12 relative)Engine FS 2.2183 against tan(25°)/tan(6°) × (1 − 0.5) = 2.2183.Source: ",
+        "PASS FS crosses 1 at r_u = 1 − tan(β)/tan(φ) (6°, 25°)2.22e-16 (limit 1.00e-12 FS)Hand value r_u = 0.7746; the engine gives FS = 1.000000 there, 1.222 at r_u − ",
+        "PASS Bingham plug thickness h_p = τ_y / (ρ′ g sin θ), 5° slope1.14e-16 (limit 1.00e-9 relative)Hand h_p = 3.899 m for a flow 3 × h_p thick (engine plug 3.899 m,",
+        "PASS Mass balance through a slope failure, sand1.62e-16 (limit 1.00e-12 relative)1 event(s) on a 0.15 slope at r_u 0.8: sand before = sand after + sand that ran",
+        "PASS Mass balance through a slope failure, mud1.62e-16 (limit 1.00e-12 relative)Same event(s): mud before = mud after + mud that ran off the end (1440000 m² in "
+      ]
+    },
+    "controls": {
+      "total": 66,
+      "withoutSource": [
+        "preset"
+      ],
+      "kinds": {
+        "tuned": 51,
+        "cited": 9,
+        "to verify": 5
+      },
+      "newControls": [
+        [
+          "phiFric",
+          "to verify"
+        ],
+        [
+          "cohesion",
+          "to verify"
+        ],
+        [
+          "stabMaxDepth",
+          "tuned"
+        ],
+        [
+          "failOn",
+          "tuned"
+        ],
+        [
+          "failMaxCells",
+          "tuned"
+        ],
+        [
+          "failMaxIters",
+          "tuned"
+        ],
+        [
+          "runYield",
+          "tuned"
+        ],
+        [
+          "runViscosity",
+          "tuned"
+        ],
+        [
+          "runDensity",
+          "tuned"
+        ],
+        [
+          "mtdPhiMud",
+          "tuned"
+        ],
+        [
+          "failMinDepth",
+          "tuned"
+        ],
+        [
+          "failSlopeMin",
+          "tuned"
+        ],
+        [
+          "failLowstandDrop",
+          "tuned"
+        ],
+        [
+          "failRapidRate",
+          "tuned"
+        ]
+      ]
+    },
+    "modes": {
+      "grain": {
+        "w": 643,
+        "h": 360,
+        "nonWhiteSamples": 2323,
+        "distinctColours": 88,
+        "drawnMode": "grain"
+      },
+      "age": {
+        "w": 643,
+        "h": 360,
+        "nonWhiteSamples": 2323,
+        "distinctColours": 147,
+        "drawnMode": "age"
+      },
+      "phi": {
+        "w": 643,
+        "h": 360,
+        "nonWhiteSamples": 2323,
+        "distinctColours": 137,
+        "drawnMode": "phi"
+      },
+      "op": {
+        "w": 643,
+        "h": 360,
+        "nonWhiteSamples": 2323,
+        "distinctColours": 114,
+        "drawnMode": "op"
+      },
+      "temp": {
+        "w": 643,
+        "h": 360,
+        "nonWhiteSamples": 2323,
+        "distinctColours": 74,
+        "drawnMode": "temp"
+      },
+      "fs": {
+        "w": 643,
+        "h": 360,
+        "nonWhiteSamples": 2323,
+        "distinctColours": 39,
+        "drawnMode": "fs"
+      }
+    },
+    "legendFs": "0.25 (fails)\n4 (safe)\nlog scale, 1.0 in the middle, red below 1.2; flat seafloor (no driving stress) is blue. Dashed line: critical slip depth. Hatched = MTD.\nMTD (debris deposit)",
+    "seeks": [
+      {
+        "id": 1,
+        "row": "1 2.485 rapid loading 47 110 0.033 4.5",
+        "step": 103,
+        "timeText": "step 103 of 600 — 2.485 Ma (million years ago)",
+        "selected": "1"
+      },
+      {
+        "id": 2,
+        "row": "2 2.485 rapid loading 47 55 0.017 2.3",
+        "step": 103,
+        "timeText": "step 103 of 600 — 2.485 Ma (million years ago)",
+        "selected": "2"
+      },
+      {
+        "id": 3,
+        "row": "3 2.430 rapid loading 49 137 0.042 7.8",
+        "step": 114,
+        "timeText": "step 114 of 600 — 2.430 Ma (million years ago)",
+        "selected": "3"
+      },
+      {
+        "id": 4,
+        "row": "4 2.065 rapid loading 52 73 0.022 2.8",
+        "step": 187,
+        "timeText": "step 187 of 600 — 2.065 Ma (million years ago)",
+        "selected": "4"
+      },
+      {
+        "id": 5,
+        "row": "5 2.065 rapid loading 52 46 0.014 1.6",
+        "step": 187,
+        "timeText": "step 187 of 600 — 2.065 Ma (million years ago)",
+        "selected": "5"
+      },
+      {
+        "id": 6,
+        "row": "6 2.065 rapid loading 52 35 0.011 0.4",
+        "step": 187,
+        "timeText": "step 187 of 600 — 2.065 Ma (million years ago)",
+        "selected": "6"
+      },
+      {
+        "id": 7,
+        "row": "7 0.880 rapid loading 73–74 915 0.292 15.1",
+        "step": 424,
+        "timeText": "step 424 of 600 — 0.880 Ma (million years ago)",
+        "selected": "7"
+      },
+      {
+        "id": 8,
+        "row": "8 0.880 rapid loading 73 50 0.015 0.8",
+        "step": 424,
+        "timeText": "step 424 of 600 — 0.880 Ma (million years ago)",
+        "selected": "8"
+      },
+      {
+        "id": 9,
+        "row": "9 0.880 rapid loading 73–74 731 0.239 11.3",
+        "step": 424,
+        "timeText": "step 424 of 600 — 0.880 Ma (million years ago)",
+        "selected": "9"
+      },
+      {
+        "id": 10,
+        "row": "10 0.880 rapid loading 72 144 0.044 3.5",
+        "step": 424,
+        "timeText": "step 424 of 600 — 0.880 Ma (million years ago)",
+        "selected": "10"
+      },
+      {
+        "id": 11,
+        "row": "11 0.880 rapid loading 77 52 0.016 0.2",
+        "step": 424,
+        "timeText": "step 424 of 600 — 0.880 Ma (million years ago)",
+        "selected": "11"
+      },
+      {
+        "id": 12,
+        "row": "12 0.875 rapid loading 74 219 0.067 3.5",
+        "step": 425,
+        "timeText": "step 425 of 600 — 0.875 Ma (million years ago)",
+        "selected": "12"
+      },
+      {
+        "id": 13,
+        "row": "13 0.745 rapid loading 76 153 0.047 4.5",
+        "step": 451,
+        "timeText": "step 451 of 600 — 0.745 Ma (million years ago)",
+        "selected": "13"
+      },
+      {
+        "id": 14,
+        "row": "14 0.735 rapid loading (stalled) 78 40 0.012 0.0",
+        "step": 453,
+        "timeText": "step 453 of 600 — 0.735 Ma (million years ago)",
+        "selected": "14"
+      },
+      {
+        "id": 15,
+        "row": "15 0.645 rapid loading 80–81 678 0.219 11.5",
+        "step": 471,
+        "timeText": "step 471 of 600 — 0.645 Ma (million years ago)",
+        "selected": "15"
+      },
+      {
+        "id": 16,
+        "row": "16 0.645 rapid loading (stalled) 86 41 0.013 0.0",
+        "step": 471,
+        "timeText": "step 471 of 600 — 0.645 Ma (million years ago)",
+        "selected": "16"
+      },
+      {
+        "id": 17,
+        "row": "17 0.630 oversteepening 83 724 0.221 9.8",
+        "step": 474,
+        "timeText": "step 474 of 600 — 0.630 Ma (million years ago)",
+        "selected": "17"
+      },
+      {
+        "id": 18,
+        "row": "18 0.630 rapid loading 82 225 0.069 5.3",
+        "step": 474,
+        "timeText": "step 474 of 600 — 0.630 Ma (million years ago)",
+        "selected": "18"
+      },
+      {
+        "id": 19,
+        "row": "19 0.630 rapid loading 82 118 0.036 2.5",
+        "step": 474,
+        "timeText": "step 474 of 600 — 0.630 Ma (million years ago)",
+        "selected": "19"
+      },
+      {
+        "id": 20,
+        "row": "20 0.630 rapid loading 82–83 690 0.229 7.7",
+        "step": 474,
+        "timeText": "step 474 of 600 — 0.630 Ma (million years ago)",
+        "selected": "20"
+      },
+      {
+        "id": 21,
+        "row": "21 0.630 rapid loading 82–83 90 0.052 0.0",
+        "step": 474,
+        "timeText": "step 474 of 600 — 0.630 Ma (million years ago)",
+        "selected": "21"
+      },
+      {
+        "id": 22,
+        "row": "22 0.625 rapid loading 90 121 0.037 0.6",
+        "step": 475,
+        "timeText": "step 475 of 600 — 0.625 Ma (million years ago)",
+        "selected": "22"
+      },
+      {
+        "id": 23,
+        "row": "23 0.625 rapid loading (stalled) 90 43 0.013 0.0",
+        "step": 475,
+        "timeText": "step 475 of 600 — 0.625 Ma (million years ago)",
+        "selected": "23"
+      },
+      {
+        "id": 24,
+        "row": "24 0.625 rapid loading 83 207 0.063 2.6",
+        "step": 475,
+        "timeText": "step 475 of 600 — 0.625 Ma (million years ago)",
+        "selected": "24"
+      },
+      {
+        "id": 25,
+        "row": "25 0.625 oversteepening 82 322 0.098 5.5",
+        "step": 475,
+        "timeText": "step 475 of 600 — 0.625 Ma (million years ago)",
+        "selected": "25"
+      },
+      {
+        "id": 26,
+        "row": "26 0.625 oversteepening 85–86 220 0.131 4.0",
+        "step": 475,
+        "timeText": "step 475 of 600 — 0.625 Ma (million years ago)",
+        "selected": "26"
+      },
+      {
+        "id": 27,
+        "row": "27 0.620 rapid loading (stalled) 86 75 0.023 0.3",
+        "step": 476,
+        "timeText": "step 476 of 600 — 0.620 Ma (million years ago)",
+        "selected": "27"
+      },
+      {
+        "id": 28,
+        "row": "28 0.620 rapid loading 90 174 0.053 1.5",
+        "step": 476,
+        "timeText": "step 476 of 600 — 0.620 Ma (million years ago)",
+        "selected": "28"
+      },
+      {
+        "id": 29,
+        "row": "29 0.620 rapid loading (stalled) 90 44 0.014 0.0",
+        "step": 476,
+        "timeText": "step 476 of 600 — 0.620 Ma (million years ago)",
+        "selected": "29"
+      },
+      {
+        "id": 30,
+        "row": "30 0.615 rapid loading (stalled) 86 89 0.027 0.3",
+        "step": 477,
+        "timeText": "step 477 of 600 — 0.615 Ma (million years ago)",
+        "selected": "30"
+      },
+      {
+        "id": 31,
+        "row": "31 0.145 rapid loading 93 54 0.016 1.1",
+        "step": 571,
+        "timeText": "step 571 of 600 — 0.145 Ma (million years ago)",
+        "selected": "31"
+      },
+      {
+        "id": 32,
+        "row": "32 0.145 rapid loading (stalled) 93 39 0.012 0.3",
+        "step": 571,
+        "timeText": "step 571 of 600 — 0.145 Ma (million years ago)",
+        "selected": "32"
+      },
+      {
+        "id": 33,
+        "row": "33 0.135 oversteepening 95–96 969 0.319 13.7",
+        "step": 573,
+        "timeText": "step 573 of 600 — 0.135 Ma (million years ago)",
+        "selected": "33"
+      },
+      {
+        "id": 34,
+        "row": "34 0.135 rapid loading 94 91 0.028 0.9",
+        "step": 573,
+        "timeText": "step 573 of 600 — 0.135 Ma (million years ago)",
+        "selected": "34"
+      },
+      {
+        "id": 35,
+        "row": "35 0.135 rapid loading (stalled) 94–95 62 0.033 0.2",
+        "step": 573,
+        "timeText": "step 573 of 600 — 0.135 Ma (million years ago)",
+        "selected": "35"
+      },
+      {
+        "id": 36,
+        "row": "36 0.020 oversteepening 98 712 0.217 8.3",
+        "step": 596,
+        "timeText": "step 596 of 600 — 0.020 Ma (million years ago)",
+        "selected": "36"
+      },
+      {
+        "id": 37,
+        "row": "37 0.020 rapid loading (stalled) 98 98 0.030 0.0",
+        "step": 596,
+        "timeText": "step 596 of 600 — 0.020 Ma (million years ago)",
+        "selected": "37"
+      }
+    ],
+    "seekMismatchSelected": [],
+    "wellMtdCount": 1,
+    "defaultWithFailureOn": {
+      "rows": 0,
+      "noEvents": "No slope failure in this run."
+    },
+    "resourceEntries": []
+  },
+  "files": [
+    "m2-default-checks-page.png",
+    "m2-default-page.png",
+    "m2-event-list-page.png",
+    "m2-mtd-checks-page.png",
+    "m2-mtd-end-grain-canvas.png",
+    "m2-mtd-end-grain-page.png",
+    "m2-mtd-end-age-canvas.png",
+    "m2-mtd-end-age-page.png",
+    "m2-mtd-end-phi-canvas.png",
+    "m2-mtd-end-phi-page.png",
+    "m2-mtd-end-op-canvas.png",
+    "m2-mtd-end-op-page.png",
+    "m2-mtd-end-temp-canvas.png",
+    "m2-mtd-end-temp-page.png",
+    "m2-mtd-end-fs-canvas.png",
+    "m2-mtd-end-fs-page.png",
+    "m2-event1-selected-grain-canvas.png",
+    "m2-event1-selected-page.png",
+    "m2-event-mid-selected-grain-canvas.png",
+    "m2-event1-selected-fs-canvas.png",
+    "m2-well-mtd-page.png",
+    "m2-default-failure-on-page.png"
+  ],
+  "browserVersion": "Chrome/155.0.8059.40"
+}
