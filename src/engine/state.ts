@@ -62,6 +62,10 @@ export interface EngineState {
   diag: Diagnostics
   /** True when bundled deep compaction is on: cached loads of deep layers lag, so snapshots must store them. */
   lagLoads: boolean
+  /** Temperature at the middle of each cell, deg C (M1.4c). Derived, never stored in the record. */
+  temp: Float64Array
+  /** True when `temp` matches the record. False at creation and after a restore; step() rebuilds it. */
+  tempOk: boolean
 }
 
 function makeScratch(nx: number, nLayers: number): Scratch {
@@ -87,5 +91,7 @@ export function allocateEngine(rec: LayerRecord): EngineState {
     scratch: makeScratch(rec.nx, rec.capacity),
     diag: { stepIndex: 0, deficit: 0, clamps: 0, short: 0, shore: -1, shelfEdge: -1, tcShare: 0 },
     lagLoads: false,
+    temp: new Float64Array(cells),
+    tempOk: false,
   }
 }

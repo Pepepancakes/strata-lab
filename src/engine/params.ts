@@ -114,6 +114,46 @@ export const PARAMS: readonly ParamDef[] = [
     source: { kind: 'tuned', note: 'Numerical speed-up (M1.4b, not physics). Layers older than bundleAgeYr are consolidated once per N steps with the summed time. 1 = every layer every step. Always off in benchmark (linear) mode.' } },
   { key: 'bundleAgeYr', label: 'Deep compaction: age of the always-updated window', unit: 'yr', displayUnit: 'kyr', default: 500000, min: 50000, max: 5e6, startOnly: true,
     source: { kind: 'tuned', note: 'Numerical speed-up (M1.4b). Layers younger than this are updated every step. Only used when bundleEvery > 1.' } },
+
+  // ---- changing subsidence (M1.4c) ----
+  { key: 'subsMode', label: 'Subsidence history', unit: '-', displayUnit: '-', default: 'constant', min: null, max: null, startOnly: true, options: ['constant', 'thermal', 'history'],
+    source: { kind: 'cited', refId: 'mckenzie-1978', note: "'constant' = fixed rates (the default scenario; the rate values are tuned). 'thermal' = rate x exp(-t/tau), the McKenzie (1978) post-rift decay, t counted from the start of the run. 'history' = user piecewise factors (subsHistory)." } },
+  { key: 'subsTau', label: 'Thermal subsidence decay time', unit: 'yr', displayUnit: 'Myr', default: 62.8e6, min: 1e6, max: 500e6, startOnly: false,
+    source: { kind: 'cited', refId: 'mckenzie-1978', note: 'tau about 62.8 Myr (lithosphere thermal time constant). Only used when subsMode is thermal.' } },
+  { key: 'subsHistory', label: 'Subsidence history (piecewise factors)', unit: 'Ma, -', displayUnit: 'Ma, -', default: [], min: [], max: [], startOnly: true, components: [],
+    source: { kind: 'tuned', note: 'Flat list [ageMa0, factor0, ageMa1, factor1, ...], ages strictly decreasing. Factor i multiplies the subsidence rates from age i until age i+1 (the first factor also applies before age 0, the last until the present). Only used when subsMode is history. User-supplied, so tuned.' } },
+
+  // ---- temperature (M1.4c) ----
+  { key: 'thermal', label: 'Temperature on (1) / off (0)', unit: '-', displayUnit: '-', default: 0, min: 0, max: 1, startOnly: true,
+    source: { kind: 'tuned', note: 'Off switch, OFF by default so the default run stays bit-identical to M1.4b (golden parity). Steady conduction only: transient cooling by rapid burial is ignored.' } },
+  { key: 'thermalEvery', label: 'Temperature and cement: update every N steps', unit: 'steps', displayUnit: 'steps', default: 5, min: 1, max: 50, startOnly: true,
+    source: { kind: 'tuned', note: 'Numerical saving (M1.4c, not physics). The temperature field changes slowly, so it is recomputed every N steps and at the last step; cement integrates over the whole interval with temperature linear in time. Presets with bundled compaction use the same N.' } },
+  { key: 'heatFlow', label: 'Basal heat flow', unit: 'W/m^2', displayUnit: 'mW/m^2', default: 0.040, min: 0.02, max: 0.12, startOnly: false,
+    source: { kind: 'cited', refId: 'jones-2003-gom-heatflow', note: 'About 40 mW/m^2 is the regional background of the north-central Gulf slope; the Gulf ranges from <20 to ~100 mW/m^2. Quoted from an abstract, not checked against the thesis (to verify).' } },
+  { key: 'kGrain', label: 'Grain thermal conductivity', unit: 'W/m/K', displayUnit: 'W/m/K', default: [7.7, 2.5], min: [5, 1.5], max: [9, 4], startOnly: false, components: SM,
+    source: { kind: 'to-verify', refId: 'clauser-huenges-1995', note: 'Sand: quartz, about 7.7 (to verify). Mud: 2.5 is a clay-mineral mix chosen so that deep mud gives about 1 F/100 ft at 40 mW/m^2 (tuned).' } },
+  { key: 'kWater', label: 'Pore-water thermal conductivity', unit: 'W/m/K', displayUnit: 'W/m/K', default: 0.6, min: 0.55, max: 0.75, startOnly: false,
+    source: { kind: 'to-verify', refId: 'woodside-messmer-1961', note: 'About 0.6 at 20 C; its temperature dependence is ignored. Bulk conductivity is the geometric mean of grains and water (Woodside & Messmer 1961).' } },
+  { key: 'tSeaDeep', label: 'Deep-water seafloor temperature', unit: 'deg C', displayUnit: 'deg F', default: 4, min: 0, max: 10, startOnly: false,
+    source: { kind: 'to-verify', note: 'Bottom water below about 1000 m in the Gulf is near 4 C. Not checked against a source.' } },
+  { key: 'tSeaShallow', label: 'Shelf / land surface temperature', unit: 'deg C', displayUnit: 'deg F', default: 20, min: 0, max: 30, startOnly: false,
+    source: { kind: 'tuned', note: 'Surface temperature at zero water depth (shelf bottom water and coastal plain).' } },
+  { key: 'tSeaScale', label: 'Seafloor temperature e-folding depth', unit: 'm', displayUnit: 'ft', default: 300, min: 50, max: 2000, startOnly: false,
+    source: { kind: 'tuned', note: 'Seafloor T = tSeaDeep + (tSeaShallow - tSeaDeep) exp(-water depth / this). A smooth stand-in for the thermocline.' } },
+
+  // ---- quartz cement in sands (M1.4c) ----
+  { key: 'cement', label: 'Quartz cement on (1) / off (0)', unit: '-', displayUnit: '-', default: 0, min: 0, max: 1, startOnly: true,
+    source: { kind: 'tuned', note: 'Off switch. Needs temperature on. Cement is silica from outside the model (own mass-balance line).' } },
+  { key: 'cemA', label: 'Quartz precipitation rate prefactor', unit: 'mol/m^2/s', displayUnit: 'mol/m^2/s', default: 1.98e-18, min: 1e-19, max: 5e-18, startOnly: false,
+    source: { kind: 'cited', refId: 'walderhaug-1994', note: 'r = a 10^(b T): a = 1.98e-22 mol/cm^2/s = 1.98e-18 mol/m^2/s (Walderhaug 1994; Walderhaug 1996 uses about 2e-22).' } },
+  { key: 'cemB', label: 'Quartz precipitation temperature coefficient', unit: '1/deg C', displayUnit: '1/deg C', default: 0.022, min: 0.018, max: 0.023, startOnly: false,
+    source: { kind: 'cited', refId: 'walderhaug-1994', note: 'b = 0.022 per deg C; Walderhaug (1996) varied it from 0.018 to 0.023.' } },
+  { key: 'cemTonset', label: 'Temperature where cementation starts', unit: 'deg C', displayUnit: 'deg F', default: 70, min: 60, max: 90, startOnly: false,
+    source: { kind: 'cited', refId: 'walderhaug-1996', note: 'Quartz cementation is significant from about 70-80 C (card brief, Walderhaug 1996). Below this the rate is set to zero.' } },
+  { key: 'cemGrain', label: 'Sand grain diameter (cement surface area)', unit: 'm', displayUnit: 'mm', default: 2e-4, min: 5e-5, max: 1e-3, startOnly: false,
+    source: { kind: 'tuned', note: 'Fine sand, 0.2 mm. Sets the quartz surface area A = 6 (1 - phi) f / d; synthetic.' } },
+  { key: 'cemSurf', label: 'Share of grain surface that is clean quartz', unit: '-', displayUnit: '-', default: 0.7, min: 0.05, max: 1, startOnly: false,
+    source: { kind: 'tuned', refId: 'walderhaug-1996', note: 'Detrital quartz share times the share not covered by clay or mica coats (Walderhaug 1996 treats these as inputs). Synthetic.' } },
 ]
 
 const BY_KEY = new Map(PARAMS.map((p) => [p.key, p]))

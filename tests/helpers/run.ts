@@ -84,7 +84,7 @@ export function wellPorosity(eng: EngineState, P: EngineParams, j: number, binM 
     const i = l * rec.nx + j
     const b = cellBulk(eng, P, i)
     if (b <= 0) continue
-    const s = rec.sand[i] + rec.mud[i]
+    const s = rec.sand[i] + rec.mud[i] + rec.cem[i] // cement fills pores: it counts as solid for total porosity
     const z1 = z + b
     for (let k = Math.floor(z / binM); k < nBins && k * binM < z1; k++) {
       const frac = (Math.min(z1, (k + 1) * binM) - Math.max(z, k * binM)) / b

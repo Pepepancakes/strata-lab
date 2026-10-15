@@ -19,7 +19,7 @@
 
 import * as K from './constants'
 import type { EngineParams } from './engineParams'
-import { SALT as SALT_TAG } from './record'
+import { SALT as SALT_TAG, type LayerRecord } from './record'
 import type { EngineState } from './state'
 import { thomas } from './thomas'
 import { routeTurbidites, turbiditeShare } from './turbidites'
@@ -45,6 +45,14 @@ function surfComp(eng: EngineState, j: number, top: number): void {
   S.aT[j] = s + m
 }
 
+/** Eroded sand takes its share of quartz cement with it (leaves the model, M1.4c). */
+function shedCement(rec: LayerRecord, i: number, fraction: number): void {
+  const c = rec.cem[i] * fraction
+  rec.cem[i] -= c
+  rec.ledger.cumOut.cement += c * rec.dx
+  if (fraction >= 1) rec.cemS[i] = 0
+}
+
 /** Remove `amount` of solid of one grain size from the top of a column; returns bulk removed. */
 function erode(eng: EngineState, j: number, lith: number, amount: number, top: number): number {
   const rec = eng.rec
@@ -59,6 +67,7 @@ function erode(eng: EngineState, j: number, lith: number, amount: number, top: n
     if (a <= 0) continue
     const take = a < need ? a : need
     arr[i] = a - take
+    if (lith === SAND && rec.cem[i] > 0) shedCement(rec, i, take / a)
     need -= take
     bulk += take / (1 - (lith === SAND ? eng.phs[i] : eng.phm[i]))
   }
@@ -200,6 +209,7 @@ export function transportSubstep(eng: EngineState, P: EngineParams, sl: number, 
           const ts = s * fr, tm = m * fr
           sand[i] = s - ts
           mud[i] = m - tm
+          if (rec.cem[i] > 0) shedCement(rec, i, fr)
           H[j] -= ts / (1 - eng.phs[i]) + tm / (1 - eng.phm[i])
           oS += ts
           oM += tm

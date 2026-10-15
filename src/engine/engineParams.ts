@@ -51,6 +51,31 @@ export interface EngineParams {
   bundleEvery: number
   /** Layers younger than this (years) are updated every step. */
   bundleAgeYr: number
+  /** Subsidence history: fixed rates, McKenzie thermal decay, or user piecewise factors. */
+  subsMode: 'constant' | 'thermal' | 'history'
+  /** Thermal-decay time constant, yr. */
+  subsTau: number
+  /** Flat [ageMa, factor, ...] list for subsMode 'history'. */
+  subsHistory: number[]
+  /** 1 = temperature on. */
+  thermal: number
+  /** Temperature and cement are updated once per this many steps (and at the last step). */
+  thermalEvery: number
+  /** Basal heat flow, W/m^2. */
+  heatFlow: number
+  /** Grain conductivity [sand, mud], W/m/K. */
+  kGrain: Pair
+  kWater: number
+  tSeaDeep: number
+  tSeaShallow: number
+  tSeaScale: number
+  /** 1 = quartz cement on (needs thermal). */
+  cement: number
+  cemA: number
+  cemB: number
+  cemTonset: number
+  cemGrain: number
+  cemSurf: number
 }
 
 /** Fresh copy of the registry defaults, typed. */

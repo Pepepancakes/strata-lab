@@ -124,7 +124,7 @@ describe('long-run capacity and memory', () => {
     expect(rec.stepAgeMa[capacity - 1]).toBe(0)
     expect(rec.tDep[(capacity - 1) * 400]).toBe(66e6)
     const actual =
-      rec.sand.byteLength + rec.mud.byteLength + rec.smax.byteLength + rec.u.byteLength + rec.tDep.byteLength + rec.material.byteLength +
+      rec.sand.byteLength + rec.mud.byteLength + rec.smax.byteLength + rec.u.byteLength + rec.tDep.byteLength + rec.cem.byteLength + rec.cemS.byteLength + rec.material.byteLength +
       rec.stepDt.byteLength + rec.stepAgeMa.byteLength + rec.b.byteLength + rec.H.byteLength
     expect(actual).toBe(bytes)
   })

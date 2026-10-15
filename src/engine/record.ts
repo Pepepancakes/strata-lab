@@ -7,6 +7,10 @@
 //   u           excess pore pressure state, Pa (spike's `u`)
 //   tDep        deposition time, ELAPSED years since the run started (end of the record step)
 //   material    Uint8 tag per cell: SEDIMENT (0) or SALT (1)
+//   cem         quartz cement in the cell, solid m (M1.4c). Silica from OUTSIDE the model: it fills sand
+//               pore space (thickness does not change) and has its own ledger line.
+//   cemS        effective stress (Pa) at which the sand framework froze when cementation began;
+//               0 = not cemented. Sand porosity stops following stress above this (Walderhaug 1996).
 // Per column: b = basement elevation, H = surface elevation (m).
 // Per layer:  stepDt = duration of that record step (yr), stepAgeMa = age at its END (Ma).
 //
@@ -23,7 +27,7 @@
 // Cached porosities and permeabilities from the spike are NOT stored here; they are derived
 // from smax and recomputed on restore.
 //
-// Memory: 5 Float64 arrays + 1 Uint8 array of capacity * nx cells. 400 columns x 1,300 layers
+// Memory: 7 Float64 arrays + 1 Uint8 array of capacity * nx cells. 400 columns x 1,300 layers
 // is about 21 MB (tests report this).
 
 export const SEDIMENT = 0
@@ -34,6 +38,8 @@ export interface ClassVolumes {
   sand: number
   mud: number
   salt: number
+  /** Quartz cement (M1.4c): gained from outside the model, so it has its own line. */
+  cement: number
 }
 
 /** Running totals the solvers update. The balance compares them with what is stored. */
@@ -57,6 +63,8 @@ export interface LayerRecord {
   smax: Float64Array
   u: Float64Array
   tDep: Float64Array
+  cem: Float64Array
+  cemS: Float64Array
   material: Uint8Array
   stepDt: Float64Array
   stepAgeMa: Float64Array
@@ -65,7 +73,7 @@ export interface LayerRecord {
 
 /** Field names, in the fixed order used by hash, snapshot and serialisation. */
 export const COLUMN_FIELDS = ['b', 'H'] as const
-export const CELL_FLOAT_FIELDS = ['sand', 'mud', 'smax', 'u', 'tDep'] as const
+export const CELL_FLOAT_FIELDS = ['sand', 'mud', 'smax', 'u', 'tDep', 'cem', 'cemS'] as const
 export const LAYER_FIELDS = ['stepDt', 'stepAgeMa'] as const
 
 export const MAX_COLUMNS = 400
@@ -79,8 +87,8 @@ export interface RecordOptions {
   startAgeMa: number
 }
 
-export const zeroVolumes = (): ClassVolumes => ({ sand: 0, mud: 0, salt: 0 })
-export const copyVolumes = (v: ClassVolumes): ClassVolumes => ({ sand: v.sand, mud: v.mud, salt: v.salt })
+export const zeroVolumes = (): ClassVolumes => ({ sand: 0, mud: 0, salt: 0, cement: 0 })
+export const copyVolumes = (v: ClassVolumes): ClassVolumes => ({ sand: v.sand, mud: v.mud, salt: v.salt, cement: v.cement })
 export const copyLedger = (l: Ledger): Ledger => ({
   cumIn: copyVolumes(l.cumIn),
   cumOut: copyVolumes(l.cumOut),
@@ -90,7 +98,7 @@ export const copyLedger = (l: Ledger): Ledger => ({
 /** Bytes used by a record of this size (typed arrays only). */
 export function recordBytes(nx: number, capacity: number): number {
   const cells = nx * capacity
-  return cells * (5 * 8 + 1) + capacity * 2 * 8 + nx * 2 * 8
+  return cells * (7 * 8 + 1) + capacity * 2 * 8 + nx * 2 * 8
 }
 
 export function createRecord(opts: RecordOptions): LayerRecord {
@@ -111,6 +119,8 @@ export function createRecord(opts: RecordOptions): LayerRecord {
     smax: new Float64Array(cells),
     u: new Float64Array(cells),
     tDep: new Float64Array(cells),
+    cem: new Float64Array(cells),
+    cemS: new Float64Array(cells),
     material: new Uint8Array(cells),
     stepDt: new Float64Array(capacity),
     stepAgeMa: new Float64Array(capacity),
@@ -143,11 +153,13 @@ export function storedVolumes(rec: LayerRecord): ClassVolumes {
     else {
       out.sand += rec.sand[i]
       out.mud += rec.mud[i]
+      out.cement += rec.cem[i]
     }
   }
   out.sand *= rec.dx
   out.mud *= rec.dx
   out.salt *= rec.dx
+  out.cement *= rec.dx
   return out
 }
 
@@ -176,7 +188,7 @@ export function recordBalance(rec: LayerRecord): RecordBalance {
     const scale = cumIn[key] > 0 ? cumIn[key] : init[key]
     return { stored, expected, error, relError: scale > 0 ? error / scale : 0 }
   }
-  return { sand: one('sand'), mud: one('mud'), salt: one('salt') }
+  return { sand: one('sand'), mud: one('mud'), salt: one('salt'), cement: one('cement') }
 }
 
 // ---- serialisation -------------------------------------------------------
@@ -184,7 +196,7 @@ export function recordBalance(rec: LayerRecord): RecordBalance {
 // array in the fixed order above. Only layers 0..nLayers-1 are written.
 
 const FORMAT = 'strata-record'
-const VERSION = 1
+const VERSION = 2 // 2: added cem and cemS (M1.4c)
 
 export function serialiseRecord(rec: LayerRecord): Uint8Array {
   const header = new TextEncoder().encode(

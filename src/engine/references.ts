@@ -58,6 +58,39 @@ export const REFERENCES: readonly Reference[] = [
     full: 'Yang, Y. & Aplin, A.C. (2010). A permeability-porosity relationship for mudstones. Mar. Pet. Geol. 27, 1692-1697.',
   },
   {
+    id: 'mckenzie-1978',
+    short: 'McKenzie (1978)',
+    full: 'McKenzie, D. (1978). Some remarks on the development of sedimentary basins. Earth Planet. Sci. Lett. 40, 25-32.',
+  },
+  {
+    id: 'walderhaug-1994',
+    short: 'Walderhaug (1994)',
+    full: 'Walderhaug, O. (1994). Precipitation rates for quartz cement in sandstones determined by fluid-inclusion microthermometry and temperature-history modeling. J. Sediment. Res. A64(2), 324-333. Rate r = 1.98e-22 x 10^(0.022 T) mol/cm2/s, T in deg C (as quoted in Walderhaug\'s discussion of Osborne & Haszeldine 1993, Mar. Pet. Geol.).',
+  },
+  {
+    id: 'walderhaug-1996',
+    short: 'Walderhaug (1996)',
+    full: 'Walderhaug, O. (1996). Kinetic modeling of quartz cementation and porosity loss in deeply buried sandstone reservoirs. AAPG Bull. 80(5), 731-745.',
+  },
+  {
+    id: 'jones-2003-gom-heatflow',
+    short: 'Jones (2003)',
+    full: 'Jones, M. (2003). The regional geothermal heat flow regime of the north-central Gulf of Mexico continental slope. M.S. thesis, Texas Tech University (abstract: regional background heat flow of about 40 mW/m2). See also Nagihara, S. & Smith, M.A. (2008), Regional overview of deep sedimentary thermal gradients of the geopressured zone of the Texas-Louisiana continental shelf, AAPG Bull. (Gulf heat flow from <20 to ~100 mW/m2).',
+    toVerify: true,
+  },
+  {
+    id: 'woodside-messmer-1961',
+    short: 'Woodside & Messmer (1961)',
+    full: 'Woodside, W. & Messmer, J.H. (1961). Thermal conductivity of porous media. J. Appl. Phys. 32, 1688-1706 (geometric-mean mixing of grain and pore-fluid conductivity).',
+    toVerify: true,
+  },
+  {
+    id: 'clauser-huenges-1995',
+    short: 'Clauser & Huenges (1995)',
+    full: 'Clauser, C. & Huenges, E. (1995). Thermal conductivity of rocks and minerals. In: Rock Physics and Phase Relations, AGU Ref. Shelf 3, 105-126 (quartz about 7.7 W/m/K, water about 0.6 W/m/K).',
+    toVerify: true,
+  },
+  {
     id: 'miller-2005',
     short: 'Miller et al. (2005)',
     full: 'Miller, K.G. et al. (2005). The Phanerozoic record of global sea-level change. Science 310, 1293-1298.',

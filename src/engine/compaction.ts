@@ -11,6 +11,7 @@
 //   Solved implicitly (backward Euler, tridiagonal), free drainage at the top, no flow at the base.
 // Assumptions: 1D vertical flow; sand and mud share one cell as an effective mix; load is
 //   buoyant (hydrostatic removed); no chemical compaction.
+// Cemented sand (M1.4c, cement.ts): the sand framework stops compacting (setPor); no chemical compaction of mud.
 // Salt (material = SALT) is skipped: it neither compacts nor adds load in M1 (salt flow is M3).
 // Benchmarks: Gibson (1958) for u; drained porosity vs Sclater & Christie (1980) at 2 km.
 // Parameter sources: see params.ts (phi0, beta cited; permeability and elastic tuned).
@@ -46,11 +47,22 @@ export function setPor(eng: EngineState, P: EngineParams, i: number, sig: number
   // Inlined copy of porosity() and perm() (same arithmetic, so same bits): this runs ~14 million
   // times in a 3 Myr run and the function calls were the largest avoidable cost.
   const s = sig > 0 ? sig : 0
-  const a = P.phi0[SAND] * Math.exp(-P.beta[SAND] * s)
+  // A cemented sand framework stops compacting (Walderhaug 1996): its stress is capped at the
+  // value frozen when cementation began (rec.cemS, 0 = not cemented). Not cemented: same bits as before.
+  const rec = eng.rec
+  const cap = rec.cemS[i]
+  const sS = cap > 0 && s > cap ? cap : s
+  const a = P.phi0[SAND] * Math.exp(-P.beta[SAND] * sS)
   const b = P.phi0[MUD] * Math.exp(-P.beta[MUD] * s)
   eng.phs[i] = a
   eng.phm[i] = b
-  eng.kps[i] = Math.pow(10, P.kA[SAND] + P.kB[SAND] * a)
+  // permeability of cemented sand follows its porosity net of cement
+  let pe = a
+  if (rec.cem[i] > 0) {
+    pe = a - (rec.cem[i] * (1 - a)) / rec.sand[i]
+    if (!(pe > 0)) pe = 0
+  }
+  eng.kps[i] = Math.pow(10, P.kA[SAND] + P.kB[SAND] * pe)
   let lk = P.kA[MUD] + P.kB[MUD] * b
   if (P.kMudMult !== 1) lk += Math.log10(P.kMudMult)
   eng.kpm[i] = Math.pow(10, lk)

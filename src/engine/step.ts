@@ -7,6 +7,7 @@
 // Columns are processed in index order, layers bottom to top: a fixed order, so runs reproduce.
 
 import { MUD, SAND } from './constants'
+import { cementCell } from './cement'
 import { rebuildCaches, compactColumn, recomputeH, setPor, voidRatio } from './compaction'
 import { restore as restoreRecord, snapshot as snapshotRecord, type Snapshot } from './determinism'
 import type { EngineParams } from './engineParams'
@@ -15,6 +16,7 @@ import type { Schedule } from './schedule'
 import type { SeaLevelCurve } from './sealevel'
 import { subside } from './subsidence'
 import { allocateEngine, type Diagnostics, type EngineState } from './state'
+import { columnTemperatures, computeTemperatures } from './thermal'
 import { transportSubstep } from './transport'
 
 // initial surface: coastal plain, shelf, slope, basin floor (x in m, elevation in m); synthetic
@@ -85,14 +87,50 @@ export function step(eng: EngineState, P: EngineParams, schedule: Schedule, seaL
   const dtRec = schedule.stepDt[k]
   const t0 = schedule.tStartYr[k]
   const k1 = appendLayer(rec, dtRec, schedule.stepAgeMa[k], schedule.tEndYr[k])
-  subside(rec, P, dtRec)
+  const thermalOn = P.thermal === 1
+  if (thermalOn && !eng.tempOk) computeTemperatures(eng, P, seaLevel(t0)) // start-of-step temperatures (first step, or after a restore)
+  subside(rec, P, dtRec, t0, schedule.startAgeMa * 1e6)
   const op = k1 * nx
   for (let j = 0; j < nx; j++) setPor(eng, P, op + j, 0)
   const dt = dtRec / P.nSub
   for (let s = 0; s < P.nSub; s++) transportSubstep(eng, P, seaLevel(t0 + (s + 0.5) * dt), dt)
   compactStep(eng, P, schedule, k, k1)
+  if (thermalOn && ((k + 1) % P.thermalEvery === 0 || k === schedule.nSteps - 1)) thermalStep(eng, P, schedule, k, k1, seaLevel(schedule.tEndYr[k]))
   eng.diag.stepIndex = k + 1
   return true
+}
+
+/**
+ * Temperature and quartz cement (M1.4c), run every `thermalEvery` steps and at the last step (a
+ * numerical saving, like the bundling: the temperature field changes slowly). New temperatures of
+ * every cell come from the steady conduction of the NEW state (thermal.ts). Each sand cell then
+ * cements over the whole interval since the last update, its temperature rising linearly from the
+ * value at that update to the new one (exact integral, cement.ts). A cell deposited since the last
+ * update has no earlier value, so it starts at its new temperature.
+ * Columns and layers are visited in index order (fixed order, so runs reproduce).
+ */
+function thermalStep(eng: EngineState, P: EngineParams, schedule: Schedule, k: number, k1: number, sl: number): void {
+  const rec = eng.rec
+  const nx = rec.nx
+  const col = eng.scratch.hh
+  const kPrev = Math.floor(k / P.thermalEvery) * P.thermalEvery - 1 // step of the previous update (-1 = the start)
+  const dtYr = schedule.tEndYr[k] - (kPrev >= 0 ? schedule.tEndYr[kPrev] : 0)
+  const lastOld = kPrev + 1 // newest layer that existed at the previous update (layer 0 = substrate)
+  const cementOn = P.cement === 1
+  const onset = P.cemTonset
+  for (let j = 0; j < nx; j++) {
+    columnTemperatures(eng, P, j, k1 + 1, sl, col)
+    for (let l = 0; l <= k1; l++) {
+      const i = l * nx + j
+      const t1 = col[l]
+      if (cementOn) {
+        const t0 = l <= lastOld ? eng.temp[i] : t1
+        if (t1 > onset || t0 > onset) cementCell(eng, P, i, t0, t1, dtYr)
+      }
+      eng.temp[i] = t1
+    }
+  }
+  eng.tempOk = true
 }
 
 /**
@@ -128,11 +166,18 @@ export interface EngineSnapshot {
   diag: Diagnostics
   /** Cached loads, kept only when bundling is on (deep layers' loads lag and cannot be rebuilt). */
   ld?: Float64Array
+  /**
+   * Temperatures of the last thermal update (M1.4c). Kept whenever they exist: the next update
+   * integrates cement from THESE values, and the record may have moved on since, so they cannot be
+   * rebuilt from the restored record.
+   */
+  temp?: Float64Array
 }
 
 export function snapshotEngine(eng: EngineState): EngineSnapshot {
   const snap: EngineSnapshot = { record: snapshotRecord(eng.rec), diag: { ...eng.diag } }
   if (eng.lagLoads) snap.ld = eng.ld.slice(0, eng.rec.nLayers * eng.rec.nx)
+  if (eng.tempOk) snap.temp = eng.temp.slice(0, eng.rec.nLayers * eng.rec.nx)
   return snap
 }
 
@@ -140,6 +185,9 @@ export function snapshotEngine(eng: EngineState): EngineSnapshot {
 export function restoreEngine(snap: EngineSnapshot, eng: EngineState, P: EngineParams): void {
   restoreRecord(snap.record, eng.rec)
   eng.diag = { ...snap.diag }
+  eng.temp.fill(0)
+  if (snap.temp) eng.temp.set(snap.temp)
+  eng.tempOk = snap.temp !== undefined // otherwise rebuilt from the restored record at the next step
   rebuildCaches(eng, P)
   if (snap.ld) {
     eng.ld.fill(0)
