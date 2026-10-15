@@ -202,7 +202,9 @@ describe('presets: speed, memory, balance, shelf edge', () => {
     return mToFt(m)
   }
   const cases = [
-    { id: 'miocene' as const, limitMs: 3000 },
+    // Wall-clock gate, not physics. Measured 2.3 s in the built app and 3.0 to 3.1 s in a full test run
+    // on the dev machine, so 3 s flaked (M1.9 review finding 3). 5 s still guards against real regressions.
+    { id: 'miocene' as const, limitMs: 5000 },
     { id: 'cenozoic' as const, limitMs: 5000 },
   ]
   for (const { id, limitMs } of cases) {
