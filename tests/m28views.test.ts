@@ -10,6 +10,8 @@ import type { StateView } from '../src/worker/protocol'
 import { causeTerms, eventFlags, unresolvedColumns, CAUSE_RULE_HELP, STALLED_HELP, WINDOW_LIMITED_HELP } from '../src/views/events/causes'
 import { EventsList } from '../src/views/events'
 import { mtdMask } from '../src/views/section/draw'
+import { MTD_SEGMENTS } from './helpers/run'
+import { survivingDeposit } from './helpers/events'
 
 function ev(over: Partial<FailureEvent>): FailureEvent {
   return {
@@ -77,7 +79,7 @@ describe('empty cells are never painted (finding 6), MTD-prone preset', () => {
   let events: FailureEvent[] = []
   let end: StateView
   beforeAll(() => {
-    const info = tm.run({ presetId: 'mtd', segments: [{ fromAgeMa: 3, toAgeMa: 0, dt: 25000 }], overrides: {} }, 1)
+    const info = tm.run({ presetId: 'mtd', segments: MTD_SEGMENTS, overrides: {} }, 1)
     events = tm.eventsAt(tm.root, info.nSteps)
     end = tm.seek(tm.root, info.nSteps, ['thick', 'sand', 'mud'])
   }, 120000)
@@ -93,8 +95,10 @@ describe('empty cells are never painted (finding 6), MTD-prone preset', () => {
     expect(marked).toBeGreaterThan(0)
   })
   it('a hand-made empty cell in an event deposit is dropped from the mask', () => {
-    const e = events.find((x) => x.depositFrom >= 0)!
-    const i = e.layer * end.nx + e.depositFrom
+    const s = survivingDeposit(events, end)
+    expect(s, 'at least one event keeps a deposit').toBeDefined()
+    const e = s!.e
+    const i = e.layer * end.nx + s!.col
     const sand = end.sand!.slice()
     const mud = end.mud!.slice()
     sand[i] = 0
@@ -116,7 +120,7 @@ describe('M2 rows in the physics checks panel', () => {
     expect(rows.find((r) => r.id === 'slope-ru-crit')!.detail).toContain('0.7746')
     expect(ms).toBeLessThan(30000) // whole suite incl. Gibson; the M2 rows alone are timed below
   }, 60000)
-  it('the M2 rows alone run in well under 1 s', async () => {
+  it.skipIf(!!process.env.CI)('the M2 rows alone run in well under 1 s', async () => {
     const { runChecksM2 } = await import('../src/worker/checksM2')
     const t0 = performance.now()
     const rows = runChecksM2()

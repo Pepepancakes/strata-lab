@@ -5,7 +5,8 @@ import { getPreset } from '../src/engine/presets'
 import { computeStability } from '../src/engine/stability'
 import { attributeCause, createHistory, recordHistory, referenceSlot, HIST_SLOTS, LOOKBACK_STEPS, type TriggerInput } from '../src/engine/triggers'
 import { TimeMachine } from '../src/worker/timeMachine'
-import { runFull, runPreset } from './helpers/run'
+import { MTD_SEGMENTS, runFull, runPreset } from './helpers/run'
+import { withUlpNoise } from './helpers/ulpNoise'
 
 const base: TriggerInput = {
   tanNow: 0.05,
@@ -151,9 +152,21 @@ describe('mtd preset', () => {
     expect(stateHash(again.eng.rec)).toBe(stateHash(run.eng.rec))
     expect(again.eng.events).toEqual(run.eng.events)
   }, 60000)
+  it('does not sit on a knife-edge: events survive 1 ulp changes in the maths library (D14, D16.4)', () => {
+    // Windows and Linux differ in the last bit of pow/exp/log. Measured on this preset at 5 kyr:
+    // 24 events unperturbed, 26 to 34 with 1 ulp to 1e-12 noise. Never 0, always inside the band.
+    // (At 25 kyr steps it made 0 to 4: that is why the view tests run it at 5 kyr.)
+    for (const [amp, salt] of [[2.2e-16, 1], [2.2e-16, 2], [1e-13, 3]]) {
+      const n = withUlpNoise(amp, salt, () => runPreset('mtd').eng.events.length)
+      expect(n, `amp ${amp} salt ${salt}`).toBeGreaterThanOrEqual(10)
+      expect(n, `amp ${amp} salt ${salt}`).toBeLessThanOrEqual(60)
+    }
+    expect(run.eng.events.length).toBeGreaterThanOrEqual(10)
+    expect(run.eng.events.length).toBeLessThanOrEqual(60)
+  }, 120000)
   it('a branch at 1 Ma with supply raised keeps the earlier events and changes the later ones', () => {
     const tm = new TimeMachine()
-    const info = tm.run({ presetId: 'mtd', segments: [{ fromAgeMa: 3, toAgeMa: 0, dt: 25000 }], overrides: {} }, 1)
+    const info = tm.run({ presetId: 'mtd', segments: MTD_SEGMENTS, overrides: {} }, 1)
     const fork = Math.round((info.nSteps * 2) / 3) // 2 Ma elapsed of 3 = 1 Ma
     const main = tm.eventsAt(tm.root, info.nSteps)
     const b = tm.branch(tm.root, fork, { supply: 45 })
@@ -169,7 +182,7 @@ describe('mtd preset', () => {
     const info = tm.run(
       {
         presetId: 'mtd',
-        segments: [{ fromAgeMa: 3, toAgeMa: 0, dt: 25000 }],
+        segments: MTD_SEGMENTS,
         overrides: {},
       },
       1,

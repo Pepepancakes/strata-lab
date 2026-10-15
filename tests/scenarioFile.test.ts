@@ -10,13 +10,15 @@ import {
 } from '../src/app/scenarioFile'
 import { replayScenario } from '../src/worker/scenarioReplay'
 import { TimeMachine } from '../src/worker/timeMachine'
+import { SUMMARY_TOL, compareSummaries, type RunSummary } from '../src/engine/summary'
+import { withUlpNoise } from './helpers/ulpNoise'
 
 const FIXTURE = 'tests/fixtures/scenario-v1.strata.json'
 const SMALL_GRID = { nx: 60, dx: 2500 }
 const segments = clipSegments(PRESETS.find((p) => p.id === 'last3')!.segments, 0.5) // 100 steps of 5 kyr
 
 /** A live scenario: main run, a branch with edits, a branch of that branch, and a deleted branch (so ids have a gap). */
-function liveScenario(): { src: ScenarioSource; hashes: Record<string, string> } {
+function liveScenario(): { src: ScenarioSource; hashes: Record<string, string>; summaries: Record<string, RunSummary> } {
   const tm = new TimeMachine()
   const overrides = { ...SMALL_GRID, duration: 0.5e6 }
   const info = tm.run({ presetId: 'last3', overrides, segments }, 1)
@@ -30,15 +32,18 @@ function liveScenario(): { src: ScenarioSource; hashes: Record<string, string> }
       branches: tm.list(),
     },
     hashes: tm.hashes(),
+    summaries: tm.summaries(),
   }
 }
 
 if (process.env.STRATA_WRITE_FIXTURE === '1') {
-  const { src, hashes } = liveScenario()
-  writeFileSync(FIXTURE, serializeScenario(buildScenarioFile(src, hashes)))
+  const { src, hashes, summaries } = liveScenario()
+  writeFileSync(FIXTURE, serializeScenario(buildScenarioFile(src, hashes, summaries)))
 }
 
 describe('scenario file', () => {
+  /** The hashes the file carries, by file branch id. */
+  const stored = (f: ScenarioFile): Record<string, string> => Object.fromEntries(f.branches.map((b) => [b.id, b.stateHash!]))
   it('round trip: save -> open gives identical hashes for every branch', () => {
     const { src, hashes } = liveScenario()
     expect(src.branches.map((b) => b.id)).toEqual(['b1', 'b2', 'b4']) // the deleted branch left a gap
@@ -67,28 +72,85 @@ describe('scenario file', () => {
     expect(text.length).toBeLessThan(5000)
   })
 
-  it('a committed v1 fixture loads and recomputes to its stored hashes', () => {
+  it('a committed v1 fixture loads and recomputes to its stored hashes (or, on another machine, to its stored summary numbers)', () => {
     const parsed = parseScenario(readFileSync(FIXTURE, 'utf8'))
     expect(parsed.ok).toBe(true)
     if (!parsed.ok) return
     expect(parsed.file.version).toBe(1)
     expect(parsed.file.branches.length).toBe(3)
     const r = replayScenario(new TimeMachine(), parsed.file)
-    const cmp = compareHashes(parsed.file, r.hashes, { nx: r.info.nx, dx: r.info.dx })
+    // The fixture was written on Windows. Same hash there; on Linux the hash may differ in the
+    // last bit of the maths, and the summary numbers must still agree within SUMMARY_TOL.
+    const cmp = compareHashes(parsed.file, r.hashes, { nx: r.info.nx, dx: r.info.dx }, r.summaries)
+    for (const b of parsed.file.branches) {
+      const diff = compareSummaries(b.summary!, r.summaries[b.id])
+      expect(diff, `${b.name}: ${r.hashes[b.id] === b.stateHash ? 'same hash' : 'hash differs (other maths library)'}`).toEqual([])
+    }
     expect(cmp.differing).toEqual([])
     expect(cmp.same).toBe(true)
   })
 
-  it('warns in plain words when a hash differs', () => {
+  it('warns in plain words when a hash differs and the summary numbers differ too', () => {
     const parsed = parseScenario(readFileSync(FIXTURE, 'utf8'))
     if (!parsed.ok) throw new Error('fixture')
     const r = replayScenario(new TimeMachine(), parsed.file)
-    const wrong = { ...r.hashes, b2: 'deadbeef' }
-    const cmp = compareHashes(parsed.file, wrong, { nx: r.info.nx, dx: r.info.dx })
+    const wrong = { ...stored(parsed.file), b2: 'deadbeef' } // other branches: hashes as stored, so this test reads the same on every machine
+    const moved = { ...r.summaries, b2: { ...r.summaries.b2, meanH: r.summaries.b2.meanH * 1.02 } } // a 2 % change in mean surface height
+    const cmp = compareHashes(parsed.file, wrong, { nx: r.info.nx, dx: r.info.dx }, moved)
     expect(cmp.same).toBe(false)
     expect(cmp.differing).toEqual(['More supply'])
     expect(cmp.message).toMatch(/different engine version; results differ/)
     expect(cmp.message).toMatch(/More supply/)
+  })
+
+  it('a different hash with the same summary numbers is another machine\'s maths: no warning (D16.4)', () => {
+    const parsed = parseScenario(readFileSync(FIXTURE, 'utf8'))
+    if (!parsed.ok) throw new Error('fixture')
+    const r = replayScenario(new TimeMachine(), parsed.file)
+    const wrong = { ...stored(parsed.file), b2: 'deadbeef' } // other branches: hashes as stored, so this test reads the same on every machine
+    const cmp = compareHashes(parsed.file, wrong, { nx: r.info.nx, dx: r.info.dx }, r.summaries)
+    expect(cmp).toMatchObject({ same: true, differing: [], message: null })
+    expect(cmp.closeOnly).toContain('More supply')
+  })
+
+  it('an old file without summary numbers still warns on a different hash', () => {
+    const parsed = parseScenario(readFileSync(FIXTURE, 'utf8'))
+    if (!parsed.ok) throw new Error('fixture')
+    const old = { ...parsed.file, branches: parsed.file.branches.map((b) => (b.id === 'b2' ? { ...b, summary: undefined } : b)) }
+    const r = replayScenario(new TimeMachine(), parsed.file)
+    const cmp = compareHashes(old, { ...stored(parsed.file), b2: 'deadbeef' }, { nx: r.info.nx, dx: r.info.dx }, r.summaries)
+    expect(cmp.same).toBe(false)
+    expect(cmp.differing).toEqual(['More supply'])
+  })
+
+  it('opens on a machine with different last-bit maths: hashes may differ, the summaries agree, no warning', () => {
+    const parsed = parseScenario(readFileSync(FIXTURE, 'utf8'))
+    if (!parsed.ok) throw new Error('fixture')
+    for (const [amp, salt] of [[2.2e-16, 1], [2.2e-16, 2], [1e-13, 3], [1e-12, 4]]) {
+      const r = withUlpNoise(amp, salt, () => replayScenario(new TimeMachine(), parsed.file))
+      const cmp = compareHashes(parsed.file, r.hashes, { nx: r.info.nx, dx: r.info.dx }, r.summaries)
+      const spread = parsed.file.branches.map((b) => compareSummaries(b.summary!, r.summaries[b.id]))
+      expect(cmp.differing, `amp ${amp} salt ${salt}: ${JSON.stringify(spread)}`).toEqual([])
+      expect(cmp.same).toBe(true)
+    }
+  }, 120000)
+
+  it('a real engine change (supply +1 % in the main run) still warns', () => {
+    const parsed = parseScenario(readFileSync(FIXTURE, 'utf8'))
+    if (!parsed.ok) throw new Error('fixture')
+    const changed = { ...parsed.file, run: { ...parsed.file.run, overrides: { ...parsed.file.run.overrides, supply: 20.2 } } }
+    const r = replayScenario(new TimeMachine(), changed)
+    const cmp = compareHashes(parsed.file, r.hashes, { nx: r.info.nx, dx: r.info.dx }, r.summaries)
+    console.log('FIXPROBE real change', JSON.stringify(parsed.file.branches.map((b) => compareSummaries(b.summary!, r.summaries[b.id]))))
+    expect(cmp.same).toBe(false)
+    expect(cmp.differing).toContain('Main run')
+    expect(cmp.message).toMatch(/different engine version; results differ/)
+  })
+
+  it('the summary tolerances are tighter than a 1 % change in supply on the default scenario', () => {
+    expect(SUMMARY_TOL.meanH).toBeLessThan(0.01)
+    expect(SUMMARY_TOL.mud).toBeLessThan(0.0065)
+    expect(SUMMARY_TOL.sand).toBeLessThan(0.0075)
   })
 
   it('a file without hashes (autosave) is not flagged', () => {

@@ -1,6 +1,7 @@
 // Rebuilds a scenario file's runs on a time machine: the main run, then each branch in file order.
 // Used by the worker (request 'openScenario') and by the tests, so the same code is tested.
 import type { EngineParams } from '../engine/engineParams'
+import type { RunSummary } from '../engine/summary'
 import type { ScenarioFile } from '../app/scenarioFile'
 import type { BranchInfo, RunInfo } from './protocol'
 import type { ProgressFn, TimeMachine } from './timeMachine'
@@ -12,6 +13,8 @@ export interface ReplayResult {
   idMap: Record<string, string>
   /** Recomputed stateHash at the last step, by FILE branch id. */
   hashes: Record<string, string>
+  /** Recomputed summary statistics at the last step, by FILE branch id (compared when a hash differs). */
+  summaries: Record<string, RunSummary>
 }
 
 export function replayScenario(tm: TimeMachine, file: ScenarioFile, onProgress?: ProgressFn): ReplayResult {
@@ -24,6 +27,10 @@ export function replayScenario(tm: TimeMachine, file: ScenarioFile, onProgress?:
     idMap[b.id] = made.id
   }
   const hashes: Record<string, string> = {}
-  for (const b of file.branches) hashes[b.id] = tm.hashAt(idMap[b.id], info.nSteps)
-  return { info, branches: tm.list(), idMap, hashes }
+  const summaries: Record<string, RunSummary> = {}
+  for (const b of file.branches) {
+    hashes[b.id] = tm.hashAt(idMap[b.id], info.nSteps)
+    summaries[b.id] = tm.summaryAt(idMap[b.id], info.nSteps)
+  }
+  return { info, branches: tm.list(), idMap, hashes, summaries }
 }

@@ -119,3 +119,11 @@ export function compareRuns(a: Run, b: Run, wells: number[]): { dH: number; dPhi
   const ub = maxExcessPressure(b.eng)
   return { dH, dPhi, dU: Math.abs(ua - ub) / ua }
 }
+
+/**
+ * Schedule for tests on the MTD-prone preset: the preset's own 5 kyr steps. Tests used to run it at
+ * 25 kyr to save time, but there it makes only about 2 events (0 to 4 when libm results change by
+ * one ulp, as they do between Windows and Linux), so "the preset makes events" failed on the Linux
+ * CI runner. At 5 kyr it makes 24 events (24 to 34 under the same ulp noise, never 0). See D16.4.
+ */
+export const MTD_SEGMENTS = getPreset('mtd').segments

@@ -9,6 +9,8 @@ import { eventRow, eventsAtCell } from '../src/views/events/format'
 import { cellValue, FS_WARN, FS_WARN_T, fsToT, MODES, ramp } from '../src/views/section/colors'
 import { mtdMask, mtdTexture, eventViewStep } from '../src/views/section/draw'
 import { wellProfile } from '../src/views/well/profile'
+import { MTD_SEGMENTS } from './helpers/run'
+import { survivingDeposit } from './helpers/events'
 
 describe('factor-of-safety colour scale', () => {
   it('is centred on 1.0 and red below 1.2', () => {
@@ -49,7 +51,7 @@ describe('MTD preset in the views', () => {
   let end: StateView
   let nSteps = 0
   beforeAll(() => {
-    const info = tm.run({ presetId: 'mtd', segments: [{ fromAgeMa: 3, toAgeMa: 0, dt: 25000 }], overrides: {} }, 1)
+    const info = tm.run({ presetId: 'mtd', segments: MTD_SEGMENTS, overrides: {} }, 1)
     nSteps = info.nSteps
     events = tm.eventsAt(tm.root, nSteps)
     end = tm.seek(tm.root, nSteps, ['thick', 'sand', 'mud', 'fs'])
@@ -57,8 +59,9 @@ describe('MTD preset in the views', () => {
 
   it('the preset makes events, each with a deposit marked MTD in the view', () => {
     expect(events.length).toBeGreaterThan(0)
-    const e = events.find((x) => x.depositFrom >= 0)!
-    expect(mtdMask(end, events)[e.layer * end.nx + e.depositFrom]).toBe(1)
+    const s = survivingDeposit(events, end) // an early deposit may have been removed later, so not simply events[0]
+    expect(s, 'at least one event keeps a deposit').toBeDefined()
+    expect(mtdMask(end, events)[s!.e.layer * end.nx + s!.col]).toBe(1)
     expect(mtdMask(end).reduce((a, b) => a + b, 0)).toBeLessThan(mtdMask(end, events).reduce((a, b) => a + b, 0))
   })
 
@@ -89,8 +92,9 @@ describe('MTD preset in the views', () => {
   })
 
   it('the pseudo-well lists MTD intervals and every one maps to an event', () => {
-    const e = events.find((x) => x.depositFrom >= 0 && x.layer <= end.nLayers - 1)!
-    const col = Math.round((e.depositFrom + e.depositTo) / 2)
+    const s = survivingDeposit(events, end)
+    expect(s, 'at least one event keeps a deposit').toBeDefined()
+    const col = s!.col
     const w: WellColumn = tm.wellColumn(tm.root, nSteps, col)
     const prof = wellProfile(w, events)
     expect(prof.mtdIntervals.length).toBeGreaterThan(0)

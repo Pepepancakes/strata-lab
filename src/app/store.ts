@@ -463,7 +463,7 @@ export class AppStore {
     if (!src || s.busy) return false
     const r = await this.ask({ kind: 'hashes' })
     if (!r || r.kind !== 'hashList') return false
-    const text = serializeScenario(buildScenarioFile(src, r.hashes))
+    const text = serializeScenario(buildScenarioFile(src, r.hashes, r.summaries))
     const d = (this.deps.now ?? (() => new Date()))()
     const stamp = d.toISOString().slice(0, 16).replace(/[-:]/g, '').replace('T', '-')
     ;(this.deps.download ?? downloadInBrowser)('strata-' + s.presetId + '-' + stamp + '.strata.json', text)
@@ -543,7 +543,7 @@ export class AppStore {
       }
       return false
     }
-    const cmp = compareHashes(file, r.hashes, { nx: r.info.nx, dx: r.info.dx })
+    const cmp = compareHashes(file, r.hashes, { nx: r.info.nx, dx: r.info.dx }, r.summaries)
     // parameters of every branch: the preset, plus the main run's changes, plus each branch's edits down the tree
     const base = { ...presetParams(file.run.presetId), ...file.run.overrides, duration: file.run.durationYr } as EngineParams
     const params: Record<string, EngineParams> = { [r.info.rootId]: base }

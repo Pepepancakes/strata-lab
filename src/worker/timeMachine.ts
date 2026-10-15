@@ -26,6 +26,7 @@ import { buoyantLoad, cellBulk, setPor } from '../engine/compaction'
 import { EMPTY, SAND, MUD } from '../engine/constants'
 import { computeStability, infiniteSlopeFS, seafloorSlope } from '../engine/stability'
 import { stateHash } from '../engine/determinism'
+import { summarizeRecord, type RunSummary } from '../engine/summary'
 import { cloneParams, defaultEngineParams, type EngineParams } from '../engine/engineParams'
 import type { ParamValue } from '../engine/params'
 import { getPreset } from '../engine/presets'
@@ -271,6 +272,19 @@ export class TimeMachine {
   hashes(): Record<string, string> {
     const out: Record<string, string> = {}
     for (const id of this.branches.keys()) out[id] = this.hashAt(id, this.schedule.nSteps)
+    return out
+  }
+
+  /** Summary statistics of the record of a branch at a step (summary.ts), for comparing across machines. */
+  summaryAt(branchId: string, step: number): RunSummary {
+    this.moveTo(this.get(branchId), step)
+    return summarizeRecord(this.eng.rec, this.eng.events.length)
+  }
+
+  /** Summary statistics of every branch at the last step, by branch id. */
+  summaries(): Record<string, RunSummary> {
+    const out: Record<string, RunSummary> = {}
+    for (const id of this.branches.keys()) out[id] = this.summaryAt(id, this.schedule.nSteps)
     return out
   }
 

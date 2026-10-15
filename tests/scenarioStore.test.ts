@@ -7,6 +7,7 @@ import { Autosave, AUTOSAVE_KEY, type KeyValueStorage, type TimerApi } from '../
 import { ReplaceGuard } from '../src/app/replaceGuard'
 import { parseScenario } from '../src/app/scenarioFile'
 import { AppStore, type ClientLike } from '../src/app/store'
+import { compareSummaries } from '../src/engine/summary'
 import { EngineHost } from '../src/worker/handler'
 import type { EngineResponse } from '../src/worker/protocol'
 
@@ -179,7 +180,8 @@ describe('AppStore scenario files', () => {
     const saved = parseScenario(a.downloads[0].text)
     const orig = parseScenario(FIXTURE)
     if (!saved.ok || !orig.ok) throw new Error('parse')
-    expect(saved.file.branches.map((b) => b.stateHash)).toEqual(orig.file.branches.map((b) => b.stateHash))
+    // exact hashes on the machine that wrote the fixture; summary numbers within tolerance anywhere (D16.4)
+    for (const [k, b] of saved.file.branches.entries()) expect(compareSummaries(orig.file.branches[k].summary!, b.summary!)).toEqual([])
     await settle()
 
     // and a second app opens that saved file
@@ -193,7 +195,8 @@ describe('AppStore scenario files', () => {
 
   it('warns when the file hashes differ from the recomputed ones', async () => {
     const a = makeStore()
-    const tampered = FIXTURE.replace('4ae5129e360641df', '0000000000000000')
+    // hash AND summary numbers changed: a real engine change (a hash alone is another machine's maths, D16.4)
+    const tampered = FIXTURE.replace('4ae5129e360641df', '0000000000000000').replace('-964.974508299', '-900.5')
     expect(await a.store.openText(tampered)).toBe(true)
     expect(a.store.getState().notice).toMatch(/different engine version; results differ/)
     await settle()

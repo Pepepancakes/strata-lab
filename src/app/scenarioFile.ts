@@ -11,6 +11,7 @@
 
 import type { ParamValue } from '../engine/params'
 import { PRESETS, type PresetId } from '../engine/presets'
+import { compareSummaries, type RunSummary } from '../engine/summary'
 import { buildSchedule, type Segment } from '../engine/schedule'
 import { getParamDef } from '../engine/params'
 import { validateBranchEdits, validateParamValues } from '../worker/edits'
@@ -33,6 +34,12 @@ export interface ScenarioBranch {
   edits: Record<string, ParamValue>
   /** stateHash of the record at the last step. Absent in autosaves. */
   stateHash?: string
+  /**
+   * Summary statistics of the record at the last step (summary.ts). When the recomputed hash differs
+   * (another machine's maths library), these are compared within tolerances before any warning.
+   * Absent in autosaves and in files written before D16.4.
+   */
+  summary?: RunSummary
 }
 
 export interface ScenarioFile {
@@ -75,8 +82,8 @@ function copyEdits(e: Record<string, ParamValue>): Record<string, ParamValue> {
   return out
 }
 
-/** Build the file contents. `hashes` maps branch id to its final stateHash (leave out for an autosave). */
-export function buildScenarioFile(src: ScenarioSource, hashes?: Record<string, string>): ScenarioFile {
+/** Build the file contents. `hashes` maps branch id to its final stateHash, `summaries` to its summary (leave both out for an autosave). */
+export function buildScenarioFile(src: ScenarioSource, hashes?: Record<string, string>, summaries?: Record<string, RunSummary>): ScenarioFile {
   const segments = src.segments.map((s) => ({ ...s }))
   const lengthMa = segments[0].fromAgeMa - segments[segments.length - 1].toAgeMa
   return {
@@ -94,6 +101,7 @@ export function buildScenarioFile(src: ScenarioSource, hashes?: Record<string, s
     branches: src.branches.map((b) => {
       const out: ScenarioBranch = { id: b.id, name: b.label, parent: b.parentId, startStep: b.forkStep, edits: copyEdits(b.edits) }
       if (hashes && hashes[b.id]) out.stateHash = hashes[b.id]
+      if (hashes && hashes[b.id] && summaries && summaries[b.id]) out.summary = roundSummary(summaries[b.id])
       return out
     }),
   }
@@ -131,6 +139,20 @@ function readEdits(where: string, raw: unknown): { edits: Record<string, ParamVa
 }
 
 const fail = (message: string): ParseResult => ({ ok: false, message: `This is not a usable Strata Lab scenario file. ${message}` })
+
+const SUMMARY_KEYS = ['nx', 'nLayers', 'sand', 'mud', 'meanH', 'maxU', 'events'] as const
+
+function readSummary(raw: unknown): RunSummary | undefined {
+  if (!isObj(raw)) return undefined
+  for (const k of SUMMARY_KEYS) if (!isNum(raw[k])) return undefined
+  return raw as unknown as RunSummary
+}
+
+/** Keep 12 significant digits in the file: far finer than any tolerance, and the text stays short. */
+function roundSummary(s: RunSummary): RunSummary {
+  const r = (x: number): number => Number(x.toPrecision(12))
+  return { nx: s.nx, nLayers: s.nLayers, sand: r(s.sand), mud: r(s.mud), meanH: r(s.meanH), maxU: r(s.maxU), events: s.events }
+}
 
 /** Read and check the text of a file. Nothing is changed anywhere; the caller decides what to do with the result. */
 export function parseScenario(text: string): ParseResult {
@@ -190,6 +212,11 @@ export function parseScenario(text: string): ParseResult {
     const e = readEdits(where, b.edits)
     if ('error' in e) return fail(e.error)
     if (b.stateHash !== undefined && (typeof b.stateHash !== 'string' || b.stateHash === '')) return fail(`${where}: the state hash is wrong.`)
+    let summary: RunSummary | undefined
+    if (b.summary !== undefined) {
+      summary = readSummary(b.summary)
+      if (!summary) return fail(`${where}: the summary statistics are wrong.`)
+    }
     if (branches.length === 0) {
       if (parent !== null || b.startStep !== 0 || Object.keys(e.edits).length) return fail('The first branch must be the main run: no parent, start step 0, no parameter changes.')
     } else {
@@ -202,6 +229,7 @@ export function parseScenario(text: string): ParseResult {
     seen.add(b.id)
     const out: ScenarioBranch = { id: b.id, name: b.name, parent: parent as string | null, startStep: b.startStep, edits: e.edits }
     if (typeof b.stateHash === 'string') out.stateHash = b.stateHash
+    if (summary) out.summary = summary
     branches.push(out)
   }
 
@@ -218,32 +246,47 @@ export function parseScenario(text: string): ParseResult {
 }
 
 export interface HashComparison {
-  /** True when every hash the file carries matches what was recomputed (and the grid is the same). */
+  /** True when every branch matches (exact hash, or hash different but summary statistics within tolerance) and the grid is the same. */
   same: boolean
-  /** Names of the branches whose hash differs. */
+  /** Names of the branches whose results differ (hash differs and the summary statistics differ or are missing). */
   differing: string[]
+  /** Names of the branches whose hash differs but whose summary statistics agree: another machine's maths, not a different engine. No warning. */
+  closeOnly: string[]
   /** Shown to John when `same` is false. */
   message: string | null
 }
 
 /**
  * Compare the file's hashes with the recomputed ones. `recomputed` is keyed by FILE branch id.
- * Branches without a stored hash (autosave) are skipped.
+ * Branches without a stored hash (autosave) are skipped. The exact hash is the quick path; when it
+ * differs and both sides have summary statistics, those are compared within tolerances
+ * (summary.ts, D16.4): the hash differs between operating systems for a harmless reason (last-bit
+ * differences in the maths library), the totals do not.
  */
-export function compareHashes(file: ScenarioFile, recomputed: Record<string, string>, grid: { nx: number; dx: number }): HashComparison {
+export function compareHashes(
+  file: ScenarioFile,
+  recomputed: Record<string, string>,
+  grid: { nx: number; dx: number },
+  summaries?: Record<string, RunSummary>,
+): HashComparison {
   const differing: string[] = []
+  const closeOnly: string[] = []
   for (const b of file.branches) {
-    if (b.stateHash && recomputed[b.id] !== b.stateHash) differing.push(b.name)
+    if (!b.stateHash || recomputed[b.id] === b.stateHash) continue
+    const now = summaries?.[b.id]
+    if (b.summary && now && compareSummaries(b.summary, now).length === 0) closeOnly.push(b.name)
+    else differing.push(b.name)
   }
   const gridSame = grid.nx === file.run.grid.nx && grid.dx === file.run.grid.dx
   const same = differing.length === 0 && gridSame
-  if (same) return { same, differing, message: null }
+  if (same) return { same, differing, closeOnly, message: null }
   const which = differing.length ? ` Branches that differ: ${differing.join(', ')}.` : ''
   const made = `${file.app.version}, engine ${file.app.engine}`
   const here = `${APP_VERSION}, engine ${ENGINE_VERSION}`
   return {
     same,
     differing,
+    closeOnly,
     message: `This file was made with a different engine version; results differ.${made === here ? '' : ` It was written by app ${made} and this is app ${here}.`}${gridSame ? '' : ' The grid is different too.'}${which}`,
   }
 }
