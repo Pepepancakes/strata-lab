@@ -42,3 +42,6 @@ table.num tr.sel td { background: #26425f; } table.num tr.future td { opacity: 0
 button.evbtn { min-width: 28px; min-height: 24px; padding: 0 4px; }
 .mtdtip { margin: 4px 0; min-height: 1.4em; color: #f2d37a; }
 label.toggle { display: inline-flex; align-items: center; gap: 4px; min-height: 28px; cursor: pointer; } label.toggle input { width: 18px; height: 18px; }
+/* A tall side column (event list, checks) must not stretch the section's row and push the
+   pseudo-well down the page: the last row is a filler that absorbs the extra height. */
+@media (min-width: 1101px) { .shell { grid-template-rows: auto auto auto 1fr; grid-template-areas: "h h h" "c s r" "c w r" "c . r"; } }
