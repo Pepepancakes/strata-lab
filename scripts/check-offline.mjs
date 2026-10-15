@@ -14,6 +14,12 @@ const ALLOW = [
   'https://react.dev/', // error-message doc links inside React (text only)
   'https://reactjs.org/', // older doc links inside React (text only)
   'https://github.com/facebook/react', // comment/links inside React (text only)
+  // Provenance strings of the bundled sea-level curves (src/engine/sealevel data): shown as
+  // citations, never fetched. They entered the bundle when the engine moved into the worker (M1.5).
+  'https://doi.org/10.25921/revb-da37',
+  'https://www.ncei.noaa.gov/pub/data/paleo/contributions_by_author/bintanja2008/',
+  'https://doi.org/10.1594/PANGAEA.923139',
+  'https://doi.pangaea.de/10.1594/PANGAEA.923139',
 ]
 
 const urls = [...new Set(html.match(/https?:\/\/[^\s"'`)<>\\]+/g) ?? [])]
