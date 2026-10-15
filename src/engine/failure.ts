@@ -19,7 +19,12 @@
 //      cell's solids, and the cell's smax is the solids-weighted mean of the two.
 //   5. FS is checked again (the scar is a new, steeper headwall), up to failMaxIters failures per
 //      step. A failure still unstable after that is counted in diag.failUnresolved and tried
-//      again at the next step.
+//      again at the next step. A failure that ran out less than failStallRunout and whose columns
+//      are picked again at once is flagged stalled; those columns are not failed again that step
+//      (M2.7: a thin cover below the Bingham plug thickness moves nothing, so cutting it again
+//      only repeats the same event) and are counted in failUnresolved. Mass is not affected.
+//      Each event also carries windowLimited (scar within 5 % of the stabMaxDepth search window).
+//      At the end of the step, cells tagged MTD whose sediment has all been eroded away lose the tag.
 //
 // Pore pressure: a failure is instantaneous, so each touched column changes its load at constant
 // pore pressure: u_new = u + (L_new - L_old) for every cell (undrained loading or unloading, so
@@ -40,7 +45,7 @@
 import { buoyantLoad, cellBulk, recomputeH, setPor } from './compaction'
 import { EMPTY, MUD, RHO_S, RHO_W } from './constants'
 import type { EngineParams } from './engineParams'
-import { MTD, SALT, SEDIMENT } from './record'
+import { MTD, SALT, SEDIMENT, type LayerRecord } from './record'
 import { runOut } from './runout'
 import { computeStability, type StabilityResult } from './stability'
 import { attributeCause, recordHistory, referenceSlot } from './triggers'
@@ -49,6 +54,8 @@ import type { EngineState, FailureEvent } from './state'
 
 /** Blocks per source column in the run-out chain. A numerical choice. */
 export const BLOCKS_PER_COLUMN = 4
+/** A scar this close to the stability search window (share of stabMaxDepth) is flagged windowLimited. */
+export const WINDOW_LIMITED_SHARE = 0.95
 
 /** What one source column released. Thicknesses are solid metres. */
 export interface ReleasedColumn {
@@ -317,6 +324,8 @@ function failOnce(eng: EngineState, P: EngineParams, st: StabilityResult, from: 
     layer: top,
     depositFrom: dFrom,
     depositTo: dTo,
+    stalled: false,
+    windowLimited: scar >= WINDOW_LIMITED_SHARE * P.stabMaxDepth,
     ...trig,
   }
 }
@@ -355,6 +364,8 @@ function triggerOf(eng: EngineState, P: EngineParams, st: StabilityResult, from:
     loadRate,
     failLowstandDrop: P.failLowstandDrop,
     failRapidRate: P.failRapidRate,
+    failSlopeTerm: P.failSlopeTerm,
+    failPressTerm: P.failPressTerm,
   })
   return { cause: r.cause, dSlope: r.dSlope, dPress: r.dPress, dSeaLevel: dSea, loadRate, seedColumn: seed }
 }
@@ -371,18 +382,53 @@ export function failureStep(eng: EngineState, P: EngineParams, step: number, tYr
   const opt = { minSlope: Math.tan((P.failSlopeMin * Math.PI) / 180), minDepth: P.failMinDepth }
   let iter = 0
   let st = computeStability(eng, P, opt)
-  for (; iter < P.failMaxIters; iter++) {
-    const run = pickFailure(st.fsMin, P.failMaxCells)
+  const frozen = new Uint8Array(eng.rec.nx) // columns given up on for this step (stalled)
+  let nFrozen = 0
+  let last: FailureEvent | null = null
+  let fs: ArrayLike<number> = st.fsMin
+  while (iter < P.failMaxIters) {
+    let run = pickFailure(fs, P.failMaxCells)
+    // A failure that moved (almost) nothing and now picks the same columns again would only cut the
+    // same thin cover again: flag the first event stalled, give those columns up for this step.
+    if (run && last && last.runout < P.failStallRunout && run.from <= last.sourceTo && run.to >= last.sourceFrom) {
+      last.stalled = true
+      for (let j = last.sourceFrom; j <= last.sourceTo; j++) {
+        if (!frozen[j]) {
+          frozen[j] = 1
+          nFrozen++
+        }
+      }
+      eng.diag.failUnresolved += last.sourceTo - last.sourceFrom + 1
+      fs = maskFrozen(st.fsMin, frozen)
+      run = pickFailure(fs, P.failMaxCells)
+    }
     if (!run) break
     const trig = triggerOf(eng, P, st, run.from, run.to, step, tYr, seaLevel)
     const ev = failOnce(eng, P, st, run.from, run.to, step, tYr, ageMa, trig)
     eng.events.push(ev)
     out.push(ev)
+    last = ev
     st = computeStability(eng, P, opt) // the scar is a new headwall
+    fs = nFrozen > 0 ? maskFrozen(st.fsMin, frozen) : st.fsMin
+    iter++
   }
-  if (iter === P.failMaxIters && pickFailure(st.fsMin, P.failMaxCells)) eng.diag.failUnresolved++
+  if (iter === P.failMaxIters && pickFailure(fs, P.failMaxCells)) eng.diag.failUnresolved++
   recordHistory(eng.hist, eng.rec.nx, step, tYr, st)
+  clearEmptyMtd(eng.rec)
   return out
+}
+
+/** fsMin with the given-up columns set to Infinity (never picked). */
+function maskFrozen(fsMin: ArrayLike<number>, frozen: Uint8Array): number[] {
+  const out = Array.from(fsMin)
+  for (let j = 0; j < out.length; j++) if (frozen[j]) out[j] = Infinity
+  return out
+}
+
+/** Cells tagged MTD whose sediment has all gone (eroded since) are plain empty cells again (M2.7). Tag only; no solids change. */
+function clearEmptyMtd(rec: LayerRecord): void {
+  const n = rec.nLayers * rec.nx
+  for (let i = 0; i < n; i++) if (rec.material[i] === MTD && rec.sand[i] + rec.mud[i] <= EMPTY) rec.material[i] = SEDIMENT
 }
 
 export interface MtdLine {

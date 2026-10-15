@@ -18,19 +18,21 @@
 // both counted positive when they LOWER the factor of safety. A term whose earlier value is
 // unknown (the column was below the slope cut then, so no ru was found) counts as 0.
 //
-// Tag, first match wins:
-//   1. lowstand        sea level fell by at least failLowstandDrop over the lookback window.
-//                      Reason: that is the stated condition for the event and the supply and
-//                      erosion changes of a fall act through both terms below.
-//   2. oversteepening  dSlope > 0 and dSlope >= dPress: the slope change explains the FS drop.
-//   3. rapid loading   otherwise (pressure explains it) and the source column gained bulk sediment
-//                      at failRapidRate or faster over the window: the pressure is being made now.
-//   4. overpressure    otherwise: the pressure was built up earlier and is being held (low mud
-//                      permeability), or nothing changed in the window.
+// Tag. Each term is turned into a score by dividing it by its own threshold (a score of 1 just
+// qualifies), and the label is the term with the LARGEST score, not the first test that passes:
+//   oversteepening  dSlope / failSlopeTerm
+//   overpressure    dPress / failPressTerm; it reads 'rapid loading' instead when the source column
+//                   gained bulk sediment at failRapidRate or faster over the window (the
+//                   pressure is being made now), else the pressure was built earlier and is held
+//   lowstand        (sea level fall over the window) / failLowstandDrop
+//   mixed           no score reaches 1: no single cause stands out
+// Ties go to the earlier line above. Only rises count (a term that would raise FS scores 0).
 //
 // The numbers behind the tag (dSlope, dPress, sea-level change, loading rate) are stored in the
-// event so a reader can see how close the call was. The thresholds are 'tuned' (params.ts) and
-// only change the TAG, never the physics. The history is kept only when failOn = 1.
+// event so a reader can see all the terms and how close the call was. The thresholds are 'tuned'
+// (params.ts) and only change the TAG, never the physics. The history is kept only when failOn = 1.
+// M2.3 tested sea level first with a 5 m threshold and tagged 32 of 33 events 'lowstand'
+// (M2.6 review finding 1); M2.7 replaced that with this rule and a 20 m default.
 
 import type { StabilityResult } from './stability'
 
@@ -39,7 +41,7 @@ export const LOOKBACK_STEPS = 4
 /** Ring slots: the lookback plus the current step. */
 export const HIST_SLOTS = LOOKBACK_STEPS + 1
 
-export type TriggerCause = 'oversteepening' | 'overpressure' | 'rapid loading' | 'lowstand'
+export type TriggerCause = 'oversteepening' | 'overpressure' | 'rapid loading' | 'lowstand' | 'mixed'
 
 /** End-of-step slope and pressure ratio of every column, for the last HIST_SLOTS steps (ring buffer). */
 export interface TriggerHistory {
@@ -118,6 +120,9 @@ export interface TriggerInput {
   loadRate: number
   failLowstandDrop: number
   failRapidRate: number
+  /** Slope and pressure terms (ln units) that score 1; see the rule in the header. */
+  failSlopeTerm: number
+  failPressTerm: number
 }
 
 export interface TriggerResult {
@@ -139,10 +144,19 @@ export function attributeCause(t: TriggerInput): TriggerResult {
     const then = Math.min(Math.max(t.ruThen, 0), RU_CAP)
     dPress = Math.log((1 - then) / (1 - now))
   }
-  let cause: TriggerCause
-  if (t.dSeaLevel <= -t.failLowstandDrop) cause = 'lowstand'
-  else if (dSlope > 0 && dSlope >= dPress) cause = 'oversteepening'
-  else if (t.loadRate >= t.failRapidRate) cause = 'rapid loading'
-  else cause = 'overpressure'
+  // each term divided by its own threshold: 1 = just qualifies. Ties go to slope, then pressure, then sea level.
+  const sSlope = dSlope > 0 ? dSlope / t.failSlopeTerm : 0
+  const sPress = dPress > 0 ? dPress / t.failPressTerm : 0
+  const sSea = t.dSeaLevel < 0 ? -t.dSeaLevel / t.failLowstandDrop : 0
+  let cause: TriggerCause = 'mixed'
+  let best = 0
+  const pressLabel: TriggerCause = t.loadRate >= t.failRapidRate ? 'rapid loading' : 'overpressure'
+  const scores: Array<[number, TriggerCause]> = [[sSlope, 'oversteepening'], [sPress, pressLabel], [sSea, 'lowstand']]
+  for (const [s, label] of scores) {
+    if (s >= 1 && s > best) {
+      best = s
+      cause = label
+    }
+  }
   return { cause, dSlope, dPress }
 }

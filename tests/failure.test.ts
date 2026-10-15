@@ -19,15 +19,15 @@ const DX = 1000
  * A section 60 km long: a steep slope (tan beta = 0.15) over the first 20 columns, then a flat floor.
  * Four layers of mixed sand and mud, 15 solid m each, with excess pore pressure u = ru x load.
  */
-function slopeSection(ru: number, over: Partial<EngineParams> = {}): { eng: EngineState; P: EngineParams } {
+function slopeSection(ru: number, over: Partial<EngineParams> = {}, sandM = 3, mudM = 12): { eng: EngineState; P: EngineParams } {
   const P: EngineParams = { ...defaultEngineParams(), nx: NX, dx: DX, failOn: 1, ...over }
   const rec = createRecord({ nx: NX, dx: DX, capacity: 6, startAgeMa: 1 })
   const eng = allocateEngine(rec)
   for (let n = 0; n < 4; n++) {
     const k = appendLayer(rec, 1000, 1 - n * 0.001, (n + 1) * 1000)
     for (let j = 0; j < NX; j++) {
-      rec.sand[k * NX + j] = 3
-      rec.mud[k * NX + j] = 12
+      rec.sand[k * NX + j] = sandM
+      rec.mud[k * NX + j] = mudM
     }
   }
   rebuildCaches(eng, P) // smax = 0: surface porosity, fine for a hand-built section
@@ -147,6 +147,83 @@ describe('retrogression cap and rechecks', () => {
     expect(ev.length).toBe(2)
     for (const e of ev) expect(e.sourceTo - e.sourceFrom + 1).toBeLessThanOrEqual(3)
     expect(eng.diag.failUnresolved).toBe(1) // columns are still unstable: counted, retried next step
+  })
+})
+
+describe('failures that move nothing (finding 2)', () => {
+  // A thin cover (about 0.6 m of solids per layer, 2.4 m in all) on a 0.15 slope with r_u = 0.95:
+  // unstable, but a debris sheet this thin is below the Bingham plug thickness and does not run.
+  const thin = (over: Partial<EngineParams> = {}) => slopeSection(0.95, { failMinDepth: 0, failMaxIters: 5, failMaxCells: 1, ...over }, 0.15, 0.45)
+  it('the section is unstable and a failure there has a run-out under the stall threshold', () => {
+    const { eng, P } = thin()
+    expect(Math.min(...computeStability(eng, P, { minSlope: 0, minDepth: 0 }).fsMin)).toBeLessThan(1)
+  })
+  it('a failure that moves nothing is made once per column in a step, flagged stalled, and counted unresolved', () => {
+    const { eng, P } = thin()
+    const ev = failureStep(eng, P, 3, 4000, 0.996)
+    expect(ev.length).toBeGreaterThan(0)
+    const stalled = ev.filter((e) => e.stalled)
+    expect(stalled.length).toBeGreaterThan(0)
+    for (const e of stalled) expect(e.runout).toBeLessThan(P.failStallRunout)
+    // no column is failed again in this step after a stalled failure of it
+    for (let a = 0; a < ev.length; a++) {
+      if (!ev[a].stalled) continue
+      for (let b = a + 1; b < ev.length; b++) {
+        const overlap = ev[b].sourceFrom <= ev[a].sourceTo && ev[b].sourceTo >= ev[a].sourceFrom
+        expect(overlap).toBe(false)
+      }
+    }
+    expect(eng.diag.failUnresolved).toBeGreaterThan(0)
+  })
+  it('with the rule off (failStallRunout = 0) the same column fails again and again (the M2.2 behaviour)', () => {
+    const { eng, P } = thin({ failStallRunout: 0 })
+    const ev = failureStep(eng, P, 3, 4000, 0.996)
+    const per = new Map<number, number>()
+    for (const e of ev) per.set(e.sourceFrom, (per.get(e.sourceFrom) ?? 0) + 1)
+    expect(Math.max(...per.values())).toBeGreaterThan(1)
+    expect(ev.every((e) => !e.stalled)).toBe(true)
+  })
+  it('mass balance per grain size is exact with the rule on', () => {
+    const { eng, P } = thin()
+    const ev = failureStep(eng, P, 3, 4000, 0.996)
+    const b = mtdBalance(ev)
+    expect(b.sand.worstRel).toBeLessThan(1e-12)
+    expect(b.mud.worstRel).toBeLessThan(1e-12)
+    const bal = recordBalance(eng.rec)
+    expect(Math.abs(bal.sand.relError)).toBeLessThan(1e-12)
+    expect(Math.abs(bal.mud.relError)).toBeLessThan(1e-12)
+  })
+})
+
+describe('scar depth against the search window (finding 3)', () => {
+  it('windowLimited is true when the deepest scar is within 5 % of stabMaxDepth, false otherwise', () => {
+    const wide = slopeSection(0.8, { failMaxIters: 20 })
+    const shallow = failureStep(wide.eng, wide.P, 3, 4000, 0.996)
+    for (const e of shallow) expect(e.windowLimited).toBe(e.scarDepth >= 0.95 * wide.P.stabMaxDepth)
+    // the same section with the window set 2 % above the deepest scar found above: that scar sits within 5 % of the window
+    const deepest = Math.max(...shallow.map((e) => e.scarDepth))
+    const win = deepest * 1.02
+    const narrow = slopeSection(0.8, { failMaxIters: 20, stabMaxDepth: win })
+    const ev = failureStep(narrow.eng, narrow.P, 3, 4000, 0.996)
+    expect(ev.some((e) => e.windowLimited)).toBe(true)
+    for (const e of ev) expect(e.windowLimited).toBe(e.scarDepth >= 0.95 * win)
+  })
+})
+
+describe('zero-sediment cells lose the MTD tag (finding 6)', () => {
+  it('a cell tagged MTD whose sediment is gone is cleared at the end of the failure step; solids are untouched', () => {
+    const { eng, P } = slopeSection(0.8, { failMaxIters: 20 })
+    failureStep(eng, P, 3, 4000, 0.996)
+    const rec = eng.rec
+    const i = top(eng) * NX + 50 // flat floor, far from any deposit
+    rec.sand[i] = 0
+    rec.mud[i] = 0
+    rec.material[i] = MTD // as left behind by erosion that took all of a debris deposit
+    const sum = (a: Float64Array) => a.reduce((s, v) => s + v, 0)
+    const before = [sum(rec.sand), sum(rec.mud)]
+    failureStep(eng, P, 4, 5000, 0.995)
+    expect(rec.material[i]).toBe(0)
+    expect([sum(rec.sand), sum(rec.mud)]).toEqual(before)
   })
 })
 

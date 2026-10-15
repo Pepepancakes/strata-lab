@@ -104,6 +104,10 @@ export interface FailureEvent {
   loadRate: number
   /** The weakest source column (lowest FS) the tag was worked out for. */
   seedColumn: number
+  /** The failure moved less than failStallRunout and its columns were not failed again in this step (M2.7). */
+  stalled: boolean
+  /** The scar reached within 5 % of the stability search window (stabMaxDepth): the true failure may be deeper (M2.7). */
+  windowLimited: boolean
 }
 
 export interface EngineState {

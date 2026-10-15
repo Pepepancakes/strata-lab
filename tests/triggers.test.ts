@@ -14,8 +14,10 @@ const base: TriggerInput = {
   ruThen: 0.5,
   dSeaLevel: 0,
   loadRate: 0,
-  failLowstandDrop: 10,
+  failLowstandDrop: 20,
   failRapidRate: 1e-3,
+  failSlopeTerm: 0.1,
+  failPressTerm: 0.1,
 }
 
 describe('attributeCause (hand calculations)', () => {
@@ -38,9 +40,28 @@ describe('attributeCause (hand calculations)', () => {
   it('the same pressure rise with fast loading is rapid loading', () => {
     expect(attributeCause({ ...base, ruThen: 0.4, ruNow: 0.8, loadRate: 5e-3 }).cause).toBe('rapid loading')
   })
-  it('a sea-level fall of at least failLowstandDrop wins, a smaller fall does not', () => {
-    expect(attributeCause({ ...base, tanNow: 0.1, dSeaLevel: -10 }).cause).toBe('lowstand')
-    expect(attributeCause({ ...base, tanNow: 0.1, dSeaLevel: -9.9 }).cause).toBe('oversteepening')
+  // The label is the term that dominates after dividing each by its own threshold
+  // (slope 0.1 in ln units, pressure 0.1 in ln units, sea level 20 m): hand scores below.
+  it('a 30 m fall (score 30/20 = 1.5), nothing else changing, is a lowstand', () => {
+    expect(attributeCause({ ...base, dSeaLevel: -30 }).cause).toBe('lowstand')
+  })
+  it('a fall of exactly the threshold qualifies (score 1)', () => {
+    expect(attributeCause({ ...base, dSeaLevel: -20 }).cause).toBe('lowstand')
+  })
+  it('a 5 m fall plus a large pressure term is overpressure, not lowstand (ln 3 / 0.1 = 11 against 5/20 = 0.25)', () => {
+    expect(attributeCause({ ...base, dSeaLevel: -5, ruThen: 0.4, ruNow: 0.8, loadRate: 1e-4 }).cause).toBe('overpressure')
+  })
+  it('a 5 m fall alone is below the 20 m threshold: mixed', () => {
+    expect(attributeCause({ ...base, dSeaLevel: -5 }).cause).toBe('mixed')
+  })
+  it('the larger normalised term wins: 25 m fall scores 1.25, slope ln 1.5 = 0.405 scores 4.05 -> oversteepening', () => {
+    expect(attributeCause({ ...base, dSeaLevel: -25, tanThen: 0.04, tanNow: 0.06 }).cause).toBe('oversteepening')
+  })
+  it('a big fall beats a small slope term: 60 m scores 3.0 against 0.15 / 0.1 = 1.5', () => {
+    expect(attributeCause({ ...base, dSeaLevel: -60, tanNow: 0.05 * Math.exp(0.15) }).cause).toBe('lowstand')
+  })
+  it('no term above its threshold is mixed (slope 0.05 scores 0.5, pressure ln(0.6/0.55) = 0.087 scores 0.87)', () => {
+    expect(attributeCause({ ...base, tanNow: 0.05 * Math.exp(0.05), ruThen: 0.4, ruNow: 0.45 }).cause).toBe('mixed')
   })
   it('unknown earlier pressure counts as no pressure contribution', () => {
     expect(attributeCause({ ...base, ruThen: NaN, ruNow: 0.9, tanNow: 0.051 }).dPress).toBe(0)
@@ -107,6 +128,10 @@ describe('slip surface limits (M2.3)', () => {
   it('new parameters have the documented defaults', () => {
     const D = defaultEngineParams()
     expect(D.failMinDepth).toBe(10)
+    expect(D.failLowstandDrop).toBe(20)
+    expect(D.failSlopeTerm).toBe(0.1)
+    expect(D.failPressTerm).toBe(0.1)
+    expect(D.failStallRunout).toBe(500)
     expect(D.failSlopeMin).toBeGreaterThan(0)
   })
 })
@@ -115,7 +140,7 @@ describe('mtd preset', () => {
   const run = runPreset('mtd')
   it('produces failures, each tagged, with mass conserved', () => {
     expect(run.eng.events.length).toBeGreaterThan(0)
-    const causes = new Set(['oversteepening', 'overpressure', 'rapid loading', 'lowstand'])
+    const causes = new Set(['oversteepening', 'overpressure', 'rapid loading', 'lowstand', 'mixed'])
     for (const e of run.eng.events) {
       expect(causes.has(e.cause)).toBe(true)
       expect(Number.isFinite(e.dSlope) && Number.isFinite(e.dPress) && Number.isFinite(e.loadRate)).toBe(true)

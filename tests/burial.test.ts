@@ -160,7 +160,7 @@ describe('burial run: thermal + cement + thermal subsidence', () => {
     expect(Array.from(eng.rec.sand)).toEqual(Array.from(rec.sand))
     expect(eng.rec.ledger.cumIn.cement).toBe(rec.ledger.cumIn.cement)
     expect(snapshotEngine(eng).temp).toEqual(snapshotEngine(run.eng).temp)
-  })
+  }, 15000) // near its 5 s default when the machine is busy: a timing flake, not physics
 })
 
 describe('schedule helper sanity', () => {

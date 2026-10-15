@@ -104,6 +104,12 @@ export interface EngineParams {
   failLowstandDrop: number
   /** Accumulation rate of the source column above which a pressure-driven event is 'rapid loading', m/yr (M2.3). */
   failRapidRate: number
+  /** Slope term (ln units) that scores 1 in the trigger tag (M2.7). */
+  failSlopeTerm: number
+  /** Pressure term (ln units) that scores 1 in the trigger tag (M2.7). */
+  failPressTerm: number
+  /** Run-out (m) below which a repeat failure of the same columns in one step is not tried again; 0 = off (M2.7). */
+  failStallRunout: number
 }
 
 /** Fresh copy of the registry defaults, typed. */

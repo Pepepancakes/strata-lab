@@ -163,7 +163,9 @@ Status of every M2 registry key, as shown next to the control. "to verify" means
 | `runDensity` | 1800 kg/m3 | tuned | water plus solids while moving |
 | `mtdPhiMud` | 0.55 | tuned | mud porosity in a fresh deposit before it re-consolidates |
 | `failMinDepth`, `failSlopeMin` | 10 m, 0.5 deg | tuned | stated search limits (see M2.3); thin-slide and gentle-slope values to verify (Hampton et al. 1996) |
-| `failLowstandDrop`, `failRapidRate` | 5 m, 0.001 m/yr | tuned | thresholds for the trigger tag only; they never change the physics |
+| `failLowstandDrop`, `failRapidRate` | 20 m, 0.001 m/yr | tuned | thresholds for the trigger tag only; they never change the physics (M2.7: 20 m, was 5 m) |
+| `failSlopeTerm`, `failPressTerm` | 0.1, 0.1 | tuned | M2.7: scale of the slope and pressure terms in the trigger tag (the largest term divided by its threshold wins); tag only |
+| `failStallRunout` | 500 m | tuned | M2.7: a failure running out less than this is not repeated on the same columns in one step |
 
 Method list: infinite-slope FS (Hampton et al. 1996 and soil mechanics), Bingham depth-averaged run-out (Imran et al. 2001), FS-drop attribution for the trigger tag (our own bookkeeping split, no citation). Benchmarks: `tests/stability.test.ts`, `tests/runout.test.ts`, `tests/failure.test.ts`, `tests/triggers.test.ts`.
 
@@ -217,7 +219,7 @@ References (24):
 - `eaton-1969`: Eaton (1969)
 - `matthews-kelly-1967`: Matthews & Kelly (1967)
 
-Parameters (63), as `key`: status, reference id:
+Parameters (66), as `key`: status, reference id:
 - `nx`: tuned
 - `dx`: tuned
 - `duration`: tuned
@@ -281,4 +283,7 @@ Parameters (63), as `key`: status, reference id:
 - `failSlopeMin`: tuned
 - `failLowstandDrop`: tuned
 - `failRapidRate`: tuned
+- `failSlopeTerm`: tuned
+- `failPressTerm`: tuned
+- `failStallRunout`: tuned
 <!-- registry-index:end -->

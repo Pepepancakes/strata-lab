@@ -9,7 +9,7 @@ const require = createRequire(import.meta.url)
 const spike = require('../spikes/001-shelf-to-basin/engine.js')
 
 // M1.4c additions: the spike had none of these
-const M14C = ['subsMode', 'subsTau', 'subsHistory', 'thermal', 'thermalEvery', 'heatFlow', 'kGrain', 'kWater', 'tSeaDeep', 'tSeaShallow', 'tSeaScale', 'cement', 'cemA', 'cemB', 'cemTonset', 'cemGrain', 'cemSurf', 'phiFric', 'cohesion', 'stabMaxDepth', 'failOn', 'failMaxCells', 'failMaxIters', 'runYield', 'runViscosity', 'runDensity', 'mtdPhiMud', 'failMinDepth', 'failSlopeMin', 'failLowstandDrop', 'failRapidRate']
+const M14C = ['subsMode', 'subsTau', 'subsHistory', 'thermal', 'thermalEvery', 'heatFlow', 'kGrain', 'kWater', 'tSeaDeep', 'tSeaShallow', 'tSeaScale', 'cement', 'cemA', 'cemB', 'cemTonset', 'cemGrain', 'cemSurf', 'phiFric', 'cohesion', 'stabMaxDepth', 'failOn', 'failMaxCells', 'failMaxIters', 'runYield', 'runViscosity', 'runDensity', 'mtdPhiMud', 'failMinDepth', 'failSlopeMin', 'failLowstandDrop', 'failRapidRate', 'failSlopeTerm', 'failPressTerm', 'failStallRunout']
 
 describe('parameter registry', () => {
   it('has an entry for every spike engine parameter, and no extras', () => {
