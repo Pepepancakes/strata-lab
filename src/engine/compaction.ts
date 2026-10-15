@@ -110,8 +110,17 @@ export function rebuildCaches(eng: EngineState, P: EngineParams, layers: number 
   for (let j = 0; j < rec.nx; j++) loadsInto(eng, j, layers - 1)
 }
 
-/** 1D consolidation of column j over layers 0..top for a step of dtYr years. */
-export function compactColumn(eng: EngineState, P: EngineParams, j: number, top: number, dtYr: number): void {
+/**
+ * 1D consolidation of column j over layers `bottom`..top for a step of dtYr years.
+ * Bundled deep compaction (M1.4b): layers below `deepBelow` use `dtDeepYr` (the time since they
+ * were last updated) in their own rows; a step that skips the deep part passes bottom > 0, so the
+ * window's base is a no-flow boundary. With the defaults (bottom 0, deepBelow 0) this is the
+ * plain every-layer solve with exactly the same arithmetic as before.
+ */
+export function compactColumn(
+  eng: EngineState, P: EngineParams, j: number, top: number, dtYr: number,
+  bottom = 0, deepBelow = 0, dtDeepYr = dtYr,
+): number {
   const rec = eng.rec
   const nx = rec.nx
   const S = eng.scratch
@@ -119,11 +128,11 @@ export function compactColumn(eng: EngineState, P: EngineParams, j: number, top:
   const { sand, mud, smax, u, material } = rec
   const { phs, phm, kps, kpm, ld } = eng
   let n = 0
-  for (let l = 0; l <= top; l++) {
+  for (let l = bottom; l <= top; l++) {
     const i = l * nx + j
     if (material[i] !== SALT && sand[i] + mud[i] > EMPTY) idx[n++] = i
   }
-  if (n === 0) return
+  if (n === 0) return 0
   const L = S.L, A = S.A, hh = S.hh, kk = S.kk, T = S.T
   let above = 0
   for (let m = n - 1; m >= 0; m--) {
@@ -156,9 +165,12 @@ export function compactColumn(eng: EngineState, P: EngineParams, j: number, top:
   }
   for (let m = 0; m < n - 1; m++) T[m] = 1 / (hh[m] / (2 * kk[m]) + hh[m + 1] / (2 * kk[m + 1]))
   const Ttop = 2 * kk[n - 1] / hh[n - 1]
-  const w = dtYr * YR / MU
+  const w0 = dtYr * YR / MU
+  const wDeep = dtDeepYr * YR / MU
+  const deepCells = deepBelow * nx // cell index below this = a layer below deepBelow
   for (let m = 0; m < n; m++) {
     const i = idx[m]
+    const w = i < deepCells ? wDeep : w0
     const lo = m > 0 ? -w * T[m - 1] : 0
     const up = m < n - 1 ? -w * T[m] : 0
     S.lo[m] = lo
@@ -167,6 +179,7 @@ export function compactColumn(eng: EngineState, P: EngineParams, j: number, top:
     S.rhs[m] = A[m] * (u[i] + (L[m] - ld[i]))
   }
   thomas(n, S.lo, S.di, S.up, S.rhs, S.x, S.cp, S.dp)
+  let dBulk = 0 // change in bulk thickness of this column (bundled runs keep H up to date with it)
   for (let m = 0; m < n; m++) {
     const i = idx[m]
     let uu = S.x[m]
@@ -179,7 +192,9 @@ export function compactColumn(eng: EngineState, P: EngineParams, j: number, top:
     if (sig > smax[i]) {
       smax[i] = sig
       setPor(eng, P, i, sig)
+      if (!P.linear) dBulk += sand[i] / (1 - phs[i]) + mud[i] / (1 - phm[i]) - hh[m]
     }
     ld[i] = L[m]
   }
+  return dBulk
 }

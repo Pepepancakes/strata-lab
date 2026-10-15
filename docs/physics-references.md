@@ -97,3 +97,22 @@ citation come from `curveCreditAtAge(age)` and change with age.
     *JPT* 21(10).
   - Matthews, W.R. & Kelly, J. (1967). How to predict formation pressure and fracture gradient.
     *Oil & Gas J.*
+
+## Long runs and bundled deep compaction (M1.4b)
+- **Bundling is a numerical speed-up, not physics.** Layers older than `bundleAgeYr` are consolidated
+  once per `bundleEvery` steps (backward Euler, the same equation as every step) with the time since
+  their last update. Between full solves the young window is solved with a no-flow base. Error is
+  first order in `bundleEvery x step`. Parameters `bundleEvery` and `bundleAgeYr` are **tuned**.
+- **Measured against the unbundled solve, same deposition (no transport),** three columns, 12 Myr at
+  5 kyr, solid rates 30/60/120 m/Myr (surface 0.8/1.4/2.5 km): every 10 steps, 100 kyr window: H within
+  1.5 m, porosity within 0.0009 (100 m depth bins), max excess pressure within 0.4 %.
+  Error scales with `bundleEvery` (every 5: 0.7 m; every 20: 3.1 m) and hardly with the window size.
+  At 3-4x those rates (surface 2-6 km) the same setting gives 10 m, i.e. 0.2 % of the thickness.
+- **Long schedules.** On the Miocene schedule (every 10) the same test gives 0.25 % of H and 0.0033
+  porosity; on the Cenozoic schedule (every 20) 0.8 % and 0.011. These are coarse steps, so the lag is
+  `bundleEvery x 50-100 kyr`; the targets of the card apply to the 5 kyr runs.
+- **Coupled runs are chaotic.** On the 12 Myr default run a 1e-7 relative change in supply gives dH
+  4.2 m, dPhi 0.0067, dU 0.74 %; bundling every 10 gives 5.8 m, 0.0079, 0.81 %. Same size, so the
+  coupled comparison cannot resolve the bundling error. The strict comparison uses prescribed deposition.
+- **Preset values are tuned.** Supply 20 m^2/yr and subsidence 40-150 m/Myr are the default
+  scenario's; no published Gulf of Mexico rate was checked. Never company data.

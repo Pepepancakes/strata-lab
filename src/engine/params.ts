@@ -110,6 +110,10 @@ export const PARAMS: readonly ParamDef[] = [
     source: { kind: 'tuned', note: 'Start-only because stored layers depend on it.' } },
   { key: 'linear', label: 'Benchmark mode (constant properties)', unit: '-', displayUnit: '-', default: null, min: null, max: null, startOnly: true,
     source: { kind: 'tuned', note: 'Switch for the Gibson (1958) benchmark: {e0, C, k}. Never set in the app.' } },
+  { key: 'bundleEvery', label: 'Deep compaction: full solve every N steps (1 = off)', unit: 'steps', displayUnit: 'steps', default: 1, min: 1, max: 50, startOnly: true,
+    source: { kind: 'tuned', note: 'Numerical speed-up (M1.4b, not physics). Layers older than bundleAgeYr are consolidated once per N steps with the summed time. 1 = every layer every step. Always off in benchmark (linear) mode.' } },
+  { key: 'bundleAgeYr', label: 'Deep compaction: age of the always-updated window', unit: 'yr', displayUnit: 'kyr', default: 500000, min: 50000, max: 5e6, startOnly: true,
+    source: { kind: 'tuned', note: 'Numerical speed-up (M1.4b). Layers younger than this are updated every step. Only used when bundleEvery > 1.' } },
 ]
 
 const BY_KEY = new Map(PARAMS.map((p) => [p.key, p]))

@@ -60,6 +60,8 @@ export interface EngineState {
   ld: Float64Array
   scratch: Scratch
   diag: Diagnostics
+  /** True when bundled deep compaction is on: cached loads of deep layers lag, so snapshots must store them. */
+  lagLoads: boolean
 }
 
 function makeScratch(nx: number, nLayers: number): Scratch {
@@ -84,5 +86,6 @@ export function allocateEngine(rec: LayerRecord): EngineState {
     ld: new Float64Array(cells),
     scratch: makeScratch(rec.nx, rec.capacity),
     diag: { stepIndex: 0, deficit: 0, clamps: 0, short: 0, shore: -1, shelfEdge: -1, tcShare: 0 },
+    lagLoads: false,
   }
 }

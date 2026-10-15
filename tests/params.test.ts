@@ -11,12 +11,14 @@ const spike = require('../spikes/001-shelf-to-basin/engine.js')
 describe('parameter registry', () => {
   it('has an entry for every spike engine parameter, and no extras', () => {
     const spikeKeys = Object.keys(spike.defaultParams()).sort()
-    // seaLevelKind is new in M1.4 (the spike had only the sine)
-    expect(PARAMS.map((p) => p.key).filter((k) => k !== 'seaLevelKind').sort()).toEqual(spikeKeys)
+    // seaLevelKind (M1.4) and the bundling switches (M1.4b) are new; the spike had neither
+    expect(PARAMS.map((p) => p.key).filter((k) => !['seaLevelKind', 'bundleEvery', 'bundleAgeYr'].includes(k)).sort()).toEqual(spikeKeys)
   })
   it('defaults equal the spike defaults exactly', () => {
-    const { seaLevelKind, ...rest } = defaultParams()
+    const { seaLevelKind, bundleEvery, bundleAgeYr, ...rest } = defaultParams()
     expect(seaLevelKind).toBe('curve')
+    expect(bundleEvery).toBe(1) // off by default, so the default run stays bit-identical to M1.4
+    expect(bundleAgeYr).toBe(500000)
     expect(rest).toEqual(spike.defaultParams())
   })
   it('returns fresh copies of defaults', () => {

@@ -47,6 +47,10 @@ export interface EngineParams {
   kMudMult: number
   elastic: number
   linear: LinearMode | null
+  /** Deep compaction is solved once per this many steps (1 = every step, the default). */
+  bundleEvery: number
+  /** Layers younger than this (years) are updated every step. */
+  bundleAgeYr: number
 }
 
 /** Fresh copy of the registry defaults, typed. */

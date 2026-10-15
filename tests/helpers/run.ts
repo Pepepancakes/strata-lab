@@ -2,6 +2,8 @@
 import { defaultEngineParams, type EngineParams } from '../../src/engine/engineParams'
 import { buildSchedule, type Schedule, type Segment } from '../../src/engine/schedule'
 import { makeSeaLevel, type SeaLevelCurve } from '../../src/engine/sealevel'
+import { getPreset, type PresetId } from '../../src/engine/presets'
+import { cellBulk } from '../../src/engine/compaction'
 import { createEngine, snapshotEngine, step, type EngineSnapshot } from '../../src/engine/step'
 import type { EngineState } from '../../src/engine/state'
 
@@ -17,6 +19,8 @@ export interface Run {
   ms: number
   /** Farthest basinward shoreline over the run, km (centre of the first submerged column). */
   maxShoreKm: number
+  /** Farthest basinward shelf edge over the run, km (centre of the column), or 0 if none was found. */
+  maxEdgeKm: number
 }
 
 /** Run a whole schedule, keeping snapshots at the given step numbers. `overrides` changes parameters (e.g. seaLevelKind: 'sine'). */
@@ -28,12 +32,20 @@ export function runFull(segments?: readonly Segment[], snapAt: number[] = [], ov
   const snaps = new Map<number, EngineSnapshot>()
   const want = new Set(snapAt)
   let maxShoreKm = 0
+  let maxEdgeKm = 0
   const t0 = performance.now()
   while (step(eng, P, schedule, sl)) {
     if (want.has(eng.diag.stepIndex)) snaps.set(eng.diag.stepIndex, snapshotEngine(eng))
     if (eng.diag.shore >= 0) maxShoreKm = Math.max(maxShoreKm, ((eng.diag.shore + 0.5) * P.dx) / 1000)
+    if (eng.diag.shelfEdge >= 0) maxEdgeKm = Math.max(maxEdgeKm, ((eng.diag.shelfEdge + 0.5) * P.dx) / 1000)
   }
-  return { P, schedule, eng, snaps, ms: performance.now() - t0, maxShoreKm }
+  return { P, schedule, eng, snaps, ms: performance.now() - t0, maxShoreKm, maxEdgeKm }
+}
+
+/** Run one of the standard presets (presets.ts). `overrides` changes parameters, e.g. bundleEvery: 1 for the unbundled twin. */
+export function runPreset(id: PresetId, snapAt: number[] = [], overrides: Partial<EngineParams> = {}): Run {
+  const preset = getPreset(id)
+  return runFull(preset.segments, snapAt, { ...preset.params, ...overrides })
 }
 
 /**
@@ -55,4 +67,55 @@ export function basinFloorSandShare(eng: EngineState, dx: number, toeKm = 65): n
     }
   }
   return basin / all
+}
+
+/**
+ * Pseudo-well porosity log: porosity (1 - solids/bulk) in depth bins below the surface of column j.
+ * A layer straddling a bin edge is split by thickness. Bins the column does not fill completely are
+ * NaN. (Compared by DEPTH, not by layer number: layers thin out or vanish differently in two runs
+ * whose surfaces differ by a metre, but the porosity-depth curve is what a well would show.)
+ */
+export function wellPorosity(eng: EngineState, P: EngineParams, j: number, binM = 100, nBins = 30): number[] {
+  const { rec } = eng
+  const solid = new Array<number>(nBins).fill(0)
+  const bulk = new Array<number>(nBins).fill(0)
+  let z = 0 // depth of the top of the cell being read
+  for (let l = rec.nLayers - 1; l >= 0 && z < binM * nBins; l--) {
+    const i = l * rec.nx + j
+    const b = cellBulk(eng, P, i)
+    if (b <= 0) continue
+    const s = rec.sand[i] + rec.mud[i]
+    const z1 = z + b
+    for (let k = Math.floor(z / binM); k < nBins && k * binM < z1; k++) {
+      const frac = (Math.min(z1, (k + 1) * binM) - Math.max(z, k * binM)) / b
+      bulk[k] += frac * b
+      solid[k] += frac * s
+    }
+    z = z1
+  }
+  return bulk.map((b, k) => (b >= binM * 0.999 ? 1 - solid[k] / b : NaN))
+}
+
+/** Largest excess pore pressure anywhere in the record, Pa. */
+export function maxExcessPressure(eng: EngineState): number {
+  const { rec } = eng
+  let m = 0
+  const n = rec.nLayers * rec.nx
+  for (let i = 0; i < n; i++) if (rec.u[i] > m) m = rec.u[i]
+  return m
+}
+
+/** Differences between two runs of the same schedule: max |dH|, max porosity difference over the pseudo-wells, relative max-u difference. */
+export function compareRuns(a: Run, b: Run, wells: number[]): { dH: number; dPhi: number; dU: number } {
+  let dH = 0
+  for (let j = 0; j < a.P.nx; j++) dH = Math.max(dH, Math.abs(a.eng.rec.H[j] - b.eng.rec.H[j]))
+  let dPhi = 0
+  for (const j of wells) {
+    const pa = wellPorosity(a.eng, a.P, j)
+    const pb = wellPorosity(b.eng, b.P, j)
+    for (let l = 0; l < pa.length; l++) if (!Number.isNaN(pa[l]) && !Number.isNaN(pb[l])) dPhi = Math.max(dPhi, Math.abs(pa[l] - pb[l]))
+  }
+  const ua = maxExcessPressure(a.eng)
+  const ub = maxExcessPressure(b.eng)
+  return { dH, dPhi, dU: Math.abs(ua - ub) / ua }
 }
