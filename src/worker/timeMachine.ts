@@ -32,7 +32,7 @@ import { copyLedger, recordBalance, SALT } from '../engine/record'
 import { buildSchedule, type Schedule } from '../engine/schedule'
 import { curveCreditAtAge, makeSeaLevel, type SeaLevelCurve } from '../engine/sealevel'
 import { createEngine, step as engineStep } from '../engine/step'
-import type { EngineState } from '../engine/state'
+import type { EngineState, FailureEvent } from '../engine/state'
 import { subsidenceYears } from '../engine/subsidence'
 import { columnTemperatures } from '../engine/thermal'
 import { getReference } from '../engine/references'
@@ -258,6 +258,12 @@ export class TimeMachine {
   hashAt(branchId: string, step: number): string {
     this.moveTo(this.get(branchId), step)
     return stateHash(this.eng.rec)
+  }
+
+  /** The slope failures (with their trigger tags) of a branch up to a step, oldest first (M2.3). */
+  eventsAt(branchId: string, step: number): FailureEvent[] {
+    this.moveTo(this.get(branchId), step)
+    return this.eng.events.slice()
   }
 
   /** stateHash of every branch at the last step, by branch id (a pass over each record). */

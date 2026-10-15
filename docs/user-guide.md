@@ -53,6 +53,7 @@ ranges**. A published range is given only where one exists.
 - *Last 3 Myr (default)*: 150 columns of 1 km, 5 kyr steps, 600 steps.
 - *Miocene to present (23 Myr)*: 400 columns of 1 km, 50 kyr steps back to 3 Ma, then 5 kyr.
 - *Full Cenozoic (66 Myr)*: 400 columns, 100 kyr steps back to 23 Ma, then as the Miocene run.
+- *Overpressured slope (MTD-prone)*: the 3 Myr default with mud permeability x0.1, supply 30 m²/yr and slope failure on; 5 kyr steps.
 
 **Run length (Myr)** (tuned): how long to run, from 0.5 Myr up to the preset's length. A shorter
 run keeps the **youngest** part of the preset's schedule, so a 10 Myr run of the Miocene preset
@@ -165,8 +166,14 @@ Slope failure and debris-flow run-out (M2.2; the controls exist, but the app doe
 | Debris-flow viscosity (Pa s) | 1000 | tuned. Sets the speed, not where the flow stops |
 | Debris-flow bulk density (kg/m^3) | 1800 | tuned |
 | Porosity of mud in a fresh debris deposit | 0.55 | tuned |
+| Shallowest slip surface considered (ft) | 32.8 (10 m) | 0 to 328 | tuned. Thinner slides than this are skin slides, not MTDs; 0 searches every cell |
+| Gentlest slope checked for failure (deg) | 0.5 | 0 to 5 | tuned. A speed cut and a stated limit: failures on slopes under this are not modelled |
+| Sea-level fall that makes an event a lowstand event (ft) | 16.4 (5 m) | 0 to 328 | tuned. Only the trigger tag |
+| Accumulation rate that counts as rapid loading (m/yr) | 0.001 | 0.00001 to 0.1 | tuned. Only the trigger tag |
 
 With the switch on, any column whose factor of safety falls below 1 fails: the sediment above the slip surface runs out as a debris flow and stops where the yield strength holds it, as a mass-transport deposit (MTD). Sand and mud are conserved separately; debris that runs off the basinward edge counts as exported.
+
+Why did it fail? (M2.3.) Every failure carries one trigger tag, worked out from the weakest column's change over the last 4 steps (20 kyr at 5 kyr steps). Nothing is imposed; the factor of safety falls for physical reasons and the tag says which one did most of it. In order: *lowstand* (sea level fell by at least the lowstand threshold), *oversteepening* (the slope got steeper, and that explains more of the drop than pore pressure), *rapid loading* (pressure explains it and the column gained sediment faster than the rapid-loading rate) and *overpressure* (pressure explains it and the loading was slow, so the pressure was already there). The tag does not change the physics; it is a label on the cause. The numbers behind it are stored with each event. The preset *Overpressured slope (MTD-prone)* turns failure on with mud permeability x0.1 and supply 30 m²/yr (both tuned) so there are events to look at. Limits: slopes under 0.5° and slip surfaces shallower than 10 m are not searched.
 
 Two things to know about the edit boxes:
 - **Subsidence history (piecewise factors)** has no boxes in the app yet. It is a list the

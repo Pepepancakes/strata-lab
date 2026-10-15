@@ -178,6 +178,16 @@ export const PARAMS: readonly ParamDef[] = [
     source: { kind: 'tuned', note: 'Water plus solids while moving. Sets the flow volume (solids / concentration) and the buoyant driving force (density minus sea water).' } },
   { key: 'mtdPhiMud', label: 'Porosity of mud in a fresh debris deposit', unit: '-', displayUnit: '-', default: 0.55, min: 0.3, max: 0.8, startOnly: false,
     source: { kind: 'tuned', note: 'Remoulded mud restarts consolidation here. It is turned into a starting maximum effective stress from the porosity law; a value at or above the surface porosity gives 0 (fresh sediment). Sand in the deposit follows the same stress.' } },
+
+  // ---- failure triggers (M2.3) ----
+  { key: 'failMinDepth', label: 'Shallowest slip surface considered', unit: 'm', displayUnit: 'ft', default: 10, min: 0, max: 100, startOnly: false,
+    source: { kind: 'tuned', note: 'Slip surfaces shallower than this below the seafloor are ignored. The topmost cells of a fresh layer are undrained (u = load), so on any slope they look unstable and would give metre-thick skin slides that are not MTDs. 10 m is about the thinnest MTD seismic data resolves (to verify); 0 searches every cell as M2.2 did.' } },
+  { key: 'failSlopeMin', label: 'Gentlest slope checked for failure', unit: 'deg', displayUnit: 'deg', default: 0.5, min: 0, max: 5, startOnly: false,
+    source: { kind: 'tuned', note: 'Columns whose seafloor slope is below this are not searched. A speed cut (the shelf and basin floor are about 80 percent of the columns) and a stated limit: failures on slopes under 0.5 deg are not modelled, although some real MTDs sit on 0.5-1 deg slopes (Hampton et al. 1996, to verify).' } },
+  { key: 'failLowstandDrop', label: 'Sea-level fall that makes an event a lowstand event', unit: 'm', displayUnit: 'ft', default: 5, min: 0, max: 100, startOnly: false,
+    source: { kind: 'tuned', note: 'Trigger tagging only (triggers.ts). If sea level fell by at least this much over the lookback window, the event is tagged lowstand. Does not change the physics.' } },
+  { key: 'failRapidRate', label: 'Accumulation rate that counts as rapid loading', unit: 'm/yr', displayUnit: 'm/yr', default: 1e-3, min: 1e-5, max: 1e-1, startOnly: false,
+    source: { kind: 'tuned', note: 'Trigger tagging only (triggers.ts). A pressure-driven event is tagged rapid loading when the source column gained at least this much bulk sediment per year over the lookback (1e-3 m/yr = 1 m/kyr), otherwise overpressure. Does not change the physics.' } },
 ]
 
 const BY_KEY = new Map(PARAMS.map((p) => [p.key, p]))

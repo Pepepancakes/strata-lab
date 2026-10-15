@@ -96,6 +96,14 @@ export interface EngineParams {
   runDensity: number
   /** Porosity of mud in a fresh debris deposit. */
   mtdPhiMud: number
+  /** Slip surfaces shallower than this (m below the seafloor) are not searched (M2.3). */
+  failMinDepth: number
+  /** Seafloor slopes below this angle (deg) are not searched for failure (M2.3). */
+  failSlopeMin: number
+  /** Sea-level fall over the lookback that makes an event a lowstand event, m (M2.3). */
+  failLowstandDrop: number
+  /** Accumulation rate of the source column above which a pressure-driven event is 'rapid loading', m/yr (M2.3). */
+  failRapidRate: number
 }
 
 /** Fresh copy of the registry defaults, typed. */

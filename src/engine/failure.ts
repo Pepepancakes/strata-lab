@@ -43,6 +43,8 @@ import type { EngineParams } from './engineParams'
 import { MTD, SALT, SEDIMENT } from './record'
 import { runOut } from './runout'
 import { computeStability, type StabilityResult } from './stability'
+import { attributeCause, recordHistory, referenceSlot } from './triggers'
+import type { SeaLevelCurve } from './sealevel'
 import type { EngineState, FailureEvent } from './state'
 
 /** Blocks per source column in the run-out chain. A numerical choice. */
@@ -153,7 +155,7 @@ function release(eng: EngineState, P: EngineParams, st: StabilityResult, from: n
 }
 
 /** One failure: release, run out, deposit, fix the loads. Returns the event. */
-function failOnce(eng: EngineState, P: EngineParams, st: StabilityResult, from: number, to: number, step: number, tYr: number, ageMa: number): FailureEvent {
+function failOnce(eng: EngineState, P: EngineParams, st: StabilityResult, from: number, to: number, step: number, tYr: number, ageMa: number, trig: TriggerInfo): FailureEvent {
   const rec = eng.rec
   const nx = rec.nx
   const dx = rec.dx
@@ -315,26 +317,71 @@ function failOnce(eng: EngineState, P: EngineParams, st: StabilityResult, from: 
     layer: top,
     depositFrom: dFrom,
     depositTo: dTo,
+    ...trig,
   }
+}
+
+/** The trigger fields of an event (triggers.ts), worked out from the state BEFORE the failure. */
+type TriggerInfo = Pick<FailureEvent, 'cause' | 'dSlope' | 'dPress' | 'dSeaLevel' | 'loadRate' | 'seedColumn'>
+
+/** Tag a failure of columns from..to found in `st` (rule in triggers.ts). */
+function triggerOf(eng: EngineState, P: EngineParams, st: StabilityResult, from: number, to: number, step: number, tYr: number, seaLevel?: SeaLevelCurve): TriggerInfo {
+  const rec = eng.rec
+  const nx = rec.nx
+  let seed = from
+  for (let j = from; j <= to; j++) if (st.fsMin[j] < st.fsMin[seed]) seed = j
+  const h = eng.hist
+  const slot = referenceSlot(h, step)
+  let tanThen = st.slope[seed]
+  let ruThen = NaN
+  let dSea = 0
+  let loadRate = 0
+  if (slot >= 0) {
+    tanThen = h.slope[slot * nx + seed]
+    ruThen = h.ru[slot * nx + seed]
+    const tThen = h.tYr[slot]
+    if (seaLevel) dSea = seaLevel(tYr) - seaLevel(tThen)
+    // bulk gained since the reference step: layers deposited by steps ref+1 .. step (layer l comes from step l-1)
+    let gained = 0
+    for (let l = h.step[slot] + 2; l < rec.nLayers; l++) gained += cellBulk(eng, P, l * nx + seed)
+    if (tYr > tThen) loadRate = gained / (tYr - tThen)
+  }
+  const r = attributeCause({
+    tanNow: st.slope[seed],
+    tanThen,
+    ruNow: st.critLayer[seed] >= 0 ? st.ru[seed] : NaN,
+    ruThen,
+    dSeaLevel: dSea,
+    loadRate,
+    failLowstandDrop: P.failLowstandDrop,
+    failRapidRate: P.failRapidRate,
+  })
+  return { cause: r.cause, dSlope: r.dSlope, dPress: r.dPress, dSeaLevel: dSea, loadRate, seedColumn: seed }
 }
 
 /**
  * Check every column and fail the unstable ones, as described in the header. Called by step()
  * after compaction. Appends to eng.events and returns the new events. Leaves the engine exactly
- * as if it had been rebuilt from the record (loads cached, surface recomputed).
+ * as if it had been rebuilt from the record (loads cached, surface recomputed). Every event is
+ * tagged with its dominant trigger (triggers.ts); `seaLevel` (optional) lets it see a sea-level fall.
+ * At the end the slope and pressure of every column are stored in eng.hist for later events.
  */
-export function failureStep(eng: EngineState, P: EngineParams, step: number, tYr: number, ageMa: number): FailureEvent[] {
+export function failureStep(eng: EngineState, P: EngineParams, step: number, tYr: number, ageMa: number, seaLevel?: SeaLevelCurve): FailureEvent[] {
   const out: FailureEvent[] = []
+  const opt = { minSlope: Math.tan((P.failSlopeMin * Math.PI) / 180), minDepth: P.failMinDepth }
   let iter = 0
+  let st = computeStability(eng, P, opt)
   for (; iter < P.failMaxIters; iter++) {
-    const st = computeStability(eng, P)
     const run = pickFailure(st.fsMin, P.failMaxCells)
     if (!run) break
-    const ev = failOnce(eng, P, st, run.from, run.to, step, tYr, ageMa)
+    const trig = triggerOf(eng, P, st, run.from, run.to, step, tYr, seaLevel)
+    const ev = failOnce(eng, P, st, run.from, run.to, step, tYr, ageMa, trig)
     eng.events.push(ev)
     out.push(ev)
+    st = computeStability(eng, P, opt) // the scar is a new headwall
   }
-  if (iter === P.failMaxIters && pickFailure(computeStability(eng, P).fsMin, P.failMaxCells)) eng.diag.failUnresolved++
+  if (iter === P.failMaxIters && pickFailure(st.fsMin, P.failMaxCells)) eng.diag.failUnresolved++
+  recordHistory(eng.hist, eng.rec.nx, step, tYr, st)
   return out
 }
 

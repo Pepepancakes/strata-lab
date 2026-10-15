@@ -9,6 +9,7 @@
 // makes rewind bit-identical.
 
 import type { LayerRecord } from './record'
+import { createHistory, type TriggerCause, type TriggerHistory } from './triggers'
 
 export interface Scratch {
   F: Float64Array
@@ -92,6 +93,17 @@ export interface FailureEvent {
   layer: number
   depositFrom: number
   depositTo: number
+  /** Dominant trigger (triggers.ts). Always set. */
+  cause: TriggerCause
+  /** Contributions to the drop of ln FS over the lookback, from the slope and from the pore pressure. */
+  dSlope: number
+  dPress: number
+  /** Sea-level change over the lookback, m (negative = fall). */
+  dSeaLevel: number
+  /** Bulk sediment gained by the weakest source column over the lookback, m/yr. */
+  loadRate: number
+  /** The weakest source column (lowest FS) the tag was worked out for. */
+  seedColumn: number
 }
 
 export interface EngineState {
@@ -111,6 +123,8 @@ export interface EngineState {
   tempOk: boolean
   /** Slope failures so far, oldest first (M2.2). Snapshots and keyframes keep and restore it. */
   events: FailureEvent[]
+  /** End-of-step slope and pressure of the last few steps, for trigger attribution (M2.3). Kept only when failOn = 1. */
+  hist: TriggerHistory
 }
 
 function makeScratch(nx: number, nLayers: number): Scratch {
@@ -139,5 +153,6 @@ export function allocateEngine(rec: LayerRecord): EngineState {
     temp: new Float64Array(cells),
     tempOk: false,
     events: [],
+    hist: createHistory(rec.nx),
   }
 }
