@@ -11,7 +11,7 @@
 import type { EngineParams } from '../engine/engineParams'
 import type { ParamValue } from '../engine/params'
 import type { PresetId } from '../engine/presets'
-import type { RecordBalance } from '../engine/record'
+import type { Ledger, RecordBalance } from '../engine/record'
 import type { Segment } from '../engine/schedule'
 
 /** What to run. `segments` replaces the preset's time steps (used by tests and later by the UI). */
@@ -23,7 +23,7 @@ export interface RunSpec {
 }
 
 /** Columns of a StateView that are large (nLayers x nx) and optional. `thick` is bulk thickness, m. */
-export type ViewField = 'thick' | 'sand' | 'mud' | 'smax' | 'u' | 'cem'
+export type ViewField = 'thick' | 'sand' | 'mud' | 'smax' | 'u' | 'cem' | 'lam' | 'temp'
 export const DEFAULT_VIEW_FIELDS: readonly ViewField[] = ['thick', 'sand', 'mud', 'u']
 
 export interface StateView {
@@ -50,10 +50,16 @@ export interface StateView {
   smax?: Float64Array
   u?: Float64Array
   cem?: Float64Array
+  /** Derived (not stored): overpressure ratio lambda* = u / buoyant load, 0..1. Needs the field 'lam'. */
+  lam?: Float64Array
+  /** Derived (not stored): temperature at the middle of each cell, deg C. Needs the field 'temp'. */
+  temp?: Float64Array
   material: Uint8Array
   /** Age at the end of each layer's step, Ma (layer 0 = start of the run). */
   layerAgeMa: Float64Array
   balance: RecordBalance
+  /** Running totals behind `balance`: supplied (cumIn), exported (cumOut), and the amount at the start. m^2. */
+  ledger: Ledger
   /** Column index of the shoreline / shelf edge after the last step (-1 = none). */
   shore: number
   shelfEdge: number
@@ -118,6 +124,53 @@ export interface CheckResult {
   unit: string
   /** One plain sentence: what was compared with what. */
   detail: string
+  /** Where the benchmark comes from (a citation, or the project rule it enforces). */
+  cite: string
+}
+
+/** One column of the record at one step, for the pseudo-well. Arrays are per layer, index 0 = substrate. SI. */
+export interface WellColumn {
+  branchId: string
+  step: number
+  ageMa: number
+  column: number
+  /** Distance of the column centre from the landward edge, m. */
+  xM: number
+  seaLevelM: number
+  /** Basement and surface elevation, m. */
+  b: number
+  H: number
+  nLayers: number
+  thick: Float64Array
+  sand: Float64Array
+  mud: Float64Array
+  /** Excess pore pressure, Pa. */
+  u: Float64Array
+  /** Temperature at the middle of each cell, deg C. */
+  temp: Float64Array
+  material: Uint8Array
+  /** Temperature where quartz cementation starts (cemTonset), deg C. */
+  cemTonsetC: number
+  cementOn: boolean
+}
+
+export interface CurveCreditInfo {
+  name: string
+  /** Full citations that apply. */
+  citations: string[]
+}
+
+/** Per-step series of one branch for the charts. Index k = the end of step k. */
+export interface SeriesData {
+  branchId: string
+  ageMa: Float64Array
+  seaLevelM: Float64Array
+  /** Subsidence rate at the landward / basinward edge, m/Myr (the time history applied). */
+  subsShelfMPerMyr: Float64Array
+  subsBasinMPerMyr: Float64Array
+  /** Index into `credits` of the sea-level record used at each step. */
+  creditIdx: Uint8Array
+  credits: CurveCreditInfo[]
 }
 
 export type EngineRequest =
@@ -130,6 +183,8 @@ export type EngineRequest =
   | { id: number; kind: 'compare'; a: string; b: string; step: number; fields?: readonly ViewField[] }
   | { id: number; kind: 'branches' }
   | { id: number; kind: 'runChecks' }
+  | { id: number; kind: 'well'; branchId: string; step: number; column: number }
+  | { id: number; kind: 'series'; branchId: string }
 
 export type EngineResponse =
   | { id: number; kind: 'pong'; payload: string }
@@ -144,6 +199,8 @@ export type EngineResponse =
   | { id: number; kind: 'compared'; a: StateView; b: StateView; diff: ViewDiff; ms: number }
   | { id: number; kind: 'branchList'; branches: BranchInfo[]; liveBytes: number }
   | { id: number; kind: 'checks'; results: CheckResult[]; allPass: boolean; ms: number }
+  | { id: number; kind: 'wellColumn'; well: WellColumn; ms: number }
+  | { id: number; kind: 'seriesData'; series: SeriesData; ms: number }
 
 /** The buffers of a response that should be transferred, not cloned. */
 export function transferListOf(resp: EngineResponse): ArrayBuffer[] {
@@ -159,5 +216,7 @@ export function transferListOf(resp: EngineResponse): ArrayBuffer[] {
     add(resp.b)
     add(resp.diff)
   } else if (resp.kind === 'runDone') add(resp.info)
+  else if (resp.kind === 'wellColumn') add(resp.well)
+  else if (resp.kind === 'seriesData') add(resp.series)
   return out
 }

@@ -15,6 +15,7 @@ import { DRHO_G, MU, YR } from '../engine/constants'
 import { stateHash } from '../engine/determinism'
 import { defaultEngineParams } from '../engine/engineParams'
 import { createRecord } from '../engine/record'
+import { getReference } from '../engine/references'
 import { buildSchedule } from '../engine/schedule'
 import { makeSeaLevel } from '../engine/sealevel'
 import { allocateEngine } from '../engine/state'
@@ -97,10 +98,19 @@ const SMALL_RUN = {
   overrides: { nx: 60, dx: 2500 },
 }
 
+/** Where each benchmark comes from: a published solution, or the project rule it enforces. */
+function citeFor(id: string): string {
+  if (id.startsWith('gibson')) return getReference('gibson-1958')?.full ?? 'Gibson (1958)'
+  if (id.startsWith('drained')) return getReference('sclater-christie-1980')?.full ?? 'Sclater & Christie (1980)'
+  if (id.startsWith('balance')) return 'Project rule (docs/agent-guide.md, principle 1): mass is conserved per grain size, not only in total.'
+  if (id === 'rewind') return 'Project rule (docs/agent-guide.md, principle 2): same inputs give bit-identical results.'
+  return 'Project benchmark.'
+}
+
 export function runChecks(): CheckResult[] {
   const out: CheckResult[] = []
   const add = (id: string, label: string, value: number, limit: number, unit: string, detail: string, pass = value < limit) =>
-    out.push({ id, label, pass, value, limit, unit, detail })
+    out.push({ id, label, pass, value, limit, unit, detail, cite: citeFor(id) })
 
   for (const T of [0.1, 1, 10]) {
     add(`gibson-${T}`, `Consolidation vs Gibson (1958), T = ${T}`, gibsonMaxError(T), 0.001, 'of overburden',

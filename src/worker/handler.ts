@@ -81,6 +81,16 @@ export class EngineHost {
         const results = runChecks()
         return { id, kind: 'checks', results, allPass: results.every((r) => r.pass), ms: now() - t0 }
       }
+      case 'well': {
+        this.needRun()
+        const t0 = now()
+        return { id, kind: 'wellColumn', well: this.tm.wellColumn(req.branchId, req.step, req.column), ms: now() - t0 }
+      }
+      case 'series': {
+        this.needRun()
+        const t0 = now()
+        return { id, kind: 'seriesData', series: this.tm.series(req.branchId), ms: now() - t0 }
+      }
       default:
         return { id: (req as { id: number }).id, kind: 'error', message: 'unknown request kind' }
     }

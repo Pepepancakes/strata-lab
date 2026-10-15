@@ -22,22 +22,27 @@
 // kMudMult can differ between eras). When the era changes the caches are recomputed for the new
 // parameters, in the straight run and after a restore alike, so both agree.
 
-import { cellBulk, setPor } from '../engine/compaction'
+import { buoyantLoad, cellBulk, setPor } from '../engine/compaction'
+import { EMPTY } from '../engine/constants'
 import { stateHash } from '../engine/determinism'
 import { cloneParams, defaultEngineParams, type EngineParams } from '../engine/engineParams'
 import type { ParamValue } from '../engine/params'
 import { getPreset } from '../engine/presets'
-import { recordBalance } from '../engine/record'
+import { copyLedger, recordBalance, SALT } from '../engine/record'
 import { buildSchedule, type Schedule } from '../engine/schedule'
-import { makeSeaLevel, type SeaLevelCurve } from '../engine/sealevel'
+import { curveCreditAtAge, makeSeaLevel, type SeaLevelCurve } from '../engine/sealevel'
 import { createEngine, step as engineStep } from '../engine/step'
 import type { EngineState } from '../engine/state'
+import { subsidenceYears } from '../engine/subsidence'
+import { columnTemperatures } from '../engine/thermal'
+import { getReference } from '../engine/references'
 import { validateBranchEdits } from './edits'
 import {
   isCleanStep, keyframeChunks, packKeyframe, restoreKeyframe, type Keyframe,
 } from './keyframes'
 import {
-  DEFAULT_VIEW_FIELDS, type BranchInfo, type RunInfo, type RunSpec, type StateView, type ViewDiff, type ViewField,
+  DEFAULT_VIEW_FIELDS, type BranchInfo, type CurveCreditInfo, type RunInfo, type RunSpec, type SeriesData, type StateView, type ViewDiff,
+  type ViewField, type WellColumn,
 } from './protocol'
 
 /** Most branches at once, the main run included. Each costs its own saved states. */
@@ -331,6 +336,7 @@ export class TimeMachine {
       material: rec.material.slice(0, n),
       layerAgeMa: rec.stepAgeMa.slice(0, rec.nLayers),
       balance: recordBalance(rec),
+      ledger: copyLedger(rec.ledger),
       shore: eng.diag.shore,
       shelfEdge: eng.diag.shelfEdge,
     }
@@ -339,10 +345,130 @@ export class TimeMachine {
         const t = new Float64Array(n)
         for (let i = 0; i < n; i++) t[i] = cellBulk(eng, era.P, i)
         view.thick = t
-      } else view[f] = rec[f].slice(0, n)
+      } else if (f === 'lam') view.lam = this.overpressureRatio()
+      else if (f === 'temp') view.temp = this.temperatures(era.P, view.seaLevelM)
+      else view[f] = rec[f].slice(0, n)
     }
     if (withHash) view.hash = stateHash(rec)
     return view
+  }
+
+  /**
+   * Overpressure ratio lambda* = u / buoyant load of every cell of the record as it is now.
+   * Derived for display only: the load is rebuilt from the stored thicknesses with the engine's
+   * own buoyantLoad() (cached loads can lag in bundled runs, so they are not used). 0 for empty and salt cells.
+   */
+  private overpressureRatio(): Float64Array {
+    const rec = this.eng.rec
+    const nx = rec.nx
+    const lam = new Float64Array(rec.nLayers * nx)
+    for (let j = 0; j < nx; j++) {
+      let above = 0
+      for (let l = rec.nLayers - 1; l >= 0; l--) {
+        const i = l * nx + j
+        if (rec.material[i] === SALT) continue
+        const s = rec.sand[i] + rec.mud[i]
+        if (s <= EMPTY) continue
+        const L = buoyantLoad(above, s)
+        above += s
+        lam[i] = L > 0 ? Math.min(1, Math.max(0, rec.u[i] / L)) : 0
+      }
+    }
+    return lam
+  }
+
+  /** Steady-conduction temperature (deg C) at the middle of every cell, from the record as it is now. */
+  private temperatures(P: EngineParams, seaLevelM: number): Float64Array {
+    const rec = this.eng.rec
+    const nx = rec.nx
+    const out = new Float64Array(rec.nLayers * nx)
+    const col = new Float64Array(rec.nLayers)
+    for (let j = 0; j < nx; j++) {
+      columnTemperatures(this.eng, P, j, rec.nLayers, seaLevelM, col)
+      for (let l = 0; l < rec.nLayers; l++) out[l * nx + j] = col[l]
+    }
+    return out
+  }
+
+  /** One column of the record at a step, for the pseudo-well. */
+  wellColumn(branchId: string, step: number, column: number): WellColumn {
+    const b = this.get(branchId)
+    this.moveTo(b, step)
+    const rec = this.eng.rec
+    const nx = rec.nx
+    if (!Number.isInteger(column) || column < 0 || column >= nx) throw new Error(`Column ${column} is outside the section (0 to ${nx - 1}).`)
+    const era = this.eraAt(b, Math.max(0, step - 1))
+    const elapsed = step === 0 ? 0 : this.schedule.tEndYr[step - 1]
+    const seaLevelM = era.sea(elapsed)
+    const n = rec.nLayers
+    const thick = new Float64Array(n)
+    const sand = new Float64Array(n)
+    const mud = new Float64Array(n)
+    const u = new Float64Array(n)
+    const material = new Uint8Array(n)
+    for (let l = 0; l < n; l++) {
+      const i = l * nx + column
+      thick[l] = cellBulk(this.eng, era.P, i)
+      sand[l] = rec.sand[i]
+      mud[l] = rec.mud[i]
+      u[l] = rec.u[i]
+      material[l] = rec.material[i]
+    }
+    const temp = new Float64Array(n)
+    columnTemperatures(this.eng, era.P, column, n, seaLevelM, temp)
+    return {
+      branchId, step, column,
+      ageMa: step === 0 ? this.schedule.startAgeMa : this.schedule.stepAgeMa[step - 1],
+      xM: (column + 0.5) * rec.dx,
+      seaLevelM, b: rec.b[column], H: rec.H[column], nLayers: n,
+      thick, sand, mud, u, temp, material,
+      cemTonsetC: era.P.cemTonset, cementOn: era.P.cement === 1,
+    }
+  }
+
+  /** Sea level and subsidence rate at the end of every step of a branch (each step uses its own era). */
+  series(branchId: string): SeriesData {
+    const b = this.get(branchId)
+    const sch = this.schedule
+    const n = sch.nSteps
+    const out: SeriesData = {
+      branchId,
+      ageMa: sch.stepAgeMa.slice(),
+      seaLevelM: new Float64Array(n),
+      subsShelfMPerMyr: new Float64Array(n),
+      subsBasinMPerMyr: new Float64Array(n),
+      creditIdx: new Uint8Array(n),
+      credits: [],
+    }
+    const names = new Map<string, number>()
+    const startAgeYr = sch.startAgeMa * 1e6
+    for (let k = 0; k < n; k++) {
+      const era = this.eraAt(b, k)
+      out.seaLevelM[k] = era.sea(sch.tEndYr[k])
+      const factor = subsidenceYears(era.P, sch.tStartYr[k], sch.tEndYr[k], startAgeYr) / sch.stepDt[k]
+      out.subsShelfMPerMyr[k] = era.P.subsShelf * factor
+      out.subsBasinMPerMyr[k] = era.P.subsBasin * factor
+      const credit = this.creditFor(era.P, sch.stepAgeMa[k])
+      let idx = names.get(credit.name)
+      if (idx === undefined) {
+        idx = out.credits.length
+        names.set(credit.name, idx)
+        out.credits.push(credit)
+      }
+      out.creditIdx[k] = idx
+    }
+    return out
+  }
+
+  private creditFor(P: EngineParams, ageMa: number): CurveCreditInfo {
+    if (P.seaLevelKind === 'sine') {
+      return {
+        name: `Teaching sine (${P.slAmp} m amplitude, ${P.slPeriod / 1000} kyr period)`,
+        citations: ['Not a measured record: a simple sine used to teach and to compare with spike 001 (tuned).'],
+      }
+    }
+    const c = curveCreditAtAge(ageMa * 1e6)
+    return { name: c.name, citations: c.refIds.map((id) => getReference(id)?.full ?? id) }
   }
 
   private ageLabel(step: number): string {
