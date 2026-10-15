@@ -10,6 +10,15 @@ export interface Reference {
   full: string
   /** True when the docs say the details have not been checked against the paper. */
   toVerify?: boolean
+  /** Bundled data set behind this reference, when the app ships one. */
+  dataset?: {
+    doi: string
+    archiveUrl: string
+    licence: string
+    accessed: string
+    column: string
+    file: string
+  }
 }
 
 export const REFERENCES: readonly Reference[] = [
@@ -52,6 +61,32 @@ export const REFERENCES: readonly Reference[] = [
     id: 'miller-2005',
     short: 'Miller et al. (2005)',
     full: 'Miller, K.G. et al. (2005). The Phanerozoic record of global sea-level change. Science 310, 1293-1298.',
+  },
+  {
+    id: 'bintanja-van-de-wal-2008',
+    short: 'Bintanja & van de Wal (2008)',
+    full: 'Bintanja, R. & van de Wal, R.S.W. (2008). North American ice-sheet dynamics and the onset of 100,000-year glacial cycles. Nature 454, 869-872. doi:10.1038/nature07158. Data: Bintanja & van de Wal (2011), NOAA/WDS Paleoclimatology, Global 3Ma Temperature, Sea Level, and Ice Volume Reconstructions.',
+    dataset: {
+      doi: '10.25921/revb-da37',
+      archiveUrl: 'https://www.ncei.noaa.gov/pub/data/paleo/contributions_by_author/bintanja2008/bintanja2008.txt',
+      licence: 'CC0 1.0 (NOAA NCEI metadata)',
+      accessed: '2026-10-14',
+      column: 'Column 9, sign reversed (the file labels it sea level but it is ice volume as sea-level equivalent)',
+      file: 'src/engine/data/sealevel-bintanja2008.json',
+    },
+  },
+  {
+    id: 'miller-2020',
+    short: 'Miller et al. (2020)',
+    full: 'Miller, K.G., Browning, J.V., Schmelz, W.J., Kopp, R.E., Mountain, G.S. & Wright, J.D. (2020). Cenozoic sea-level and cryospheric evolution from deep-sea geochemical and continental margin records. Science Advances 6(20), eaaz1346. doi:10.1126/sciadv.aaz1346. Data: PANGAEA doi:10.1594/PANGAEA.923139.',
+    dataset: {
+      doi: '10.1594/PANGAEA.923139',
+      archiveUrl: 'https://doi.pangaea.de/10.1594/PANGAEA.923139',
+      licence: 'CC-BY 4.0 (PANGAEA data set)',
+      accessed: '2026-10-14',
+      column: 'Sea lev rel [m], smoothed Cenozoic sea level relative to present',
+      file: 'src/engine/data/sealevel-miller2020.json',
+    },
   },
   {
     id: 'spratt-lisiecki-2016',

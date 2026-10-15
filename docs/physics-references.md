@@ -30,15 +30,54 @@ Papers themselves go in the git-ignored `References/` folder, never in git.
 | Turbidite routing (share, transport lengths) | see `engine.js` | tuned | A transport-length rule, not flow physics |
 | Sediment supply | 20 m²/yr (solid) | tuned | Order of magnitude for a large-river margin; needs a source |
 | Subsidence | 40–150 m/Myr | tuned | |
-| Sea level | ±40 m sine, 100 kyr | teaching only | M1 replaces it with a published curve |
+| Sea level (default) | Published global curve, spliced | cited | See "Sea-level data" below. The ±40 m sine is kept as a teaching option (`seaLevelKind: 'sine'`, tuned). |
+
+## Sea-level data (M1.4, bundled)
+Fetched at dev time by `scripts/fetch-sealevel.mjs`, never at runtime. Both licences were read on
+the archive pages and are bundleable (CC0, CC-BY). Accessed 2026-10-14.
+
+**Younger than 3 Ma: Bintanja & van de Wal (2008)**
+- Paper: Bintanja, R. & van de Wal, R.S.W. (2008). North American ice-sheet dynamics and the onset of
+  100,000-year glacial cycles. *Nature* 454, 869–872. doi:10.1038/nature07158.
+- Archive: NOAA NCEI / WDS Paleoclimatology, "Global 3Ma Temperature, Sea Level, and Ice Volume
+  Reconstructions", doi:10.25921/revb-da37. Data file:
+  https://www.ncei.noaa.gov/pub/data/paleo/contributions_by_author/bintanja2008/bintanja2008.txt
+- Licence: CC0 1.0 (NOAA metadata record, noaa-recon-11933). Please cite the paper.
+- Column used: column 9 (time in column 1, kyr BP). **Sign trap:** the file labels column 9 "global
+  sea level relative to present", but it is ice volume as sea-level equivalent (+122.8 m at 21 ka).
+  Sea level is its negative, which is what is stored (−122.8 m at 21 ka). Its value for age 0 is
+  −1.46 m, not 0; kept as published.
+- Bundled as `src/engine/data/sealevel-bintanja2008.json`: every 3rd row of the 100 yr series
+  (300 yr), because the full series is about 450 KB (limit 200 KB). Rows are original values, not
+  averages. File size 144 KB.
+
+**Older than 3 Ma: Miller et al. (2020)**
+- Paper: Miller, K.G., Browning, J.V., Schmelz, W.J., Kopp, R.E., Mountain, G.S. & Wright, J.D.
+  (2020). Cenozoic sea-level and cryospheric evolution from deep-sea geochemical and continental
+  margin records. *Science Advances* 6(20), eaaz1346. doi:10.1126/sciadv.aaz1346.
+- Data: PANGAEA, "Smoothed Cenozoic sea-level relative to modern from deep-sea geochemical and
+  continental margin records", doi:10.1594/PANGAEA.923139.
+- Licence: CC-BY 4.0 (stated on the PANGAEA data set page). Only the PANGAEA data set is bundled;
+  the paper's own terms were not checked (Science Advances articles are normally CC-BY-NC, which
+  would not be bundleable). Attribution is required.
+- Column used: "Sea lev rel [m]" (relative to present), age in ka BP. 3,193 rows, 20 kyr, from
+  0.98 to 64.82 Ma; smoothed (about 2 Myr low-pass), so it has no glacial cycles. Quoted
+  uncertainty of the method is about ±10 m (Miller et al. 2024).
+- Bundled whole as `src/engine/data/sealevel-miller2020.json` (44 KB).
+- Not used: Miller et al. (2005) (NOAA NCEI doi:10.25921/kc41-xy86, 0–100 Ma), superseded by the
+  2020 curve; Miller et al. (2024) (NOAA study 39499, 0–66 Ma) is a possible later upgrade.
+  de Boer et al. (2014) was not needed because Bintanja & van de Wal already gives 3 Myr under CC0.
+
+**Splice (`src/engine/sealevel.ts`).** Bintanja for ages up to 2.8 Ma; Miller from 3.0 Ma; between
+them a linear blend over 200 kyr at the old end of the high-resolution record
+(`SPLICE_OVERLAP_YR`). At 3 Ma the two differ by 3.3 m (−1.5 vs −4.8 m), so the blend adds no
+jump; tests check that the largest change over 100 yr in the window is below 1 m (it is 0.37 m).
+Linear interpolation between rows; ages outside a table clamp to its end. The UI name and
+citation come from `curveCreditAtAge(age)` and change with age.
 
 ## Candidate sources for later milestones
-- **Sea level (M1).**
-  - Miller, K.G. et al. (2005). The Phanerozoic record of global sea-level change. *Science* 310,
-    1293–1298.
-  - Spratt, R.M. & Lisiecki, L.E. (2016). A Late Pleistocene sea level stack. *Clim. Past* 12,
-    1079–1092.
-  - Check each dataset's licence before bundling it.
+- **Sea level (done in M1.4, see above).** Also considered: Spratt & Lisiecki (2016), *Clim. Past*
+  12, 1079–1092 (last 800 kyr only, so too short).
 - **Slope failure and run-out (M2).** Hampton, M.A., Lee, H.J. & Locat, J. (1996). Submarine
   landslides. *Rev. Geophys.* 34(1), 33–59.
 - **Salt (S2/M3).**

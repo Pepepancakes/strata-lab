@@ -11,10 +11,13 @@ const spike = require('../spikes/001-shelf-to-basin/engine.js')
 describe('parameter registry', () => {
   it('has an entry for every spike engine parameter, and no extras', () => {
     const spikeKeys = Object.keys(spike.defaultParams()).sort()
-    expect(PARAMS.map((p) => p.key).sort()).toEqual(spikeKeys)
+    // seaLevelKind is new in M1.4 (the spike had only the sine)
+    expect(PARAMS.map((p) => p.key).filter((k) => k !== 'seaLevelKind').sort()).toEqual(spikeKeys)
   })
   it('defaults equal the spike defaults exactly', () => {
-    expect(defaultParams()).toEqual(spike.defaultParams())
+    const { seaLevelKind, ...rest } = defaultParams()
+    expect(seaLevelKind).toBe('curve')
+    expect(rest).toEqual(spike.defaultParams())
   })
   it('returns fresh copies of defaults', () => {
     const a = defaultParams()
@@ -37,7 +40,7 @@ describe('parameter registry', () => {
   })
   it('keeps defaults inside min/max and array shapes consistent', () => {
     for (const p of PARAMS) {
-      if (p.default === null) continue
+      if (p.default === null || typeof p.default === 'string') continue
       const d = Array.isArray(p.default) ? p.default : [p.default]
       const lo = Array.isArray(p.min) ? p.min : [p.min as number]
       const hi = Array.isArray(p.max) ? p.max : [p.max as number]

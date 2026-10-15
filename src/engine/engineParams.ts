@@ -23,6 +23,8 @@ export interface EngineParams {
   nSub: number
   supply: number
   sandFrac: number
+  /** 'curve' = published record (default), 'sine' = teaching sine using slAmp and slPeriod. */
+  seaLevelKind: 'curve' | 'sine'
   slAmp: number
   slPeriod: number
   slShift: number

@@ -10,6 +10,8 @@ import { runFull, seaLevelOf } from './helpers/run'
 
 // One 3 Myr default run (600 steps of 5 kyr), shared by the tests below.
 const full = runFull(undefined, [240, 300])
+// Golden parity is with spike 001, which used the sine, so that comparison runs on the sine.
+const fullSine = runFull(undefined, [], { seaLevelKind: 'sine' })
 
 describe('default 3 Myr run', () => {
   it('conserves mass: total, sand only, mud only, and no salt appears', () => {
@@ -65,13 +67,13 @@ describe('determinism', () => {
 describe('golden parity with spike 001', () => {
   const g = JSON.parse(readFileSync(new URL('./golden/spike001-default.json', import.meta.url), 'utf8'))
   it('matches the spike column by column', () => {
-    const { rec } = full.eng
+    const { rec } = fullSine.eng
     expect(rec.nx).toBe(g.nx)
     expect(rec.nLayers - 1).toBe(g.steps)
     let dH = 0, dB = 0, dSand = 0, dMud = 0, dU = 0
     let maxU = 0
     for (let j = 0; j < g.nx; j++) {
-      const c = columnSolids(full.eng, j)
+      const c = columnSolids(fullSine.eng, j)
       let uj = 0
       for (let l = 0; l < rec.nLayers; l++) uj = Math.max(uj, rec.u[l * rec.nx + j])
       maxU = Math.max(maxU, uj)
@@ -134,7 +136,7 @@ describe('salt is skipped by transport and compaction', () => {
     // surface includes the salt: b + sediment bulk + 100 m
     expect(before.H[0]).toBeGreaterThan(rec.b[0] + 100)
 
-    const sl = seaLevelOf(P)
+    const sl = seaLevelOf(P, sched)
     while (step(eng, P, sched, sl)) { /* 20 steps */ }
 
     expect(cells(rec.mud, salt)).toEqual(before.saltMud)

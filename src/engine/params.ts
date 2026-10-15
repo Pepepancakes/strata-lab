@@ -9,7 +9,7 @@
 // Array parameters are [sand, mud] (see `components`). Min/max have the same shape as default.
 // Min/max are guard rails for the UI, not published limits.
 
-export type ParamValue = number | number[] | null
+export type ParamValue = number | number[] | string | null
 
 export interface ParamSource {
   kind: 'cited' | 'tuned' | 'to-verify'
@@ -32,6 +32,8 @@ export interface ParamDef {
   startOnly: boolean
   /** Names of the array entries, e.g. ['sand', 'mud']. Absent for scalars. */
   components?: string[]
+  /** Allowed values of a choice parameter (string default). Absent for numbers. */
+  options?: string[]
   source: ParamSource
 }
 
@@ -56,12 +58,14 @@ export const PARAMS: readonly ParamDef[] = [
     source: { kind: 'tuned', note: 'Solid volume per metre of margin. Order of magnitude for a large-river margin; needs a source.' } },
   { key: 'sandFrac', label: 'Sand share of supply', unit: '-', displayUnit: '-', default: 0.35, min: 0, max: 1, startOnly: false,
     source: { kind: 'tuned', note: 'Solid-volume share.' } },
-  { key: 'slAmp', label: 'Sea-level amplitude', unit: 'm', displayUnit: 'ft', default: 40, min: 0, max: 150, startOnly: false,
-    source: { kind: 'tuned', note: 'Teaching sine only; M1.4 replaces it with a published curve.' } },
-  { key: 'slPeriod', label: 'Sea-level period', unit: 'yr', displayUnit: 'kyr', default: 100000, min: 10000, max: 1e6, startOnly: false,
-    source: { kind: 'tuned', note: 'Teaching sine only; M1.4 replaces it with a published curve.' } },
+  { key: 'seaLevelKind', label: 'Sea-level source', unit: '-', displayUnit: '-', default: 'curve', min: null, max: null, startOnly: false, options: ['curve', 'sine'],
+    source: { kind: 'cited', refId: 'bintanja-van-de-wal-2008', note: "'curve' is the published global record: Bintanja & van de Wal (2008) for the last 3 Myr, Miller et al. (2020) before that, blended over 200 kyr at 2.8-3.0 Ma. 'sine' is the teaching sine (slAmp, slPeriod)." } },
+  { key: 'slAmp', label: 'Sea-level amplitude (sine only)', unit: 'm', displayUnit: 'ft', default: 40, min: 0, max: 150, startOnly: false,
+    source: { kind: 'tuned', note: "Teaching sine only; used when seaLevelKind is 'sine'." } },
+  { key: 'slPeriod', label: 'Sea-level period (sine only)', unit: 'yr', displayUnit: 'kyr', default: 100000, min: 10000, max: 1e6, startOnly: false,
+    source: { kind: 'tuned', note: "Teaching sine only; used when seaLevelKind is 'sine'." } },
   { key: 'slShift', label: 'Sea-level offset', unit: 'm', displayUnit: 'ft', default: 0, min: -200, max: 200, startOnly: false,
-    source: { kind: 'tuned', note: 'Step offset of the teaching sine.' } },
+    source: { kind: 'tuned', note: 'Step offset added to either sea-level source (branch what-ifs).' } },
   { key: 'subsShelf', label: 'Subsidence, landward edge', unit: 'm/Myr', displayUnit: 'ft/Myr', default: 40, min: 0, max: 500, startOnly: false,
     source: { kind: 'tuned', note: 'Range 40-150 m/Myr chosen by eye.' } },
   { key: 'subsBasin', label: 'Subsidence, basinward edge', unit: 'm/Myr', displayUnit: 'ft/Myr', default: 150, min: 0, max: 500, startOnly: false,
