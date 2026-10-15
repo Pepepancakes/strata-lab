@@ -13,6 +13,7 @@ import type { ParamValue } from '../engine/params'
 import type { PresetId } from '../engine/presets'
 import type { Ledger, RecordBalance } from '../engine/record'
 import type { Segment } from '../engine/schedule'
+import type { ScenarioFile } from '../app/scenarioFile'
 
 /** What to run. `segments` replaces the preset's time steps (used by tests and later by the UI). */
 export interface RunSpec {
@@ -185,6 +186,10 @@ export type EngineRequest =
   | { id: number; kind: 'runChecks' }
   | { id: number; kind: 'well'; branchId: string; step: number; column: number }
   | { id: number; kind: 'series'; branchId: string }
+  /** stateHash of every branch at its last step, by branch id (for saving a scenario file). */
+  | { id: number; kind: 'hashes' }
+  /** Rebuild a checked scenario file: run, branches, then hashes. Replaces the current run. */
+  | { id: number; kind: 'openScenario'; file: ScenarioFile }
 
 export type EngineResponse =
   | { id: number; kind: 'pong'; payload: string }
@@ -201,6 +206,8 @@ export type EngineResponse =
   | { id: number; kind: 'checks'; results: CheckResult[]; allPass: boolean; ms: number }
   | { id: number; kind: 'wellColumn'; well: WellColumn; ms: number }
   | { id: number; kind: 'seriesData'; series: SeriesData; ms: number }
+  | { id: number; kind: 'hashList'; hashes: Record<string, string>; ms: number }
+  | { id: number; kind: 'scenarioOpened'; info: RunInfo; branches: BranchInfo[]; idMap: Record<string, string>; hashes: Record<string, string>; ms: number }
 
 /** The buffers of a response that should be transferred, not cloned. */
 export function transferListOf(resp: EngineResponse): ArrayBuffer[] {
@@ -215,7 +222,7 @@ export function transferListOf(resp: EngineResponse): ArrayBuffer[] {
     add(resp.a)
     add(resp.b)
     add(resp.diff)
-  } else if (resp.kind === 'runDone') add(resp.info)
+  } else if (resp.kind === 'runDone' || resp.kind === 'scenarioOpened') add(resp.info)
   else if (resp.kind === 'wellColumn') add(resp.well)
   else if (resp.kind === 'seriesData') add(resp.series)
   return out

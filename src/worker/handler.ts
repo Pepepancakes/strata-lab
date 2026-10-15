@@ -7,6 +7,7 @@
 import { sumFloat64 } from '../engine/sum'
 import { runChecks } from './checks'
 import type { EngineRequest, EngineResponse } from './protocol'
+import { replayScenario } from './scenarioReplay'
 import { TimeMachine } from './timeMachine'
 
 /** Millisecond clock for reporting (worker code, not engine code). */
@@ -90,6 +91,18 @@ export class EngineHost {
         this.needRun()
         const t0 = now()
         return { id, kind: 'seriesData', series: this.tm.series(req.branchId), ms: now() - t0 }
+      }
+      case 'hashes': {
+        this.needRun()
+        const t0 = now()
+        return { id, kind: 'hashList', hashes: this.tm.hashes(), ms: now() - t0 }
+      }
+      case 'openScenario': {
+        const t0 = now()
+        this.hasRun = false
+        const r = replayScenario(this.tm, req.file, progress)
+        this.hasRun = true
+        return { id, kind: 'scenarioOpened', info: r.info, branches: r.branches, idMap: r.idMap, hashes: r.hashes, ms: now() - t0 }
       }
       default:
         return { id: (req as { id: number }).id, kind: 'error', message: 'unknown request kind' }

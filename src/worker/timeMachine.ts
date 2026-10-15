@@ -260,6 +260,13 @@ export class TimeMachine {
     return stateHash(this.eng.rec)
   }
 
+  /** stateHash of every branch at the last step, by branch id (a pass over each record). */
+  hashes(): Record<string, string> {
+    const out: Record<string, string> = {}
+    for (const id of this.branches.keys()) out[id] = this.hashAt(id, this.schedule.nSteps)
+    return out
+  }
+
   branch(parentId: string, step: number, edits: Record<string, ParamValue>, label?: string, onProgress?: ProgressFn): BranchInfo {
     const parent = this.get(parentId)
     if (this.branches.size >= MAX_BRANCHES) {

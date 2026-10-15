@@ -1,0 +1,62 @@
+{
+  "format": "strata-lab-scenario",
+  "version": 1,
+  "app": {
+    "version": "0.1.0",
+    "engine": 1
+  },
+  "run": {
+    "presetId": "last3",
+    "seed": 1,
+    "grid": {
+      "nx": 60,
+      "dx": 2500
+    },
+    "durationYr": 500000,
+    "segments": [
+      {
+        "fromAgeMa": 0.5,
+        "toAgeMa": 0,
+        "dt": 5000
+      }
+    ],
+    "overrides": {
+      "dx": 2500,
+      "nx": 60
+    }
+  },
+  "branches": [
+    {
+      "id": "b1",
+      "name": "Main run",
+      "parent": null,
+      "startStep": 0,
+      "edits": {},
+      "stateHash": "13f1a5f02a243631"
+    },
+    {
+      "id": "b2",
+      "name": "More supply",
+      "parent": "b1",
+      "startStep": 40,
+      "edits": {
+        "supply": 30
+      },
+      "stateHash": "4ae5129e360641df"
+    },
+    {
+      "id": "b4",
+      "name": "Sandier",
+      "parent": "b2",
+      "startStep": 60,
+      "edits": {
+        "Km": [
+          500,
+          2000
+        ],
+        "sandFrac": 0.5
+      },
+      "stateHash": "5dcc8d7d12d225b4"
+    }
+  ]
+}

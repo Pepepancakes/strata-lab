@@ -17,6 +17,9 @@ import type {
   BranchInfo, CheckResult, EngineResponse, RunInfo, SeriesData, StateView, ViewField, WellColumn,
 } from '../worker/protocol'
 import { clipSegments, lengthOf } from './scenario'
+import { Autosave, browserStorage, type KeyValueStorage } from './autosave'
+import { ReplaceGuard, type PendingReplace } from './replaceGuard'
+import { buildScenarioFile, compareHashes, parseScenario, serializeScenario, type ScenarioFile } from './scenarioFile'
 
 export type ColorMode = 'grain' | 'age' | 'phi' | 'op' | 'temp'
 
@@ -39,10 +42,35 @@ export interface ChecksState {
   ms: number
 }
 
+/** The part of EngineClient the store uses (tests give it a fake that calls the engine directly). */
+export interface ClientLike {
+  request: (req: Parameters<EngineClient['request']>[0], onProgress?: Parameters<EngineClient['request']>[1]) => Promise<EngineResponse>
+}
+
+/** Things the store needs from the outside world; each has a browser default. */
+export interface StoreDeps {
+  client?: ClientLike
+  /** Where the autosave goes; null = nowhere (storage blocked). Default: localStorage. */
+  storage?: KeyValueStorage | null
+  /** Hand a finished file to John (browser: a download). */
+  download?: (filename: string, text: string) => void
+  /** Clock for file names. */
+  now?: () => Date
+}
+
 export interface AppState {
   ready: boolean
   busy: { label: string; frac: number } | null
   error: string | null
+  /** A warning that is not an error (e.g. a file made by another engine version). */
+  notice: string | null
+  /** Work that is not saved to a file. */
+  dirty: boolean
+  /** Set while the app waits for John to confirm replacing unsaved work. */
+  pendingReplace: PendingReplace | null
+  /** Why the browser autosave is not working, if it is not. */
+  autosaveProblem: string | null
+  seed: number
   presetId: PresetId
   /** Run length in Myr (a preset's own length, or shorter). */
   runLengthMa: number
@@ -72,11 +100,26 @@ export interface AppState {
 }
 
 const SEED = 1
+const downloadInBrowser = (filename: string, text: string): void => {
+  const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }))
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+  setTimeout(() => URL.revokeObjectURL(url), 1000)
+}
 
 const initial = (): AppState => ({
   ready: false,
   busy: null,
   error: null,
+  notice: null,
+  dirty: false,
+  pendingReplace: null,
+  autosaveProblem: null,
+  seed: SEED,
   presetId: 'last3',
   runLengthMa: getPreset('last3').runLengthMa,
   overrides: {},
@@ -129,7 +172,20 @@ type Listener = () => void
 export class AppStore {
   private state: AppState = initial()
   private listeners = new Set<Listener>()
-  private client: EngineClient | null = null
+  private client: ClientLike | null = null
+  private autosave: Autosave
+  private guard: ReplaceGuard
+  private initStarted = false
+
+  constructor(private deps: StoreDeps = {}) {
+    this.client = deps.client ?? null
+    this.autosave = new Autosave(deps.storage === undefined ? browserStorage() : deps.storage)
+    this.autosave.onWrite = () => {
+      const problem = this.autosave.lastError
+      if (problem !== this.state.autosaveProblem) this.set({ autosaveProblem: problem })
+    }
+    this.guard = new ReplaceGuard(() => this.set({ dirty: this.guard.isDirty, pendingReplace: this.guard.pending }))
+  }
   private pumping = false
   private dirty = { view: false, series: false }
   private playHandle = 0
@@ -149,12 +205,16 @@ export class AppStore {
     for (const l of this.listeners) l()
   }
 
-  private fail(message: string): void {
+  fail(message: string): void {
     this.set({ error: message, busy: null })
   }
 
   clearError(): void {
     this.set({ error: null })
+  }
+
+  clearNotice(): void {
+    this.set({ notice: null })
   }
 
   private async ask(
@@ -177,21 +237,30 @@ export class AppStore {
 
   // ---- starting a run -----------------------------------------------------------------------
 
-  /** First run of the page. */
+  /** First run of the page: the autosaved scenario if there is one, otherwise the default. */
   init(): void {
-    if (this.state.ready || this.state.busy) return
-    void this.startRun()
+    if (this.initStarted || this.state.ready || this.state.busy) return
+    this.initStarted = true
+    if (typeof window !== 'undefined') {
+      window.addEventListener('pagehide', () => this.flushAutosave())
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') this.flushAutosave()
+      })
+    }
+    const restored = this.autosave.load()
+    if (restored) void this.applyFile(restored.file, restored.dirty, 'Restoring your last session')
+    else void this.startRun({ clean: true })
   }
 
   /** Run again from the start with the current preset, run length and overrides. Drops all branches. */
-  async startRun(): Promise<void> {
+  async startRun(opts: { clean?: boolean } = {}): Promise<void> {
     const s0 = this.state
     this.pause()
     this.set({ busy: { label: 'Running the model', frac: 0 }, error: null })
     const overrides = { ...s0.overrides, duration: Math.round(lengthOf(s0.segments) * 1e6) } as Partial<EngineParams>
     const t0 = performance.now()
     const r = await this.ask(
-      { kind: 'run', spec: { presetId: s0.presetId, overrides, segments: s0.segments }, seed: SEED },
+      { kind: 'run', spec: { presetId: s0.presetId, overrides, segments: s0.segments }, seed: s0.seed },
       (p) => this.set({ busy: { label: 'Running the model', frac: p.step / p.nSteps } }),
     )
     if (!r || r.kind !== 'runDone') return
@@ -216,15 +285,27 @@ export class AppStore {
       perf: { ...this.state.perf, runMs: ms },
     })
     this.refresh(true)
+    this.afterChange(!opts.clean)
+  }
+
+  /** True when a change that restarts the main run would throw branches away. */
+  private dropsBranches(): boolean {
+    return this.state.branches.length > 1
   }
 
   setPreset(id: PresetId): void {
-    const p = getPreset(id)
-    this.set({ presetId: id, runLengthMa: p.runLengthMa, segments: p.segments.map((s) => ({ ...s })), overrides: {} })
-    void this.startRun()
+    this.guard.request('Change the scenario preset', () => {
+      const p = getPreset(id)
+      this.set({ presetId: id, runLengthMa: p.runLengthMa, segments: p.segments.map((s) => ({ ...s })), overrides: {} })
+      void this.startRun()
+    }, this.guard.isDirty && this.dropsBranches())
   }
 
   setRunLength(lengthMa: number): void {
+    this.guard.request('Change the run length', () => this.applyRunLength(lengthMa), this.guard.isDirty && this.dropsBranches())
+  }
+
+  private applyRunLength(lengthMa: number): void {
     const preset = getPreset(this.state.presetId)
     const want = Math.max(0.5, Math.min(preset.runLengthMa, lengthMa))
     try {
@@ -245,8 +326,12 @@ export class AppStore {
     const active = s.branches.find((b) => b.id === s.activeId)
     if (!active) return
     if (!active.parentId) {
-      this.set({ overrides: { ...s.overrides, [key]: value } })
-      await this.startRun()
+      const go = async () => {
+        this.set({ overrides: { ...this.state.overrides, [key]: value } })
+        await this.startRun()
+      }
+      if (this.guard.isDirty && this.dropsBranches()) this.guard.request('Change a main-run control', () => void go(), true)
+      else await go()
       return
     }
     if (s.branches.some((b) => b.parentId === active.id)) {
@@ -300,6 +385,7 @@ export class AppStore {
       step,
     })
     this.refresh(true)
+    this.afterChange(true)
   }
 
   private async reloadBranches(): Promise<void> {
@@ -326,6 +412,7 @@ export class AppStore {
       compareId: s.compareId === id ? null : s.compareId,
     })
     this.refresh(true)
+    this.afterChange(true)
   }
 
   setActive(id: string): void {
@@ -337,6 +424,150 @@ export class AppStore {
   setCompare(id: string | null): void {
     this.set({ compareId: id && id !== this.state.activeId ? id : null })
     this.refresh(false)
+  }
+
+  // ---- saving, opening, autosave, and replacing work -----------------------------------------
+
+  /** What a scenario file is built from, right now. Null before the first run. */
+  private scenarioSource() {
+    const s = this.state
+    if (!s.info) return null
+    return {
+      presetId: s.presetId, seed: s.seed, nx: s.info.nx, dx: s.info.dx,
+      segments: s.segments, overrides: s.overrides, branches: s.branches,
+    }
+  }
+
+  /** Called after every change to the scenario: mark it unsaved (or clean) and queue an autosave. */
+  private afterChange(unsaved: boolean): void {
+    this.guard.setDirty(unsaved)
+    this.autosave.schedule(() => {
+      const src = this.scenarioSource()
+      if (!src) throw new Error('nothing to save yet')
+      return { text: serializeScenario(buildScenarioFile(src)), dirty: this.guard.isDirty }
+    })
+  }
+
+  /** Write a scenario file (all branches, with each branch's final state hash) and hand it to John. Returns true when done. */
+  async saveFile(): Promise<boolean> {
+    const s = this.state
+    const src = this.scenarioSource()
+    if (!src || s.busy) return false
+    const r = await this.ask({ kind: 'hashes' })
+    if (!r || r.kind !== 'hashList') return false
+    const text = serializeScenario(buildScenarioFile(src, r.hashes))
+    const d = (this.deps.now ?? (() => new Date()))()
+    const stamp = d.toISOString().slice(0, 16).replace(/[-:]/g, '').replace('T', '-')
+    ;(this.deps.download ?? downloadInBrowser)('strata-' + s.presetId + '-' + stamp + '.strata.json', text)
+    this.set({ notice: null })
+    this.afterChange(false)
+    this.autosave.flush()
+    return true
+  }
+
+  /** Open button: warn first if unsaved work would be replaced, then run pick (opens the file chooser). */
+  requestOpen(pick: () => void): void {
+    this.guard.request('Open a file', pick)
+  }
+
+  /** New: the default scenario (last 3 Myr, no changes, no branches). */
+  requestNew(): void {
+    this.guard.request('Start a new scenario', () => {
+      const p = getPreset('last3')
+      this.set({ presetId: 'last3', seed: SEED, runLengthMa: p.runLengthMa, segments: p.segments.map((x) => ({ ...x })), overrides: {}, notice: null })
+      void this.startRun({ clean: true })
+    })
+  }
+
+  /** Reset: this preset at its full length with all controls back at the preset's values. */
+  requestReset(): void {
+    this.guard.request('Reset the controls', () => {
+      const p = getPreset(this.state.presetId)
+      this.set({ runLengthMa: p.runLengthMa, segments: p.segments.map((x) => ({ ...x })), overrides: {}, notice: null })
+      void this.startRun({ clean: true })
+    })
+  }
+
+  /** Write a waiting autosave now (the page is being hidden or closed). */
+  flushAutosave(): void {
+    this.autosave.flush()
+  }
+
+  confirmReplace(): void {
+    this.guard.confirm()
+  }
+
+  async confirmReplaceAfterSave(): Promise<void> {
+    await this.guard.confirmAfterSave(() => this.saveFile())
+  }
+
+  cancelReplace(): void {
+    this.guard.cancel()
+  }
+
+  /**
+   * Open the text of a file John chose. It is read and checked first; a bad file is refused with a
+   * plain message and nothing else changes. A good one replaces the scenario; its stored hashes are
+   * compared with the recomputed ones.
+   */
+  async openText(text: string): Promise<boolean> {
+    const parsed = parseScenario(text)
+    if (!parsed.ok) {
+      this.set({ error: parsed.message })
+      return false
+    }
+    return this.applyFile(parsed.file, false, 'Opening the scenario')
+  }
+
+  private async applyFile(file: ScenarioFile, unsaved: boolean, label: string, isRollback = false): Promise<boolean> {
+    const before = isRollback ? null : this.scenarioSource()
+    this.pause()
+    this.set({ busy: { label, frac: 0 }, error: null, notice: null })
+    const r = await this.ask({ kind: 'openScenario', file }, (p) => this.set({ busy: { label, frac: p.step / p.nSteps } }))
+    if (!r || r.kind !== 'scenarioOpened') {
+      const message = this.state.error ?? 'The scenario could not be rebuilt.'
+      if (before) {
+        // the engine may hold a half-built scenario: put the previous one back
+        await this.applyFile(buildScenarioFile(before), this.guard.isDirty, 'Putting your work back', true)
+        this.set({ error: message + ' Your previous work was put back.' })
+      } else if (!isRollback) {
+        void this.startRun({ clean: true })
+      }
+      return false
+    }
+    const cmp = compareHashes(file, r.hashes, { nx: r.info.nx, dx: r.info.dx })
+    // parameters of every branch: the preset, plus the main run's changes, plus each branch's edits down the tree
+    const base = { ...presetParams(file.run.presetId), ...file.run.overrides, duration: file.run.durationYr } as EngineParams
+    const params: Record<string, EngineParams> = { [r.info.rootId]: base }
+    for (const b of r.branches) {
+      if (!b.parentId) continue
+      const p = cloneParams(params[b.parentId])
+      for (const [k, v] of Object.entries(b.edits)) (p as unknown as Record<string, ParamValue>)[k] = Array.isArray(v) ? v.slice() : v
+      params[b.id] = p
+    }
+    const s0 = this.state
+    this.set({
+      ready: true,
+      busy: null,
+      presetId: file.run.presetId,
+      seed: file.run.seed,
+      overrides: { ...file.run.overrides },
+      segments: file.run.segments.map((x) => ({ ...x })),
+      runLengthMa: lengthOf(file.run.segments),
+      info: r.info,
+      branches: r.branches,
+      params,
+      activeId: r.info.rootId,
+      compareId: null,
+      step: r.info.nSteps,
+      extent: null, view: null, viewB: null, diff: null, well: null, series: null,
+      wellCol: s0.wellCol >= 0 && s0.wellCol < r.info.nx ? s0.wellCol : Math.min(r.info.nx - 1, Math.round(r.info.nx * 0.46)),
+      notice: cmp.message,
+      perf: { ...s0.perf, runMs: r.ms },
+    })
+    this.refresh(true)
+    this.afterChange(unsaved)
+    return true
   }
 
   // ---- time and view settings ---------------------------------------------------------------

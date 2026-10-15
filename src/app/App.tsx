@@ -25,6 +25,12 @@ export function App() {
             <button onClick={() => store.clearError()}>Dismiss</button>
           </div>
         ) : null}
+        {s.notice ? (
+          <div className="warnbar" role="alert" data-testid="notice">
+            <span>{s.notice}</span>
+            <button onClick={() => store.clearNotice()}>Dismiss</button>
+          </div>
+        ) : null}
       </header>
       {REGIONS.map(({ region, label, className }) => (
         <section key={region} className={`region ${className}`} aria-label={label}>
@@ -35,6 +41,21 @@ export function App() {
           ))}
         </section>
       ))}
+      {s.pendingReplace ? (
+        <div className="busy" role="presentation">
+          <div role="alertdialog" aria-labelledby="replace-title" aria-describedby="replace-text" data-testid="replace-warning">
+            <h2 id="replace-title">Replace unsaved work?</h2>
+            <p id="replace-text">
+              {s.pendingReplace.what} will replace your current scenario, which has changes that are not saved to a file.
+            </p>
+            <div className="row">
+              <button onClick={() => void store.confirmReplaceAfterSave()}>Save first</button>
+              <button onClick={() => store.confirmReplace()}>Replace</button>
+              <button autoFocus onClick={() => store.cancelReplace()}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      ) : null}
       {s.busy ? (
         <div className="busy" role="status">
           <div>

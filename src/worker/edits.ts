@@ -26,13 +26,21 @@ function inRange(def: ParamDef, key: string, v: ParamValue): string | null {
 
 /** Returns a list of problems; empty means the edits are allowed in a branch. */
 export function validateBranchEdits(edits: Record<string, ParamValue>): string[] {
+  return validateParamValues(edits, false)
+}
+
+/**
+ * Problems with a set of parameter values. A branch may not change start-only parameters; a whole
+ * new run (the main run of a scenario file) may.
+ */
+export function validateParamValues(edits: Record<string, ParamValue>, allowStartOnly: boolean): string[] {
   const problems: string[] = []
   const keys = Object.keys(edits)
   if (keys.length === 0) return problems // a branch with no edits is allowed: it reproduces its parent
   for (const key of keys) {
     const def = getParamDef(key)
     if (!def) problems.push(`Unknown parameter "${key}".`)
-    else if (def.startOnly) problems.push(`${def.label} (${key}) can only be set when a run starts; it cannot change in a branch.`)
+    else if (def.startOnly && !allowStartOnly) problems.push(`${def.label} (${key}) can only be set when a run starts; it cannot change in a branch.`)
     else {
       const bad = inRange(def, key, edits[key])
       if (bad) problems.push(bad)

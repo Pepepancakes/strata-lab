@@ -29,6 +29,8 @@ table.num th[scope=row], table.num thead th:first-child { text-align: left; font
 .pass { color: #7fd69a; font-weight: 600; } .fail { color: #f08a7e; font-weight: 600; }
 ul.branches, ul.checks { list-style: none; padding: 0; margin: 6px 0; } ul.branches li, ul.checks li { padding: 4px 0; border-bottom: 1px solid #2a323c; } ul.branches li.active { background: #1d2530; }
 .credit { margin: 4px 0; }
+.warnbar { background: #4a3d16; border: 1px solid #a8892f; padding: 6px 10px; border-radius: 4px; margin: 6px 6px 0; display: flex; justify-content: space-between; gap: 8px; }
+.filebar { margin-bottom: 8px; }
 .busy { position: fixed; inset: 0; background: rgba(10, 12, 16, 0.6); display: flex; align-items: center; justify-content: center; z-index: 10; }
 .busy > div { background: #1d2530; padding: 16px 24px; border-radius: 6px; min-width: 240px; }
 .busy progress { width: 100%; }
