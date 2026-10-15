@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-15):** spikes 001 and 002 done and reviewed by John. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D15). Next: Linux CI compares results with tolerances (D16.4), then M3 salt.
+**Status (2026-10-15):** spikes 001 and 002 done and reviewed by John. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Next: Linux CI compares results with tolerances (D16.4), then M3 salt.
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
