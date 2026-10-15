@@ -77,3 +77,16 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
     - thermal-decay subsidence (McKenzie 1978)
   - Targets: Miocene preset < 3 s, 66 Myr < 5 s.
   - Runs back to the Jurassic (salt deposition) come with M3.
+- **D13. Overnight authority for 2026-10-14 to 15** (John: "go overnight"). For this run only:
+  - **A.** The orchestrator may answer card questions with the card's recommended pick. Each
+    answer is logged as a `DECISION (orchestrator)` comment for John to review in the morning.
+  - **B.** It may fix failing cards and retry, up to 3 attempts per card. After that the card
+    parks and its chain waits.
+  - **C.** If a review says REQUEST CHANGES, it writes fix cards and re-reviews.
+  - **D.** It may merge the M1 tip to main once. Conditions: the newest M1 review says
+    `VERDICT: APPROVE`, and all gates pass on main after the merge. If any gate fails, it resets
+    and doesn't push. John can revert.
+  - **E.** It may then start M2 (slope failure and MTDs, cards M2.1 to M2.6). M2 stays off main.
+    Its done-when includes John judging where and when the MTDs happen.
+  - **F.** No messages overnight. One morning summary at 7:30 AM.
+  Standing rules still hold: never deploy, never touch other repos or boards, never edit CLAUDE.md.

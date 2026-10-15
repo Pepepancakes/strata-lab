@@ -111,6 +111,16 @@ the previous card's branch, and nothing reaches main until John approves the tip
 - Triggers come from the physics (oversteepening, overpressure, rapid loading, sea-level fall),
   not from a button.
 
+**Cards (written 2026-10-14; start after M1 is on main, D13):**
+| Card | Who | What |
+|---|---|---|
+| M2.1 | coder | Infinite-slope factor of safety from the model's own pore pressure |
+| M2.2 | coder | Failure, debris-flow run-out (BING-style Bingham, or a cited H/L rule), MTD deposit; mass conserved |
+| M2.3 | coder | Triggers come from the physics and are tagged by cause; an MTD-prone preset; speed budget |
+| M2.4 | frontend-dev | MTD texture in every view, a factor-of-safety colour mode, an event list, MTDs in the pseudo-well |
+| M2.5 | doc-writer | User guide, references, handover |
+| M2.6 | safety-reviewer | Integrity review with its own checks; verdict |
+
 **Done when:**
 - Factor of safety matches an infinite-slope hand calculation.
 - Mass is conserved through failures.
