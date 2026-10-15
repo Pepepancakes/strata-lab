@@ -3,7 +3,7 @@
 Read this first. It is the source of truth for how work is done in this repo.
 **Status (2026-10-14):** spikes 001 and 002 are done. M1 is approved and being built as a chain of cards.
 Plan: `docs/roadmap.md`. Decisions: `docs/decisions.md`. Background: `PROJECT.md`.
-Physics sources: `docs/physics-references.md`.
+Physics sources: `docs/physics-references.md`. User guide: `docs/user-guide.md` (update it when a control label, button or panel changes; `tests/docs.test.ts` fails if it drifts).
 
 ## What this is
 A browser app that builds a 2D basin section by running physical processes (sediment transport,

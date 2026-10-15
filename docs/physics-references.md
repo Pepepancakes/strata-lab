@@ -123,3 +123,104 @@ citation come from `curveCreditAtAge(age)` and change with age.
 - Temperature: steady 1D conduction, T = Tsf + q sum(h/k); bulk k is the geometric mean of grains and water (Woodside & Messmer 1961). Heat flow 40 mW/m2 (Gulf of Mexico slope background, Jones 2003 abstract; to verify). Conductivities (quartz 7.7, water 0.6, Clauser & Huenges 1995) to verify; mud grain k 2.5 is tuned. Limits: steady state only (fast burial is really colder at depth), no advection, no salt effect.
 - Quartz cement: r = 1.98e-22 x 10^(0.022 T) mol/cm2/s (Walderhaug 1994), onset 70 C, surface area from grain size and clean-quartz share (both tuned, synthetic). Silica comes from outside the model: own mass-balance line. Cement fills sand pores, freezes the sand framework at the stress when cementation began. No chemical compaction of mud (no simple sourced law was found).
 - Temperature and cement are off by default (thermal = 0, cement = 0) so default runs stay bit-identical; update every thermalEvery steps (numerical saving).
+
+## Set-up parameters and what the registry adds (M1.8)
+These are numerical or set-up choices, not measured quantities, so they are all **tuned** and the
+app labels them so: columns (`nx`, default 150), column width (`dx`, 1 km), run length
+(`duration`, up to 66 Myr, D12), record step (`dtRec`, 5 kyr) and transport substeps (`nSub`, 5).
+Others the registry carries that the sections above do not describe one by one:
+- `sandFrac` (sand share of supply, 0.35), `slAmp` (40 m), `slPeriod` (100 kyr) and `slShift`
+  (sea-level offset, 0): tuned. The sine is a teaching option only.
+- `sBreak`, `tcMax`, `tcLambda`, `tcL0`, `tcSref`, `tcN`: the turbidite transport-length rule,
+  tuned. It is a rule, not flow physics.
+- `kMudMult` (mud permeability multiplier) and `elastic` (unloading stiffness): tuned.
+- `linear`: the switch for the Gibson benchmark. Never set in the app.
+- `subsMode`, `subsTau`, `subsHistory`: M1.4c, see the burial section above.
+- `heatFlow`, `kGrain`, `kWater`, `tSeaDeep`, `tSeaShallow`, `tSeaScale`, `thermalEvery`,
+  `thermal`: temperature, see the burial section above. `tSeaDeep` (4 deg C) is to verify.
+- `cement`, `cemA`, `cemB`, `cemTonset`, `cemGrain`, `cemSurf`: quartz cement, see above.
+
+Ranges the controls allow are guard rails (`min` and `max` in `params.ts`), not published limits.
+Where a source gives a range, it is quoted in the section for that parameter.
+
+<!-- registry-index:start -->
+### Registry index
+Generated from `src/engine/references.ts` and `src/engine/params.ts` and checked by
+`tests/docs.test.ts`. Rewrite with `STRATA_WRITE_DOCS=1 npm run test:run -- docs`.
+
+References (23):
+- `gibson-1958`: Gibson (1958)
+- `sclater-christie-1980`: Sclater & Christie (1980)
+- `athy-1930`: Athy (1930)
+- `turcotte-schubert`: Turcotte & Schubert, Geodynamics
+- `kaufman-1991`: Kaufman et al. (1991)
+- `rivenaes-1992`: Rivenaes (1992)
+- `yang-aplin-2010`: Yang & Aplin (2010)
+- `mckenzie-1978`: McKenzie (1978)
+- `walderhaug-1994`: Walderhaug (1994)
+- `walderhaug-1996`: Walderhaug (1996)
+- `jones-2003-gom-heatflow`: Jones (2003) (to verify)
+- `woodside-messmer-1961`: Woodside & Messmer (1961) (to verify)
+- `clauser-huenges-1995`: Clauser & Huenges (1995) (to verify)
+- `miller-2005`: Miller et al. (2005)
+- `bintanja-van-de-wal-2008`: Bintanja & van de Wal (2008) (data: src/engine/data/sealevel-bintanja2008.json)
+- `miller-2020`: Miller et al. (2020) (data: src/engine/data/sealevel-miller2020.json)
+- `spratt-lisiecki-2016`: Spratt & Lisiecki (2016)
+- `hampton-1996`: Hampton et al. (1996)
+- `hudec-jackson-2007`: Hudec & Jackson (2007)
+- `gemmer-2004`: Gemmer et al. (2004) (to verify)
+- `ge-1997`: Ge et al. (1997) (to verify)
+- `eaton-1969`: Eaton (1969)
+- `matthews-kelly-1967`: Matthews & Kelly (1967)
+
+Parameters (49), as `key`: status, reference id:
+- `nx`: tuned
+- `dx`: tuned
+- `duration`: tuned
+- `dtRec`: tuned
+- `nSub`: tuned
+- `supply`: tuned
+- `sandFrac`: tuned
+- `seaLevelKind`: cited, bintanja-van-de-wal-2008
+- `slAmp`: tuned
+- `slPeriod`: tuned
+- `slShift`: tuned
+- `subsShelf`: tuned
+- `subsBasin`: tuned
+- `Kc`: tuned, rivenaes-1992
+- `Km`: tuned, kaufman-1991
+- `dm`: tuned, kaufman-1991
+- `Kg`: tuned, kaufman-1991
+- `tcMax`: tuned
+- `tcLambda`: tuned
+- `sBreak`: tuned
+- `tcL0`: tuned
+- `tcSref`: tuned
+- `tcN`: tuned
+- `phi0`: cited, sclater-christie-1980
+- `beta`: cited, sclater-christie-1980
+- `kA`: tuned, yang-aplin-2010
+- `kB`: tuned, yang-aplin-2010
+- `kMudMult`: tuned
+- `elastic`: tuned
+- `linear`: tuned
+- `bundleEvery`: tuned
+- `bundleAgeYr`: tuned
+- `subsMode`: cited, mckenzie-1978
+- `subsTau`: cited, mckenzie-1978
+- `subsHistory`: tuned
+- `thermal`: tuned
+- `thermalEvery`: tuned
+- `heatFlow`: cited, jones-2003-gom-heatflow
+- `kGrain`: to-verify, clauser-huenges-1995
+- `kWater`: to-verify, woodside-messmer-1961
+- `tSeaDeep`: to-verify
+- `tSeaShallow`: tuned
+- `tSeaScale`: tuned
+- `cement`: tuned
+- `cemA`: cited, walderhaug-1994
+- `cemB`: cited, walderhaug-1994
+- `cemTonset`: cited, walderhaug-1996
+- `cemGrain`: tuned
+- `cemSurf`: tuned, walderhaug-1996
+<!-- registry-index:end -->
