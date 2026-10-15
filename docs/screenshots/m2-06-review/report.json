@@ -1,0 +1,438 @@
+{
+  "errors": [],
+  "externalRequests": [],
+  "requestsSeen": 3,
+  "checks": {
+    "defaultPreset": {
+      "checks": {
+        "summary": "ALL PASS (8/8, 200 ms)",
+        "rows": [
+          "PASS Consolidation vs Gibson (1958), T = 0.14.32e-6 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact solut",
+          "PASS Consolidation vs Gibson (1958), T = 18.10e-5 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact solutio",
+          "PASS Consolidation vs Gibson (1958), T = 101.41e-4 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact soluti",
+          "PASS Drained sand porosity at 2 km vs Sclater & Christie (1980)0.00439 (limit 0.02 porosity)Engine porosity at 2 km burial against 0.286 from the published curv",
+          "PASS Drained mud porosity at 2 km vs Sclater & Christie (1980)0.0179 (limit 0.02 porosity)Engine porosity at 2 km burial against 0.227 from the published curve,",
+          "PASS Mass balance, sand only2.66e-15 (limit 1.00e-9 relative)Sand stored in the record against sand supplied minus sand removed, over a 1 Myr coupled run.Source",
+          "PASS Mass balance, mud only1.58e-15 (limit 1.00e-9 relative)Mud stored in the record against mud supplied minus mud removed, over a 1 Myr coupled run.Source: Pr",
+          "PASS Rewind is bit-identical0 (limit 1 differences)Record restored from a saved state and replayed to step 63 against the same step of an uninterrupted run (0 ="
+        ]
+      },
+      "toggleOff": true,
+      "noEventsMsg": "Slope failure is off. Turn it on under Controls (it restarts the run), or pick the “Overpressured slope (MTD-prone)” preset."
+    },
+    "mtdToggleOn": true,
+    "eventRows": [
+      "1 2.485 lowstand 47 110 0.033 4.5",
+      "2 2.485 lowstand 47 55 0.017 2.3",
+      "3 2.430 lowstand 49 137 0.042 7.8",
+      "4 2.065 lowstand 52 73 0.022 2.8",
+      "5 2.065 lowstand 52 46 0.014 1.6",
+      "6 2.065 lowstand 52 35 0.011 0.4",
+      "7 0.880 lowstand 73–74 915 0.292 15.1",
+      "8 0.880 lowstand 73 50 0.015 0.8",
+      "9 0.880 lowstand 73–74 731 0.239 11.3",
+      "10 0.880 lowstand 72 144 0.044 3.5",
+      "11 0.880 lowstand 77 52 0.016 0.2",
+      "12 0.875 lowstand 74 219 0.067 3.5",
+      "13 0.745 lowstand 76 153 0.047 4.5",
+      "14 0.735 rapid loading 78 40 0.012 0.0",
+      "15 0.735 rapid loading 78 35 0.011 0.0",
+      "16 0.735 rapid loading 78 33 0.010 0.0",
+      "17 0.640 lowstand 82 38 0.012 0.4",
+      "18 0.635 lowstand 82 897 0.274 16.9",
+      "19 0.635 lowstand 81 974 0.297 12.9",
+      "20 0.635 lowstand 81–82 124 0.052 1.7",
+      "21 0.635 lowstand 81–82 79 0.048 0.0",
+      "22 0.635 lowstand 81–82 92 0.048 0.0",
+      "23 0.625 rapid loading 81 36 0.011 0.0",
+      "24 0.625 rapid loading 81 33 0.010 0.0",
+      "25 0.145 lowstand 94 246 0.075 6.7",
+      "26 0.140 lowstand 94–95 796 0.312 17.3",
+      "27 0.140 lowstand 94–95 124 0.055 2.9",
+      "28 0.140 lowstand 95 76 0.023 0.0",
+      "29 0.140 lowstand 95 76 0.023 0.0",
+      "30 0.140 lowstand 95 76 0.023 0.0"
+    ],
+    "eventHeader": [
+      "#",
+      "Time (Ma)",
+      "Cause",
+      "Source (km)",
+      "Scar (ft)",
+      "Volume (km²)",
+      "Run-out (km)"
+    ],
+    "eventHeading": null,
+    "nSteps": 600,
+    "mtdChecks": {
+      "summary": "ALL PASS (8/8, 200 ms)",
+      "rows": [
+        "PASS Consolidation vs Gibson (1958), T = 0.14.32e-6 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact solut",
+        "PASS Consolidation vs Gibson (1958), T = 18.10e-5 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact solutio",
+        "PASS Consolidation vs Gibson (1958), T = 101.41e-4 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact soluti",
+        "PASS Drained sand porosity at 2 km vs Sclater & Christie (1980)0.00439 (limit 0.02 porosity)Engine porosity at 2 km burial against 0.286 from the published curv",
+        "PASS Drained mud porosity at 2 km vs Sclater & Christie (1980)0.0179 (limit 0.02 porosity)Engine porosity at 2 km burial against 0.227 from the published curve,",
+        "PASS Mass balance, sand only2.66e-15 (limit 1.00e-9 relative)Sand stored in the record against sand supplied minus sand removed, over a 1 Myr coupled run.Source",
+        "PASS Mass balance, mud only1.58e-15 (limit 1.00e-9 relative)Mud stored in the record against mud supplied minus mud removed, over a 1 Myr coupled run.Source: Pr",
+        "PASS Rewind is bit-identical0 (limit 1 differences)Record restored from a saved state and replayed to step 63 against the same step of an uninterrupted run (0 ="
+      ]
+    },
+    "controls": {
+      "total": 63,
+      "withoutSource": [
+        "preset"
+      ],
+      "kinds": {
+        "tuned": 48,
+        "cited": 9,
+        "to verify": 5
+      },
+      "newControls": [
+        [
+          "phiFric",
+          "to verify"
+        ],
+        [
+          "cohesion",
+          "to verify"
+        ],
+        [
+          "stabMaxDepth",
+          "tuned"
+        ],
+        [
+          "failOn",
+          "tuned"
+        ],
+        [
+          "failMaxCells",
+          "tuned"
+        ],
+        [
+          "failMaxIters",
+          "tuned"
+        ],
+        [
+          "runYield",
+          "tuned"
+        ],
+        [
+          "runViscosity",
+          "tuned"
+        ],
+        [
+          "runDensity",
+          "tuned"
+        ],
+        [
+          "mtdPhiMud",
+          "tuned"
+        ],
+        [
+          "failMinDepth",
+          "tuned"
+        ],
+        [
+          "failSlopeMin",
+          "tuned"
+        ],
+        [
+          "failLowstandDrop",
+          "tuned"
+        ],
+        [
+          "failRapidRate",
+          "tuned"
+        ]
+      ]
+    },
+    "modes": {
+      "grain": {
+        "w": 643,
+        "h": 360,
+        "nonWhiteSamples": 2326,
+        "distinctColours": 92,
+        "drawnMode": "grain"
+      },
+      "age": {
+        "w": 643,
+        "h": 360,
+        "nonWhiteSamples": 2326,
+        "distinctColours": 150,
+        "drawnMode": "age"
+      },
+      "phi": {
+        "w": 643,
+        "h": 360,
+        "nonWhiteSamples": 2326,
+        "distinctColours": 132,
+        "drawnMode": "phi"
+      },
+      "op": {
+        "w": 643,
+        "h": 360,
+        "nonWhiteSamples": 2326,
+        "distinctColours": 113,
+        "drawnMode": "op"
+      },
+      "temp": {
+        "w": 643,
+        "h": 360,
+        "nonWhiteSamples": 2326,
+        "distinctColours": 79,
+        "drawnMode": "temp"
+      },
+      "fs": {
+        "w": 643,
+        "h": 360,
+        "nonWhiteSamples": 2326,
+        "distinctColours": 42,
+        "drawnMode": "fs"
+      }
+    },
+    "legendFs": "0.25 (fails)\n4 (safe)\nlog scale, 1.0 in the middle, red below 1.2; flat seafloor (no driving stress) is blue. Dashed line: critical slip depth. Hatched = MTD.\nMTD (debris deposit)",
+    "seeks": [
+      {
+        "id": 1,
+        "row": "1 2.485 lowstand 47 110 0.033 4.5",
+        "step": 103,
+        "timeText": "step 103 of 600 — 2.485 Ma (million years ago)",
+        "selected": "1"
+      },
+      {
+        "id": 2,
+        "row": "2 2.485 lowstand 47 55 0.017 2.3",
+        "step": 103,
+        "timeText": "step 103 of 600 — 2.485 Ma (million years ago)",
+        "selected": "2"
+      },
+      {
+        "id": 3,
+        "row": "3 2.430 lowstand 49 137 0.042 7.8",
+        "step": 114,
+        "timeText": "step 114 of 600 — 2.430 Ma (million years ago)",
+        "selected": "3"
+      },
+      {
+        "id": 4,
+        "row": "4 2.065 lowstand 52 73 0.022 2.8",
+        "step": 187,
+        "timeText": "step 187 of 600 — 2.065 Ma (million years ago)",
+        "selected": "4"
+      },
+      {
+        "id": 5,
+        "row": "5 2.065 lowstand 52 46 0.014 1.6",
+        "step": 187,
+        "timeText": "step 187 of 600 — 2.065 Ma (million years ago)",
+        "selected": "5"
+      },
+      {
+        "id": 6,
+        "row": "6 2.065 lowstand 52 35 0.011 0.4",
+        "step": 187,
+        "timeText": "step 187 of 600 — 2.065 Ma (million years ago)",
+        "selected": "6"
+      },
+      {
+        "id": 7,
+        "row": "7 0.880 lowstand 73–74 915 0.292 15.1",
+        "step": 424,
+        "timeText": "step 424 of 600 — 0.880 Ma (million years ago)",
+        "selected": "7"
+      },
+      {
+        "id": 8,
+        "row": "8 0.880 lowstand 73 50 0.015 0.8",
+        "step": 424,
+        "timeText": "step 424 of 600 — 0.880 Ma (million years ago)",
+        "selected": "8"
+      },
+      {
+        "id": 9,
+        "row": "9 0.880 lowstand 73–74 731 0.239 11.3",
+        "step": 424,
+        "timeText": "step 424 of 600 — 0.880 Ma (million years ago)",
+        "selected": "9"
+      },
+      {
+        "id": 10,
+        "row": "10 0.880 lowstand 72 144 0.044 3.5",
+        "step": 424,
+        "timeText": "step 424 of 600 — 0.880 Ma (million years ago)",
+        "selected": "10"
+      },
+      {
+        "id": 11,
+        "row": "11 0.880 lowstand 77 52 0.016 0.2",
+        "step": 424,
+        "timeText": "step 424 of 600 — 0.880 Ma (million years ago)",
+        "selected": "11"
+      },
+      {
+        "id": 12,
+        "row": "12 0.875 lowstand 74 219 0.067 3.5",
+        "step": 425,
+        "timeText": "step 425 of 600 — 0.875 Ma (million years ago)",
+        "selected": "12"
+      },
+      {
+        "id": 13,
+        "row": "13 0.745 lowstand 76 153 0.047 4.5",
+        "step": 451,
+        "timeText": "step 451 of 600 — 0.745 Ma (million years ago)",
+        "selected": "13"
+      },
+      {
+        "id": 14,
+        "row": "14 0.735 rapid loading 78 40 0.012 0.0",
+        "step": 453,
+        "timeText": "step 453 of 600 — 0.735 Ma (million years ago)",
+        "selected": "14"
+      },
+      {
+        "id": 15,
+        "row": "15 0.735 rapid loading 78 35 0.011 0.0",
+        "step": 453,
+        "timeText": "step 453 of 600 — 0.735 Ma (million years ago)",
+        "selected": "15"
+      },
+      {
+        "id": 16,
+        "row": "16 0.735 rapid loading 78 33 0.010 0.0",
+        "step": 453,
+        "timeText": "step 453 of 600 — 0.735 Ma (million years ago)",
+        "selected": "16"
+      },
+      {
+        "id": 17,
+        "row": "17 0.640 lowstand 82 38 0.012 0.4",
+        "step": 472,
+        "timeText": "step 472 of 600 — 0.640 Ma (million years ago)",
+        "selected": "17"
+      },
+      {
+        "id": 18,
+        "row": "18 0.635 lowstand 82 897 0.274 16.9",
+        "step": 473,
+        "timeText": "step 473 of 600 — 0.635 Ma (million years ago)",
+        "selected": "18"
+      },
+      {
+        "id": 19,
+        "row": "19 0.635 lowstand 81 974 0.297 12.9",
+        "step": 473,
+        "timeText": "step 473 of 600 — 0.635 Ma (million years ago)",
+        "selected": "19"
+      },
+      {
+        "id": 20,
+        "row": "20 0.635 lowstand 81–82 124 0.052 1.7",
+        "step": 473,
+        "timeText": "step 473 of 600 — 0.635 Ma (million years ago)",
+        "selected": "20"
+      },
+      {
+        "id": 21,
+        "row": "21 0.635 lowstand 81–82 79 0.048 0.0",
+        "step": 473,
+        "timeText": "step 473 of 600 — 0.635 Ma (million years ago)",
+        "selected": "21"
+      },
+      {
+        "id": 22,
+        "row": "22 0.635 lowstand 81–82 92 0.048 0.0",
+        "step": 473,
+        "timeText": "step 473 of 600 — 0.635 Ma (million years ago)",
+        "selected": "22"
+      },
+      {
+        "id": 23,
+        "row": "23 0.625 rapid loading 81 36 0.011 0.0",
+        "step": 475,
+        "timeText": "step 475 of 600 — 0.625 Ma (million years ago)",
+        "selected": "23"
+      },
+      {
+        "id": 24,
+        "row": "24 0.625 rapid loading 81 33 0.010 0.0",
+        "step": 475,
+        "timeText": "step 475 of 600 — 0.625 Ma (million years ago)",
+        "selected": "24"
+      },
+      {
+        "id": 25,
+        "row": "25 0.145 lowstand 94 246 0.075 6.7",
+        "step": 571,
+        "timeText": "step 571 of 600 — 0.145 Ma (million years ago)",
+        "selected": "25"
+      },
+      {
+        "id": 26,
+        "row": "26 0.140 lowstand 94–95 796 0.312 17.3",
+        "step": 572,
+        "timeText": "step 572 of 600 — 0.140 Ma (million years ago)",
+        "selected": "26"
+      },
+      {
+        "id": 27,
+        "row": "27 0.140 lowstand 94–95 124 0.055 2.9",
+        "step": 572,
+        "timeText": "step 572 of 600 — 0.140 Ma (million years ago)",
+        "selected": "27"
+      },
+      {
+        "id": 28,
+        "row": "28 0.140 lowstand 95 76 0.023 0.0",
+        "step": 572,
+        "timeText": "step 572 of 600 — 0.140 Ma (million years ago)",
+        "selected": "28"
+      },
+      {
+        "id": 29,
+        "row": "29 0.140 lowstand 95 76 0.023 0.0",
+        "step": 572,
+        "timeText": "step 572 of 600 — 0.140 Ma (million years ago)",
+        "selected": "29"
+      },
+      {
+        "id": 30,
+        "row": "30 0.140 lowstand 95 76 0.023 0.0",
+        "step": 572,
+        "timeText": "step 572 of 600 — 0.140 Ma (million years ago)",
+        "selected": "30"
+      }
+    ],
+    "seekMismatchSelected": [],
+    "wellMtdCount": 1,
+    "defaultWithFailureOn": {
+      "rows": 0,
+      "noEvents": "No slope failure in this run."
+    },
+    "resourceEntries": []
+  },
+  "files": [
+    "m2-default-checks-page.png",
+    "m2-default-page.png",
+    "m2-mtd-checks-page.png",
+    "m2-mtd-end-grain-canvas.png",
+    "m2-mtd-end-grain-page.png",
+    "m2-mtd-end-age-canvas.png",
+    "m2-mtd-end-age-page.png",
+    "m2-mtd-end-phi-canvas.png",
+    "m2-mtd-end-phi-page.png",
+    "m2-mtd-end-op-canvas.png",
+    "m2-mtd-end-op-page.png",
+    "m2-mtd-end-temp-canvas.png",
+    "m2-mtd-end-temp-page.png",
+    "m2-mtd-end-fs-canvas.png",
+    "m2-mtd-end-fs-page.png",
+    "m2-event1-selected-grain-canvas.png",
+    "m2-event1-selected-page.png",
+    "m2-event-mid-selected-grain-canvas.png",
+    "m2-event1-selected-fs-canvas.png",
+    "m2-well-mtd-page.png",
+    "m2-default-failure-on-page.png"
+  ],
+  "browserVersion": "Chrome/155.0.8059.40"
+}
