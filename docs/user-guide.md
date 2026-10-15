@@ -17,14 +17,16 @@ physical processes forward in time:
 - the basement subsides, faster at the basinward end;
 - buried layers compact, and the water they squeeze out can only escape at a rate set by their
   permeability, so fast-buried mud stays overpressured;
-- optionally, burial temperature and quartz cement are tracked in the sands.
+- optionally, burial temperature and quartz cement are tracked in the sands;
+- optionally, steep slopes fail and run out as debris flows, leaving mass-transport deposits
+  (MTDs; section 13).
 
 You choose the conditions, watch the section build, scrub back to any time, and branch a what-if.
 Same inputs always give the same result, bit for bit, which is what makes rewind and branches
 trustworthy.
 
 It is a learning and planning tool. It is not calibrated to any field and uses no company data.
-See section 13 for what it cannot do.
+See section 14 for what it cannot do.
 
 ## 2. Opening it
 Open `dist/strata-lab.html` in a browser (after `npm run build`; see `README.md`). It is one file,
@@ -49,10 +51,11 @@ Every control has a small **ⓘ** button and a tag next to its name:
 ranges**. A published range is given only where one exists.
 
 ### 3.1 Scenario (top of the controls)
-**Scenario preset** (tuned): three standard runs. Choosing one replaces the main run.
+**Scenario preset** (tuned): four standard runs. Choosing one replaces the main run.
 - *Last 3 Myr (default)*: 150 columns of 1 km, 5 kyr steps, 600 steps.
 - *Miocene to present (23 Myr)*: 400 columns of 1 km, 50 kyr steps back to 3 Ma, then 5 kyr.
 - *Full Cenozoic (66 Myr)*: 400 columns, 100 kyr steps back to 23 Ma, then as the Miocene run.
+- *Overpressured slope (MTD-prone)*: the 3 Myr default with mud permeability x0.1, supply 30 m²/yr and slope failure on; 5 kyr steps.
 
 **Run length (Myr)** (tuned): how long to run, from 0.5 Myr up to the preset's length. A shorter
 run keeps the **youngest** part of the preset's schedule, so a 10 Myr run of the Miocene preset
@@ -143,6 +146,40 @@ slope and coastal-plain diffusivities were tuned by eye, not calibrated to data.
 | **Sand grain diameter (cement surface area)** (mm) | 0.2 | tuned. Synthetic |
 | **Share of grain surface that is clean quartz** | 0.7 | tuned. Synthetic |
 
+**Slope stability** (M2.1; drawn by the Factor of safety colour mode, section 4)
+| Control | Default (sand / mud) | Source |
+|---|---|---|
+| **Friction angle phi' (effective stress)** (deg) | 33 / 25 | to verify (Hampton et al. 1996). Muds about 20 to 30°, sands about 30 to 38° |
+| **Cohesion c' (effective stress)** (psi) | 0 / 0 | to verify (Hampton et al. 1996). Normally consolidated marine clay is near 0 |
+| **Stability search depth below the seafloor** (ft) | 984 (300 m) | tuned. How deep the factor-of-safety search goes |
+
+The factor of safety is the strength holding a slab of sediment in place divided by the pull of
+gravity along the slope. Below 1 the slab would slide. The engine works it out from the
+seafloor slope and the model's own pore pressure, so overpressure lowers it directly.
+
+Slope failure and debris-flow run-out (M2.2; drawn in the section, the event list and the pseudo-well, sections 4, 8 and 10)
+
+| Control | Default | Source |
+|---|---|---|
+| Slope failure on (1) / off (0) | 0 | start. tuned (switch). Shown as the check box *Slope failure (MTDs)* at the top of the controls. Off keeps the run identical to M1 |
+| Most columns in one failure | 10 | tuned. How far a failure spreads sideways |
+| Most failures per step (rechecks of the scar) | 5 | tuned |
+| Debris-flow yield strength (psi) | 0.73 (5 kPa) | tuned. Imran et al. (2001) model, to verify |
+| Debris-flow viscosity (Pa s) | 1000 | tuned. Sets the speed, not where the flow stops |
+| Debris-flow bulk density (kg/m^3) | 1800 | tuned |
+| Porosity of mud in a fresh debris deposit | 0.55 | tuned |
+| Shallowest slip surface considered (ft) | 32.8 (10 m) | tuned (allowed 0 to 328). Thinner slides than this are skin slides, not MTDs; 0 searches every cell |
+| Gentlest slope checked for failure (deg) | 0.5 | tuned (allowed 0 to 5). A speed cut and a stated limit: failures on slopes under this are not modelled |
+| Sea-level fall that makes an event a lowstand event (ft) | 65.6 (20 m) | tuned (allowed 0.3 to 328). Only the trigger tag |
+| Accumulation rate that counts as rapid loading (m/yr) | 0.001 | tuned (allowed 0.00001 to 0.1). Only the trigger tag |
+| Slope term that counts as oversteepening | 0.1 | tuned (allowed 0.001 to 5). Only the trigger tag |
+| Pressure term that counts as overpressure | 0.1 | tuned (allowed 0.001 to 5). Only the trigger tag |
+| Run-out below which a repeat failure is not tried again (km) | 0.5 | tuned (allowed 0 to 10). Skips re-failing a column that moved nothing |
+
+With the switch on, any column whose factor of safety falls below 1 fails: the sediment above the slip surface runs out as a debris flow and stops where the yield strength holds it, as a mass-transport deposit (MTD). Sand and mud are conserved separately; debris that runs off the basinward edge counts as exported.
+
+Why did it fail? (M2.3, rule changed in M2.7.) Every failure carries one trigger tag, worked out from the weakest column's change over the last 4 steps (20 kyr at 5 kyr steps). Nothing is imposed; the factor of safety falls for physical reasons and the tag says which one did most of it. Each of three terms (steeper sea floor, rising pore pressure, falling sea level) is divided by its own tuned threshold, and the term with the largest ratio wins if that ratio is at least 1: *oversteepening*, *rapid loading* (the pressure term, when the column gained sediment faster than the rapid-loading rate), *overpressure* (the pressure term, when loading was slow) or *lowstand*. If no ratio reaches 1 the tag is *mixed*. The tag does not change the physics; it is a label on the cause, and the list shows all three terms behind it (section 13.4). Failures that move almost nothing are flagged *stalled*, and failures cut by the search depth limit are flagged *window-limited* (section 13.4). The preset *Overpressured slope (MTD-prone)* turns failure on with mud permeability x0.1 and supply 30 m²/yr (both tuned) so there are events to look at. Limits: slopes under 0.5° and slip surfaces shallower than 10 m are not searched.
+
 Two things to know about the edit boxes:
 - **Subsidence history (piecewise factors)** has no boxes in the app yet. It is a list the
   engine accepts but the controls have no editor for, so the *history* choice of **Subsidence
@@ -167,6 +204,19 @@ Pick a colour mode with the buttons above it. The legend below the picture shows
 - **Temperature (°F)**: 32 to 392 °F, blue to red, steady conduction from the basal heat flow.
   It is always available. It does not need the temperature switch (that switch matters for
   cement, section 9).
+- **Factor of safety**: the slope-stability result for every cell, on a log scale from 0.25 to 4 with 1.0
+  in the middle. Reds are cells with a factor of safety below 1.2 (below 1 the slab would slide);
+  pale to blue is safe. Flat seafloor has nothing pulling the slab down, so it is blue. A black
+  dashed line shows the critical slip depth: the cell with the lowest factor of safety in each
+  sloping column. Safety is worked out from the model's own pore pressure, so overpressure turns
+  cells red.
+
+**MTDs in every colour mode.** Debris-flow deposits (MTDs) are drawn hatched, with the stripes
+changing direction from patch to patch, so they stand out over any colour. The hatching marks every
+cell in the deposit of a slope-failure event, not only cells where debris is at least half of the
+solids. A pink flag marked *headwall #n* shows where a failure started, for three steps after it
+(and always for the event picked in the event list; section 13.4). With a picked event, the source columns are
+drawn in pink on the seafloor and its deposit is outlined in yellow.
 
 Click anywhere on the section to move the pseudo-well to that column. A vertical line shows where it is.
 
@@ -177,7 +227,7 @@ frame). The readout says which step you are at and its age in Ma (millions of ye
 of it is rewind: dragging back gives exactly the state the run had then.
 
 ## 5. Run length, presets and time steps
-Speed depends on the number of **steps**, not the number of years. The three presets balance this
+Speed depends on the number of **steps**, not the number of years. The presets balance this
 by using longer steps further back in time.
 
 What coarse steps can and cannot show:
@@ -245,6 +295,9 @@ Depth is TVDSS in ft (below the sea surface). It has four tracks:
    crossed, and the depth where it happens is labelled. If cement is off the label says
    "(cement off)".
 4. **Grain size**: yellow is sand, grey-green is mud.
+   Debris-flow deposits (MTDs) in the column are hatched, labelled *MTD #n* with the event number.
+   Hover (or tab to) a hatched interval to read the event: time, cause, source position, scar depth,
+   volume and run-out. The same text appears under the plot.
 
 If salt is ever present (it is not, in M1) it is drawn pink and labelled "salt".
 
@@ -286,6 +339,14 @@ factor of about 4.6 for every 30 °C (54 °F) of heating. What it does:
 If you change these on the main run you must wait for the run to recompute.
 
 ## 10. Panels on the right
+**Slope failures** (the list at the top of the right column). One row per failure event: number,
+time (Ma), cause (lowstand, oversteepening, rapid loading, overpressure or mixed; section 13.3), source
+position (km along the section), scar depth (ft), volume and run-out (km). Volume is the area
+removed from this 2D section in km², not a 3D volume. Click a row (or its number) to go to that
+event: the time bar moves to just after it, the pseudo-well moves to the middle of its deposit,
+and the section marks the headwall, the source columns and the deposit. Click again to clear.
+Under each row a grey line gives the three terms behind the cause in words, and a stalled or window-limited event adds a note (section 13.4). The header counts events, stalled events and unresolved columns. Rows after the current time are greyed. With failure off the panel says so.
+
 **Mass balance** (km² of solid in the section; grains only, no pores):
 - *supplied*: total delivered at the landward end.
 - *stored*: change in the amount in the record since the start.
@@ -309,6 +370,10 @@ shows the measured number, its limit and its source.
 | **Consolidation vs Gibson (1958)**, T = 0.1, 1, 10 | The pore-pressure solver reproduces the exact solution for a clay layer that thickens at a constant rate. Limit 0.001 of overburden. Results are of order 1e-4 or less |
 | **Drained sand porosity at 2 km vs Sclater & Christie (1980)** and **Drained mud porosity at 2 km ...** | With water free to leave, compaction follows the published porosity-depth curve to within 0.02 porosity |
 | **Mass balance, sand only** and **Mass balance, mud only** | Over a 1 Myr coupled run, what is stored equals what was supplied minus what left, per grain size, to 1e-9 |
+| **Infinite-slope FS, 6° slope, 25° friction, r_u 0.5** | The engine's factor of safety equals tan 25° / tan 6° × (1 − 0.5) = 2.2183 (hand calculation, relative error under 1e-12) |
+| **FS crosses 1 at r_u = 1 − tan β / tan φ** | For 6° and 25° that is r_u = 0.7746. The engine gives FS = 1 there, above 1 just below it and below 1 just above it |
+| **Bingham plug thickness** | A debris flow on a 5° slope has a rigid plug of thickness τ_y / (ρ′ g sin θ); a flow thinner than that does not move |
+| **Mass balance through a slope failure, sand** and **... mud** | On a steep, overpressured hand-built slope, the sand (and the mud) before the failure equals what is left in the section plus what ran off the end, to 1e-12 |
 | **Rewind is bit-identical** | A state restored from a saved state and replayed equals an uninterrupted run exactly. This is why scrubbing and branching can be trusted |
 
 What the checks do **not** prove: that the parameters are right for any real basin, that the
@@ -338,9 +403,142 @@ press Save. If the browser blocks local storage the app works but tells you auto
 **Save first**, **Replace** or **Cancel**. Changing the preset, the run length or a main-run control
 also asks if it would throw away branches.
 
-## 13. Known limits
+## 13. Slope failure and MTDs
+A mass-transport deposit (MTD) is what a slope failure leaves behind: a slab of slope sediment
+slides, breaks up, runs down the slope as a debris flow and stops as a chaotic body. The app does
+not draw MTDs on request. It checks every slope column at every step and lets the sediment fail
+when the physics says so. Slope failure is **off** by default, so the default run is unchanged.
+Turn it on with the check box *Slope failure (MTDs)* at the top of the controls (it restarts the
+run, and a branch cannot change it) or choose the preset *Overpressured slope (MTD-prone)*.
+
+### 13.1 What the factor of safety (FS) means
+FS is the strength holding a slab of sediment in place divided by the pull of gravity along the
+slope. Above 1 the slab stays. Below 1 it would slide. The slab is a thin sheet parallel to the
+seafloor. The app tries every layer in the top 984 ft below the seafloor (**Stability search depth
+below the seafloor**) in each sloping column and keeps the weakest.
+- A steeper seafloor raises the pull, so FS falls.
+- Overpressure means the pore water carries part of the weight, so the grains press together less,
+  friction is lower and FS falls. The pressure is the model's own, from the compaction solver, so
+  fast loading of slow-draining mud lowers FS without any extra setting.
+- Friction angle and cohesion (section 3.3) set the strength. With cohesion 0, FS is
+  (1 - share of the load carried by the pore fluid) x tan(friction angle) / tan(slope). On a 6°
+  slope, mud at 25° (the default) needs the pore fluid to carry about three quarters of the
+  buoyant load before FS reaches 1.
+- Flat seafloor has no pull along the slope, so it cannot fail.
+
+### 13.2 What happens in a failure
+After each step every column with FS below 1 fails. The weakest column and the unstable columns
+touching it (at most **Most columns in one failure**) fail together. The sediment above the slip
+surface is taken out, runs downslope as a debris flow and stops where its yield strength holds it.
+The debris is laid down as an MTD in the layer of that step, and the scar is checked again (at
+most **Most failures per step (rechecks of the scar)** times). Sand and mud are each conserved:
+removed = deposited + exported, where exported is debris that ran past the basinward edge. The
+mass-balance panel counts it under *exported*.
+
+### 13.3 What each trigger means
+Each event is tagged with the main reason FS fell, worked out from the weakest column's change
+over the last 4 steps (20 kyr at 5 kyr steps). Nothing is forced: the tag is a label on a physical
+result. Three terms are measured, each divided by its own threshold (**Slope term that counts as oversteepening**, **Pressure term that counts as
+overpressure** and **Sea-level fall that makes an event a lowstand event** in section 3.3, all tuned), and the largest ratio wins if it
+is at least 1:
+- **oversteepening**: the sea-floor slope got steeper.
+- **rapid loading**: pore pressure rose and the column gained sediment faster than
+  **Accumulation rate that counts as rapid loading** (0.001 m/yr).
+- **overpressure**: pore pressure rose and loading was slow, so the pressure was already there.
+- **lowstand**: sea level fell (default threshold 65.6 ft, 20 m, over those steps).
+- **mixed**: none of the three reaches its threshold, so no single cause stands out.
+
+The thresholds change the tag only, never the physics. Because the pressure term is measured on
+a log scale it can reach tens of times its threshold when the pressure jumps toward the load, so
+on the MTD-prone preset most events read rapid loading or oversteepening and few read lowstand.
+That is a property of the tuned thresholds, not a finding about the sea level. Read the tag as
+"what changed most just before the failure", not as the whole chain of cause. Tap the (i) next to
+**Cause** in the list for the same rule in short form.
+
+### 13.4 Reading the Factor of safety colour mode and the event list
+- **Factor of safety** (a colour button above the section). Dark red to red is FS below 1, pink is
+  1 to 1.2 (close to failing), then pale grey-blue to deep blue is safe (log scale, 0.25 to 4).
+  The black dashed line follows the critical slip depth of each sloping column. Scrub the time bar
+  and watch the red patches: they appear where overpressure builds or the slope steepens, and a
+  failure removes the red above its slip surface. Hatched cells are MTDs and show in every colour
+  mode.
+- **Slope failures (MTDs)** (the panel at the top of the right column). One row per event: #,
+  Time (Ma), Cause, Source (km), Scar (ft), Volume (km²) and Run-out (km). Volume is the area
+  removed from this 2D section, not a 3D volume. A run-out of 0.0 means the debris stopped
+  inside its own source columns. Click a row: the time bar goes to just after the event, the
+  pseudo-well moves into the deposit, and the section shows the pink *headwall #n* flag, the source
+  columns and the yellow-outlined deposit. Click again to clear. Rows later than the current time
+  are grey. Under each row, a grey line gives the three terms behind the cause in words, for
+  example *steepening ×1.2 in the last 4 steps; pressure rise: effective stress fell to 67% of its earlier
+  value; sea-level fall 7.0 m*. The ×1.2 is how many times steeper the sea floor became, and the
+  percentage is how much of the effective stress (load minus excess pore pressure) was left.
+- **Stalled.** A row marked *(stalled)* says *failed but debris stayed: column unresolved*. The slope
+  failed, but the debris moved less than 0.5 km, so the columns are still unstable. The model
+  does not fail the same columns again in the same step, so they are counted, not hidden: the
+  list header gives *N events, M stalled; K unresolved columns*. K adds up the columns of the
+  stalled events only. Treat an unresolved column as
+  "still unstable, not modelled further in that step". Tap the (i) next to the note. A step that
+  hits the limit of rechecks while a column is still unstable is not flagged on any row; the model
+  counts it internally (the MTD-prone preset in Node: header 2, internal count 4).
+- **Window-limited.** A note *scar depth equals the search window (300 m, tuned)* means the
+  scar went as deep as the search allows, so the real failure may be deeper and the scar depth and
+  volume are lower bounds.
+- **Pseudo-well** (section 8). MTD intervals are hatched and labelled *MTD #n*. Hover one to read
+  its event.
+- Events in the same step share a place and a time, so their headwall flags overlap in the section.
+  Use the list to tell them apart.
+
+### 13.5 The preset *Overpressured slope (MTD-prone)*
+The default scenario with **Mud permeability multiplier** 0.1 and **Sediment supply** 30 m²/yr
+(both tuned), slope failure on, 3 Myr, 5 kyr steps. Slow draining plus fast loading overpressures
+the slope mud. The run is deterministic: the same code in the same runtime gives the same events. It does
+**not** give the same events on every platform (section 14). After the M2.7 fixes it gave:
+- Node 26 (the tests): 24 events, 16 tagged rapid loading and 8 oversteepening, 2 stalled (header: 2 unresolved columns;
+  the engine's own count is 4, because two steps ended at the recheck limit with the slope still unstable and no stalled flag), 3 window-limited (deepest scar 299.3 m of the 300 m window).
+- The built app in Chrome 155: 37 events from 2.49 Ma to 0.02 Ma, 32 rapid loading and 5
+  oversteepening, 9 stalled, 10 unresolved columns, 1 window-limited. The sources are between km 47 and km 98.
+- No event is tagged lowstand, overpressure or mixed. The M2.3 version tagged 32 of 33 events
+  lowstand because sea level was tested first with a 5 m threshold; that was a flaw of the rule and
+  it is fixed.
+
+The events sit where the pressure is high and the slope is steep, which is what the physics says
+should fail first. Whether the places and times
+look right for an overpressured slope is your call. Nothing here is calibrated to a basin.
+
+### 13.6 Limits (read before trusting a picture)
+- **Infinite slope, 2D only.** The slip surface is a slab parallel to the seafloor. There are no
+  rotational slumps (curved slip surfaces) and nothing in the third dimension. Volume is an area.
+- **No earthquakes.** Strength is drained only: no shaking, no undrained or cyclic strength loss.
+  Earthquakes are a common real trigger, so the model can miss failures.
+- **Searched slopes and depths are limited.** Columns gentler than **Gentlest slope checked for
+  failure** (0.5°) and slip surfaces shallower than **Shallowest slip surface considered** (32.8 ft)
+  are skipped, so failures on very gentle slopes are not modelled at all.
+- **The run-out method is simple.** It is a depth-averaged Bingham flow (Imran et al. 2001, written
+  from the paper's model description, to verify) in one layer. There is no water entrainment or
+  hydroplaning, so run-outs of mud-rich flows are likely too short. The rheology is constant
+  and the bed is not eroded. A block slower than 1 mm/s counts as stopped.
+- **Tuned parameters.** All the failure and run-out settings are tuned, not measured: yield
+  strength, viscosity, flow density, mud porosity in the deposit, the limits above and the trigger
+  thresholds. Friction angle and cohesion are "to verify", not tuned, but their values have not been
+  checked against the paper. Treat run-out distances as order-of-magnitude.
+- **Slope is resolved at column spacing** (1 km), so steep local scarps are smoothed.
+- **Salt is never moved** by a failure, and cement in the released cells is dropped with the debris.
+
+## 14. Known limits
+- **Same results on the same machine, not on every machine.** On one browser the same inputs give
+  identical results, and rewind and scrubbing are bit-exact. Different platforms (Node against
+  Chrome, Windows against Linux) can differ in the last digit of a calculation. Slope failure is a
+  threshold process, so a last-digit difference can move an event by whole steps: the same preset gave
+  24 events in Node and 37 in Chrome. Compare event lists only on one runtime. A project file opened
+  on another machine can show a different list of failures.
+- **Slope failure costs run time.** The M2.3 aim of at most 15 % extra is met only on the 3 Myr
+  preset and missed elsewhere with failure on. Measured (M2.10, five runs each, best time with
+  failure on against best time with it off, noisy machine): 3 Myr +11 %, Miocene +48 % (single runs
+  +20 to +73 %; about 3.3 to 4.1 s against 2.2 to 2.9 s), Cenozoic +45 % (+17 to +52 %; about 3.9 to
+  4.4 s against 2.7 to 3.4 s), the MTD-prone preset +20 % (+16 to +31 %). Every preset finishes in
+  under 5 s. Failure off costs nothing.
 - **Turbidites are a transport-length rule, not flow physics.** No turbidity-current flow, no
-  channels or levees, no slope failure, faults, salt or 3D yet.
+  channels or levees, slope failure is off by default and limited (section 13.6), no faults, salt or 3D yet.
 - **The slopes are tuned.** Slope and coastal-plain diffusivities were tuned by eye to about 6°
   muddy slopes and a 0.3 m/km coastal plain, not calibrated to data.
 - **Default overpressure is mild** (maximum about 14 % of the load, at 20 m²/yr supply). To see

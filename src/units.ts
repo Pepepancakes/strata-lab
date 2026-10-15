@@ -61,6 +61,7 @@ const CONVERSIONS: Record<string, UnitConversion> = {
   'yr->kyr': scale(1e-3),
   '1/Pa->1/psi': scale(PA_PER_PSI),
   'W/m^2->mW/m^2': scale(1000),
+  'Pa->psi': { to: paToPsi, from: psiToPa },
   'deg C->deg F': { to: cToF, from: fToC },
 }
 

@@ -132,6 +132,12 @@ export const REFERENCES: readonly Reference[] = [
     full: 'Hampton, M.A., Lee, H.J. & Locat, J. (1996). Submarine landslides. Rev. Geophys. 34(1), 33-59.',
   },
   {
+    id: 'imran-2001',
+    short: 'Imran et al. (2001)',
+    full: 'Imran, J., Parker, G., Locat, J. & Lee, H. (2001). 1D numerical model of muddy subaqueous and subaerial debris flows. J. Hydraul. Eng. 127(11), 959-968.',
+    toVerify: true,
+  },
+  {
     id: 'hudec-jackson-2007',
     short: 'Hudec & Jackson (2007)',
     full: 'Hudec, M.R. & Jackson, M.P.A. (2007). Terra infirma: understanding salt tectonics. Earth-Sci. Rev. 82, 1-28.',

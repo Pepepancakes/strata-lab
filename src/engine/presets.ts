@@ -11,7 +11,7 @@
 import { defaultEngineParams, type EngineParams } from './engineParams'
 import { buildSchedule, DEFAULT_SEGMENTS, type Schedule, type Segment } from './schedule'
 
-export type PresetId = 'last3' | 'miocene' | 'cenozoic'
+export type PresetId = 'last3' | 'miocene' | 'cenozoic' | 'mtd'
 
 export interface Preset {
   id: PresetId
@@ -52,6 +52,17 @@ export const PRESETS: readonly Preset[] = [
     segments: [{ fromAgeMa: 66, toAgeMa: 23, dt: 100000 }, { fromAgeMa: 23, toAgeMa: 3, dt: 50000 }, RECENT],
     params: { duration: 66e6, nx: 400, dx: 1000, supply: 20, subsShelf: 40, subsBasin: 150, bundleEvery: 20, bundleAgeYr: 100000 },
     note: '100 kyr steps back to 23 Ma, then as the Miocene run. Supply and subsidence tuned; section 400 km.',
+  },
+  {
+    id: 'mtd',
+    label: 'Overpressured slope (MTD-prone)',
+    runLengthMa: 3,
+    segments: DEFAULT_SEGMENTS,
+    params: {
+      duration: 3e6, nx: 150, dx: 1000, supply: 30, subsShelf: 40, subsBasin: 150, bundleEvery: 1,
+      kMudMult: 0.1, failOn: 1,
+    },
+    note: 'The default scenario with mud permeability x0.1 and supply x1.5 (30 m^2/yr), slope failure on, no slip surface shallower than 10 m. Both changes are tuned, not measured: the point is that slow pore-pressure dissipation plus fast loading overpressures the slope mud until it fails. No trigger is imposed; the events come from the factor of safety (stability.ts) and are tagged by triggers.ts.',
   },
 ]
 

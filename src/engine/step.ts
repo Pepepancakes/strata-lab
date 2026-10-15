@@ -8,6 +8,7 @@
 
 import { MUD, SAND } from './constants'
 import { cementCell } from './cement'
+import { failureStep } from './failure'
 import { rebuildCaches, compactColumn, recomputeH, setPor, voidRatio } from './compaction'
 import { restore as restoreRecord, snapshot as snapshotRecord, type Snapshot } from './determinism'
 import type { EngineParams } from './engineParams'
@@ -15,7 +16,8 @@ import { appendLayer, createRecord, markInitialLedger } from './record'
 import type { Schedule } from './schedule'
 import type { SeaLevelCurve } from './sealevel'
 import { subside } from './subsidence'
-import { allocateEngine, type Diagnostics, type EngineState } from './state'
+import { cloneHistory, copyHistory, type TriggerHistory } from './triggers'
+import { allocateEngine, type Diagnostics, type EngineState, type FailureEvent } from './state'
 import { columnTemperatures, computeTemperatures } from './thermal'
 import { transportSubstep } from './transport'
 
@@ -96,6 +98,7 @@ export function step(eng: EngineState, P: EngineParams, schedule: Schedule, seaL
   for (let s = 0; s < P.nSub; s++) transportSubstep(eng, P, seaLevel(t0 + (s + 0.5) * dt), dt)
   compactStep(eng, P, schedule, k, k1)
   if (thermalOn && ((k + 1) % P.thermalEvery === 0 || k === schedule.nSteps - 1)) thermalStep(eng, P, schedule, k, k1, seaLevel(schedule.tEndYr[k]))
+  if (P.failOn === 1) failureStep(eng, P, k, schedule.tEndYr[k], schedule.stepAgeMa[k], seaLevel)
   eng.diag.stepIndex = k + 1
   return true
 }
@@ -172,10 +175,14 @@ export interface EngineSnapshot {
    * rebuilt from the restored record.
    */
   temp?: Float64Array
+  /** Slope failures so far (M2.2). Events are never changed after they are made, so a shallow copy is exact. */
+  events: FailureEvent[]
+  /** Trigger history (M2.3). */
+  hist: TriggerHistory
 }
 
 export function snapshotEngine(eng: EngineState): EngineSnapshot {
-  const snap: EngineSnapshot = { record: snapshotRecord(eng.rec), diag: { ...eng.diag } }
+  const snap: EngineSnapshot = { record: snapshotRecord(eng.rec), diag: { ...eng.diag }, events: eng.events.slice(), hist: cloneHistory(eng.hist) }
   if (eng.lagLoads) snap.ld = eng.ld.slice(0, eng.rec.nLayers * eng.rec.nx)
   if (eng.tempOk) snap.temp = eng.temp.slice(0, eng.rec.nLayers * eng.rec.nx)
   return snap
@@ -185,6 +192,8 @@ export function snapshotEngine(eng: EngineState): EngineSnapshot {
 export function restoreEngine(snap: EngineSnapshot, eng: EngineState, P: EngineParams): void {
   restoreRecord(snap.record, eng.rec)
   eng.diag = { ...snap.diag }
+  eng.events = snap.events.slice()
+  copyHistory(eng.hist, snap.hist)
   eng.temp.fill(0)
   if (snap.temp) eng.temp.set(snap.temp)
   eng.tempOk = snap.temp !== undefined // otherwise rebuilt from the restored record at the next step

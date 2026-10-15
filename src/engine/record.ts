@@ -6,7 +6,8 @@
 //   smax        past maximum effective stress, Pa
 //   u           excess pore pressure state, Pa (spike's `u`)
 //   tDep        deposition time, ELAPSED years since the run started (end of the record step)
-//   material    Uint8 tag per cell: SEDIMENT (0) or SALT (1)
+//   material    Uint8 tag per cell: SEDIMENT (0), SALT (1) or MTD (2, M2.2: mostly debris from a
+//               slope failure; the event is in EngineState.events, matched by layer and column)
 //   cem         quartz cement in the cell, solid m (M1.4c). Silica from OUTSIDE the model: it fills sand
 //               pore space (thickness does not change) and has its own ledger line.
 //   cemS        effective stress (Pa) at which the sand framework froze when cementation began;
@@ -32,6 +33,8 @@
 
 export const SEDIMENT = 0
 export const SALT = 1
+/** Mass-transport deposit (M2.2): sediment (counted as sand and mud) laid down by a slope failure. */
+export const MTD = 2
 
 /** Volumes per class in m^2 (2D section: thickness x column width, per metre of margin). */
 export interface ClassVolumes {

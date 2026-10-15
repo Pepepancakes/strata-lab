@@ -124,6 +124,51 @@ citation come from `curveCreditAtAge(age)` and change with age.
 - Quartz cement: r = 1.98e-22 x 10^(0.022 T) mol/cm2/s (Walderhaug 1994), onset 70 C, surface area from grain size and clean-quartz share (both tuned, synthetic). Silica comes from outside the model: own mass-balance line. Cement fills sand pores, freezes the sand framework at the stress when cementation began. No chemical compaction of mud (no simple sourced law was found).
 - Temperature and cement are off by default (thermal = 0, cement = 0) so default runs stay bit-identical; update every thermalEvery steps (numerical saving).
 
+## M2.1 Slope stability (infinite slope)
+
+- FS = [c' + (sigma_v' cos^2 beta) tan phi'] / (gamma' z sin beta cos beta), slip surface parallel to the seafloor. gamma' z is the buoyant load of the consolidation solver; sigma_v' = that load minus the excess pore pressure `u` in the record. Form: Hampton, Lee & Locat (1996) and standard soil mechanics; written from memory of those texts, to verify against the paper.
+- Parameters: friction angle sand 33 deg, mud 25 deg (typical drained ranges: muds about 20-30, sands about 30-38; to verify). Cohesion 0 for both (normally consolidated marine clay is near 0; to verify). Search depth 300 m is a set-up choice (tuned).
+- Limits: drained strength only, no earthquake or undrained term, slope resolved only at column spacing, mixed cells average tan(phi') and c' by solid fraction. Benchmarks: tests/stability.test.ts (hand calculations to 1e-9).
+
+## M2.2 Slope failure and debris-flow run-out
+
+- Trigger: after each record step, every column with a factor of safety below 1 (M2.1) fails. The weakest column and its contiguous unstable neighbours (at most `failMaxCells`) fail together; the scar is then checked again, up to `failMaxIters` times per step. Left over: counted in the diagnostics and retried at the next step. Off by default (`failOn` = 0) so the default run stays bit-identical to M1.
+- Released: everything above the slip surface, cut by solid volume (sand and mud in the same proportion in the half cell the surface passes through). Salt is not moved. Quartz cement in the released cells is dropped with the debris and has its own mass line.
+- Run-out: a depth-averaged Bingham flow (Imran, Parker, Locat & Lee 2001; written from the paper's model description, to verify). Stress above the yield strength tau_y shears at mu; below it the layer is a rigid plug. For bed stress tau_b and thickness h the mean velocity is U = tau_b h (1 - r)^2 (2 + r) / (6 mu), r = tau_y / tau_b. For steady uniform flow on a slope the plug is tau_y / (rho' g sin theta) thick, with rho' the flow density minus sea water (the flow is under water); a layer thinner than that does not move. The flow is a chain of blocks (four per source column, each carrying its own sand and mud) with momentum, gravity and hydrostatic thrust, and an implicit bed stress, so it stops in finite time. A block slower than 1 mm/s counts as stopped (numerical).
+- Limits: no water entrainment or hydroplaning (run-out is a lower bound for mud-rich flows, Hampton et al. 1996), rheology constant in time, the bed is not eroded, one layer.
+- Deposit: laid in the layer of the step that failed, tagged MTD. Remoulded mud restarts consolidation at the effective stress that gives `mtdPhiMud`. The load changes at constant excess pore pressure, so the effective stress does not jump.
+- Mass: sand and mud released = deposited + exported, per event and per grain size (tests/failure.test.ts, 1e-12). Debris past the basinward edge is exported (ledger line `cumOut`).
+- Benchmarks: tests/runout.test.ts (Bingham velocity law against a numerical integral of the shear profile, uniform flow on a constant slope: velocity, bed stress and plug thickness within 1 %, no motion below the plug thickness).
+- Parameters: `runYield` 5 kPa, `runViscosity` 1000 Pa s, `runDensity` 1800 kg/m3, `mtdPhiMud` 0.55, `failMaxCells`, `failMaxIters`: all tuned. No value was checked against a paper.
+
+### Failure triggers (M2.3)
+
+- What it does: tags each slope failure with the dominant reason its factor of safety fell, and limits the slip-surface search. Code: `src/engine/triggers.ts`, `src/engine/stability.ts`.
+- Rule: infinite-slope FS with cohesion and the cos^2 term dropped is proportional to (1 - ru) / tan(beta), ru = u / load at the critical cell. Over a lookback of 4 steps, ln(FS_then / FS_now) = dSlope + dPress, dSlope = ln(tan beta_now / tan beta_then), dPress = ln((1 - ru_then) / (1 - ru_now)). Tag, first match wins: lowstand (sea-level fall >= `failLowstandDrop`), oversteepening (dSlope > 0 and >= dPress), rapid loading (bulk gain of the source column >= `failRapidRate`), else overpressure. Checked by hand calculation in `tests/triggers.test.ts`.
+- The rule is a bookkeeping split of one formula, not a mechanism model, and the tag thresholds are tuned. They change the label only, never the physics.
+- Search limits: `failMinDepth` (slip surfaces shallower are ignored: the top cells of a fresh layer are undrained, so on any slope they look unstable) and `failSlopeMin` (columns gentler than this are skipped, a speed cut). Failures on slopes under 0.5 deg are therefore not modelled. Both tuned; 10 m as the thinnest seismically resolved MTD and the 0.5 to 1 deg slopes of real MTDs are to verify (Hampton et al. 1996).
+- Cost: failure on adds about 9 % (3 Myr preset), 38 % (Miocene) and 45 % (Cenozoic) to the run time (M2.3 measurement, one machine, min of 3 runs). The card's budget was 15 %, so it is not met for the two long presets.
+
+### M2 parameter summary (M2.5)
+Status of every M2 registry key, as shown next to the control. "to verify" means the source is believed right but the value was not checked against the paper. None of them is a measured Gulf of America value.
+
+| Key | Default | Status | Source or reason |
+|---|---|---|---|
+| `phiFric` | 33 deg sand, 25 deg mud | to verify | Hampton, Lee & Locat (1996); typical drained ranges quoted from general knowledge |
+| `cohesion` | 0, 0 | to verify | Hampton et al. (1996); normally consolidated marine clay is near 0 |
+| `stabMaxDepth` | 300 m | tuned | set-up choice: how deep the FS search goes |
+| `failOn` | 0 (off) | tuned | on/off switch; off keeps the run identical to M1 |
+| `failMaxCells`, `failMaxIters` | 10, 5 | tuned | caps on sideways spread and on rechecks per step |
+| `runYield`, `runViscosity` | 5 kPa, 1000 Pa s | tuned | Bingham terms of Imran et al. (2001), to verify; no value checked against a paper |
+| `runDensity` | 1800 kg/m3 | tuned | water plus solids while moving |
+| `mtdPhiMud` | 0.55 | tuned | mud porosity in a fresh deposit before it re-consolidates |
+| `failMinDepth`, `failSlopeMin` | 10 m, 0.5 deg | tuned | stated search limits (see M2.3); thin-slide and gentle-slope values to verify (Hampton et al. 1996) |
+| `failLowstandDrop`, `failRapidRate` | 20 m, 0.001 m/yr | tuned | thresholds for the trigger tag only; they never change the physics (M2.7: 20 m, was 5 m) |
+| `failSlopeTerm`, `failPressTerm` | 0.1, 0.1 | tuned | M2.7: scale of the slope and pressure terms in the trigger tag (the largest term divided by its threshold wins); tag only |
+| `failStallRunout` | 500 m | tuned | M2.7: a failure running out less than this is not repeated on the same columns in one step |
+
+Method list: infinite-slope FS (Hampton et al. 1996 and soil mechanics), Bingham depth-averaged run-out (Imran et al. 2001), FS-drop attribution for the trigger tag (our own bookkeeping split, no citation). Benchmarks: `tests/stability.test.ts`, `tests/runout.test.ts`, `tests/failure.test.ts`, `tests/triggers.test.ts`.
+
 ## Set-up parameters and what the registry adds (M1.8)
 These are numerical or set-up choices, not measured quantities, so they are all **tuned** and the
 app labels them so: columns (`nx`, default 150), column width (`dx`, 1 km), run length
@@ -148,7 +193,7 @@ Where a source gives a range, it is quoted in the section for that parameter.
 Generated from `src/engine/references.ts` and `src/engine/params.ts` and checked by
 `tests/docs.test.ts`. Rewrite with `STRATA_WRITE_DOCS=1 npm run test:run -- docs`.
 
-References (23):
+References (24):
 - `gibson-1958`: Gibson (1958)
 - `sclater-christie-1980`: Sclater & Christie (1980)
 - `athy-1930`: Athy (1930)
@@ -167,13 +212,14 @@ References (23):
 - `miller-2020`: Miller et al. (2020) (data: src/engine/data/sealevel-miller2020.json)
 - `spratt-lisiecki-2016`: Spratt & Lisiecki (2016)
 - `hampton-1996`: Hampton et al. (1996)
+- `imran-2001`: Imran et al. (2001) (to verify)
 - `hudec-jackson-2007`: Hudec & Jackson (2007)
 - `gemmer-2004`: Gemmer et al. (2004) (to verify)
 - `ge-1997`: Ge et al. (1997) (to verify)
 - `eaton-1969`: Eaton (1969)
 - `matthews-kelly-1967`: Matthews & Kelly (1967)
 
-Parameters (49), as `key`: status, reference id:
+Parameters (66), as `key`: status, reference id:
 - `nx`: tuned
 - `dx`: tuned
 - `duration`: tuned
@@ -223,4 +269,21 @@ Parameters (49), as `key`: status, reference id:
 - `cemTonset`: cited, walderhaug-1996
 - `cemGrain`: tuned
 - `cemSurf`: tuned, walderhaug-1996
+- `phiFric`: to-verify, hampton-1996
+- `cohesion`: to-verify, hampton-1996
+- `stabMaxDepth`: tuned
+- `failOn`: tuned
+- `failMaxCells`: tuned
+- `failMaxIters`: tuned
+- `runYield`: tuned, imran-2001
+- `runViscosity`: tuned, imran-2001
+- `runDensity`: tuned
+- `mtdPhiMud`: tuned
+- `failMinDepth`: tuned
+- `failSlopeMin`: tuned
+- `failLowstandDrop`: tuned
+- `failRapidRate`: tuned
+- `failSlopeTerm`: tuned
+- `failPressTerm`: tuned
+- `failStallRunout`: tuned
 <!-- registry-index:end -->

@@ -13,6 +13,7 @@ import type { ParamValue } from '../engine/params'
 import type { PresetId } from '../engine/presets'
 import type { Ledger, RecordBalance } from '../engine/record'
 import type { Segment } from '../engine/schedule'
+import type { FailureEvent } from '../engine/state'
 import type { ScenarioFile } from '../app/scenarioFile'
 
 /** What to run. `segments` replaces the preset's time steps (used by tests and later by the UI). */
@@ -24,7 +25,7 @@ export interface RunSpec {
 }
 
 /** Columns of a StateView that are large (nLayers x nx) and optional. `thick` is bulk thickness, m. */
-export type ViewField = 'thick' | 'sand' | 'mud' | 'smax' | 'u' | 'cem' | 'lam' | 'temp'
+export type ViewField = 'thick' | 'sand' | 'mud' | 'smax' | 'u' | 'cem' | 'lam' | 'temp' | 'fs'
 export const DEFAULT_VIEW_FIELDS: readonly ViewField[] = ['thick', 'sand', 'mud', 'u']
 
 export interface StateView {
@@ -55,6 +56,12 @@ export interface StateView {
   lam?: Float64Array
   /** Derived (not stored): temperature at the middle of each cell, deg C. Needs the field 'temp'. */
   temp?: Float64Array
+  /** Derived (not stored): infinite-slope factor of safety of each cell (Infinity where the column is flat). Needs the field 'fs'. */
+  fsCell?: Float64Array
+  /** Derived, with 'fs': lowest factor of safety per column, its depth below the seafloor (m), and the layer it is in (-1 = none). */
+  fsMin?: Float64Array
+  fsDepth?: Float64Array
+  fsLayer?: Int32Array
   material: Uint8Array
   /** Age at the end of each layer's step, Ma (layer 0 = start of the run). */
   layerAgeMa: Float64Array
@@ -186,6 +193,8 @@ export type EngineRequest =
   | { id: number; kind: 'runChecks' }
   | { id: number; kind: 'well'; branchId: string; step: number; column: number }
   | { id: number; kind: 'series'; branchId: string }
+  /** The slope failures of a branch over the whole run, oldest first (M2.4). */
+  | { id: number; kind: 'events'; branchId: string }
   /** stateHash of every branch at its last step, by branch id (for saving a scenario file). */
   | { id: number; kind: 'hashes' }
   /** Rebuild a checked scenario file: run, branches, then hashes. Replaces the current run. */
@@ -206,6 +215,7 @@ export type EngineResponse =
   | { id: number; kind: 'checks'; results: CheckResult[]; allPass: boolean; ms: number }
   | { id: number; kind: 'wellColumn'; well: WellColumn; ms: number }
   | { id: number; kind: 'seriesData'; series: SeriesData; ms: number }
+  | { id: number; kind: 'eventList'; branchId: string; events: FailureEvent[]; ms: number }
   | { id: number; kind: 'hashList'; hashes: Record<string, string>; ms: number }
   | { id: number; kind: 'scenarioOpened'; info: RunInfo; branches: BranchInfo[]; idMap: Record<string, string>; hashes: Record<string, string>; ms: number }
 

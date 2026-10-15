@@ -23,7 +23,8 @@ import { rebuildCaches, recomputeH } from '../engine/compaction'
 import type { EngineParams } from '../engine/engineParams'
 import { copyLedger, type Ledger } from '../engine/record'
 import type { Schedule } from '../engine/schedule'
-import type { Diagnostics, EngineState } from '../engine/state'
+import { cloneHistory, copyHistory, type TriggerHistory } from '../engine/triggers'
+import type { Diagnostics, EngineState, FailureEvent } from '../engine/state'
 
 export interface Keyframe {
   /** Steps completed (0 = the substrate only). The record then has step + 1 layers. */
@@ -40,6 +41,10 @@ export interface Keyframe {
   b: Float64Array
   ledger: Ledger
   diag: Diagnostics
+  /** Slope failures up to this step (M2.2). */
+  events: FailureEvent[]
+  /** Trigger history (M2.3). */
+  hist: TriggerHistory
 }
 
 /** True when the engine can be rebuilt exactly from a keyframe taken after `step` steps. */
@@ -123,6 +128,8 @@ export function packKeyframe(eng: EngineState, prev?: Keyframe): Keyframe {
     b: rec.b.slice(),
     ledger: copyLedger(rec.ledger),
     diag: { ...eng.diag },
+    events: eng.events.slice(),
+    hist: cloneHistory(eng.hist),
   }
 }
 
@@ -184,6 +191,8 @@ export function restoreKeyframe(kf: Keyframe, eng: EngineState, P: EngineParams,
   rec.nLayers = nL
   rec.ledger = copyLedger(kf.ledger)
   eng.diag = { ...kf.diag }
+  eng.events = kf.events.slice()
+  copyHistory(eng.hist, kf.hist)
   eng.tempOk = kf.hasTemp
   rebuildCaches(eng, P)
   recomputeH(eng, P)

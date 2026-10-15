@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-14):** spikes 001 and 002 done and reviewed by John. M1 is done and on main (merged 2026-10-15, review M1.9 APPROVE). Open: the Linux CI run is red (floating-point results differ from Windows; see docs/decisions.md D14).
+**Status (2026-10-14):** spikes 001 and 002 done and reviewed by John. M1 is done and on main (merged 2026-10-15, review M1.9 APPROVE). M2 (slope failure and MTDs) is built and under review, not on main. Open: the Linux CI run is red (floating-point results differ from Windows; see docs/decisions.md D14).
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -126,6 +126,31 @@ the previous card's branch, and nothing reaches main until John approves the tip
 - Mass is conserved through failures.
 - With low mud permeability and high supply, MTDs come off the overpressured upper slope, and
   John judges where and when they happen.
+
+**Status (2026-10-15): built, reviewed (M2.6: request changes), fixes in M2.7 (engine) and M2.8 (UI and docs); not on main.** M2.1 to M2.4 are built on the stacked branches
+`strata-lab/m2-01-stability` to `m2-04-views`, M2.5 (docs) on `m2-05-docs`. Nothing is on main yet.
+Results so far (`npm run check`: 262 passed, 1 skipped at M2.4; build and offline check pass):
+- Factor of safety matches the infinite-slope hand calculations to 1e-9 (`tests/stability.test.ts`).
+  Default run: minimum FS 4.08 at km 70.5, 905 ft below the seafloor.
+- Mass is conserved per grain size through failures (`tests/failure.test.ts`); the Bingham run-out
+  matches its uniform-flow solution within 1 % (`tests/runout.test.ts`).
+- The preset *Overpressured slope (MTD-prone)* gives 24 events in Node and 37 in the built app in
+  Chrome (D14: event lists differ between runtimes). After M2.7 the tag is the dominant term: rapid
+  loading and oversteepening, none lowstand (M2.3 had 32 of 33 lowstand). **John still has to judge**
+  whether places and times look right.
+- **The 15 % speed budget of M2.3 is still MISSED** except on `last3`, with failure on (M2.10,
+  five paired runs, best-of-5 against best-of-5): `last3` +11 % (met), Miocene +48 % (runs +20 to
+  73 %), Cenozoic +45 % (runs +17 to 52 %), MTD-prone preset +20 % (runs +16 to 31 %). Every preset
+  finishes in under 5 s. M2.7 had made it about double (Miocene +88 to 125 %, Cenozoic +185 to 197 %) through a
+  full-record scan every step; M2.10 removed that scan when no MTD exists.
+- Results are identical on one runtime and rewind is bit-exact, but event lists can differ between
+  Node, Chrome and Linux. The test strategy for this is John's decision (open).
+- The Physics checks panel has five M2 rows (M2.8); the event list shows all three cause terms,
+  stalled and window-limited flags and the unresolved-column count. Friction angle and cohesion are "to verify"; the run-out
+  parameters are tuned and the Imran et al. (2001) form is unchecked against the paper.
+- Limits: 2D infinite slope (no rotational slumps, no 3D), no earthquakes, no gentle-slope failures
+  (under 0.5 deg).
+- Still to do: M2.6 integrity review, then John's decision to merge.
 
 ## M3 — Salt
 Spike 002 built into the engine as maintained code: minibasins, welds, passive diapirs, and salt

@@ -1,5 +1,5 @@
 body { margin: 0; font-family: system-ui, sans-serif; background: #14181d; color: #dde3ea; font-size: 13px; }
-.shell { display: grid; min-height: 100vh; grid-template-columns: 320px minmax(0, 1fr) 340px; grid-template-rows: auto auto auto; align-items: start;
+.shell { display: grid; min-height: 100vh; grid-template-columns: 320px minmax(0, 1fr) 420px; grid-template-rows: auto auto auto; align-items: start;
   grid-template-areas: "h h h" "c s r" "c w r"; gap: 6px; padding: 6px; box-sizing: border-box; }
 header { grid-area: h; } h1 { margin: 0; font-size: 18px; }
 h2 { margin: 6px 0 4px; font-size: 14px; }
@@ -36,6 +36,12 @@ ul.branches, ul.checks { list-style: none; padding: 0; margin: 6px 0; } ul.branc
 .busy progress { width: 100%; }
 .errbar { background: #5a2622; border: 1px solid #a8453c; padding: 6px 10px; border-radius: 4px; margin: 0 6px; display: flex; justify-content: space-between; gap: 8px; }
 @media (max-width: 1100px) { .shell { height: auto; grid-template-columns: 1fr; grid-template-areas: "h" "c" "s" "w" "r"; } }
+.legend .hatch { display: inline-block; width: 22px; height: 12px; border: 1px solid #555; background: repeating-linear-gradient(135deg, #888 0 2px, #ddd 2px 6px); }
+.evtable { overflow-x: auto; } .evtable table.num { font-size: 12px; }
+table.num tr.sel td { background: #26425f; } table.num tr.future td { opacity: 0.55; } td.cause { text-align: left; white-space: nowrap; }
+button.evbtn { min-width: 28px; min-height: 24px; padding: 0 4px; }
+.mtdtip { margin: 4px 0; min-height: 1.4em; color: #f2d37a; }
+label.toggle { display: inline-flex; align-items: center; gap: 4px; min-height: 28px; cursor: pointer; } label.toggle input { width: 18px; height: 18px; }
 /* A tall side column (event list, checks) must not stretch the section's row and push the
    pseudo-well down the page: the last row is a filler that absorbs the extra height. */
 @media (min-width: 1101px) { .shell { grid-template-rows: auto auto auto 1fr; grid-template-areas: "h h h" "c s r" "c w r" "c . r"; } }

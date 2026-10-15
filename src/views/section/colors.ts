@@ -9,6 +9,15 @@ import type { StateView } from '../../worker/protocol'
 export type Rgb = [number, number, number]
 type Stop = [number, Rgb]
 
+/** Factor-of-safety ramp: FS 0.25 .. 4 on a log scale, 1.0 in the middle; below FS_WARN the colours are red. */
+export const FS_LO = 0.25
+export const FS_HI = 4
+export const FS_WARN = 1.2
+const FS_SPAN = Math.log(FS_HI / FS_LO)
+/** Ramp position of a factor of safety (Infinity and NaN give the top). */
+export const fsToT = (fs: number): number => (fs > 0 ? Math.max(0, Math.min(1, 0.5 + Math.log(fs) / FS_SPAN)) : fs === 0 ? 0 : 1)
+export const FS_WARN_T = fsToT(FS_WARN)
+
 export const RAMPS: Record<ColorMode, Stop[]> = {
   grain: [[0, [92, 99, 88]], [0.35, [150, 145, 112]], [0.7, [226, 196, 110]], [1, [250, 214, 72]]],
   age: [[0, [68, 1, 84]], [0.25, [59, 82, 139]], [0.5, [33, 145, 140]], [0.75, [94, 201, 98]], [1, [253, 231, 37]]],
@@ -16,6 +25,8 @@ export const RAMPS: Record<ColorMode, Stop[]> = {
   op: [[0, [236, 238, 232]], [0.25, [253, 208, 120]], [0.5, [240, 120, 60]], [0.75, [200, 40, 40]], [1, [110, 0, 30]]],
   // blue (cold) to red (hot); new in M1.6
   temp: [[0, [49, 54, 149]], [0.25, [116, 173, 209]], [0.5, [254, 224, 144]], [0.75, [244, 109, 67]], [1, [165, 0, 38]]],
+  // factor of safety, log scale centred on FS = 1 (t = 0.5): reds up to FS 1.2 (the unsafe band), then pale to blue
+  fs: [[0, [103, 0, 13]], [0.25, [165, 15, 21]], [0.5, [222, 45, 38]], [FS_WARN_T, [252, 187, 161]], [FS_WARN_T + 0.01, [226, 232, 240]], [0.7, [209, 226, 243]], [0.85, [107, 174, 214]], [1, [8, 81, 156]]],
 }
 
 export const MODES: { id: ColorMode; label: string }[] = [
@@ -24,6 +35,7 @@ export const MODES: { id: ColorMode; label: string }[] = [
   { id: 'phi', label: 'Porosity' },
   { id: 'op', label: 'Overpressure (\u03bb*)' },
   { id: 'temp', label: 'Temperature (\u00b0F)' },
+  { id: 'fs', label: 'Factor of safety' },
 ]
 
 /** Porosity range of the ramp (spike 001): 0.10 to 0.65. */
@@ -60,6 +72,7 @@ export const SALT_COLOUR = pack([232, 150, 170])
 export function viewHasMode(v: StateView, mode: ColorMode): boolean {
   if (mode === 'op') return !!v.lam
   if (mode === 'temp') return !!v.temp
+  if (mode === 'fs') return !!v.fsCell
   return true
 }
 
@@ -84,6 +97,8 @@ export function cellValue(v: StateView, mode: ColorMode, l: number, j: number): 
       return v.lam![i]
     case 'temp':
       return (v.temp![i] - TEMP_LO_C) / (TEMP_HI_C - TEMP_LO_C)
+    case 'fs':
+      return fsToT(v.fsCell![i])
   }
 }
 
@@ -107,5 +122,7 @@ export function legendFor(mode: ColorMode, startAgeMa: number): Legend {
       return { low: '0 hydrostatic', high: '1 at overburden', note: '\u03bb* = share of the buoyant load carried by the pore fluid' }
     case 'temp':
       return { low: t(TEMP_LO_C), high: t(TEMP_HI_C), note: 'steady conduction from the basal heat flow (no transient burial cooling)' }
+    case 'fs':
+      return { low: `${FS_LO} (fails)`, high: `${FS_HI} (safe)`, note: `log scale, 1.0 in the middle, red below ${FS_WARN}; flat seafloor (no driving stress) is blue. Dashed line: critical slip depth. Hatched = MTD.` }
   }
 }

@@ -12,7 +12,9 @@
 //   TVDSS        depth below the sea surface at this time (negative = above it), ft.
 
 import { G, RHO_S, RHO_W } from '../../engine/constants'
-import { SALT } from '../../engine/record'
+import { MTD, SALT } from '../../engine/record'
+import type { FailureEvent } from '../../engine/state'
+import { eventsAtCell } from '../events/format'
 import { cToF, densityToPpg, mToFt } from '../../units'
 import type { WellColumn } from '../../worker/protocol'
 
@@ -34,6 +36,8 @@ export interface WellPoint {
   tempF: number
   sandFrac: number
   salt: boolean
+  /** The cell is a debris-flow deposit (MTD). */
+  mtd: boolean
   /** Age of the layer, Ma (filled by the caller from the view when wanted). */
 }
 
@@ -47,9 +51,11 @@ export interface WellProfile {
   cemOnsetF: number
   /** Salt intervals as [top ft, bottom ft]. */
   saltIntervals: [number, number][]
+  /** Runs of adjacent MTD cells: top and bottom depth (ft below the sea surface) and the layers in them (top first). */
+  mtdIntervals: { topFt: number; botFt: number; layers: number[] }[]
 }
 
-export function wellProfile(w: WellColumn): WellProfile {
+export function wellProfile(w: WellColumn, events: readonly FailureEvent[] = []): WellProfile {
   const n = w.nLayers
   const datum = Math.max(w.seaLevelM, w.H)
   const waterDepth = Math.max(0, w.seaLevelM - w.H)
@@ -74,6 +80,7 @@ export function wellProfile(w: WellColumn): WellProfile {
   }
   const points: WellPoint[] = []
   const saltIntervals: [number, number][] = []
+  const mtdIntervals: WellProfile['mtdIntervals'] = []
   for (let l = n - 1; l >= 0; l--) {
     const solid = w.sand[l] + w.mud[l]
     if (solid <= 0 || w.thick[l] <= 0) continue
@@ -93,8 +100,18 @@ export function wellProfile(w: WellColumn): WellProfile {
       tempF: cToF(w.temp[l]),
       sandFrac: solid > 0 ? w.sand[l] / solid : 0,
       salt: isSalt,
+      mtd: w.material[l] === MTD || eventsAtCell(events, l, w.column).length > 0,
     }
     points.push(p)
+    if (p.mtd) {
+      const top = p.tvdssFt - p.thickFt / 2
+      const bot = p.tvdssFt + p.thickFt / 2
+      const lastM = mtdIntervals[mtdIntervals.length - 1]
+      if (lastM && Math.abs(lastM.botFt - top) < 1e-6) {
+        lastM.botFt = bot
+        lastM.layers.push(l)
+      } else mtdIntervals.push({ topFt: top, botFt: bot, layers: [l] })
+    }
     if (isSalt) {
       const top = mToFt(w.seaLevelM - zt[l])
       const bot = mToFt(w.seaLevelM - zb[l])
@@ -106,7 +123,7 @@ export function wellProfile(w: WellColumn): WellProfile {
   const topFt = points.length ? points[0].tvdssFt - points[0].thickFt / 2 : 0
   const last = points[points.length - 1]
   const bottomFt = last ? last.tvdssFt + last.thickFt / 2 : 0
-  return { points, topFt, bottomFt, cemOnsetFt: cementationOnsetDepthFt(points, cToF(w.cemTonsetC)), cemOnsetF: cToF(w.cemTonsetC), saltIntervals }
+  return { points, topFt, bottomFt, cemOnsetFt: cementationOnsetDepthFt(points, cToF(w.cemTonsetC)), cemOnsetF: cToF(w.cemTonsetC), saltIntervals, mtdIntervals }
 }
 
 function cellDensity(w: WellColumn, l: number): number {

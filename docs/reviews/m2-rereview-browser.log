@@ -1,0 +1,215 @@
+{
+ "errors": [],
+ "externalRequests": [],
+ "requestsSeen": 3,
+ "checks": {
+  "defaultPreset": {
+   "checks": {
+    "summary": "ALL PASS (13/13, 533 ms)",
+    "rows": [
+     "PASS Consolidation vs Gibson (1958), T = 0.14.32e-6 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact solut",
+     "PASS Consolidation vs Gibson (1958), T = 18.10e-5 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact solutio",
+     "PASS Consolidation vs Gibson (1958), T = 101.41e-4 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact soluti",
+     "PASS Drained sand porosity at 2 km vs Sclater & Christie (1980)0.00439 (limit 0.02 porosity)Engine porosity at 2 km burial against 0.286 from the published curv",
+     "PASS Drained mud porosity at 2 km vs Sclater & Christie (1980)0.0179 (limit 0.02 porosity)Engine porosity at 2 km burial against 0.227 from the published curve,",
+     "PASS Mass balance, sand only2.66e-15 (limit 1.00e-9 relative)Sand stored in the record against sand supplied minus sand removed, over a 1 Myr coupled run.Source",
+     "PASS Mass balance, mud only1.58e-15 (limit 1.00e-9 relative)Mud stored in the record against mud supplied minus mud removed, over a 1 Myr coupled run.Source: Pr",
+     "PASS Rewind is bit-identical0 (limit 1 differences)Record restored from a saved state and replayed to step 63 against the same step of an uninterrupted run (0 =",
+     "PASS Infinite-slope FS, 6° slope, 25° friction, r_u 0.52.00e-16 (limit 1.00e-12 relative)Engine FS 2.2183 against tan(25°)/tan(6°) × (1 − 0.5) = 2.2183.Source: ",
+     "PASS FS crosses 1 at r_u = 1 − tan(β)/tan(φ) (6°, 25°)2.22e-16 (limit 1.00e-12 FS)Hand value r_u = 0.7746; the engine gives FS = 1.000000 there, 1.222 at r_u − ",
+     "PASS Bingham plug thickness h_p = τ_y / (ρ′ g sin θ), 5° slope1.14e-16 (limit 1.00e-9 relative)Hand h_p = 3.899 m for a flow 3 × h_p thick (engine plug 3.899 m,",
+     "PASS Mass balance through a slope failure, sand1.62e-16 (limit 1.00e-12 relative)1 event(s) on a 0.15 slope at r_u 0.8: sand before = sand after + sand that ran",
+     "PASS Mass balance through a slope failure, mud1.62e-16 (limit 1.00e-12 relative)Same event(s): mud before = mud after + mud that ran off the end (1440000 m² in "
+    ]
+   },
+   "toggleOff": true,
+   "noEventsMsg": "Slope failure is off. Turn it on under Controls (it restarts the run), or pick the “Overpressured slope (MTD-prone)” preset."
+  },
+  "mtdToggleOn": true,
+  "eventRows": "37 rows",
+  "eventCountHeader": "37 events, 9 stalled; 10 unresolved columnsⓘ",
+  "eventDetails": [
+   "no steepening; pressure rise: effective stress fell to 15% of its earlier value; sea-level fall 45.8 m",
+   "no steepening; pressure rise: effective stress fell to 30% of its earlier value; sea-level fall 45.8 m",
+   "steepening ×1.51 in the last 4 steps; pressure rise: effective stress fell to 36% of its earlier value; sea-level fall 33.1 m",
+   "no steepening; pressure rise: effective stress fell to 4% of its earlier value; sea-level fall 26.6 m",
+   "no steepening; pressure rise: effective stress fell to 5% of its earlier value; sea-level fall 26.6 m",
+   "no steepening; pressure rise: effective stress fell to 7% of its earlier value; sea-level fall 26.6 m",
+   "no steepening; pressure rise: effective stress fell to 11% of its earlier value; sea-level fall 30.7 m",
+   "steepening ×2.66 in the last 4 steps; pressure rise: effective stress fell to 9% of its earlier value; sea-level fall 30.7 m",
+   "steepening ×2.12 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea-level fall 30.7 m",
+   "steepening ×1.31 in the last 4 steps; pressure rise: effective stress fell to 19% of its earlier value; sea-level fall 30.7 m",
+   "steepening ×1.30 in the last 4 steps; pressure rise: effective stress fell to 15% of its earlier value; sea-level fall 30.7 m",
+   "steepening ×1.64 in the last 4 steps; pressure rise: effective stress fell to 40% of its earlier value; sea-level fall 23.4 m",
+   "no steepening; pressure rise: effective stress fell to 15% of its earlier value; sea-level fall 38.5 m",
+   "steepening ×1.33 in the last 4 steps; pressure rise: effective stress fell to 32% of its earlier value; sea level rose 22.8 m failed but debris stayed: column unresolved ⓘ",
+   "no steepening; pressure rise: effective stress fell to 2% of its earlier value; sea-level fall 15.3 m",
+   "no steepening; pressure rise: effective stress fell to 5% of its earlier value; sea-level fall 15.3 m failed but debris stayed: column unresolved ⓘ",
+   "steepening ×2.72 in the last 4 steps; pressure rise: effective stress fell to 55% of its earlier value; sea-level fall 25.4 m",
+   "steepening ×2.72 in the last 4 steps; pressure rise: effective stress fell to 18% of its earlier value; sea-level fall 25.4 m",
+   "steepening ×2.66 in the last 4 steps; pressure rise: effective stress fell to 35% of its earlier value; sea-level fall 25.4 m",
+   "steepening ×1.41 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea-level fall 25.4 m",
+   "steepening ×2.39 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea-level fall 25.4 m",
+   "steepening ×1.26 in the last 4 steps; pressure rise: effective stress fell to 14% of its earlier value; sea-level fall 4.4 m",
+   "steepening ×1.02 in the last 4 steps; pressure rise: effective stress fell to 1% of its earlier value; sea-level fall 4.4 m failed but debris stayed: column unresolved ⓘ",
+   "steepening ×1.33 in the last 4 steps; pressure rise: effective stress fell to 58% of its earlier value; sea-level fall 4.4 m",
+   "steepening ×16.54 in the last 4 steps; no pressure rise; sea-level fall 4.4 m",
+   "steepening ×2.38 in the last 4 steps; no pressure rise; sea-level fall 4.4 m",
+   "steepening ×1.17 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea level rose 51.0 m failed but debris stayed: column unresolved ⓘ",
+   "steepening ×1.85 in the last 4 steps; pressure rise: effective stress fell to 17% of its earlier value; sea level rose 51.0 m",
+   "steepening ×1.45 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea level rose 51.0 m failed but debris stayed: column unresolved ⓘ",
+   "no steepening; pressure rise: effective stress fell to under 1% of its earlier value; sea level rose 91.2 m failed but debris stayed: column unresolved ⓘ",
+   "steepening ×1.12 in the last 4 steps; pressure rise: effective stress fell to 5% of its earlier value; sea-level fall 20.2 m",
+   "steepening ×1.08 in the last 4 steps; pressure rise: effective stress fell to 7% of its earlier value; sea-level fall 20.2 m failed but debris stayed: column unresolved ⓘ",
+   "steepening ×3.45 in the last 4 steps; pressure rise: effective stress fell to 51% of its earlier value; sea-level fall 7.2 m scar depth equals the search window (300 m, tuned) ⓘ",
+   "steepening ×2.21 in the last 4 steps; pressure rise: effective stress fell to 15% of its earlier value; sea-level fall 7.2 m",
+   "steepening ×3.39 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea-level fall 7.2 m failed but debris stayed: column unresolved ⓘ",
+   "steepening ×3.02 in the last 4 steps; pressure rise: effective stress fell to 59% of its earlier value; sea-level fall 37.3 m",
+   "steepening ×2.57 in the last 4 steps; pressure rise: effective stress fell to under 1% of its earlier value; sea-level fall 37.3 m failed but debris stayed: column unresolved ⓘ"
+  ],
+  "stalledNotes": 9,
+  "windowNotes": 1,
+  "eventHeader": [
+   "#",
+   "Time (Ma)",
+   "Cause ⓘ",
+   "Source (km)",
+   "Scar (ft)",
+   "Volume (km²)",
+   "Run-out (km)"
+  ],
+  "eventHeading": null,
+  "nSteps": 600,
+  "mtdChecks": {
+   "summary": "ALL PASS (13/13, 533 ms)",
+   "rows": [
+    "PASS Consolidation vs Gibson (1958), T = 0.14.32e-6 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact solut",
+    "PASS Consolidation vs Gibson (1958), T = 18.10e-5 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact solutio",
+    "PASS Consolidation vs Gibson (1958), T = 101.41e-4 (limit 0.001 of overburden)Largest difference in excess pore pressure between the engine and the exact soluti",
+    "PASS Drained sand porosity at 2 km vs Sclater & Christie (1980)0.00439 (limit 0.02 porosity)Engine porosity at 2 km burial against 0.286 from the published curv",
+    "PASS Drained mud porosity at 2 km vs Sclater & Christie (1980)0.0179 (limit 0.02 porosity)Engine porosity at 2 km burial against 0.227 from the published curve,",
+    "PASS Mass balance, sand only2.66e-15 (limit 1.00e-9 relative)Sand stored in the record against sand supplied minus sand removed, over a 1 Myr coupled run.Source",
+    "PASS Mass balance, mud only1.58e-15 (limit 1.00e-9 relative)Mud stored in the record against mud supplied minus mud removed, over a 1 Myr coupled run.Source: Pr",
+    "PASS Rewind is bit-identical0 (limit 1 differences)Record restored from a saved state and replayed to step 63 against the same step of an uninterrupted run (0 =",
+    "PASS Infinite-slope FS, 6° slope, 25° friction, r_u 0.52.00e-16 (limit 1.00e-12 relative)Engine FS 2.2183 against tan(25°)/tan(6°) × (1 − 0.5) = 2.2183.Source: ",
+    "PASS FS crosses 1 at r_u = 1 − tan(β)/tan(φ) (6°, 25°)2.22e-16 (limit 1.00e-12 FS)Hand value r_u = 0.7746; the engine gives FS = 1.000000 there, 1.222 at r_u − ",
+    "PASS Bingham plug thickness h_p = τ_y / (ρ′ g sin θ), 5° slope1.14e-16 (limit 1.00e-9 relative)Hand h_p = 3.899 m for a flow 3 × h_p thick (engine plug 3.899 m,",
+    "PASS Mass balance through a slope failure, sand1.62e-16 (limit 1.00e-12 relative)1 event(s) on a 0.15 slope at r_u 0.8: sand before = sand after + sand that ran",
+    "PASS Mass balance through a slope failure, mud1.62e-16 (limit 1.00e-12 relative)Same event(s): mud before = mud after + mud that ran off the end (1440000 m² in "
+   ]
+  },
+  "controls": {
+   "total": 66,
+   "withoutSource": [
+    "preset"
+   ],
+   "kinds": {
+    "tuned": 51,
+    "cited": 9,
+    "to verify": 5
+   },
+   "newControls": [
+    [
+     "phiFric",
+     "to verify"
+    ],
+    [
+     "cohesion",
+     "to verify"
+    ],
+    [
+     "stabMaxDepth",
+     "tuned"
+    ],
+    [
+     "failOn",
+     "tuned"
+    ],
+    [
+     "failMaxCells",
+     "tuned"
+    ],
+    [
+     "failMaxIters",
+     "tuned"
+    ],
+    [
+     "runYield",
+     "tuned"
+    ],
+    [
+     "runViscosity",
+     "tuned"
+    ],
+    [
+     "runDensity",
+     "tuned"
+    ],
+    [
+     "mtdPhiMud",
+     "tuned"
+    ],
+    [
+     "failMinDepth",
+     "tuned"
+    ],
+    [
+     "failSlopeMin",
+     "tuned"
+    ],
+    [
+     "failLowstandDrop",
+     "tuned"
+    ],
+    [
+     "failRapidRate",
+     "tuned"
+    ]
+   ]
+  },
+  "modes": {
+   "grain": {
+    "w": 643,
+    "h": 360,
+    "nonWhiteSamples": 2323,
+    "distinctColours": 88,
+    "drawnMode": "grain"
+   },
+   "age": {
+    "w": 643,
+    "h": 360,
+    "nonWhiteSamples": 2323,
+    "distinctColours": 147,
+    "drawnMode": "age"
+   },
+   "phi": {
+    "w": 643,
+    "h": 360,
+    "nonWhiteSamples": 2323,
+    "distinctColours": 137,
+    "drawnMode": "phi"
+   },
+   "op": {
+    "w": 643,
+    "h": 360,
+    "nonWhiteSamples": 2323,
+    "distinctColours": 114,
+    "drawnMode": "op"
+   },
+   "temp": {
+    "w": 643,
+    "h": 360,
+    "nonWhiteSamples": 2323,
+    "distinctColours": 74,
+    "drawnMode": "temp"
+   },
+   "fs": {
+    "w": 643,
+    "h": 360,
+    "nonWhiteSamples": 2323,
+    "distinctColours": 39,
+    "drawnMode": "fs"
+   }
+  },
+  "legendFs": "0.25 (fails)\n4 (safe)\nlog scale, 1.0 in the middle, red below 1.2; flat seafloor (no driving stress) is blue. Dashed line: critical slip depth. Hatched = MTD.\nMTD (debri
+BROWSER OK: 22 files in C:\Users\John\Projects\strata-lab\.worktrees\t_57a78e3a\docs\screenshots\m2-09-rereview

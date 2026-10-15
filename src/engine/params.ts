@@ -154,6 +154,46 @@ export const PARAMS: readonly ParamDef[] = [
     source: { kind: 'tuned', note: 'Fine sand, 0.2 mm. Sets the quartz surface area A = 6 (1 - phi) f / d; synthetic.' } },
   { key: 'cemSurf', label: 'Share of grain surface that is clean quartz', unit: '-', displayUnit: '-', default: 0.7, min: 0.05, max: 1, startOnly: false,
     source: { kind: 'tuned', refId: 'walderhaug-1996', note: 'Detrital quartz share times the share not covered by clay or mica coats (Walderhaug 1996 treats these as inputs). Synthetic.' } },
+
+  // ---- slope stability (M2.1) ----
+  { key: 'phiFric', label: "Friction angle phi' (effective stress)", unit: 'deg', displayUnit: 'deg', default: [33, 25], min: [15, 15], max: [45, 45], startOnly: false, components: SM,
+    source: { kind: 'to-verify', refId: 'hampton-1996', note: 'Typical drained values: marine muds about 20-30 deg, sands about 30-38 deg (soil-mechanics ranges as summarised for submarine slopes by Hampton et al. 1996; not checked against the paper). Defaults 33 and 25 are mid-range picks.' } },
+  { key: 'cohesion', label: "Cohesion c' (effective stress)", unit: 'Pa', displayUnit: 'psi', default: [0, 0], min: [0, 0], max: [1e5, 1e5], startOnly: false, components: SM,
+    source: { kind: 'to-verify', refId: 'hampton-1996', note: "Clean sand has c' = 0; normally consolidated marine clay has c' near 0 (Hampton et al. 1996; not checked against the paper). Raise the mud value to test cemented or overconsolidated muds." } },
+  { key: 'stabMaxDepth', label: 'Stability search depth below the seafloor', unit: 'm', displayUnit: 'ft', default: 300, min: 10, max: 2000, startOnly: false,
+    source: { kind: 'tuned', note: 'Search window for the lowest factor of safety (about 1,000 ft). A set-up choice.' } },
+
+  // ---- slope failure and debris-flow run-out (M2.2) ----
+  { key: 'failOn', label: 'Slope failure on (1) / off (0)', unit: '-', displayUnit: '-', default: 0, min: 0, max: 1, startOnly: true,
+    source: { kind: 'tuned', note: 'Off switch, OFF by default so the default run stays bit-identical to M1 (golden parity). When on, every column with a factor of safety below 1 fails after each step.' } },
+  { key: 'failMaxCells', label: 'Most columns in one failure', unit: '-', displayUnit: '-', default: 10, min: 1, max: 100, startOnly: false,
+    source: { kind: 'tuned', note: 'Caps how far a failure retrogresses sideways (contiguous columns with FS < 1). More unstable columns fail as further events in the same step.' } },
+  { key: 'failMaxIters', label: 'Most failures per step (rechecks of the scar)', unit: '-', displayUnit: '-', default: 5, min: 1, max: 50, startOnly: false,
+    source: { kind: 'tuned', note: 'After a failure the new headwall is checked again, up to this many times per step. Anything still unstable is counted and retried next step.' } },
+  { key: 'runYield', label: 'Debris-flow yield strength', unit: 'Pa', displayUnit: 'psi', default: 5000, min: 100, max: 1e5, startOnly: false,
+    source: { kind: 'tuned', refId: 'imran-2001', note: 'Bingham yield strength tau_y of the moving debris (Imran et al. 2001 model). Clay-rich debris flows use values from tens of Pa to tens of kPa; this one is picked for run-outs of tens of km. No value was checked against a paper.' } },
+  { key: 'runViscosity', label: 'Debris-flow viscosity', unit: 'Pa s', displayUnit: 'Pa s', default: 1000, min: 1, max: 1e5, startOnly: false,
+    source: { kind: 'tuned', refId: 'imran-2001', note: 'Bingham plastic viscosity mu of the moving debris. Sets the speed (tens of m/s for a 30 m thick flow on 3 degrees), not where the flow stops.' } },
+  { key: 'runDensity', label: 'Debris-flow bulk density', unit: 'kg/m^3', displayUnit: 'kg/m^3', default: 1800, min: 1100, max: 2200, startOnly: false,
+    source: { kind: 'tuned', note: 'Water plus solids while moving. Sets the flow volume (solids / concentration) and the buoyant driving force (density minus sea water).' } },
+  { key: 'mtdPhiMud', label: 'Porosity of mud in a fresh debris deposit', unit: '-', displayUnit: '-', default: 0.55, min: 0.3, max: 0.8, startOnly: false,
+    source: { kind: 'tuned', note: 'Remoulded mud restarts consolidation here. It is turned into a starting maximum effective stress from the porosity law; a value at or above the surface porosity gives 0 (fresh sediment). Sand in the deposit follows the same stress.' } },
+
+  // ---- failure triggers (M2.3) ----
+  { key: 'failMinDepth', label: 'Shallowest slip surface considered', unit: 'm', displayUnit: 'ft', default: 10, min: 0, max: 100, startOnly: false,
+    source: { kind: 'tuned', note: 'Slip surfaces shallower than this below the seafloor are ignored. The topmost cells of a fresh layer are undrained (u = load), so on any slope they look unstable and would give metre-thick skin slides that are not MTDs. 10 m is about the thinnest MTD seismic data resolves (to verify); 0 searches every cell as M2.2 did.' } },
+  { key: 'failSlopeMin', label: 'Gentlest slope checked for failure', unit: 'deg', displayUnit: 'deg', default: 0.5, min: 0, max: 5, startOnly: false,
+    source: { kind: 'tuned', note: 'Columns whose seafloor slope is below this are not searched. A speed cut (the shelf and basin floor are about 80 percent of the columns) and a stated limit: failures on slopes under 0.5 deg are not modelled, although some real MTDs sit on 0.5-1 deg slopes (Hampton et al. 1996, to verify).' } },
+  { key: 'failLowstandDrop', label: 'Sea-level fall that makes an event a lowstand event', unit: 'm', displayUnit: 'ft', default: 20, min: 0.1, max: 100, startOnly: false,
+    source: { kind: 'tuned', note: 'Trigger tagging only (triggers.ts). The sea-level term of the tag is the fall over the lookback window divided by this number; it competes with the slope and pressure terms and the largest wins. 20 m so that only a real lowstand qualifies (the Plio-Pleistocene glacio-eustatic amplitude is about 40 m, to verify); M2.3 used 5 m and tagged 32 of 33 events lowstand. With these default thresholds the label lowstand is rarely or never reached on the MTD-prone preset (0 of 24 events), so the label is not suggestive of a reachable outcome there: the pressure term dominates. Does not change the physics.' } },
+  { key: 'failRapidRate', label: 'Accumulation rate that counts as rapid loading', unit: 'm/yr', displayUnit: 'm/yr', default: 1e-3, min: 1e-5, max: 1e-1, startOnly: false,
+    source: { kind: 'tuned', note: 'Trigger tagging only (triggers.ts). A pressure-driven event is tagged rapid loading when the source column gained at least this much bulk sediment per year over the lookback (1e-3 m/yr = 1 m/kyr), otherwise overpressure. Does not change the physics.' } },
+  { key: 'failSlopeTerm', label: 'Slope term that counts as oversteepening', unit: '-', displayUnit: '-', default: 0.1, min: 0.001, max: 5, startOnly: false,
+    source: { kind: 'tuned', note: 'Trigger tagging only (triggers.ts). The slope term dSlope = ln(tan beta now / tan beta then) over the lookback, divided by this number, competes with the pressure and sea-level terms. 0.1 = the seafloor slope steepened by about 10 percent. Does not change the physics.' } },
+  { key: 'failPressTerm', label: 'Pressure term that counts as overpressure', unit: '-', displayUnit: '-', default: 0.1, min: 0.001, max: 5, startOnly: false,
+    source: { kind: 'tuned', note: 'Trigger tagging only (triggers.ts). The pressure term dPress = ln((1 - ru then) / (1 - ru now)) over the lookback, divided by this number, competes with the slope and sea-level terms. 0.1 = the effective-stress share of the load fell by about 10 percent. Does not change the physics.' } },
+  { key: 'failStallRunout', label: 'Run-out below which a repeat failure is not tried again', unit: 'm', displayUnit: 'km', default: 500, min: 0, max: 10000, startOnly: false,
+    source: { kind: 'tuned', note: 'If a failure runs out less than this and the next recheck in the same step picks the same columns, they are not failed again that step: the event is flagged stalled and the columns are counted in failUnresolved (retried next step). Stops the engine failing the same thin cover again and again without moving it. 500 m is a tuned number; 0 turns the rule off (M2.3 behaviour).' } },
 ]
 
 const BY_KEY = new Map(PARAMS.map((p) => [p.key, p]))

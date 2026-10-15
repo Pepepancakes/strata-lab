@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { useAppState } from '../../app/store'
+import { eventSentence, eventsAtCell } from '../events/format'
 import { ramp } from '../section/colors'
 import type { ViewDefinition } from '../types'
 import { wellProfile, type WellPoint } from './profile'
@@ -26,9 +28,11 @@ function Track({ pts, field, x0, w, lo, hi, y, colour, dash }: { pts: WellPoint[
 
 function WellView() {
   const s = useAppState()
+  const [tip, setTip] = useState('')
+  const dx = s.info?.dx ?? 1000
   const w = s.well
   if (!w) return <div><h2>Pseudo-well</h2><p className="muted">Waiting for the run.</p></div>
-  const prof = wellProfile(w)
+  const prof = wellProfile(w, s.events)
   const pts = prof.points
   const topFt = Math.min(prof.topFt, 0)
   const botFt = Math.max(prof.bottomFt, 1000)
@@ -97,6 +101,27 @@ function WellView() {
         {prof.saltIntervals.map(([a, b], i) => (
           <text key={i} x={TRACKS[3].x + TRACKS[3].w + 4} y={y((a + b) / 2)} fontSize={10} fill="#a03050">salt</text>
         ))}
+        {/* MTD intervals: hatched, with the event ids; hover (or focus) shows the event */}
+        <defs>
+          <pattern id="mtd-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="6" height="6" fill="rgba(255,255,255,0.35)" />
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#222" strokeWidth="2.4" />
+          </pattern>
+        </defs>
+        {prof.mtdIntervals.map((m, i) => {
+          const evs = m.layers.flatMap((l) => eventsAtCell(s.events, l, w.column)).filter((e, k, a) => a.findIndex((x) => x.id === e.id) === k)
+          const label = evs.length ? evs.map((e) => `#${e.id}`).join(', ') : '?'
+          const tip = evs.length ? evs.map((e) => eventSentence(e, dx)).join('\n') : 'MTD (event not found)'
+          const y0 = y(m.topFt)
+          const h = Math.max(3, y(m.botFt) - y0)
+          return (
+            <g key={i} data-testid="well-mtd" tabIndex={0} role="img" aria-label={tip} onMouseEnter={() => setTip(tip)} onMouseLeave={() => setTip('')} onFocus={() => setTip(tip)} onBlur={() => setTip('')}>
+              <title>{tip}</title>
+              <rect x={TRACKS[3].x} y={y0} width={TRACKS[3].w} height={h} fill="url(#mtd-hatch)" stroke={evs.some((e) => e.id === s.selectedEvent) ? '#d6a000' : '#222'} strokeWidth={evs.some((e) => e.id === s.selectedEvent) ? 2.5 : 1} />
+              <text x={TRACKS[3].x + TRACKS[3].w + 4} y={y0 + Math.min(h, 12) - 2} fontSize={10} fontWeight={600} fill="#7a0e3d">MTD {label}</text>
+            </g>
+          )
+        })}
         <text x={TRACKS[3].x} y={H - 8} fontSize={9} fill="#333">mud</text>
         <text x={TRACKS[3].x + TRACKS[3].w} y={H - 8} fontSize={9} textAnchor="end" fill="#333">sand</text>
         {/* legend */}
@@ -106,6 +131,7 @@ function WellView() {
           <line x1={530} x2={555} y1={82} y2={82} stroke="#2b7bd6" strokeWidth={2} strokeDasharray="4 3" /><text x={560} y={85} fill="#333">hydrostatic</text>
         </g>
       </svg>
+      <p className="mtdtip" data-testid="mtd-tip" aria-live="polite">{tip || (prof.mtdIntervals.length ? 'Hover a hatched interval to see its event.' : '')}</p>
       <p className="muted">Column {w.column + 1} at {w.ageMa.toFixed(2)} Ma. Click the section to move the well. Temperature is steady conduction (no burial transient).</p>
     </div>
   )

@@ -76,6 +76,40 @@ export interface EngineParams {
   cemTonset: number
   cemGrain: number
   cemSurf: number
+  /** Friction angle phi' [sand, mud], degrees (slope stability, M2.1). */
+  phiFric: Pair
+  /** Cohesion c' [sand, mud], Pa. */
+  cohesion: Pair
+  /** Slope-stability search depth below the seafloor, m. */
+  stabMaxDepth: number
+  /** 1 = slope failure on (M2.2). */
+  failOn: number
+  /** Most contiguous columns in one failure. */
+  failMaxCells: number
+  /** Most failures per step (scar rechecks). */
+  failMaxIters: number
+  /** Debris-flow Bingham yield strength, Pa. */
+  runYield: number
+  /** Debris-flow Bingham viscosity, Pa s. */
+  runViscosity: number
+  /** Debris-flow bulk density, kg/m^3. */
+  runDensity: number
+  /** Porosity of mud in a fresh debris deposit. */
+  mtdPhiMud: number
+  /** Slip surfaces shallower than this (m below the seafloor) are not searched (M2.3). */
+  failMinDepth: number
+  /** Seafloor slopes below this angle (deg) are not searched for failure (M2.3). */
+  failSlopeMin: number
+  /** Sea-level fall over the lookback that makes an event a lowstand event, m (M2.3). */
+  failLowstandDrop: number
+  /** Accumulation rate of the source column above which a pressure-driven event is 'rapid loading', m/yr (M2.3). */
+  failRapidRate: number
+  /** Slope term (ln units) that scores 1 in the trigger tag (M2.7). */
+  failSlopeTerm: number
+  /** Pressure term (ln units) that scores 1 in the trigger tag (M2.7). */
+  failPressTerm: number
+  /** Run-out (m) below which a repeat failure of the same columns in one step is not tried again; 0 = off (M2.7). */
+  failStallRunout: number
 }
 
 /** Fresh copy of the registry defaults, typed. */

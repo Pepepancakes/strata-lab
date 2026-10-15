@@ -92,6 +92,11 @@ export class EngineHost {
         const t0 = now()
         return { id, kind: 'seriesData', series: this.tm.series(req.branchId), ms: now() - t0 }
       }
+      case 'events': {
+        this.needRun()
+        const t0 = now()
+        return { id, kind: 'eventList', branchId: req.branchId, events: this.tm.eventsAt(req.branchId, this.tm.nSteps), ms: now() - t0 }
+      }
       case 'hashes': {
         this.needRun()
         const t0 = now()

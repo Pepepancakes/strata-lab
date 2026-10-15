@@ -1,0 +1,1267 @@
+{
+ "fs": {
+  "hand calculations (engine vs hand)": [
+   "dry-hydrostatic sand slope, 6 deg, phi 33: 6.178701 vs 6.178701",
+   "mud, 6 deg, phi 25, ru 0.5: 2.218311 vs 2.218311",
+   "mud, 6 deg, phi 25, ru 0.75: 1.109155 vs 1.109155",
+   "mud, 3 deg, phi 25, ru 0.9: 0.889768 vs 0.889768",
+   "cohesive mud c 10 kPa, 4 deg, ru 0.3: 4.811663 vs 4.811663",
+   "steep 20 deg sand, ru 0.1: 1.605809 vs 1.605809",
+   "shallow slip surface (L 5 kPa), c 5 kPa, 1 deg: 84.022165 vs 84.022165"
+  ],
+  "checks": [
+   {
+    "name": "infiniteSlopeFS equals the hand formula in 7 cases (rel <= 1e-12)",
+    "ok": true,
+    "detail": "worst 2.87e-16"
+   },
+   {
+    "name": "u = 0, c = 0: FS = tan(phi)/tan(beta) (6 deg, 25 deg = 4.4366)",
+    "ok": true,
+    "detail": "4.43662"
+   },
+   {
+    "name": "FS crosses 1 at ru = 1 - tan(beta)/tan(phi) = 0.77460",
+    "ok": true,
+    "detail": "FS 1.000004 / 0.999996"
+   },
+   {
+    "name": "flat seafloor gives Infinity (nothing drives sliding)",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "name": "u above the load is clipped to zero effective stress (FS = c-term only)",
+    "ok": true,
+    "detail": "0"
+   },
+   {
+    "name": "column search recomputed from the raw record equals computeStability (rel <= 1e-9, same critical layer)",
+    "ok": true,
+    "detail": "1405 finite columns, worst rel 4.36e-16, 0 layer mismatches"
+   },
+   {
+    "name": "the snapshots contain columns with FS < 1 (so the test reaches the failure region)",
+    "ok": true,
+    "detail": "22 columns"
+   }
+  ],
+  "independent search vs computeStability (MTD preset, failure OFF; every 25th step and the first 40 steps with a column below FS 1)": {
+   "snapshots": 40,
+   "unstableSnapshots": 18,
+   "columns": 6000,
+   "finite": 1405,
+   "unstableCells": 22,
+   "worstRel": 4.3647343875860474e-16,
+   "layerMismatch": 0,
+   "minFS": [
+    "step 186: min FS 0.706",
+    "step 187: min FS 0.798",
+    "step 425: min FS 0.000",
+    "step 426: min FS 0.847",
+    "step 469: min FS 0.577",
+    "step 470: min FS 0.791"
+   ]
+  }
+ },
+ "runout": {
+  "checks": [
+   {
+    "name": "Bingham depth-mean velocity vs own numerical integral of the shear profile (5 cases, < 1e-3)",
+    "ok": true,
+    "detail": "worst 7.74e-9"
+   },
+   {
+    "name": "uniform flow: mid-chain block velocity within 1 % of the numerically integrated Bingham velocity",
+    "ok": true,
+    "detail": "6.50467 vs 6.50492 m/s"
+   },
+   {
+    "name": "uniform flow: bed stress equals rho' g h sin(theta) within 1 %",
+    "ok": true,
+    "detail": "3183.1 vs 3183.2 Pa"
+   },
+   {
+    "name": "a layer 0.9 x the plug thickness stays put on a 3 deg slope (edge movement < 5 m)",
+    "ok": true,
+    "detail": "h_p = 1.26 m, moved 0.00 m"
+   },
+   {
+    "name": "a layer 3 x the plug thickness does flow",
+    "ok": true,
+    "detail": "max U 1.037 m/s"
+   },
+   {
+    "name": "flat-bed slump (40 blocks): final length within 8 % of the closed-form Nye profile, and it stops",
+    "ok": true,
+    "detail": "5965 vs 6027 m (ratio 0.990)"
+   },
+   {
+    "name": "flat-bed slump (80 blocks): final length within 8 % of the closed-form Nye profile, and it stops",
+    "ok": true,
+    "detail": "5953 vs 6027 m (ratio 0.988)"
+   }
+  ],
+  "uniform flow (3 deg, h 8 m, tau_y 500 Pa, mu 1000 Pa s)": {
+   "tauB_hand": 3183.17753060833,
+   "plug_hand_m": 1.2566060050177499,
+   "U_integral": 6.504921936931194,
+   "U_engine_midblock": 6.504672623736992,
+   "tauB_engine": 3183.0836883022193,
+   "steps": 274
+  },
+  "thin layer (0.9 h_p) at rest": {
+   "h_p_hand_m": 1.2566060050177499,
+   "edgeMovement_m": 0,
+   "stopped": true,
+   "time_s": 0
+  },
+  "flat-bed Bingham slump, 40 blocks": {
+   "stopped": true,
+   "time_h": 2.7083531657102258,
+   "final_length_m": 5964.625293278368,
+   "analytic_length_m": 6027.275817074603,
+   "ratio": 0.9896054991180672,
+   "steps": 4422
+  },
+  "flat-bed Bingham slump, 80 blocks": {
+   "stopped": true,
+   "time_h": 2.047673881789049,
+   "final_length_m": 5952.813120808452,
+   "analytic_length_m": 6027.275817074603,
+   "ratio": 0.9876457128351077,
+   "steps": 6593
+  }
+ },
+ "balance": {
+  "MTD-prone preset: events / steps with events": [
+   24,
+   10
+  ],
+  "MTD-prone preset: worst per-step solid-balance error (sand, mud, all) relative to the stored total": [
+   0,
+   0,
+   0
+  ],
+  "MTD-prone preset: solid area moved sideways between columns by failures, summed over steps (m^2) - control that the zero error is not a no-op": 1069403.1918854353,
+  "checks": [
+   {
+    "name": "MTD-prone preset: failures moved solids (control)",
+    "ok": true,
+    "detail": "1069403 m^2"
+   },
+   {
+    "name": "MTD-prone preset: sand balance across every failure step < 1e-9 (raw arrays)",
+    "ok": true,
+    "detail": "0.00e+0"
+   },
+   {
+    "name": "MTD-prone preset: mud balance across every failure step < 1e-9 (raw arrays)",
+    "ok": true,
+    "detail": "0.00e+0"
+   },
+   {
+    "name": "MTD-prone preset: per-event released = deposited + exported < 1e-9 (sand and mud)",
+    "ok": true,
+    "detail": "2.19e-16"
+   },
+   {
+    "name": "MTD-prone preset: events' exported solids equal the ledger's cumOut change",
+    "ok": true,
+    "detail": "0.00e+0"
+   },
+   {
+    "name": "MTD-prone preset: whole run: stored + out = initial + supply x time, sand and mud separately < 1e-9",
+    "ok": true,
+    "detail": "3.27e-17, 7.76e-17"
+   },
+   {
+    "name": "MTD preset, weak sand+mud (phi 22/18, mud-rich): failures moved solids (control)",
+    "ok": true,
+    "detail": "2753124 m^2"
+   },
+   {
+    "name": "MTD preset, weak sand+mud (phi 22/18, mud-rich): sand balance across every failure step < 1e-9 (raw arrays)",
+    "ok": true,
+    "detail": "0.00e+0"
+   },
+   {
+    "name": "MTD preset, weak sand+mud (phi 22/18, mud-rich): mud balance across every failure step < 1e-9 (raw arrays)",
+    "ok": true,
+    "detail": "0.00e+0"
+   },
+   {
+    "name": "MTD preset, weak sand+mud (phi 22/18, mud-rich): per-event released = deposited + exported < 1e-9 (sand and mud)",
+    "ok": true,
+    "detail": "4.28e-16"
+   },
+   {
+    "name": "MTD preset, weak sand+mud (phi 22/18, mud-rich): events' exported solids equal the ledger's cumOut change",
+    "ok": true,
+    "detail": "0.00e+0"
+   },
+   {
+    "name": "MTD preset, weak sand+mud (phi 22/18, mud-rich): whole run: stored + out = initial + supply x time, sand and mud separately < 1e-9",
+    "ok": true,
+    "detail": "3.35e-17, 4.14e-17"
+   },
+   {
+    "name": "default preset with failure on: whole run: stored + out = initial + supply x time, sand and mud separately < 1e-9",
+    "ok": true,
+    "detail": "-4.43e-16, -1.55e-17"
+   }
+  ],
+  "MTD-prone preset: whole-run residual (sand, mud) / total supply": [
+   3.2732098513103365e-17,
+   7.761021455128988e-17
+  ],
+  "MTD-prone preset: MTD-tagged cells / of which emptied by later erosion but still tagged MTD (zero thickness, harmless)": [
+   67,
+   0
+  ],
+  "MTD-prone preset: lambda* range in the final record (min, max)": [
+   -0.10561637910103672,
+   1
+  ],
+  "MTD preset, weak sand+mud (phi 22/18, mud-rich): events / steps with events": [
+   173,
+   47
+  ],
+  "MTD preset, weak sand+mud (phi 22/18, mud-rich): worst per-step solid-balance error (sand, mud, all) relative to the stored total": [
+   0,
+   0,
+   0
+  ],
+  "MTD preset, weak sand+mud (phi 22/18, mud-rich): solid area moved sideways between columns by failures, summed over steps (m^2) - control that the zero error is not a no-op": 2753124.016177006,
+  "MTD preset, weak sand+mud (phi 22/18, mud-rich): whole-run residual (sand, mud) / total supply": [
+   3.346411542932199e-17,
+   4.1392114427354604e-17
+  ],
+  "MTD preset, weak sand+mud (phi 22/18, mud-rich): MTD-tagged cells / of which emptied by later erosion but still tagged MTD (zero thickness, harmless)": [
+   184,
+   0
+  ],
+  "MTD preset, weak sand+mud (phi 22/18, mud-rich): lambda* range in the final record (min, max)": [
+   -0.10018543638974538,
+   1
+  ],
+  "default preset with failure on: events / steps with events": [
+   0,
+   0
+  ],
+  "default preset with failure on: worst per-step solid-balance error (sand, mud, all) relative to the stored total": [
+   0,
+   0,
+   0
+  ],
+  "default preset with failure on: solid area moved sideways between columns by failures, summed over steps (m^2) - control that the zero error is not a no-op": 0,
+  "default preset with failure on": "no failure events: the per-step checks are vacuous here (this preset does not fail)",
+  "default preset with failure on: whole-run residual (sand, mud) / total supply": [
+   -4.433219717251783e-16,
+   -1.5522042910257976e-17
+  ],
+  "default preset with failure on: MTD-tagged cells / of which emptied by later erosion but still tagged MTD (zero thickness, harmless)": [
+   0,
+   0
+  ],
+  "default preset with failure on: lambda* range in the final record (min, max)": [
+   -0.022489305656970104,
+   0.3660564258934398
+  ]
+ },
+ "determinism": {
+  "steps with failure events": [
+   186,
+   362,
+   393,
+   426,
+   457,
+   473,
+   509,
+   512,
+   514,
+   572
+  ],
+  "checks": [
+   {
+    "name": "MTD preset: a second straight run repeats bit for bit at 42 steps (raw record + events)",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "name": "42 random forward/backward seeks (incl. every event step and its neighbours): record hash equals the straight run",
+    "ok": true,
+    "detail": "0 mismatches"
+   },
+   {
+    "name": "the event list at every seek equals the straight run's events up to that step",
+    "ok": true,
+    "detail": "0 mismatches"
+   },
+   {
+    "name": "seek to the end gives the straight run's final hash",
+    "ok": true,
+    "detail": "9be1b3f383e0bb5e"
+   },
+   {
+    "name": "the full event list is identical after the seeks",
+    "ok": true,
+    "detail": "24 events"
+   },
+   {
+    "name": "snapshot just before event step 362, restore, replay 3 steps: bit-identical (record + events)",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "name": "no Math.random / Date.now / performance.now / new Date in src/engine (comments excluded below)",
+    "ok": true,
+    "detail": "none"
+   }
+  ],
+  "summary": {
+   "picks": 42,
+   "eventSteps": 10,
+   "events": 24,
+   "finalHash": "9be1b3f383e0bb5e"
+  }
+ },
+ "parity": {
+  "checks": [
+   {
+    "name": "failure is OFF in the registry defaults",
+    "ok": true,
+    "detail": "failOn 0"
+   },
+   {
+    "name": "M2 with failure off reproduces spike 001 (H within 0.01 m, solids within 1e-6 m)",
+    "ok": true,
+    "detail": "dH 0, dCell 0, du 0"
+   },
+   {
+    "name": "no events, empty history cost: failure off records no events",
+    "ok": true,
+    "detail": "0"
+   },
+   {
+    "name": "last3: final record bit-identical to M1 on main (failure off)",
+    "ok": true,
+    "detail": "4e437221a1c4de32 vs 4e437221a1c4de32"
+   },
+   {
+    "name": "miocene: final record bit-identical to M1 on main (failure off)",
+    "ok": true,
+    "detail": "27b6f1bfaa233f1c vs 27b6f1bfaa233f1c"
+   }
+  ],
+  "spike 001 vs M2 (failure off, sine curve): max |dH| m, max per-cell |d solid| m, max |du| Pa": [
+   0,
+   0,
+   0
+  ],
+  "last3: sha256 of the final record, M1 (main) vs M2 with failure off": [
+   "4e437221a1c4de32",
+   "4e437221a1c4de32"
+  ],
+  "miocene: sha256 of the final record, M1 (main) vs M2 with failure off": [
+   "27b6f1bfaa233f1c",
+   "27b6f1bfaa233f1c"
+  ]
+ },
+ "speed": {
+  "preset: failure off ms, failure on ms, overhead %, events with failure on, unresolved": [
+   {
+    "preset": "last3",
+    "offMs": 1440,
+    "onMs": 1594,
+    "overheadPct": 11,
+    "events": 0,
+    "unresolved": 0
+   },
+   {
+    "preset": "miocene",
+    "offMs": 2289,
+    "onMs": 3174,
+    "overheadPct": 39,
+    "events": 0,
+    "unresolved": 0
+   },
+   {
+    "preset": "cenozoic",
+    "offMs": 2875,
+    "onMs": 4116,
+    "overheadPct": 43,
+    "events": 0,
+    "unresolved": 0
+   },
+   {
+    "preset": "mtd",
+    "offMs": 1642,
+    "onMs": 2064,
+    "overheadPct": 26,
+    "events": 24,
+    "unresolved": 4
+   }
+  ],
+  "checks": [
+   {
+    "name": "M2.3 speed budget (<= 15 % extra time with failure on) on the 3 Myr preset",
+    "ok": true,
+    "detail": "11 %"
+   },
+   {
+    "name": "M2.3 speed budget (<= 15 % extra) on Miocene and Cenozoic (known miss, documented in handover)",
+    "ok": false,
+    "detail": "miocene +39 %, cenozoic +43 %"
+   },
+   {
+    "name": "every preset finishes in under 60 s of wall clock with failure on",
+    "ok": true,
+    "detail": "last3 1594 ms, miocene 3174 ms, cenozoic 4116 ms, mtd 2064 ms"
+   }
+  ]
+ },
+ "geology": {
+  "preset events / steps with events / unresolved failures": [
+   24,
+   10,
+   4
+  ],
+  "checks": [
+   {
+    "name": "the manual replay (step with failure off + failureStep) gives the same event list as the engine run",
+    "ok": true,
+    "detail": "24 events"
+   },
+   {
+    "name": "FOLLOW-UP probe: no event re-fails the same columns with an unchanged volume in the same step",
+    "ok": true,
+    "detail": "0 repeats: "
+   },
+   {
+    "name": "M2.9: every zero-run-out event is stalled or last in its step (was: none allowed; M2.7 marks, not removes)",
+    "ok": true,
+    "detail": "4 of 24, 2 stalled"
+   },
+   {
+    "name": "M2.9: every scar at the search window is flagged windowLimited (was: none allowed)",
+    "ok": true,
+    "detail": "3 at the 984 ft window, 3 flagged"
+   },
+   {
+    "name": "dSlope, dPress and sea-level change of each step's first event reproduce from an independent replay (1e-6)",
+    "ok": true,
+    "detail": "10/10, worst 0.00e+0"
+   },
+   {
+    "name": "the tag follows the documented rule given those numbers",
+    "ok": true,
+    "detail": "10/10"
+   },
+   {
+    "name": "FOLLOW-UP probe: the tag has discriminating power (lowstand is not > 90 % of events)",
+    "ok": true,
+    "detail": "0 of 24 lowstand"
+   },
+   {
+    "name": "FOLLOW-UP probe: no event is tagged lowstand while the pressure term dominates",
+    "ok": true,
+    "detail": "0 events"
+   },
+   {
+    "name": "default preset: no or very few failures (<= 3)",
+    "ok": true,
+    "detail": "0 events, lowest FS ever 2.33"
+   }
+  ],
+  "event table": [
+   {
+    "id": 1,
+    "ageMa": 2.07,
+    "cause": "rapid loading",
+    "srcKm": "51",
+    "scarFt": 304,
+    "volKm2": 0.093,
+    "runoutKm": 11.4,
+    "dSlope": 0.57,
+    "dPress": 1.96,
+    "dSeaM": -48.3,
+    "loadRate_mPerKyr": 13.79,
+    "exportedPct": 0
+   },
+   {
+    "id": 2,
+    "ageMa": 1.19,
+    "cause": "rapid loading",
+    "srcKm": "65",
+    "scarFt": 202,
+    "volKm2": 0.062,
+    "runoutKm": 6.6,
+    "dSlope": 0.62,
+    "dPress": 0.95,
+    "dSeaM": 8.9,
+    "loadRate_mPerKyr": 9.99,
+    "exportedPct": 0
+   },
+   {
+    "id": 3,
+    "ageMa": 1.035,
+    "cause": "rapid loading",
+    "srcKm": "68",
+    "scarFt": 239,
+    "volKm2": 0.073,
+    "runoutKm": 6.9,
+    "dSlope": 0.27,
+    "dPress": 0.52,
+    "dSeaM": -15,
+    "loadRate_mPerKyr": 8.92,
+    "exportedPct": 0
+   },
+   {
+    "id": 4,
+    "ageMa": 0.87,
+    "cause": "oversteepening",
+    "srcKm": "75",
+    "scarFt": 488,
+    "volKm2": 0.149,
+    "runoutKm": 7.3,
+    "dSlope": 1.65,
+    "dPress": 0.52,
+    "dSeaM": -12.4,
+    "loadRate_mPerKyr": 6.19,
+    "exportedPct": 0
+   },
+   {
+    "id": 5,
+    "ageMa": 0.87,
+    "cause": "rapid loading",
+    "srcKm": "74-75",
+    "scarFt": 971,
+    "volKm2": 0.316,
+    "runoutKm": 14,
+    "dSlope": 1.57,
+    "dPress": 6.15,
+    "dSeaM": -12.4,
+    "loadRate_mPerKyr": 2.03,
+    "exportedPct": 0
+   },
+   {
+    "id": 6,
+    "ageMa": 0.87,
+    "cause": "rapid loading",
+    "srcKm": "75",
+    "scarFt": 59,
+    "volKm2": 0.018,
+    "runoutKm": 0,
+    "dSlope": -0.52,
+    "dPress": 6.15,
+    "dSeaM": -12.4,
+    "loadRate_mPerKyr": 1.81,
+    "exportedPct": 0
+   },
+   {
+    "id": 7,
+    "ageMa": 0.715,
+    "cause": "oversteepening",
+    "srcKm": "78",
+    "scarFt": 632,
+    "volKm2": 0.193,
+    "runoutKm": 15.5,
+    "dSlope": 0.94,
+    "dPress": 0.42,
+    "dSeaM": -28.8,
+    "loadRate_mPerKyr": 6.82,
+    "exportedPct": 0
+   },
+   {
+    "id": 8,
+    "ageMa": 0.715,
+    "cause": "oversteepening",
+    "srcKm": "77",
+    "scarFt": 220,
+    "volKm2": 0.067,
+    "runoutKm": 8.7,
+    "dSlope": 0.9,
+    "dPress": 0.45,
+    "dSeaM": -28.8,
+    "loadRate_mPerKyr": 12.18,
+    "exportedPct": 0
+   },
+   {
+    "id": 9,
+    "ageMa": 0.715,
+    "cause": "oversteepening",
+    "srcKm": "77",
+    "scarFt": 754,
+    "volKm2": 0.23,
+    "runoutKm": 11.2,
+    "dSlope": 0.9,
+    "dPress": -0.23,
+    "dSeaM": -28.8,
+    "loadRate_mPerKyr": 8.82,
+    "exportedPct": 0
+   },
+   {
+    "id": 10,
+    "ageMa": 0.635,
+    "cause": "oversteepening",
+    "srcKm": "81",
+    "scarFt": 616,
+    "volKm2": 0.188,
+    "runoutKm": 8.5,
+    "dSlope": 1.23,
+    "dPress": 0.47,
+    "dSeaM": -23.2,
+    "loadRate_mPerKyr": 7.51,
+    "exportedPct": 0
+   },
+   {
+    "id": 11,
+    "ageMa": 0.635,
+    "cause": "rapid loading",
+    "srcKm": "80-81",
+    "scarFt": 157,
+    "volKm2": 0.073,
+    "runoutKm": 5.5,
+    "dSlope": 1.13,
+    "dPress": 6.1,
+    "dSeaM": -23.2,
+    "loadRate_mPerKyr": 2.48,
+    "exportedPct": 0
+   },
+   {
+    "id": 12,
+    "ageMa": 0.635,
+    "cause": "rapid loading",
+    "srcKm": "80-81",
+    "scarFt": 839,
+    "volKm2": 0.278,
+    "runoutKm": 10.5,
+    "dSlope": 0.87,
+    "dPress": 6.1,
+    "dSeaM": -23.2,
+    "loadRate_mPerKyr": 2.21,
+    "exportedPct": 0
+   },
+   {
+    "id": 13,
+    "ageMa": 0.635,
+    "cause": "rapid loading",
+    "srcKm": "80-81",
+    "scarFt": 110,
+    "volKm2": 0.062,
+    "runoutKm": 1.5,
+    "dSlope": 0.92,
+    "dPress": 6.3,
+    "dSeaM": -23.2,
+    "loadRate_mPerKyr": 3.36,
+    "exportedPct": 0
+   },
+   {
+    "id": 14,
+    "ageMa": 0.635,
+    "cause": "rapid loading",
+    "srcKm": "80-81",
+    "scarFt": 104,
+    "volKm2": 0.055,
+    "runoutKm": 0,
+    "dSlope": 0.9,
+    "dPress": 6.3,
+    "dSeaM": -23.2,
+    "loadRate_mPerKyr": 2.38,
+    "exportedPct": 0
+   },
+   {
+    "id": 15,
+    "ageMa": 0.455,
+    "cause": "rapid loading",
+    "srcKm": "82",
+    "scarFt": 112,
+    "volKm2": 0.034,
+    "runoutKm": 4.5,
+    "dSlope": 0.34,
+    "dPress": 1.56,
+    "dSeaM": -18.6,
+    "loadRate_mPerKyr": 10.01,
+    "exportedPct": 0
+   },
+   {
+    "id": 16,
+    "ageMa": 0.44,
+    "cause": "oversteepening",
+    "srcKm": "85",
+    "scarFt": 584,
+    "volKm2": 0.178,
+    "runoutKm": 13.6,
+    "dSlope": 1.29,
+    "dPress": 0.45,
+    "dSeaM": -22.9,
+    "loadRate_mPerKyr": 7.05,
+    "exportedPct": 0
+   },
+   {
+    "id": 17,
+    "ageMa": 0.44,
+    "cause": "oversteepening",
+    "srcKm": "84",
+    "scarFt": 947,
+    "volKm2": 0.289,
+    "runoutKm": 13.3,
+    "dSlope": 1.07,
+    "dPress": 0.66,
+    "dSeaM": -22.9,
+    "loadRate_mPerKyr": 12.98,
+    "exportedPct": 0
+   },
+   {
+    "id": 18,
+    "ageMa": 0.44,
+    "cause": "rapid loading",
+    "srcKm": "90",
+    "scarFt": 50,
+    "volKm2": 0.015,
+    "runoutKm": 0,
+    "dSlope": 0.14,
+    "dPress": 2.72,
+    "dSeaM": -22.9,
+    "loadRate_mPerKyr": 2.74,
+    "exportedPct": 0
+   },
+   {
+    "id": 19,
+    "ageMa": 0.43,
+    "cause": "rapid loading",
+    "srcKm": "84",
+    "scarFt": 118,
+    "volKm2": 0.036,
+    "runoutKm": 3.5,
+    "dSlope": -1.01,
+    "dPress": 1.86,
+    "dSeaM": -24.5,
+    "loadRate_mPerKyr": 14.17,
+    "exportedPct": 0
+   },
+   {
+    "id": 20,
+    "ageMa": 0.14,
+    "cause": "oversteepening",
+    "srcKm": "93",
+    "scarFt": 872,
+    "volKm2": 0.266,
+    "runoutKm": 12.1,
+    "dSlope": 1.17,
+    "dPress": 0.75,
+    "dSeaM": -16.5,
+    "loadRate_mPerKyr": 10.06,
+    "exportedPct": 0
+   },
+   {
+    "id": 21,
+    "ageMa": 0.14,
+    "cause": "rapid loading",
+    "srcKm": "92",
+    "scarFt": 103,
+    "volKm2": 0.031,
+    "runoutKm": 2.6,
+    "dSlope": 0.78,
+    "dPress": 1.59,
+    "dSeaM": -16.5,
+    "loadRate_mPerKyr": 13.06,
+    "exportedPct": 0
+   },
+   {
+    "id": 22,
+    "ageMa": 0.14,
+    "cause": "rapid loading",
+    "srcKm": "92-93",
+    "scarFt": 982,
+    "volKm2": 0.313,
+    "runoutKm": 11.2,
+    "dSlope": 1.01,
+    "dPress": 6.27,
+    "dSeaM": -16.5,
+    "loadRate_mPerKyr": 1.35,
+    "exportedPct": 0
+   },
+   {
+    "id": 23,
+    "ageMa": 0.14,
+    "cause": "rapid loading",
+    "srcKm": "91-93",
+    "scarFt": 127,
+    "volKm2": 0.082,
+    "runoutKm": 1.9,
+    "dSlope": 0.67,
+    "dPress": 6.52,
+    "dSeaM": -16.5,
+    "loadRate_mPerKyr": 3.86,
+    "exportedPct": 0
+   },
+   {
+    "id": 24,
+    "ageMa": 0.14,
+    "cause": "rapid loading",
+    "srcKm": "92-93",
+    "scarFt": 109,
+    "volKm2": 0.062,
+    "runoutKm": 0,
+    "dSlope": 0.54,
+    "dPress": 6.52,
+    "dSeaM": -16.5,
+    "loadRate_mPerKyr": 2.91,
+    "exportedPct": 0
+   }
+  ],
+  "first event of each step: seed column, shelf edge, seed-edge (km), slope (deg), ru at seed, max ru in slope zone and where, rank of seed by ru": [
+   "#1 step 185 seed 51 edge 51 (+0) slope 6.77 ru 0.859 max-ru 0.859@51 rank 1/36 depth 304 ft water 450 ft",
+   "#2 step 361 seed 65 edge 65 (+0) slope 6.46 ru 0.826 max-ru 0.826@65 rank 1/34 depth 202 ft water 678 ft",
+   "#3 step 392 seed 68 edge 68 (+0) slope 5.91 ru 0.839 max-ru 0.839@68 rank 1/32 depth 239 ft water 687 ft",
+   "#4 step 425 seed 75 edge 74 (+1) slope 8.13 ru 0.720 max-ru 0.763@74 rank 2/35 depth 488 ft water 1434 ft",
+   "#7 step 456 seed 78 edge 78 (+0) slope 7.89 ru 0.729 max-ru 0.847@77 rank 2/33 depth 632 ft water 1325 ft",
+   "#10 step 472 seed 81 edge 81 (+0) slope 7.55 ru 0.723 max-ru 0.839@80 rank 2/35 depth 616 ft water 1207 ft",
+   "#15 step 508 seed 82 edge 83 (-1) slope 4.34 ru 0.886 max-ru 0.886@82 rank 1/34 depth 112 ft water 354 ft",
+   "#16 step 511 seed 85 edge 85 (+0) slope 7.68 ru 0.730 max-ru 0.741@84 rank 2/31 depth 584 ft water 1320 ft",
+   "#19 step 513 seed 84 edge 85 (-1) slope 1.98 ru 0.944 max-ru 0.944@84 rank 1/33 depth 118 ft water 430 ft",
+   "#20 step 571 seed 93 edge 93 (+0) slope 7.38 ru 0.749 max-ru 0.828@92 rank 2/22 depth 872 ft water 1198 ft"
+  ],
+  "ru at the seed of the failing column (min, median, max)": [
+   0.7201487034677745,
+   0.8261451556785879,
+   0.9438029732230635
+  ],
+  "events whose seed lies within 25 km seaward... of the shelf edge (edge-25..edge+5 km)": [
+   10,
+   10
+  ],
+  "events whose seed column is among the 10 % highest-ru searched columns": [
+   10,
+   10
+  ],
+  "scar depth ft (min, median, max)": [
+   50,
+   239,
+   982
+  ],
+  "run-out km (min, median, max)": [
+   0,
+   7.3,
+   15.5
+  ],
+  "events with scar depth >= 95 % of the search window (300 m = 984 ft)": [
+   "#5 971 ft",
+   "#17 947 ft",
+   "#22 982 ft"
+  ],
+  "events with run-out under 0.5 km (debris came to rest where it was released)": [
+   "#6",
+   "#14",
+   "#18",
+   "#24"
+  ],
+  "consecutive events in one step on the same columns with the same volume (within 2 %)": [],
+  "tag re-derivation of the first event in each step: events checked, numbers matching to 1e-6, tags matching, worst number difference": [
+   10,
+   10,
+   10,
+   0
+  ],
+  "tags as stored vs tags if the sea-level test were skipped": {
+   "actual": {
+    "rapid loading": 16,
+    "oversteepening": 8
+   },
+   "withoutSeaTest": {
+    "rapid loading": 16,
+    "oversteepening": 8
+   }
+  },
+  "events where the pressure term beats the slope term (dPress > dSlope)": [
+   16,
+   24
+  ],
+  "events tagged lowstand although the pressure term beats the slope term": [
+   0,
+   24
+  ],
+  "events tagged lowstand with a sea-level fall of less than 10 m over the 20 kyr window": [
+   0,
+   24
+  ],
+  "share of record steps (k >= 4) in which sea level fell by >= failLowstandDrop over the 4-step window": "178 of 600 (30 %)",
+  "default preset (6 deg shelf-edge slope), failure off: lowest FS found at any step, and its column": [
+   2.3286747146693334,
+   62
+  ],
+  "default preset with failure on: events": 0,
+  "final surface of the MTD preset (every 10 km)": [
+   "0 km: 0.04 deg, H 21 m",
+   "10 km: 0.04 deg, H 10 m",
+   "20 km: 0.27 deg, H 5 m",
+   "30 km: 0.06 deg, H -32 m",
+   "40 km: 0.03 deg, H -40 m",
+   "50 km: 0.05 deg, H -49 m",
+   "60 km: 0.05 deg, H -57 m",
+   "70 km: 0.05 deg, H -67 m",
+   "80 km: 0.07 deg, H -78 m",
+   "90 km: 0.38 deg, H -104 m",
+   "100 km: 1.71 deg, H -419 m",
+   "110 km: 0.65 deg, H -605 m",
+   "120 km: 0.62 deg, H -717 m",
+   "130 km: 0.36 deg, H -800 m",
+   "140 km: 0.14 deg, H -838 m"
+  ],
+  "perEvent": [
+   {
+    "id": 1,
+    "step": 185,
+    "ageMa": 2.07,
+    "nInStep": 1,
+    "seed": 51,
+    "shelfEdge": 51,
+    "shore": 51,
+    "seedMinusEdgeKm": 0,
+    "slopeDeg": 6.7652196138046055,
+    "fs": 0.7061416028713099,
+    "ruSeed": 0.8590003155332636,
+    "critDepthM": 92.54495440790885,
+    "waterDepthM": 137.14078059553822,
+    "maxRu": 0.8590003155332636,
+    "maxRuCol": 51,
+    "ruRank": 1,
+    "nSearched": 36,
+    "maxSlopeCol": 52,
+    "maxSlopeDeg": 9.535981362683978,
+    "preK": {
+     "tanNow": 0.11862716161686382,
+     "ruNow": 0.8590003155332636
+    }
+   },
+   {
+    "id": 2,
+    "step": 361,
+    "ageMa": 1.19,
+    "nInStep": 1,
+    "seed": 65,
+    "shelfEdge": 65,
+    "shore": 65,
+    "seedMinusEdgeKm": 0,
+    "slopeDeg": 6.463791280669967,
+    "fs": 0.8874116048282051,
+    "ruSeed": 0.8261451556785879,
+    "critDepthM": 61.692798703522946,
+    "waterDepthM": 206.59889344595427,
+    "maxRu": 0.8261451556785879,
+    "maxRuCol": 65,
+    "ruRank": 1,
+    "nSearched": 34,
+    "maxSlopeCol": 66,
+    "maxSlopeDeg": 6.916268291561084,
+    "preK": {
+     "tanNow": 0.11329548924205175,
+     "ruNow": 0.8261451556785879
+    }
+   },
+   {
+    "id": 3,
+    "step": 392,
+    "ageMa": 1.035,
+    "nInStep": 1,
+    "seed": 68,
+    "shelfEdge": 68,
+    "shore": 68,
+    "seedMinusEdgeKm": 0,
+    "slopeDeg": 5.914782488337177,
+    "fs": 0.8988015735313442,
+    "ruSeed": 0.839359072965696,
+    "critDepthM": 72.77855385710845,
+    "waterDepthM": 209.4851195641762,
+    "maxRu": 0.839359072965696,
+    "maxRuCol": 68,
+    "ruRank": 1,
+    "nSearched": 32,
+    "maxSlopeCol": 69,
+    "maxSlopeDeg": 6.498851488210145,
+    "preK": {
+     "tanNow": 0.1036007126914708,
+     "ruNow": 0.839359072965696
+    }
+   },
+   {
+    "id": 4,
+    "step": 425,
+    "ageMa": 0.8700000000000001,
+    "nInStep": 3,
+    "seed": 75,
+    "shelfEdge": 74,
+    "shore": 74,
+    "seedMinusEdgeKm": 1,
+    "slopeDeg": 8.131311497091305,
+    "fs": 0.9225546403148558,
+    "ruSeed": 0.7201487034677745,
+    "critDepthM": 148.74528091624526,
+    "waterDepthM": 437.20693305591254,
+    "maxRu": 0.7630064283024196,
+    "maxRuCol": 74,
+    "ruRank": 2,
+    "nSearched": 35,
+    "maxSlopeCol": 75,
+    "maxSlopeDeg": 8.131311497091305,
+    "preK": {
+     "tanNow": 0.14287867713160682,
+     "ruNow": 0.7201487034677745
+    }
+   },
+   {
+    "id": 7,
+    "step": 456,
+    "ageMa": 0.7149999999999999,
+    "nInStep": 3,
+    "seed": 78,
+    "shelfEdge": 78,
+    "shore": 78,
+    "seedMinusEdgeKm": 0,
+    "slopeDeg": 7.889889353849415,
+    "fs": 0.9632741253982131,
+    "ruSeed": 0.7294069069118654,
+    "critDepthM": 192.55775442007774,
+    "waterDepthM": 403.7337598527947,
+    "maxRu": 0.8469819545644514,
+    "maxRuCol": 77,
+    "ruRank": 2,
+    "nSearched": 33,
+    "maxSlopeCol": 78,
+    "maxSlopeDeg": 7.889889353849415,
+    "preK": {
+     "tanNow": 0.13858160940614234,
+     "ruNow": 0.7294069069118654
+    }
+   },
+   {
+    "id": 10,
+    "step": 472,
+    "ageMa": 0.6349999999999998,
+    "nInStep": 5,
+    "seed": 81,
+    "shelfEdge": 81,
+    "shore": 81,
+    "seedMinusEdgeKm": 0,
+    "slopeDeg": 7.54985111612345,
+    "fs": 0.9832211090457863,
+    "ruSeed": 0.7231572881439373,
+    "critDepthM": 187.64695088658348,
+    "waterDepthM": 367.85659353908966,
+    "maxRu": 0.8393159684119669,
+    "maxRuCol": 80,
+    "ruRank": 2,
+    "nSearched": 35,
+    "maxSlopeCol": 81,
+    "maxSlopeDeg": 7.54985111612345,
+    "preK": {
+     "tanNow": 0.13253774564146936,
+     "ruNow": 0.7231572881439373
+    }
+   },
+   {
+    "id": 15,
+    "step": 508,
+    "ageMa": 0.45500000000000007,
+    "nInStep": 1,
+    "seed": 82,
+    "shelfEdge": 83,
+    "shore": 83,
+    "seedMinusEdgeKm": -1,
+    "slopeDeg": 4.340110148715486,
+    "fs": 0.8476294596664368,
+    "ruSeed": 0.886446582911885,
+    "critDepthM": 34.25528273575428,
+    "waterDepthM": 108.03462126941862,
+    "maxRu": 0.886446582911885,
+    "maxRuCol": 82,
+    "ruRank": 1,
+    "nSearched": 34,
+    "maxSlopeCol": 83,
+    "maxSlopeDeg": 6.416482467062635,
+    "preK": {
+     "tanNow": 0.07589442685380264,
+     "ruNow": 0.886446582911885
+    }
+   },
+   {
+    "id": 16,
+    "step": 511,
+    "ageMa": 0.43999999999999995,
+    "nInStep": 3,
+    "seed": 85,
+    "shelfEdge": 85,
+    "shore": 85,
+    "seedMinusEdgeKm": 0,
+    "slopeDeg": 7.682954621347102,
+    "fs": 0.9447486713197678,
+    "ruSeed": 0.7295206209102746,
+    "critDepthM": 178.01682690654988,
+    "waterDepthM": 402.21266669988125,
+    "maxRu": 0.7405343425923306,
+    "maxRuCol": 84,
+    "ruRank": 2,
+    "nSearched": 31,
+    "maxSlopeCol": 85,
+    "maxSlopeDeg": 7.682954621347102,
+    "preK": {
+     "tanNow": 0.1349023804395256,
+     "ruNow": 0.7295206209102746
+    }
+   },
+   {
+    "id": 19,
+    "step": 513,
+    "ageMa": 0.43000000000000016,
+    "nInStep": 1,
+    "seed": 84,
+    "shelfEdge": 85,
+    "shore": 85,
+    "seedMinusEdgeKm": -1,
+    "slopeDeg": 1.9790494736341782,
+    "fs": 0.9306092392811351,
+    "ruSeed": 0.9438029732230635,
+    "critDepthM": 35.88843082264931,
+    "waterDepthM": 131.0572295874167,
+    "maxRu": 0.9438029732230635,
+    "maxRuCol": 84,
+    "ruRank": 1,
+    "nSearched": 33,
+    "maxSlopeCol": 85,
+    "maxSlopeDeg": 5.7044742873477325,
+    "preK": {
+     "tanNow": 0.034554672582495866,
+     "ruNow": 0.9438029732230635
+    }
+   },
+   {
+    "id": 20,
+    "step": 571,
+    "ageMa": 0.14000000000000012,
+    "nInStep": 5,
+    "seed": 93,
+    "shelfEdge": 93,
+    "shore": 93,
+    "seedMinusEdgeKm": 0,
+    "slopeDeg": 7.381452245113202,
+    "fs": 0.9073480219757812,
+    "ruSeed": 0.7490737176366292,
+    "critDepthM": 265.8166627488247,
+    "waterDepthM": 365.1970617303006,
+    "maxRu": 0.8276428678619612,
+    "maxRuCol": 92,
+    "ruRank": 2,
+    "nSearched": 22,
+    "maxSlopeCol": 93,
+    "maxSlopeDeg": 7.381452245113202,
+    "preK": {
+     "tanNow": 0.12954815761590005,
+     "ruNow": 0.7490737176366292
+    }
+   }
+  ]
+ },
+ "rereview": {
+  "cause labels by count": {
+   "rapid loading": 16,
+   "oversteepening": 8
+  },
+  "scores per event (term / own threshold)": [
+   "#1 rapid loading slope 5.7 press 19.6 sea 2.4",
+   "#2 rapid loading slope 6.2 press 9.5 sea 0.0",
+   "#3 rapid loading slope 2.7 press 5.2 sea 0.7",
+   "#4 oversteepening slope 16.5 press 5.2 sea 0.6",
+   "#5 rapid loading slope 15.7 press 61.5 sea 0.6",
+   "#6 rapid loading slope 0.0 press 61.5 sea 0.6",
+   "#7 oversteepening slope 9.4 press 4.2 sea 1.4",
+   "#8 oversteepening slope 9.0 press 4.5 sea 1.4",
+   "#9 oversteepening slope 9.0 press 0.0 sea 1.4",
+   "#10 oversteepening slope 12.3 press 4.7 sea 1.2",
+   "#11 rapid loading slope 11.3 press 61.0 sea 1.2",
+   "#12 rapid loading slope 8.7 press 61.0 sea 1.2",
+   "#13 rapid loading slope 9.2 press 63.0 sea 1.2",
+   "#14 rapid loading slope 9.0 press 63.0 sea 1.2",
+   "#15 rapid loading slope 3.4 press 15.6 sea 0.9",
+   "#16 oversteepening slope 12.9 press 4.5 sea 1.1",
+   "#17 oversteepening slope 10.7 press 6.6 sea 1.1",
+   "#18 rapid loading slope 1.4 press 27.2 sea 1.1",
+   "#19 rapid loading slope 0.0 press 18.6 sea 1.2",
+   "#20 oversteepening slope 11.7 press 7.5 sea 0.8",
+   "#21 rapid loading slope 7.8 press 15.9 sea 0.8",
+   "#22 rapid loading slope 10.1 press 62.7 sea 0.8",
+   "#23 rapid loading slope 6.7 press 65.2 sea 0.8",
+   "#24 rapid loading slope 5.4 press 65.2 sea 0.8"
+  ],
+  "checks": [
+   {
+    "name": "every event's stored label equals the M2.7 rule applied to its stored terms (re-derived here)",
+    "ok": true,
+    "detail": "24/24"
+   },
+   {
+    "name": "windowLimited equals (scar >= 95 % of the search window) for every event",
+    "ok": true,
+    "detail": "3 flagged"
+   },
+   {
+    "name": "no failure repeats on a column after a stalled event in the same step",
+    "ok": true,
+    "detail": "0 repeats"
+   },
+   {
+    "name": "no event with run-out < failStallRunout is followed at once by an event on overlapping columns",
+    "ok": true,
+    "detail": "0"
+   },
+   {
+    "name": "every sub-0.5 km event is stalled or the last event of its step (nothing is retried unmarked)",
+    "ok": true,
+    "detail": "4 events"
+   }
+  ],
+  "events where the sea-level score would beat both other scores (lowstand reachable?)": [
+   0,
+   24
+  ],
+  "events with a sea-level fall of at least failLowstandDrop over the window (a real lowstand)": [
+   13,
+   24
+  ],
+  "events / stalled / window-limited / failUnresolved": [
+   24,
+   2,
+   3,
+   4
+  ],
+  "columns in stalled events (the UI derives unresolved columns from these)": 2,
+  "events with run-out < 0.5 km: id, stalled?, last event of its step?": [
+   "#6 stalled=true lastInStep=true",
+   "#14 stalled=false lastInStep=true",
+   "#18 stalled=true lastInStep=true",
+   "#24 stalled=false lastInStep=true"
+  ]
+ },
+ "licences": {
+  "package.json / package-lock.json differences against main": "none",
+  "checks": [
+   {
+    "name": "M2 adds no dependency (package.json and package-lock.json identical to main)",
+    "ok": true,
+    "detail": "identical"
+   },
+   {
+    "name": "every installed package has a permissive licence",
+    "ok": false,
+    "detail": "lightningcss MPL-2.0; lightningcss-win32-x64-msvc MPL-2.0"
+   },
+   {
+    "name": "M2 adds no data file under src/engine/data",
+    "ok": true,
+    "detail": "none"
+   }
+  ],
+  "installed packages": 210
+ }
+}
