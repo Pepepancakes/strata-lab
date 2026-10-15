@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-14):** spike 001 done. Spike 002 (salt) is next.
+**Status (2026-10-14):** spikes 001 and 002 done. Spike 002 is waiting on John's look. M1 cards are next.
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -32,7 +32,7 @@ Results:
 John: "one of the coolest things I've ever played with when it comes to geology". He found the
 geology convincing, with nothing obviously wrong, and said go for a core project.
 
-## S2 — Spike 002: salt under the prograding wedge  *(next, in chat, throwaway)*
+## S2 — Spike 002: salt under the prograding wedge  *(built 2026-10-14; waiting on John's look)*
 Question: can salt flow in the column model, interactively, and does it look like Gulf salt?
 - A salt layer at the base of each column. It flows sideways as a viscous channel (thin-sheet
   / lubrication approximation), driven by differences in overburden load and seafloor
@@ -50,11 +50,18 @@ Question: can salt flow in the column model, interactively, and does it look lik
 
 The spike also produces a recommendation on what the M1 layer record must hold for salt.
 
+**Result (2026-10-14, `spikes/002-salt/README.md`):** the checks pass. Flow is within 0.06–0.9 % of
+lubrication theory, the load-step flux within 0.02 % of the hand calculation, salt is conserved to
+5e-16, and a 3 Myr run takes ~2 s. Expulsion ahead of the wedge works. Diapir width is set by the
+grid, because thin-sheet flow under a heavy cover has no width selection. So M3 needs cover
+bending stiffness (recommended) or a 2D Stokes solver. Record recommendation: units per column
+tagged sediment/salt, so canopies stay storable later.
+
 ## M1 — Foundation  *(after S2; cards for John's approval first)*
 Rebuild the engine and app as maintained code:
 - Scaffold: TS / Vite / React, `npm run check`, CI, offline single-file build.
-- Engine in a Web Worker, with the layer record shaped by S2 (salt slot included, even if salt
-  is off).
+- Engine in a Web Worker, with the layer record shaped by S2: an ordered list of units per
+  column, each tagged sediment or salt (salt can be off). Salt-only balance is in the checks.
 - Processes from spike 001, ported test-first.
 - Permanent physics check suite: Gibson, Sclater & Christie, mass balance per grain size,
   determinism.
@@ -89,11 +96,14 @@ Rebuild the engine and app as maintained code:
 
 ## M3 — Salt
 Spike 002 built into the engine as maintained code: minibasins, welds, passive diapirs, and salt
-in all views and in the pseudo-well (density, no porosity, pressure across salt).
+in all views and in the pseudo-well (density, no porosity, pressure across salt). Adds cover
+bending stiffness to the thin-sheet flow, so diapir width comes from physics, not the grid
+(spike 002 finding). John decides this approach before M3 cards are written.
 
 **Done when:**
 - The channel-flow benchmark passes.
 - Salt is conserved.
+- Diapir width converges as the grid is refined (1,000 / 500 / 250 m cells).
 - A Gulf-style example (a prograding wedge over autochthonous salt) builds minibasins and welds
   that John recognises.
 

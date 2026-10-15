@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Strata Lab · spike 002 · salt</title>
+<style>
+  :root { --ink:#1d232b; --mute:#5d6875; --line:#d6dbe1; --panel:#f6f7f9; --acc:#1f6feb; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:13px/1.35 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); background:#fff; }
+  header { display:flex; align-items:center; gap:10px; padding:8px 14px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  header h1 { font-size:15px; margin:0 12px 0 0; }
+  header .age { font-variant-numeric: tabular-nums; min-width:250px; font-weight:600; }
+  button { font:inherit; padding:4px 9px; border:1px solid var(--line); background:#fff; border-radius:5px; cursor:pointer; }
+  button:hover { border-color:#9aa5b1; }
+  button.on { background:var(--acc); border-color:var(--acc); color:#fff; }
+  #scrub { flex:1; min-width:260px; }
+  main { display:grid; grid-template-columns: 250px 1fr 270px; gap:0; min-height: calc(100vh - 50px); }
+  aside { background:var(--panel); padding:10px 12px; border-right:1px solid var(--line); overflow:auto; }
+  aside.right { border-right:none; border-left:1px solid var(--line); }
+  h2 { font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--mute); margin:12px 0 6px; }
+  h2:first-child { margin-top:2px; }
+  .param { margin:0 0 9px; }
+  .param label { display:flex; justify-content:space-between; font-weight:600; }
+  .param label span { font-weight:400; color:var(--mute); font-variant-numeric: tabular-nums; }
+  .param input { width:100%; }
+  .param small { color:var(--mute); display:block; }
+  .note { color:var(--mute); font-size:12px; }
+  #center { padding:8px 12px; overflow:auto; }
+  .bar { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:6px; }
+  canvas { display:block; width:100%; border:1px solid var(--line); border-radius:4px; }
+  #sec, #sec2 { cursor:crosshair; }
+  .row2 { display:grid; grid-template-columns: 1fr 340px; gap:10px; margin-top:8px; }
+  .legend { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--mute); }
+  .legend canvas { width:180px; height:12px; border:none; }
+  table { border-collapse:collapse; width:100%; font-size:12px; }
+  td { padding:2px 4px; border-bottom:1px solid var(--line); vertical-align:top; }
+  td.num { text-align:right; font-variant-numeric: tabular-nums; white-space:nowrap; }
+  .pass { color:#137333; font-weight:700; } .fail { color:#c5221f; font-weight:700; }
+  .br { display:flex; align-items:center; gap:6px; padding:5px 6px; border:1px solid var(--line); border-radius:5px; background:#fff; margin-bottom:5px; }
+  .br.act { border-color:var(--acc); box-shadow:0 0 0 1px var(--acc) inset; }
+  .br .sw { width:10px; height:10px; border-radius:2px; }
+  .br .nm { flex:1; cursor:pointer; }
+  .br .nm small { display:block; color:var(--mute); }
+  #busy { position:fixed; inset:0; background:rgba(255,255,255,.7); display:none; align-items:center; justify-content:center; font-size:16px; font-weight:600; z-index:5; }
+  .lbl2 { font-size:12px; color:var(--mute); margin:6px 0 2px; }
+</style>
+</head>
+<body>
+<div id="busy">Computing…</div>
+<header>
+  <h1>Strata Lab <span class="note">spike 002 · prograding margin over salt</span></h1>
+  <button id="bStart" title="Start of run">⏮</button>
+  <button id="bBack" title="Step back 5 kyr">◀</button>
+  <button id="bPlay">▶ Play</button>
+  <button id="bFwd" title="Step forward 5 kyr">▶</button>
+  <button id="bEnd" title="End of run (present day)">⏭</button>
+  <select id="speed" title="Playback speed">
+    <option value="1">5 kyr / frame</option><option value="2" selected>10 kyr / frame</option><option value="5">25 kyr / frame</option>
+  </select>
+  <input id="scrub" type="range" min="0" max="600" value="600">
+  <div class="age" id="ageLbl"></div>
+</header>
+<main>
+  <aside>
+    <h2>Controls · <span id="pBranch"></span></h2>
+    <div class="note" id="pNote"></div>
+    <div id="params"></div>
+    <h2>How it works</h2>
+    <div class="note">
+      Sediment enters at the left edge and moves by water-depth-dependent diffusion, sand
+      less mobile than mud. When the shoreline nears the shelf edge, part of the supply runs
+      out as turbidity currents that bypass the slope and deposit where the gradient eases.
+      Every column compacts as fluid drains through the mud; if it can't drain fast enough,
+      pressure builds. Under the sediment, a salt layer (pink) flows like a very stiff
+      fluid, squeezed from where the load on it is high to where it is low; the sediment
+      columns ride down where salt leaves and up where it gathers. Salt and sediment
+      both balance: see the checks on the right.
+    </div>
+  </aside>
+  <section id="center">
+    <div class="bar">
+      Colour by:
+      <button data-mode="grain" class="on">Grain size</button>
+      <button data-mode="age">Age</button>
+      <button data-mode="phi">Porosity</button>
+      <button data-mode="op">Overpressure</button>
+      <span class="legend"><canvas id="leg" width="180" height="12"></canvas><span id="legTxt"></span><span style="display:inline-block;width:12px;height:12px;background:#ec8cbe;border-radius:2px"></span>salt <span style="display:inline-block;width:12px;height:12px;background:#aaa;border-radius:2px"></span>older cover</span>
+    </div>
+    <div class="lbl2" id="secTitle"></div>
+    <canvas id="sec" height="400"></canvas>
+    <div id="cmpWrap" style="display:none"><div class="lbl2" id="sec2Title"></div><canvas id="sec2" height="380"></canvas></div>
+    <div class="row2">
+      <div><div class="lbl2">Sea level through time (current branch); vertical line = now</div><canvas id="slc" height="150"></canvas>
+        <div class="note" style="margin-top:6px">Click the section to move the pseudo-well. Depths in ft below sea level; horizontal scale km.</div></div>
+      <div><div class="lbl2" id="wellTitle">Pseudo-well</div><canvas id="well" height="300"></canvas></div>
+    </div>
+  </section>
+  <aside class="right">
+    <h2>Branches (what-if)</h2>
+    <div id="branches"></div>
+    <button id="bBranch">⑂ Branch from this time</button>
+    <div class="note" style="margin-top:4px">A branch shares history up to its start, then runs with its own controls. Edit a branch's controls to change only its future.</div>
+    <div style="margin-top:8px">Compare with: <select id="cmp"><option value="">none</option></select></div>
+    <h2>Mass balance (current branch, now)</h2>
+    <table id="mb"></table>
+    <h2>Speed</h2>
+    <table id="perf"></table>
+    <h2>Physics checks</h2>
+    <button id="bChecks">Run checks</button>
+    <table id="checks" style="margin-top:6px"></table>
+    <canvas id="gib" height="200" style="margin-top:6px; display:none"></canvas>
+    <div class="note" id="gibNote"></div>
+  </aside>
+</main>
+<script src="engine.js"></script>
+<script>
+'use strict';
+const E = Strata, C = E.consts;
+const SNAP = 15, FT = 3.28084;   // snapshot every 75 kyr: any jump replays at most 14 steps
+const BASE = E.defaultParams();
+const NSTEPS = Math.round(BASE.duration / BASE.dtRec);
+const NX = BASE.nx, DX = BASE.dx, DT = BASE.dtRec, DUR = BASE.duration;
+const COLORS = ['#1f6feb', '#d93f0b', '#2da44e', '#8250df'];
+const $ = (id) => document.getElementById(id);
+
+// ---------------- parameters shown as sliders -------------------------------
+const PARAMS = [
+  { key: 'supply', name: 'Sediment supply', min: 1, max: 40, step: 1, fmt: (v) => `${v} m²/yr`, hint: 'solid volume per metre of margin' },
+  { key: 'sandFrac', name: 'Sand in supply', min: 0, max: 0.8, step: 0.05, fmt: (v) => `${Math.round(v * 100)} %` },
+  { key: 'slAmp', name: 'Sea-level swing', min: 0, max: 100, step: 5, fmt: (v) => `±${v} m`, hint: 'eustatic amplitude' },
+  { key: 'slPeriod', name: 'Sea-level cycle', min: 20000, max: 400000, step: 10000, fmt: (v) => `${v / 1000} kyr` },
+  { key: 'slShift', name: 'Sea-level shift', min: -120, max: 60, step: 5, fmt: (v) => `${v > 0 ? '+' : ''}${v} m`, hint: 'step change; use in a branch' },
+  { key: 'subsShelf', name: 'Subsidence, landward', min: 0, max: 200, step: 5, fmt: (v) => `${v} m/Myr` },
+  { key: 'subsBasin', name: 'Subsidence, basinward', min: 0, max: 400, step: 10, fmt: (v) => `${v} m/Myr` },
+  { key: 'kMudMult', name: 'Mud permeability', min: -2, max: 2, step: 0.25, log: true, fmt: (v) => `×${fmtMult(v)}`, hint: 'lower = drains slower, more overpressure' },
+  { key: 'saltVisc', name: 'Salt viscosity', min: 16.5, max: 19, step: 0.25, log: true, fmt: (v) => `${(v / Math.pow(10, Math.floor(Math.log10(v)))).toFixed(1)}e${Math.floor(Math.log10(v))} Pa·s`, hint: 'lower = salt flows faster (published ~1e17–1e19)' },
+  { key: 'saltThick', name: 'Salt thickness (start)', min: 0, max: 3000, step: 100, startOnly: true, fmt: (v) => `${Math.round(v * FT).toLocaleString()} ft`, hint: 'original salt layer; base case only (sets the start of the run)' },
+  { key: 'coverThick', name: 'Older cover over salt', min: 0, max: 2000, step: 100, startOnly: true, fmt: (v) => `${Math.round(v * FT).toLocaleString()} ft`, hint: 'compacted pre-existing sediment; base case only' },
+  { key: 'coverNoise', name: 'Older cover unevenness', min: 0, max: 0.5, step: 0.05, startOnly: true, fmt: (v) => `±${Math.round(v * 100)} %`, hint: 'experiment: seeds minibasins and diapirs; shows the limit of this salt model (see README)' },
+  { key: 'tcMax', name: 'Turbidite routing', min: 0, max: 1, step: 0.05, fmt: (v) => `${Math.round(v * 100)} % max`, hint: 'share of supply sent downslope at lowstand' },
+];
+function fmtMult(v) { return v >= 1 ? (+v.toPrecision(2)).toString() : (+v.toPrecision(2)).toString(); }
+
+// ---------------- branches & time machine ------------------------------------
+let branches = [], active = null, compare = null, curK = NSTEPS, nextId = 0;
+let playing = false, mode = 'grain', wellJ = 69;   // upper slope: where mud piles up fastest
+const perf = { run: 0, scrub: 0, render: 0 };
+
+function makeBranch(parent, kStart, P) {
+  const b = { id: nextId++, parent, kStart, P, snaps: new Map(), work: E.createState(P), runMs: 0 };
+  b.color = COLORS[b.id % COLORS.length];
+  b.name = parent ? `Branch ${String.fromCharCode(65 + b.id)}` : 'Base case';
+  return b;
+}
+function computeBranch(b) {
+  const t0 = performance.now();
+  b.snaps.clear();
+  if (!b.parent) b.work = E.createState(b.P);
+  else E.restore(E.snapshot(stateAt(b.parent, b.kStart)), b.work, b.P);
+  b.snaps.set(b.kStart, E.snapshot(b.work));
+  while (E.step(b.work, b.P)) if (b.work.k % SNAP === 0 || b.work.k === NSTEPS) b.snaps.set(b.work.k, E.snapshot(b.work));
+  b.runMs = performance.now() - t0;
+  perf.run = b.runMs;
+}
+function recompute(b) { computeBranch(b); for (const c of branches) if (c.parent === b) recompute(c); }
+function owner(b, k) { while (b.parent && k < b.kStart) b = b.parent; return b; }
+function stateAt(b, k) {
+  b = owner(b, k);
+  const w = b.work;
+  let best = b.kStart;
+  for (const key of b.snaps.keys()) if (key <= k && key > best) best = key;
+  if (w.k > k || w.k < best) E.restore(b.snaps.get(best), w, b.P);
+  while (w.k < k) E.step(w, b.P);
+  return w;
+}
+function paramsAt(b, k) { return owner(b, k).P; }
+
+// ---------------- colour ramps -----------------------------------------------
+const RAMPS = {
+  grain: [[0, [92, 99, 88]], [0.35, [150, 145, 112]], [0.7, [226, 196, 110]], [1, [250, 214, 72]]],
+  age: [[0, [68, 1, 84]], [0.25, [59, 82, 139]], [0.5, [33, 145, 140]], [0.75, [94, 201, 98]], [1, [253, 231, 37]]],
+  phi: [[0, [84, 48, 5]], [0.35, [191, 129, 45]], [0.7, [199, 234, 229]], [1, [1, 102, 94]]],
+  op: [[0, [236, 238, 232]], [0.25, [253, 208, 120]], [0.5, [240, 120, 60]], [0.75, [200, 40, 40]], [1, [110, 0, 30]]],
+};
+const LEG = {
+  grain: 'mud → sand', age: `${DUR / 1e6} Ma → 0 Ma (young)`, phi: 'porosity 0.10 → 0.65',
+  op: 'hydrostatic → at overburden (fraction of load carried by fluid)',
+};
+function ramp(name, x) {
+  const R = RAMPS[name]; x = Math.max(0, Math.min(1, x));
+  for (let i = 0; i < R.length - 1; i++) {
+    const [a, ca] = R[i], [b, cb] = R[i + 1];
+    if (x <= b) { const t = (x - a) / (b - a); return [0, 1, 2].map((c) => Math.round(ca[c] + (cb[c] - ca[c]) * t)); }
+  }
+  return R[R.length - 1][1];
+}
+const pack = (c) => ((255 << 24) | (c[2] << 16) | (c[1] << 8) | c[0]) >>> 0;
+const SALT = pack([236, 140, 190]), SUBSTRATE = pack([170, 170, 170]), BASEMENT = pack([84, 86, 92]), WATER = pack([206, 227, 245]), SKY = pack([255, 255, 255]);
+function cellValue(st, P, l, j) {
+  const i = l * NX + j, s = st.sand[i], m = st.mud[i], tot = s + m;
+  if (mode === 'grain') return s / tot;
+  if (mode === 'age') return ((l - 0.5) * DT) / DUR;
+  if (mode === 'phi') { const bulk = E.layerBulk(st, P, i); return (1 - tot / bulk - 0.1) / 0.55; }
+  if (mode === 'op') return st.ld[i] > 0 ? st.u[i] / st.ld[i] : 0;
+  return 0;
+}
+
+// ---------------- section rendering ------------------------------------------
+let view = { zTop: 120, zBot: -2600 };
+function updateView() {
+  let zb = Infinity, zt = -Infinity;
+  for (const b of branches) {
+    const st = stateAt(b, NSTEPS);
+    for (let j = 0; j < NX; j++) { zb = Math.min(zb, st.b[j]); zt = Math.max(zt, st.H[j]); }
+  }
+  view = { zTop: Math.max(zt, 40) + 40, zBot: zb - 30 };
+}
+function fitCanvas(cv) {
+  const dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = +cv.getAttribute('height');
+  if (cv.width !== Math.round(w * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+  return { dpr, W: cv.width, H: cv.height };
+}
+function renderSection(cv, b, k) {
+  const st = stateAt(b, k), P = paramsAt(b, k);
+  const { dpr, W, H } = fitCanvas(cv);
+  const ctx = cv.getContext('2d');
+  const top = st.k, nb = top + 2;
+  const bnd = new Float64Array(nb * NX), col = new Uint32Array((top + 1) * NX), saltB = new Float64Array(NX);
+  for (let j = 0; j < NX; j++) {
+    let z = st.b[j] + st.hs[j]; bnd[j] = z; saltB[j] = st.b[j];
+    for (let l = 0; l <= top; l++) {
+      const i = l * NX + j;
+      z += E.layerBulk(st, P, i); bnd[(l + 1) * NX + j] = z;
+      col[i] = l === 0 ? SUBSTRATE : (st.sand[i] + st.mud[i] > 0 ? pack(ramp(mode, cellValue(st, P, l, j))) : 0);
+    }
+  }
+  const SL = E.seaLevel(P, k * DT);
+  const sy = H / (view.zTop - view.zBot), row = (z) => Math.round((view.zTop - z) * sy);
+  const img = ctx.createImageData(W, H), buf = new Uint32Array(img.data.buffer);
+  buf.fill(SKY);
+  for (let px = 0; px < W; px++) {
+    let xf = (px + 0.5) / W * NX - 0.5, j0 = Math.floor(xf), w = xf - j0;
+    if (j0 < 0) { j0 = 0; w = 0; } if (j0 >= NX - 1) { j0 = NX - 1; w = 0; }
+    const j1 = Math.min(j0 + 1, NX - 1), jn = w < 0.5 ? j0 : j1;
+    const lerp = (l) => bnd[l * NX + j0] * (1 - w) + bnd[l * NX + j1] * w;
+    const surf = lerp(top + 1);
+    if (SL > surf) for (let r = Math.max(0, row(SL)); r < Math.min(H, row(surf)); r++) buf[r * W + px] = WATER;
+    const zsb = saltB[j0] * (1 - w) + saltB[j1] * w;
+    for (let r = Math.max(0, row(lerp(0))); r < H; r++) buf[r * W + px] = SALT;
+    for (let r = Math.max(0, row(zsb)); r < H; r++) buf[r * W + px] = BASEMENT;
+    let zt = surf;
+    for (let l = top; l >= 0; l--) {
+      const zb = lerp(l);
+      // a layer can be empty in one column and present in its neighbour: use whichever has colour
+      const c = col[l * NX + jn] || col[l * NX + (jn === j0 ? j1 : j0)];
+      if (c && zt > zb) {
+        const r0 = Math.max(0, row(zt)), r1 = Math.min(H, row(zb));
+        for (let r = r0; r < r1; r++) buf[r * W + px] = c;
+      }
+      zt = zb;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+  // time lines every 100 kyr
+  const X = (j) => ((j + 0.5) / NX) * W;
+  ctx.lineWidth = 0.7 * dpr; ctx.strokeStyle = 'rgba(20,20,20,0.35)';
+  for (let l = 20; l <= top; l += 20) {
+    ctx.beginPath();
+    for (let j = 0; j < NX; j++) { const y = row(bnd[l * NX + j]); j ? ctx.lineTo(X(j), y) : ctx.moveTo(X(j), y); }
+    ctx.stroke();
+  }
+  // seafloor + sea level
+  ctx.strokeStyle = 'rgba(0,0,0,0.8)'; ctx.lineWidth = 1 * dpr; ctx.beginPath();
+  for (let j = 0; j < NX; j++) { const y = row(bnd[(top + 1) * NX + j]); j ? ctx.lineTo(X(j), y) : ctx.moveTo(X(j), y); }
+  ctx.stroke();
+  ctx.strokeStyle = '#2b7bd6'; ctx.setLineDash([6 * dpr, 4 * dpr]); ctx.beginPath(); ctx.moveTo(0, row(SL)); ctx.lineTo(W, row(SL)); ctx.stroke(); ctx.setLineDash([]);
+  // pseudo-well
+  ctx.strokeStyle = '#111'; ctx.lineWidth = 2 * dpr; ctx.beginPath(); ctx.moveTo(X(wellJ), row(Math.max(SL, st.H[wellJ]))); ctx.lineTo(X(wellJ), row(st.b[wellJ])); ctx.stroke();
+  // salt label at the thickest salt
+  let jm = 0; for (let j = 1; j < NX; j++) if (st.hs[j] > st.hs[jm]) jm = j;
+  if (st.hs[jm] > 200) { ctx.fillStyle = '#7a1f52'; ctx.font = `${11 * dpr}px system-ui`; ctx.fillText('salt', Math.min(X(jm) - 10 * dpr, W - 60 * dpr), row(st.b[jm] + st.hs[jm] / 2) + 4 * dpr); }
+  // shoreline & shelf-edge markers
+  ctx.font = `${11 * dpr}px system-ui`; ctx.fillStyle = '#123';
+  const mark = (j, txt) => { if (j < 0) return; const x = X(j), y = row(SL) - 4 * dpr; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - 4 * dpr, y - 7 * dpr); ctx.lineTo(x + 4 * dpr, y - 7 * dpr); ctx.fill(); ctx.fillText(txt, x + 6 * dpr, y - 2 * dpr); };
+  mark(st.shore, 'shoreline'); if (st.shelfEdge !== st.shore) mark(st.shelfEdge, 'shelf edge');
+  // axes
+  ctx.fillStyle = 'rgba(30,35,43,0.85)'; ctx.font = `${10 * dpr}px system-ui`;
+  for (let ft = 0; ft >= view.zBot * FT; ft -= 2000) { const y = row(ft / FT); ctx.fillRect(0, y, 5 * dpr, 1 * dpr); ctx.fillText(`${(-ft).toLocaleString()} ft`, 7 * dpr, y + 3 * dpr); }
+  for (let km = 0; km <= NX * DX / 1000; km += 25) { const x = km * 1000 / (NX * DX) * W; ctx.fillRect(x, H - 6 * dpr, 1 * dpr, 6 * dpr); ctx.fillText(`${km} km`, Math.min(x + 3 * dpr, W - 40 * dpr), H - 8 * dpr); }
+  const ve = (NX * DX / W) / ((view.zTop - view.zBot) / H);
+  ctx.fillText(`vertical exaggeration ≈ ${ve.toFixed(0)}×`, W - 170 * dpr, 14 * dpr);
+  return st;
+}
+
+// ---------------- sea-level chart ---------------------------------------------
+function renderSL() {
+  const cv = $('slc'), { dpr, W, H } = fitCanvas(cv), ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+  const lo = -140, hi = 80, y = (v) => H - 14 * dpr - (v - lo) / (hi - lo) * (H - 24 * dpr), x = (k) => 40 * dpr + k / NSTEPS * (W - 50 * dpr);
+  ctx.strokeStyle = '#ccd'; ctx.lineWidth = 1; ctx.font = `${10 * dpr}px system-ui`; ctx.fillStyle = '#556';
+  for (const v of [-100, -50, 0, 50]) { ctx.beginPath(); ctx.moveTo(x(0), y(v)); ctx.lineTo(x(NSTEPS), y(v)); ctx.stroke(); ctx.fillText(`${v} m`, 2 * dpr, y(v) + 3 * dpr); }
+  for (let ma = 0; ma <= DUR / 1e6; ma += 0.5) { const k = NSTEPS - ma * 1e6 / DT; ctx.fillText(`${ma} Ma`, x(k) - 12 * dpr, H - 2 * dpr); }
+  const drawB = (b, colr, w) => {
+    ctx.strokeStyle = colr; ctx.lineWidth = w * dpr; ctx.beginPath();
+    for (let k = 0; k <= NSTEPS; k++) { const v = E.seaLevel(paramsAt(b, k), k * DT); k ? ctx.lineTo(x(k), y(v)) : ctx.moveTo(x(k), y(v)); }
+    ctx.stroke();
+  };
+  if (compare && compare !== active) drawB(compare, compare.color + '99', 1.2);
+  drawB(active, active.color, 1.6);
+  if (active.parent) { ctx.fillStyle = active.color; ctx.fillRect(x(active.kStart) - 1, 0, 2 * dpr, H); }
+  ctx.strokeStyle = '#111'; ctx.lineWidth = 1.5 * dpr; ctx.beginPath(); ctx.moveTo(x(curK), 0); ctx.lineTo(x(curK), H); ctx.stroke();
+}
+
+// ---------------- pseudo-well ---------------------------------------------------
+function renderWell(st, P) {
+  const cv = $('well'), { dpr, W, H } = fitCanvas(cv), ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+  const SL = E.seaLevel(P, curK * DT), j = wellJ;
+  $('wellTitle').textContent = `Pseudo-well at ${((j + 0.5) * DX / 1000).toFixed(1)} km — pore pressure & overburden (ppg EMW, ref. sea level), porosity`;
+  if (st.H[j] >= SL) { ctx.fillStyle = '#556'; ctx.font = `${12 * dpr}px system-ui`; ctx.fillText('Onshore at this time — click a marine location.', 10 * dpr, 20 * dpr); return; }
+  const pts = []; let z = st.H[j], sv = C.RHO_W * C.G * (SL - st.H[j]);
+  for (let l = st.k; l >= 0; l--) {
+    const i = l * NX + j, s = st.sand[i] + st.mud[i]; if (s <= C.EMPTY) continue;
+    const h = E.layerBulk(st, P, i), phi = 1 - s / h, rb = C.RHO_W * phi + C.RHO_S * (1 - phi);
+    const zm = z - h / 2, d = SL - zm;
+    const svm = sv + rb * C.G * h / 2; sv += rb * C.G * h; z -= h;
+    const pp = C.RHO_W * C.G * d + st.u[i];
+    pts.push({ dft: d * FT, pp: pp / (C.G * d) / 119.83, ob: svm / (C.G * d) / 119.83, phi, sand: st.sand[i] / s });
+  }
+  // salt: no pores, density RHO_SALT; overburden keeps growing through it
+  const hsj = st.hs[j], saltTop = (SL - z) * FT, saltBase = (SL - z + hsj) * FT;
+  if (hsj > 1) { const n = 12; for (let q = 0; q < n; q++) { const hq = hsj / n, zm = z - hq / 2, d = SL - zm; const svm = sv + C.RHO_SALT * C.G * hq / 2; sv += C.RHO_SALT * C.G * hq; z -= hq; pts.push({ dft: d * FT, pp: null, ob: svm / (C.G * d) / 119.83, phi: null, sand: null, salt: true }); } }
+  const dMax = (SL - st.b[j]) * FT, dMin = (SL - st.H[j]) * FT;
+  const L = 44 * dpr, R = W - 70 * dpr, T = 14 * dpr, B = H - 18 * dpr;
+  const y = (d) => T + (d - dMin) / (dMax - dMin) * (B - T), xp = (v) => L + (v - 8) / (20 - 8) * (R - L);
+  const xphi = (v) => R + 8 * dpr + v / 0.7 * (W - R - 12 * dpr);
+  ctx.font = `${10 * dpr}px system-ui`; ctx.fillStyle = '#556'; ctx.strokeStyle = '#e1e4e8'; ctx.lineWidth = 1;
+  for (let v = 8; v <= 20; v += 2) { ctx.beginPath(); ctx.moveTo(xp(v), T); ctx.lineTo(xp(v), B); ctx.stroke(); ctx.fillText(v, xp(v) - 5 * dpr, B + 12 * dpr); }
+  const step = (dMax - dMin) > 6000 ? 2000 : 1000;
+  for (let d = Math.ceil(dMin / step) * step; d <= dMax; d += step) { ctx.fillText(`${d.toLocaleString()}`, 2 * dpr, y(d) + 3 * dpr); ctx.beginPath(); ctx.moveTo(L, y(d)); ctx.lineTo(R, y(d)); ctx.stroke(); }
+  // lithology strip
+  for (const p of pts) { if (p.salt) continue; const c = ramp('grain', p.sand); ctx.fillStyle = `rgb(${c})`; ctx.fillRect(L - 8 * dpr, y(p.dft) - 1.5 * dpr, 6 * dpr, 3 * dpr); }
+  if (hsj > 1) { ctx.fillStyle = 'rgba(236,140,190,0.35)'; ctx.fillRect(L, y(saltTop), R - L, y(saltBase) - y(saltTop)); ctx.fillStyle = '#ec8cbe'; ctx.fillRect(L - 8 * dpr, y(saltTop), 6 * dpr, y(saltBase) - y(saltTop)); ctx.fillStyle = '#7a1f52'; ctx.fillText(`salt ${Math.round(hsj * FT).toLocaleString()} ft`, L + 4 * dpr, y(saltTop) + 12 * dpr); }
+  const line = (key, colr, xf, w) => { ctx.strokeStyle = colr; ctx.lineWidth = w * dpr; ctx.beginPath(); let on = false; pts.forEach((p) => { if (p[key] == null) return; on ? ctx.lineTo(xf(p[key]), y(p.dft)) : ctx.moveTo(xf(p[key]), y(p.dft)); on = true; }); ctx.stroke(); };
+  ctx.strokeStyle = '#2b7bd6'; ctx.setLineDash([4 * dpr, 3 * dpr]); ctx.beginPath(); ctx.moveTo(xp(C.RHO_W / 119.83), T); ctx.lineTo(xp(C.RHO_W / 119.83), B); ctx.stroke(); ctx.setLineDash([]);
+  line('ob', '#555', xp, 1.4); line('pp', '#d0342c', xp, 2);
+  line('phi', '#0f766e', xphi, 1.4);
+  ctx.fillStyle = '#d0342c'; ctx.fillText('pore pressure', xp(14.5), T + 10 * dpr);
+  ctx.fillStyle = '#555'; ctx.fillText('overburden', xp(17), T + 22 * dpr);
+  ctx.fillStyle = '#2b7bd6'; ctx.fillText('hydrostatic', xp(8.6) + 3 * dpr, B - 4 * dpr);
+  ctx.fillStyle = '#0f766e'; ctx.fillText('φ', xphi(0.35), T + 10 * dpr);
+  ctx.fillStyle = '#556'; ctx.fillText('ppg', R - 18 * dpr, B + 12 * dpr); ctx.fillText('ft TVDSS', 2 * dpr, T - 3 * dpr);
+  ctx.fillText(`mudline ${Math.round(dMin).toLocaleString()} ft`, L + 4 * dpr, y(dMin) + 11 * dpr);
+}
+
+// ---------------- panels ------------------------------------------------------------
+function buildParams() {
+  const box = $('params'); box.innerHTML = '';
+  for (const p of PARAMS) {
+    const div = document.createElement('div'); div.className = 'param';
+    const val = active.P[p.key], sv = p.log ? Math.log10(val) : val;
+    const off = p.startOnly && active.parent;
+    div.innerHTML = `<label>${p.name}<span id="v_${p.key}">${p.fmt(val)}</span></label><input type="range" min="${p.min}" max="${p.max}" step="${p.step}" value="${sv}"${off ? ' disabled' : ''}>${p.hint ? `<small>${p.hint}</small>` : ''}`;
+    const inp = div.querySelector('input');
+    const read = () => (p.log ? Math.pow(10, +inp.value) : +inp.value);
+    inp.addEventListener('input', () => { $(`v_${p.key}`).textContent = p.fmt(read()); });
+    inp.addEventListener('change', () => { active.P[p.key] = read(); busy(() => { recompute(active); updateView(); }); });
+    box.appendChild(div);
+  }
+  $('pBranch').textContent = active.name;
+  $('pNote').textContent = active.parent ? `Applies from ${maOf(active.kStart)} onward; earlier history is shared with ${active.parent.name}.` : 'Applies to the whole run.';
+}
+const maOf = (k) => `${((DUR - k * DT) / 1e6).toFixed(2)} Ma`;
+function buildBranches() {
+  const box = $('branches'); box.innerHTML = '';
+  for (const b of branches) {
+    const d = document.createElement('div'); d.className = 'br' + (b === active ? ' act' : '');
+    d.innerHTML = `<span class="sw" style="background:${b.color}"></span><span class="nm">${b.name}<small>${b.parent ? `from ${b.parent.name} at ${maOf(b.kStart)}` : 'full run'} · ${Math.round(b.runMs)} ms</small></span>${b.parent ? '<button title="Delete branch">✕</button>' : ''}`;
+    d.querySelector('.nm').onclick = () => { active = b; if (compare === b) compare = null; buildBranches(); buildParams(); render(); };
+    const del = d.querySelector('button');
+    if (del) del.onclick = () => { const kill = new Set([b]); let grew = true; while (grew) { grew = false; for (const c of branches) if (!kill.has(c) && kill.has(c.parent)) { kill.add(c); grew = true; } } branches = branches.filter((c) => !kill.has(c)); if (kill.has(active)) active = branches[0]; if (kill.has(compare)) compare = null; buildBranches(); buildParams(); render(); };
+    box.appendChild(d);
+  }
+  const sel = $('cmp'); const cur = compare ? compare.id : '';
+  sel.innerHTML = '<option value="">none</option>' + branches.filter((b) => b !== active).map((b) => `<option value="${b.id}">${b.name}</option>`).join('');
+  sel.value = compare && compare !== active ? cur : '';
+  $('bBranch').disabled = branches.length >= 4;
+}
+function renderTables(st) {
+  const mb = E.massBalance(st, paramsAt(active, curK));
+  const km2 = (v) => (v / 1e6).toFixed(3) + ' km²';
+  $('mb').innerHTML = `<tr><td>Supplied</td><td class="num">${km2(mb.supplied)}</td></tr><tr><td>Stored in section</td><td class="num">${km2(mb.stored)}</td></tr><tr><td>Exported basinward</td><td class="num">${km2(mb.exported)}</td></tr>
+    <tr><td>Imbalance, all sediment</td><td class="num">${mb.relError.toExponential(1)}</td></tr><tr><td>Imbalance, sand only</td><td class="num">${mb.sandRelError.toExponential(1)}</td></tr>
+    <tr><td>Salt now / at start</td><td class="num">${km2(mb.saltVol)} / ${km2(mb.saltInit)}</td></tr><tr><td>Imbalance, salt</td><td class="num">${mb.saltRelError.toExponential(1)}</td></tr>
+    <tr><td colspan=2 class="note">Areas of solid grains in the section (m² = m³ per metre of margin). Imbalance is relative to supply; ~1e-14 is rounding.</td></tr>`;
+  $('perf').innerHTML = `<tr><td>Full 3 Myr run (${active.name})</td><td class="num">${Math.round(active.runMs)} ms</td></tr><tr><td>Last time jump (replay)</td><td class="num">${perf.scrub.toFixed(0)} ms</td></tr><tr><td>Draw section</td><td class="num">${perf.render.toFixed(0)} ms</td></tr>`;
+}
+
+// ---------------- main render -----------------------------------------------------
+function render() {
+  const t0 = performance.now();
+  const st = stateAt(active, curK);
+  perf.scrub = performance.now() - t0;
+  const t1 = performance.now();
+  renderSection($('sec'), active, curK);
+  perf.render = performance.now() - t1;
+  const P = paramsAt(active, curK);
+  $('secTitle').innerHTML = `<b style="color:${active.color}">${active.name}</b> at ${maOf(curK)} · sea level ${E.seaLevel(P, curK * DT).toFixed(0)} m · turbidite share of supply ${Math.round(100 * (st.tcShare || 0))} %`;
+  if (compare && compare !== active) {
+    $('cmpWrap').style.display = '';
+    const s2 = renderSection($('sec2'), compare, curK);
+    $('sec2Title').innerHTML = `<b style="color:${compare.color}">${compare.name}</b> at ${maOf(curK)} · sea level ${E.seaLevel(paramsAt(compare, curK), curK * DT).toFixed(0)} m · turbidite share ${Math.round(100 * (s2.tcShare || 0))} %`;
+  } else $('cmpWrap').style.display = 'none';
+  const st2 = stateAt(active, curK);
+  renderWell(st2, P);
+  renderSL();
+  renderTables(st2);
+  $('scrub').value = curK;
+  $('ageLbl').textContent = `${maOf(curK)}  ·  ${(curK * DT / 1e6).toFixed(2)} Myr since start`;
+  const lg = $('leg').getContext('2d');
+  for (let x = 0; x < 180; x++) { lg.fillStyle = `rgb(${ramp(mode, x / 179)})`; lg.fillRect(x, 0, 1, 12); }
+  $('legTxt').textContent = LEG[mode];
+}
+
+function busy(fn) { $('busy').style.display = 'flex'; setTimeout(() => { try { fn(); } finally { $('busy').style.display = 'none'; buildBranches(); render(); } }, 30); }
+
+// ---------------- checks -------------------------------------------------------------
+function runChecks() {
+  const rows = [];
+  const add = (ok, name, detail) => rows.push(`<tr><td class="${ok ? 'pass' : 'fail'}">${ok ? 'PASS' : 'FAIL'}</td><td>${name}<div class="note">${detail}</div></td></tr>`);
+  const gib = {};
+  for (const T of [0.1, 1, 10]) {
+    const num = E.gibsonNumeric(T, 400); let mx = 0;
+    num.X.forEach((x, i) => { mx = Math.max(mx, Math.abs(num.U[i] - E.gibsonAnalytic(x, T))); });
+    gib[T] = num;
+    add(mx < 0.02, `Pore pressure vs Gibson (1958), T=${T}`, `max error ${mx.toFixed(4)} of overburden`);
+  }
+  for (const [lith, nm] of [[0, 'sand'], [1, 'mud']]) {
+    const r = E.drainedColumn(lith, 3000);
+    const p = r.profile.reduce((a, b) => Math.abs(b.z - 2000) < Math.abs(a.z - 2000) ? b : a);
+    add(r.maxLam < 0.01, `Drained ${nm} stays hydrostatic`, `porosity at 2 km ${p.phi.toFixed(3)} vs Sclater & Christie (1980) ${p.sc.toFixed(3)}`);
+  }
+  for (const [mode, eta, nRec] of [[1, 1e17, 200], [8, 1e18, 40]]) {
+    const r = E.saltRelaxation(mode, eta, nRec);
+    add(Math.abs(r.relErr) < 0.02, `Salt flow vs lubrication theory, ${200 / mode} km bump`, `decay rate off by ${(r.relErr * 100).toFixed(2)} % (bump halves in ${(r.efoldYr * Math.LN2 / 1e3).toFixed(0)} kyr at ${eta.toExponential(0)} Pa·s)`);
+  }
+  { const r = E.saltLoadStep(); add(Math.abs(r.phiErr) < 1e-9 && Math.abs(r.qErr) < 0.01, 'Salt flux under a load step vs hand calculation', `pressure step ${(r.dPhi / 1e6).toFixed(3)} MPa (hand ${(r.dPhiHand / 1e6).toFixed(3)}); flux off by ${(r.qErr * 100).toFixed(2)} %`); }
+  // determinism: replay 30 steps from a snapshot and compare with the stored next snapshot
+  const keys = [...active.snaps.keys()].filter((k) => k + SNAP <= NSTEPS && active.snaps.has(k + SNAP));
+  if (keys.length) {
+    const k0 = keys[Math.floor(keys.length / 2)], tmp = E.createState(active.P);
+    E.restore(active.snaps.get(k0), tmp, active.P);
+    while (tmp.k < k0 + SNAP) E.step(tmp, active.P);
+    const ref = active.snaps.get(k0 + SNAP), now = E.snapshot(tmp);
+    const same = ['sand', 'mud', 'smax', 'u', 'b', 'hs'].every((key) => ref[key].every((v, i) => v === now[key][i]));
+    add(same, 'Rewind/replay is exact', `replayed ${maOf(k0)} → ${maOf(k0 + SNAP)} and compared every cell bit-for-bit`);
+  }
+  const mb = E.massBalance(stateAt(active, NSTEPS), active.P);
+  add(Math.abs(mb.relError) < 1e-9 && Math.abs(mb.sandRelError) < 1e-9, 'Sediment mass conserved', `end of run: total ${mb.relError.toExponential(1)}, sand ${mb.sandRelError.toExponential(1)}`);
+  add(Math.abs(mb.saltRelError) < 1e-12 && mb.saltClip === 0, 'Salt volume conserved', `end of run: ${mb.saltRelError.toExponential(1)}`);
+  $('checks').innerHTML = rows.join('');
+  drawGibson(gib);
+  stateAt(active, curK);
+}
+function drawGibson(gib) {
+  const cv = $('gib'); cv.style.display = ''; const { dpr, W, H } = fitCanvas(cv), ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+  const L = 30 * dpr, B = H - 18 * dpr, x = (u) => L + u * (W - L - 8 * dpr), y = (z) => B - z * (B - 8 * dpr);
+  ctx.strokeStyle = '#ccd'; ctx.strokeRect(L, 8 * dpr, W - L - 8 * dpr, B - 8 * dpr);
+  ctx.font = `${10 * dpr}px system-ui`; ctx.fillStyle = '#556';
+  ctx.fillText('excess pressure / overburden →', L + 20 * dpr, H - 4 * dpr); ctx.save(); ctx.translate(10 * dpr, B - 10 * dpr); ctx.rotate(-Math.PI / 2); ctx.fillText('height / thickness →', 0, 0); ctx.restore();
+  const cols = { 0.1: '#2da44e', 1: '#1f6feb', 10: '#d93f0b' };
+  for (const T of [0.1, 1, 10]) {
+    ctx.strokeStyle = cols[T]; ctx.lineWidth = 1.5 * dpr; ctx.beginPath();
+    for (let i = 0; i <= 50; i++) { const z = i / 50, u = E.gibsonAnalytic(z, T); i ? ctx.lineTo(x(u), y(z)) : ctx.moveTo(x(u), y(z)); }
+    ctx.stroke(); ctx.fillStyle = cols[T];
+    gib[T].X.forEach((z, i) => { if (i % 20 === 10) { ctx.beginPath(); ctx.arc(x(gib[T].U[i]), y(z), 2.5 * dpr, 0, 7); ctx.fill(); } });
+    const u0 = E.gibsonAnalytic(0.02, T); ctx.fillText(`T=${T}`, x(u0) + 4 * dpr, y(0.08));
+  }
+  $('gibNote').textContent = 'Lines: exact solution (Gibson 1958). Dots: this model\'s solver. T = (deposition rate)² × time ÷ consolidation coefficient; high T = fast burial, poor drainage.';
+}
+
+// ---------------- wiring --------------------------------------------------------------
+function setK(k) { curK = Math.max(0, Math.min(NSTEPS, k)); render(); }
+$('scrub').max = NSTEPS;
+$('scrub').addEventListener('input', (e) => setK(+e.target.value));
+$('bStart').onclick = () => setK(0); $('bEnd').onclick = () => setK(NSTEPS);
+$('bBack').onclick = () => setK(curK - 1); $('bFwd').onclick = () => setK(curK + 1);
+$('bPlay').onclick = () => {
+  playing = !playing; $('bPlay').textContent = playing ? '❚❚ Pause' : '▶ Play';
+  if (playing && curK >= NSTEPS) curK = 0;
+  const tick = () => { if (!playing) return; setK(curK + +$('speed').value); if (curK >= NSTEPS) { playing = false; $('bPlay').textContent = '▶ Play'; return; } requestAnimationFrame(tick); };
+  if (playing) requestAnimationFrame(tick);
+};
+document.querySelectorAll('[data-mode]').forEach((b) => b.onclick = () => { mode = b.dataset.mode; document.querySelectorAll('[data-mode]').forEach((c) => c.classList.toggle('on', c === b)); render(); });
+for (const id of ['sec', 'sec2']) $(id).addEventListener('click', (e) => { const r = e.target.getBoundingClientRect(); wellJ = Math.max(0, Math.min(NX - 1, Math.floor((e.clientX - r.left) / r.width * NX))); render(); });
+$('bBranch').onclick = () => {
+  const par = owner(active, curK);
+  const b = makeBranch(par, curK, E.clone(par.P));
+  branches.push(b); compare = active; active = b;
+  busy(() => { computeBranch(b); }); buildParams();
+};
+$('cmp').onchange = (e) => { compare = branches.find((b) => String(b.id) === e.target.value) || null; render(); };
+$('bChecks').onclick = () => busy(runChecks);
+window.addEventListener('resize', () => render());
+
+// ---------------- start -----------------------------------------------------------------
+const base = makeBranch(null, 0, E.clone(BASE));
+branches.push(base); active = base;
+buildParams();
+busy(() => { computeBranch(base); updateView(); });
+window.__strata = { E, branches: () => branches, stateAt, setK, recompute, updateView, render, get active() { return active; } };
+</script>
+</body>
+</html>

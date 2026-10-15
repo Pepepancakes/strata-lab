@@ -5,14 +5,15 @@ Update it whenever something here changes, in the same commit as the change.
 
 ## Where things stand
 - 2026-10-14: spike 001 (2D deepwater shelf-to-basin) built and accepted. John said go for a core
-  project. Repo created, docs written. Next: spike 002 (salt), in chat. After that, M1 cards are
-  proposed for John's approval.
+  project. Repo created, docs written. Spike 002 (salt) built the same day; see
+  `spikes/002-salt/README.md`. Waiting on John's look at it. Then M1 cards go to John for approval.
 
 ## How to run what exists
 - Open `spikes/001-shelf-to-basin/dist/strata-spike-001.html` in a browser. It is one offline file.
 - `node spikes/001-shelf-to-basin/test.js` runs the physics checks: Gibson, drained compaction,
   mass balance, speed, determinism. It should end `ALL PASS`.
 - `node spikes/001-shelf-to-basin/build.js` rebuilds the HTML from `engine.js` + `app.html`.
+- Spike 002 works the same way: `spikes/002-salt/` (`test.js`, `build.js`, `grid_check.js`).
 - Requires Node 22 or newer (developed on Node 26).
 
 ## Known traps
@@ -24,5 +25,7 @@ Update it whenever something here changes, in the same commit as the change.
   other breaks determinism by rounding error, and the determinism test catches it.
 - **Snapshot memory.** Spike 001 snapshots are full copies (about 75 MB of heap per branch at one
   snapshot per 75 kyr). M1 should store changed layers only, or cap the number of branches.
+- **Thin-sheet salt has no diapir width.** Under a heavy cover the narrowest bumps grow fastest,
+  so diapirs collapse to 1–4 grid cells. Always run a grid-refinement check on salt structures.
 - **Headless screenshots.** To check the UI, drive headless Chrome over CDP with a separate
   `--user-data-dir`. John's own Edge profile is locked while Edge is open.

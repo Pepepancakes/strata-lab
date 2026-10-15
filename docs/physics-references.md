@@ -46,7 +46,13 @@ Papers themselves go in the git-ignored `References/` folder, never in git.
     *Earth-Sci. Rev.* 82, 1–28.
   - Gemmer, L. et al. (2004). Salt tectonics driven by differential sediment loading.
     *Basin Research* 16 (to verify).
-  - Salt viscosity, roughly 1e17–1e19 Pa·s (to verify).
+  - Ge, H., Jackson, M.P.A. & Vendeville, B.C. (1997). Kinematics and dynamics of salt tectonics
+    driven by progradation. *AAPG Bull.* 81(3) (to verify). Expulsion ahead of a wedge, spike 002.
+  - Salt density 2,160 kg/m³ (halite; Hudec & Jackson 2007). Used in spike 002.
+  - Salt viscosity, roughly 1e17–1e19 Pa·s (to verify). Spike 002 default 1e17 is **tuned** to
+    the fast end so that flow shows in 3 Myr.
+  - Spike 002 benchmarks: decay of a thickness bump vs linear lubrication theory
+    (rate = h³(ρ_salt−ρ_w)g k²/12η); load-step Poiseuille flux vs hand calculation.
 - **Fracture gradient (M4).**
   - Eaton, B.A. (1969). Fracture gradient prediction and its application in oilfield operations.
     *JPT* 21(10).
