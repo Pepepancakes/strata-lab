@@ -14,5 +14,6 @@ Docs:
 - `docs/agent-guide.md`: rules for anyone working on the code.
 - `docs/roadmap.md`, `docs/decisions.md`, `docs/handover.md`.
 - `docs/physics-references.md`: the source for every equation and parameter.
+- `docs/user-guide.md`: how to use the app, written for the geologist (checked against the app by `tests/docs.test.ts`).
 
 Synthetic examples only. Private project.

@@ -1,0 +1,69 @@
+{
+  "errors": [],
+  "externalRequests": [],
+  "controls": {
+    "total": 49,
+    "withoutSource": [],
+    "tags": {
+      "tuned": 37,
+      "cited": 9,
+      "to verify": 3
+    },
+    "schedule": "Time steps: 5 kyr steps back to 3 Ma (600 steps). tuned"
+  },
+  "checks": "{\"summary\":\" ALL PASS (8/8, 196 ms)\",\"rows\":[\"PASS Consolidation vs Gibson (1958), T = 0.1 | 4.32e-6 (limit 0.001 of overburden) | Largest difference in excess pore pressure between the engine and the exact solution for a layer growing at a constant rate. | Source: Gibson, R.E. (1958). The progress of consolidation in a clay layer increasing in thickness with time. Geotechnique 8(4), 171-182.\",\"PASS Consolidation vs Gibson (1958), T = 1 | 8.10e-5 (limit 0.001 of overburden) | Largest difference in excess pore pressure between the engine and the exact solution for a layer growing at a constant rate. | Source: Gibson, R.E. (1958). The progress of consolidation in a clay layer increasing in thickness with time. Geotechnique 8(4), 171-182.\",\"PASS Consolidation vs Gibson (1958), T = 10 | 1.41e-4 (limit 0.001 of overburden) | Largest difference in excess pore pressure between the engine and the exact solution for a layer growing at a constant rate. | Source: Gibson, R.E. (1958). The progress of consolidation in a clay layer increasing in thickness with time. Geotechnique 8(4), 171-182.\",\"PASS Drained sand porosity at 2 km vs Sclater & Christie (1980) | 0.00439 (limit 0.02 porosity) | Engine porosity at 2 km burial against 0.286 from the published curve, with the column kept hydrostatic (largest overpressure ratio 2.6e-8). | Source: Sclater, J.G. & Christie, P.A.F. (1980). Continental stretching: an explanation of the post-mid-Cretaceous subsidence of the central North Sea Basin. JGR 85(B7), 3711-3739.\",\"PASS Drained mud porosity at 2 km vs Sclater & Christie (1980) | 0.0179 (limit 0.02 porosity) | Engine porosity at 2 km burial against 0.227 from the published curve, with the column kept hydrostatic (largest overpressure ratio 5.3e-14). | Source: Sclater, J.G. & Christie, P.A.F. (1980). Continental stretching: an explanation of the post-mid-Cretaceous subsidence of the central North Sea Basin. JGR 85(B7), 3711-3739.\",\"PASS Mass balance, sand only | 2.66e-15 (limit 1.00e-9 relative) | Sand stored in the record against sand supplied minus sand removed, over a 1 Myr coupled run. | Source: Project rule (docs/agent-guide.md, principle 1): mass is conserved per grain size, not only in total.\",\"PASS Mass balance, mud only | 1.58e-15 (limit 1.00e-9 relative) | Mud stored in the record against mud supplied minus mud removed, over a 1 Myr coupled run. | Source: Project rule (docs/agent-guide.md, principle 1): mass is conserved per grain size, not only in total.\",\"PASS Rewind is bit-identical | 0 (limit 1 differences) | Record restored from a saved state and replayed to step 63 against the same step of an uninterrupted run (0 = identical). | Source: Project rule (docs/agent-guide.md, principle 2): same inputs give bit-identical results.\"]}",
+  "files": [
+    "m1-last3-curve-grain-canvas.png",
+    "m1-last3-curve-grain-page.png",
+    "m1-last3-curve-age-canvas.png",
+    "m1-last3-curve-phi-canvas.png",
+    "m1-last3-curve-op-canvas.png",
+    "m1-last3-curve-temp-canvas.png",
+    "m1-last3-sine-grain-canvas.png",
+    "m1-last3-sine-grain-page.png",
+    "m1-last3-sine-age-canvas.png",
+    "m1-last3-sine-phi-canvas.png",
+    "m1-last3-sine-op-canvas.png",
+    "m1-last3-sine-temp-canvas.png",
+    "m1-miocene-curve-grain-canvas.png",
+    "m1-miocene-curve-grain-page.png",
+    "m1-miocene-curve-age-canvas.png",
+    "m1-miocene-curve-phi-canvas.png",
+    "m1-miocene-curve-op-canvas.png",
+    "m1-miocene-curve-temp-canvas.png",
+    "m1-miocene-sine-grain-canvas.png",
+    "m1-miocene-sine-grain-page.png",
+    "m1-miocene-sine-age-canvas.png",
+    "m1-miocene-sine-phi-canvas.png",
+    "m1-miocene-sine-op-canvas.png",
+    "m1-miocene-sine-temp-canvas.png",
+    "m1-checks-page.png",
+    "m1-branch-page.png",
+    "spike-last3-sine-grain-canvas.png",
+    "spike-last3-sine-grain-page.png",
+    "spike-last3-sine-age-canvas.png",
+    "spike-last3-sine-phi-canvas.png",
+    "spike-last3-sine-op-canvas.png"
+  ],
+  "last3-curve": {
+    "seaCredit": "In use at 0.00 Ma: Bintanja & van de Wal (2008). Bintanja, R. & van de Wal, R.S.W. (2008). North American ice-sheet dynamics and the onset of 100,000-year glacial cycles. Nature 454, 869-872. doi:10.1038/nature07158. Data: Bintanja & van de Wal (2011), NOAA/WDS Paleoclimatology, Global 3Ma Temperature, Sea Level, and Ice Volume Reconstructions.",
+    "runMs": "1538 ms",
+    "balance": "\tsupplied\tstored\texported\timbalance\nAll sediment\t60.000\t58.461\t1.539\t-7.5e-13\nSand only\t21.000\t21.000\t0.000\t-3.9e-13"
+  },
+  "last3-sine": {
+    "seaCredit": "In use at 0.00 Ma: Teaching sine (40 m amplitude, 100 kyr period). Not a measured record: a simple sine used to teach and to compare with spike 001 (tuned).",
+    "runMs": "1635 ms",
+    "balance": "\tsupplied\tstored\texported\timbalance\nAll sediment\t60.000\t58.526\t1.474\t7.1e-13\nSand only\t21.000\t21.000\t0.000\t2.2e-14"
+  },
+  "miocene-curve": {
+    "seaCredit": "In use at 0.00 Ma: Bintanja & van de Wal (2008). Bintanja, R. & van de Wal, R.S.W. (2008). North American ice-sheet dynamics and the onset of 100,000-year glacial cycles. Nature 454, 869-872. doi:10.1038/nature07158. Data: Bintanja & van de Wal (2011), NOAA/WDS Paleoclimatology, Global 3Ma Temperature, Sea Level, and Ice Volume Reconstructions.",
+    "runMs": "2369 ms",
+    "balance": "\tsupplied\tstored\texported\timbalance\nAll sediment\t460.000\t459.951\t0.049\t-1.2e-11\nSand only\t161.000\t161.000\t0.000\t-1.5e-11"
+  },
+  "miocene-sine": {
+    "seaCredit": "In use at 0.00 Ma: Teaching sine (40 m amplitude, 100 kyr period). Not a measured record: a simple sine used to teach and to compare with spike 001 (tuned).",
+    "runMs": "2248 ms",
+    "balance": "\tsupplied\tstored\texported\timbalance\nAll sediment\t460.000\t459.946\t0.054\t-2.8e-12\nSand only\t161.000\t161.000\t0.000\t-7.5e-12"
+  },
+  "branchState": "{\"lis\":[\"Main run | own 14.8 MB |  compare with active\",\"Branch from 1.5 Ma | own 14.8 MB | Delete\"],\"lockedStartOnly\":13}"
+}

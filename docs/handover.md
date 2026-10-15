@@ -29,3 +29,24 @@ Update it whenever something here changes, in the same commit as the change.
   so diapirs collapse to 1–4 grid cells. Always run a grid-refinement check on salt structures.
 - **Headless screenshots.** To check the UI, drive headless Chrome over CDP with a separate
   `--user-data-dir`. John's own Edge profile is locked while Edge is open.
+
+## M1.3 engine port (2026-10-14)
+- Spike 001 physics now lives in `src/engine` (`transport`, `turbidites`, `subsidence`, `compaction`, `step`); results are bit-identical to the spike on the default run.
+- `node scripts/spike001-golden.mjs` rewrites `tests/golden/spike001-default.json` from the spike. Only do that if the spike itself changes.
+- Cached porosity, permeability and loads are NOT in the record. `restoreEngine` rebuilds them from `smax` and the stored thicknesses; `buoyantLoad()` in `compaction.ts` is the one load expression shared by compaction and restore.
+- Salt cells are skipped by transport and compaction: they stop erosion, the active layer and the load. Salt weight on the sediment below is not counted until M3.
+
+## M1.4b long runs (2026-10-14)
+- Presets live in `src/engine/presets.ts` (`PRESETS`, `getPreset`, `presetParams`, `presetSchedule`): last 3 Myr (default, bundling off), Miocene 23 Myr (400 columns, bundling every 10), Cenozoic 66 Myr (400 columns, bundling every 20).
+- Bundled deep compaction (params `bundleEvery`, `bundleAgeYr`; `compactStep` in `step.ts`): layers younger than `bundleAgeYr` are consolidated every step, older ones once per `bundleEvery` steps with the summed time. The record still holds every layer. Off when `bundleEvery` is 1 (default) and always off in the Gibson `linear` mode.
+- **Trap: with bundling on, cached loads of deep layers lag, so `ld` cannot be rebuilt from the record.** `snapshotEngine` stores `ld` when `eng.lagLoads` is true and `restoreEngine` puts it back. Do not "simplify" this: a rewind from the middle of a cycle is no longer bit-identical without it (test in `tests/longruns.test.ts`).
+- **Trap: bundled runs keep `rec.H` as a running value** (`H += bulk change of the updated layers`) and recompute it exactly only on the full-solve step. `restoreEngine` therefore does not call `recomputeH` for bundled snapshots. Anything that changes cell thickness outside `step()` must call `recomputeH`.
+- **Trap: coupled ON/OFF comparisons are limited by chaos, not by bundling.** A 1e-7 relative change in supply moves H by 4 m on the 12 Myr default run (60 m on a coarse 60-column grid), more than the bundling does. Compare bundling with a prescribed deposition (no transport), as `tests/longruns.test.ts` does. `STRATA_SLOW=1` runs the coupled comparison against the chaos floor.
+
+## M1.7 scenario files and autosave (2026-10-14)
+- `*.strata.json` v1 is the RECIPE (preset, seed, grid, duration, time steps, main-run overrides, branch tree with edits, final stateHash per branch). Code: `src/app/scenarioFile.ts` (build, parse and validate by hand, compareHashes), `src/worker/scenarioReplay.ts` (rebuild on a TimeMachine; worker request `openScenario`; `hashes` gives the hashes for Save).
+- Branch ids inside a file only link parents. A reopened scenario gets dense new ids (deleting a branch leaves a gap, rebuilding does not). Never key anything outside the file on them.
+- Autosave (`src/app/autosave.ts`) writes the same recipe, without hashes, to localStorage (`strata-lab.autosave.v1`), debounced 800 ms and flushed on pagehide. Restore recomputes it like Open.
+- Replace warning (`src/app/replaceGuard.ts`): New, Open and Reset warn when there are changes not saved to a file; preset, run-length and main-run edits warn only when they would drop branches.
+- Raise `ENGINE_VERSION` in `src/version.ts` by hand when an engine change alters results, and rewrite the fixture: `STRATA_WRITE_FIXTURE=1 npm run test:run -- scenarioFile` (tests/fixtures/scenario-v1.strata.json is a golden for the hashes).
+- `node scripts/verify-scenario-built.mjs` checks the round trip in the built file (real download through CDP).
