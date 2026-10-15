@@ -1,15 +1,96 @@
-// Pure request -> response function. The worker entry only wires it to postMessage,
+// Request -> response logic of the engine worker. The worker entry only wires it to postMessage,
 // so it can be unit-tested without a worker.
+//
+// EngineHost keeps the time machine (the one working engine and the saved states of every branch).
+// It handles one request at a time; a long request (run, branch) reports progress through `emit`
+// while it runs. Failures come back as { kind: 'error', message } in plain language.
 import { sumFloat64 } from '../engine/sum'
+import { runChecks } from './checks'
 import type { EngineRequest, EngineResponse } from './protocol'
+import { TimeMachine } from './timeMachine'
 
-export function handleRequest(req: EngineRequest): EngineResponse {
-  switch (req.kind) {
-    case 'ping':
-      return { id: req.id, kind: 'pong', payload: req.payload }
-    case 'sum':
-      return { id: req.id, kind: 'sum', total: sumFloat64(req.values) }
-    default:
-      return { id: (req as { id: number }).id, kind: 'error', message: 'unknown request kind' }
+/** Millisecond clock for reporting (worker code, not engine code). */
+const now = (): number => performance.now()
+
+export class EngineHost {
+  private tm = new TimeMachine()
+  private hasRun = false
+
+  constructor(private emit: (r: EngineResponse) => void = () => {}) {}
+
+  setEmitter(emit: (r: EngineResponse) => void): void {
+    this.emit = emit
   }
+
+  handle(req: EngineRequest): EngineResponse {
+    const id = (req as { id: number }).id
+    try {
+      return this.dispatch(req)
+    } catch (e) {
+      return { id, kind: 'error', message: e instanceof Error ? e.message : String(e) }
+    }
+  }
+
+  private needRun(): void {
+    if (!this.hasRun) throw new Error('Nothing has been run yet. Start a run first.')
+  }
+
+  private dispatch(req: EngineRequest): EngineResponse {
+    const id = req.id
+    const progress = (branchId: string, step: number, nSteps: number) => this.emit({ id, kind: 'progress', branchId, step, nSteps })
+    switch (req.kind) {
+      case 'ping':
+        return { id, kind: 'pong', payload: req.payload }
+      case 'sum':
+        return { id, kind: 'sum', total: sumFloat64(req.values) }
+      case 'run': {
+        const t0 = now()
+        this.hasRun = false
+        const info = this.tm.run(req.spec, req.seed, progress)
+        this.hasRun = true
+        return { id, kind: 'runDone', info, branches: this.tm.list(), ms: now() - t0 }
+      }
+      case 'seek': {
+        this.needRun()
+        const t0 = now()
+        const view = this.tm.seek(req.branchId, req.step, req.fields, req.withHash)
+        return { id, kind: 'view', view, ms: now() - t0 }
+      }
+      case 'branch': {
+        this.needRun()
+        const t0 = now()
+        const branch = this.tm.branch(req.parentId, req.step, req.edits, req.label, progress)
+        return { id, kind: 'branched', branch, branches: this.tm.list(), ms: now() - t0 }
+      }
+      case 'deleteBranch': {
+        this.needRun()
+        const { freedBytes } = this.tm.deleteBranch(req.branchId)
+        return { id, kind: 'deleted', branchId: req.branchId, freedBytes, branches: this.tm.list() }
+      }
+      case 'compare': {
+        this.needRun()
+        const t0 = now()
+        const { a, b, diff } = this.tm.compare(req.a, req.b, req.step, req.fields)
+        return { id, kind: 'compared', a, b, diff, ms: now() - t0 }
+      }
+      case 'branches':
+        this.needRun()
+        return { id, kind: 'branchList', branches: this.tm.list(), liveBytes: this.tm.liveBytes() }
+      case 'runChecks': {
+        const t0 = now()
+        const results = runChecks()
+        return { id, kind: 'checks', results, allPass: results.every((r) => r.pass), ms: now() - t0 }
+      }
+      default:
+        return { id: (req as { id: number }).id, kind: 'error', message: 'unknown request kind' }
+    }
+  }
+}
+
+// One shared host, so callers of handleRequest (and the worker entry) keep one time machine.
+const shared = new EngineHost()
+
+export function handleRequest(req: EngineRequest, emit?: (r: EngineResponse) => void): EngineResponse {
+  if (emit) shared.setEmitter(emit)
+  return shared.handle(req)
 }
