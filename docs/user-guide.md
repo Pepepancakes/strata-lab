@@ -143,6 +143,17 @@ slope and coastal-plain diffusivities were tuned by eye, not calibrated to data.
 | **Sand grain diameter (cement surface area)** (mm) | 0.2 | tuned. Synthetic |
 | **Share of grain surface that is clean quartz** | 0.7 | tuned. Synthetic |
 
+**Slope stability** (M2.1; the controls exist, but the app does not draw the result until M2.4)
+| Control | Default (sand / mud) | Source |
+|---|---|---|
+| **Friction angle phi' (effective stress)** (deg) | 33 / 25 | to verify (Hampton et al. 1996). Muds about 20 to 30°, sands about 30 to 38° |
+| **Cohesion c' (effective stress)** (psi) | 0 / 0 | to verify (Hampton et al. 1996). Normally consolidated marine clay is near 0 |
+| **Stability search depth below the seafloor** (ft) | 984 (300 m) | tuned. How deep the factor-of-safety search goes |
+
+The factor of safety is the strength holding a slab of sediment in place divided by the pull of
+gravity along the slope. Below 1 the slab would slide. The engine works it out from the
+seafloor slope and the model's own pore pressure, so overpressure lowers it directly.
+
 Two things to know about the edit boxes:
 - **Subsidence history (piecewise factors)** has no boxes in the app yet. It is a list the
   engine accepts but the controls have no editor for, so the *history* choice of **Subsidence

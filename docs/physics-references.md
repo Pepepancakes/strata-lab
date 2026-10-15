@@ -124,6 +124,12 @@ citation come from `curveCreditAtAge(age)` and change with age.
 - Quartz cement: r = 1.98e-22 x 10^(0.022 T) mol/cm2/s (Walderhaug 1994), onset 70 C, surface area from grain size and clean-quartz share (both tuned, synthetic). Silica comes from outside the model: own mass-balance line. Cement fills sand pores, freezes the sand framework at the stress when cementation began. No chemical compaction of mud (no simple sourced law was found).
 - Temperature and cement are off by default (thermal = 0, cement = 0) so default runs stay bit-identical; update every thermalEvery steps (numerical saving).
 
+## M2.1 Slope stability (infinite slope)
+
+- FS = [c' + (sigma_v' cos^2 beta) tan phi'] / (gamma' z sin beta cos beta), slip surface parallel to the seafloor. gamma' z is the buoyant load of the consolidation solver; sigma_v' = that load minus the excess pore pressure `u` in the record. Form: Hampton, Lee & Locat (1996) and standard soil mechanics; written from memory of those texts, to verify against the paper.
+- Parameters: friction angle sand 33 deg, mud 25 deg (typical drained ranges: muds about 20-30, sands about 30-38; to verify). Cohesion 0 for both (normally consolidated marine clay is near 0; to verify). Search depth 300 m is a set-up choice (tuned).
+- Limits: drained strength only, no earthquake or undrained term, slope resolved only at column spacing, mixed cells average tan(phi') and c' by solid fraction. Benchmarks: tests/stability.test.ts (hand calculations to 1e-9).
+
 ## Set-up parameters and what the registry adds (M1.8)
 These are numerical or set-up choices, not measured quantities, so they are all **tuned** and the
 app labels them so: columns (`nx`, default 150), column width (`dx`, 1 km), run length
@@ -173,7 +179,7 @@ References (23):
 - `eaton-1969`: Eaton (1969)
 - `matthews-kelly-1967`: Matthews & Kelly (1967)
 
-Parameters (49), as `key`: status, reference id:
+Parameters (52), as `key`: status, reference id:
 - `nx`: tuned
 - `dx`: tuned
 - `duration`: tuned
@@ -223,4 +229,7 @@ Parameters (49), as `key`: status, reference id:
 - `cemTonset`: cited, walderhaug-1996
 - `cemGrain`: tuned
 - `cemSurf`: tuned, walderhaug-1996
+- `phiFric`: to-verify, hampton-1996
+- `cohesion`: to-verify, hampton-1996
+- `stabMaxDepth`: tuned
 <!-- registry-index:end -->

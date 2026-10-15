@@ -154,6 +154,14 @@ export const PARAMS: readonly ParamDef[] = [
     source: { kind: 'tuned', note: 'Fine sand, 0.2 mm. Sets the quartz surface area A = 6 (1 - phi) f / d; synthetic.' } },
   { key: 'cemSurf', label: 'Share of grain surface that is clean quartz', unit: '-', displayUnit: '-', default: 0.7, min: 0.05, max: 1, startOnly: false,
     source: { kind: 'tuned', refId: 'walderhaug-1996', note: 'Detrital quartz share times the share not covered by clay or mica coats (Walderhaug 1996 treats these as inputs). Synthetic.' } },
+
+  // ---- slope stability (M2.1) ----
+  { key: 'phiFric', label: "Friction angle phi' (effective stress)", unit: 'deg', displayUnit: 'deg', default: [33, 25], min: [15, 15], max: [45, 45], startOnly: false, components: SM,
+    source: { kind: 'to-verify', refId: 'hampton-1996', note: 'Typical drained values: marine muds about 20-30 deg, sands about 30-38 deg (soil-mechanics ranges as summarised for submarine slopes by Hampton et al. 1996; not checked against the paper). Defaults 33 and 25 are mid-range picks.' } },
+  { key: 'cohesion', label: "Cohesion c' (effective stress)", unit: 'Pa', displayUnit: 'psi', default: [0, 0], min: [0, 0], max: [1e5, 1e5], startOnly: false, components: SM,
+    source: { kind: 'to-verify', refId: 'hampton-1996', note: "Clean sand has c' = 0; normally consolidated marine clay has c' near 0 (Hampton et al. 1996; not checked against the paper). Raise the mud value to test cemented or overconsolidated muds." } },
+  { key: 'stabMaxDepth', label: 'Stability search depth below the seafloor', unit: 'm', displayUnit: 'ft', default: 300, min: 10, max: 2000, startOnly: false,
+    source: { kind: 'tuned', note: 'Search window for the lowest factor of safety (about 1,000 ft). A set-up choice.' } },
 ]
 
 const BY_KEY = new Map(PARAMS.map((p) => [p.key, p]))

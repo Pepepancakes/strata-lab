@@ -76,6 +76,12 @@ export interface EngineParams {
   cemTonset: number
   cemGrain: number
   cemSurf: number
+  /** Friction angle phi' [sand, mud], degrees (slope stability, M2.1). */
+  phiFric: Pair
+  /** Cohesion c' [sand, mud], Pa. */
+  cohesion: Pair
+  /** Slope-stability search depth below the seafloor, m. */
+  stabMaxDepth: number
 }
 
 /** Fresh copy of the registry defaults, typed. */
