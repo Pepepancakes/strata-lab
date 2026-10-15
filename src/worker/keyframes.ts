@@ -45,6 +45,8 @@ export interface Keyframe {
   events: FailureEvent[]
   /** Trigger history (M2.3). */
   hist: TriggerHistory
+  /** Age of the first weld of each column (M3.3). */
+  weldAge: Float64Array
 }
 
 /** True when the engine can be rebuilt exactly from a keyframe taken after `step` steps. */
@@ -130,6 +132,7 @@ export function packKeyframe(eng: EngineState, prev?: Keyframe): Keyframe {
     diag: { ...eng.diag },
     events: eng.events.slice(),
     hist: cloneHistory(eng.hist),
+    weldAge: eng.weldAge.slice(),
   }
 }
 
@@ -194,6 +197,7 @@ export function restoreKeyframe(kf: Keyframe, eng: EngineState, P: EngineParams,
   eng.diag = { ...kf.diag }
   eng.events = kf.events.slice()
   copyHistory(eng.hist, kf.hist)
+  eng.weldAge.set(kf.weldAge)
   eng.tempOk = kf.hasTemp
   rebuildCaches(eng, P)
   recomputeH(eng, P)

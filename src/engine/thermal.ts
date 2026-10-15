@@ -13,9 +13,19 @@
 //   * STEADY state only. Rapid burial cools the section (the sediment arrives cold and the heat
 //     takes time to catch up), so a real fast-burial margin is colder than this at depth. The
 //     Gulf of Mexico (Nagihara & Smith 2008) shows exactly this. Ignored here.
-//   * Conduction only: no fluid advection, no radiogenic heat inside the sediment, no salt effect
-//     (salt conducts 2-4x better than sediment; salt cells use SALT_K, a placeholder until M3).
-//   * Conductivity ignores quartz cement and the temperature dependence of k.
+//   * Conduction only: no fluid advection, no radiogenic heat inside the sediment.
+//   * Sediment conductivity ignores quartz cement and the temperature dependence of k.
+// Salt (M3.3). Salt cells have no pores and conduct 2-4x better than sediment (halite about
+// 5 to 6.5 W/m/K near the surface), falling with temperature (Clauser & Huenges 1995, to verify):
+//     k(T) = k0 / (0.99 + c T),   c = a - b / k0,   T in deg C     (saltK0, saltKa, saltKb)
+// With the heat flow q the same at every depth, dT/dz = q / k(T) = q (0.99 + c T) / k0 integrates
+// exactly (g = 0.99 + c T obeys dg/dz = (c q / k0) g):
+//     T(z) = T_top + g_top expm1(c q z / k0) / c        (c = 0: T_top + 0.99 q z / k0)
+// so the temperature across a salt cell needs no iteration. The effect in this 1D model: with the
+// same heat flow and surface temperature, the sediment ABOVE a salt body is unchanged; the
+// temperature rises more slowly through the salt, so everything BELOW the salt is cooler than in a
+// column where the salt is replaced by sediment. A warm roof above a salt body
+// comes from heat being drawn sideways into the salt (2D), which this model does not have.
 // Benchmark: tests/burial.test.ts compares steadyConduction() with the analytic profile for a
 // constant k and for two layers (< 0.01 deg C), and the engine's columns with both.
 // Parameter sources: params.ts (heat flow cited; conductivities to verify; seafloor T tuned).
@@ -26,8 +36,21 @@ import { SALT as SALT_TAG } from './record'
 import type { EngineState } from './state'
 
 const SALT = SALT_TAG
-/** Conductivity of salt cells, W/m/K. Placeholder (halite is roughly 6); salt does not exist before M3. */
-export const SALT_K = 6.0
+/** Salt conductivity at temperature tC (deg C), W/m/K: k0 / (0.99 + (a - b / k0) T). */
+export function saltConductivity(P: EngineParams, tC: number): number {
+  return P.saltK0 / (0.99 + (P.saltKa - P.saltKb / P.saltK0) * tC)
+}
+
+/**
+ * Temperature at depth z (m) below the top of a salt body whose top is at tTop (deg C), for the
+ * heat flow q (W/m^2): the exact solution of dT/dz = q / k(T) given in the header.
+ */
+export function saltTemperatureAt(P: EngineParams, tTop: number, q: number, z: number): number {
+  const c = P.saltKa - P.saltKb / P.saltK0
+  const gTop = 0.99 + c * tTop
+  if (c === 0) return tTop + (gTop * q * z) / P.saltK0
+  return tTop + (gTop * Math.expm1((c * q * z) / P.saltK0)) / c
+}
 
 /** Seafloor (or land surface) temperature, deg C, for a water depth in m (<= 0 = land or at sea level). */
 export function seafloorTemperature(P: EngineParams, waterDepthM: number): number {
@@ -79,8 +102,13 @@ export function columnTemperatures(
       out[l] = t
       continue
     }
+    if (rec.material[i] === SALT) {
+      out[l] = saltTemperatureAt(P, t, q, 0.5 * h)
+      t = saltTemperatureAt(P, t, q, h)
+      continue
+    }
     const s = rec.sand[i] + rec.mud[i]
-    const k = rec.material[i] === SALT ? SALT_K : cellConductivity(P, rec.sand[i], rec.mud[i], 1 - s / h)
+    const k = cellConductivity(P, rec.sand[i], rec.mud[i], 1 - s / h)
     const r = h / k
     out[l] = t + q * 0.5 * r
     t += q * r

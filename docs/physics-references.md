@@ -263,7 +263,7 @@ References (24):
 - `eaton-1969`: Eaton (1969)
 - `matthews-kelly-1967`: Matthews & Kelly (1967)
 
-Parameters (76), as `key`: status, reference id:
+Parameters (80), as `key`: status, reference id:
 - `nx`: tuned
 - `dx`: tuned
 - `duration`: tuned
@@ -340,4 +340,8 @@ Parameters (76), as `key`: status, reference id:
 - `coverSeed`: tuned
 - `coverBend`: tuned, turcotte-schubert
 - `coverVisc`: tuned, turcotte-schubert
+- `weldThick`: tuned, hudec-jackson-2007
+- `saltK0`: to-verify, clauser-huenges-1995
+- `saltKa`: to-verify, clauser-huenges-1995
+- `saltKb`: to-verify, clauser-huenges-1995
 <!-- registry-index:end -->

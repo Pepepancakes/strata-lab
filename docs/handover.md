@@ -86,3 +86,12 @@ Built as a chain `strata-lab/m2-01-stability` -> `m2-02-failure-runout` -> `m2-0
 - Same-step events stack their headwall labels in the section (#1 to #6 at 2.485 Ma in the preset). The right column was widened from 340 to 420 px for the event table. The 390 px phone width was not checked.
 - Screenshots of the built file: `docs/screenshots/m2-04/` (script `scripts/screenshots-m24.mjs`, `report.json` shows 0 console errors and 0 external requests).
 - `tests/docs.test.ts` now also checks the M2 control labels in the user guide. When you rename a label, rename it in section 13 of `docs/user-guide.md`.
+
+## M3.3 Welds and salt in the burial physics
+Code: `limitOutflow` in `src/engine/salt.ts`, `src/engine/saltIntervals.ts`, salt temperature in `src/engine/thermal.ts`; tests: `tests/welds.test.ts`.
+- Weld limiter: when a salt substep would leave a cell below 0, each cell's outgoing face flux is scaled by min(1, h / out). The same face flux is used both sides, so salt is conserved to rounding and `saltClip` stays 0. The M3.1 clip stays as a last guard. With no negative cell the step is untouched.
+- `weldAge` (state, `WELD_NONE` = -1): age of the first time a column went from >= `weldThick` to below it. Copied by snapshots and keyframes.
+- Salt temperature: exact steady conduction through a salt cell with k(T) = k0 / (0.99 + (a - b/k0) T). The coefficients a and b are marked to verify (halite not checked).
+- Salt weight is in `columnOverburden` (views). Compaction still does not add the weight of salt to sediment BELOW salt (canopies): not needed before M3.4.
+- Test at coarse steps: the limiter acts on thick cells too (a step-size guard); at the 20 kyr benchmark it acts only below 1 m.
+

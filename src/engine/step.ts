@@ -112,7 +112,7 @@ export function step(eng: EngineState, P: EngineParams, schedule: Schedule, seaL
     // Salt flow (M3.1): columns ride on the salt, so H follows the thickness change. Mid-cycle in a
     // bundled run H is a running value (a snapshot keeps it), so add the change. Everywhere else H is
     // the exact sum (restore and keyframes recompute it), so recompute: compactStep did so just before.
-    saltStep(eng, P, seaLevel(t0 + 0.5 * dtRec), dtRec)
+    saltStep(eng, P, seaLevel(t0 + 0.5 * dtRec), dtRec, schedule.stepAgeMa[k])
     const midCycle = bundlingOn(P) && (k + 1) % P.bundleEvery !== 0 && k !== schedule.nSteps - 1
     if (midCycle) for (let j = 0; j < nx; j++) rec.H[j] += eng.salt.dh[j]
     else recomputeH(eng, P)
@@ -199,10 +199,12 @@ export interface EngineSnapshot {
   events: FailureEvent[]
   /** Trigger history (M2.3). */
   hist: TriggerHistory
+  /** Age of the first weld of each column (M3.3). State, not derived. */
+  weldAge: Float64Array
 }
 
 export function snapshotEngine(eng: EngineState): EngineSnapshot {
-  const snap: EngineSnapshot = { record: snapshotRecord(eng.rec), diag: { ...eng.diag }, events: eng.events.slice(), hist: cloneHistory(eng.hist) }
+  const snap: EngineSnapshot = { record: snapshotRecord(eng.rec), diag: { ...eng.diag }, events: eng.events.slice(), hist: cloneHistory(eng.hist), weldAge: eng.weldAge.slice() }
   if (eng.lagLoads) snap.ld = eng.ld.slice(0, eng.rec.nLayers * eng.rec.nx)
   if (eng.tempOk) snap.temp = eng.temp.slice(0, eng.rec.nLayers * eng.rec.nx)
   return snap
@@ -214,6 +216,7 @@ export function restoreEngine(snap: EngineSnapshot, eng: EngineState, P: EngineP
   eng.diag = { ...snap.diag }
   eng.events = snap.events.slice()
   copyHistory(eng.hist, snap.hist)
+  eng.weldAge.set(snap.weldAge)
   eng.temp.fill(0)
   if (snap.temp) eng.temp.set(snap.temp)
   eng.tempOk = snap.temp !== undefined // otherwise rebuilt from the restored record at the next step

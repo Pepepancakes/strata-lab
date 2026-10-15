@@ -43,9 +43,26 @@
 // is taken at the middle of the step. The new thickness is written back to layer 0 and the
 // surface H is updated to match (step.ts).
 //
-// Clipping. A thickness that would go below 0 is set to 0 and the missing volume is counted in
-// diag.saltClip (and booked as salt coming in, so the ledger still closes). It must be 0 in every
-// benchmark of this card. Welds and their limiter come in M3.3.
+// Welds and the outflow limiter (M3.3). Mobility goes as h^3, so a thinning column slows down, but
+// an implicit step of finite length can still ask a cell for more salt than it holds. The flux
+// across every face is a difference of the solved thickness changes: with x_j the change of column
+// j, the flux (in metres of thickness, positive towards -x) is the running sum
+//     phi_f = x_0 + x_1 + ... + x_f ,     x_j = phi_j - phi_(j-1)
+// (zero at the ends; salt only leaves through faces). The cell that SENDS across a face is the one
+// the flux leaves: column f+1 if phi_f > 0, else column f. When a substep would leave any cell
+// below 0, each cell's total outgoing flux O_j = max(phi_(j-1), 0) + max(-phi_j, 0) is compared with
+// the salt it holds, h_j:
+//     lambda_j = min(1, h_j / O_j)        and every face flux is multiplied by lambda of its sender,
+//     h_j(new) = h_j + phi'_j - phi'_(j-1) >= 0         (inflow is never negative, outflow <= h_j).
+// The same face flux is used on both sides, so salt is conserved to rounding; nothing is clipped
+// and diag.saltClip stays 0. When no cell would go negative the limiter does not run and the step
+// is bit-identical to M3.2. diag.saltLimited, saltLimitedVol and saltLimitMaxH say how often, how
+// much and at what thickness it acted (it should act only near zero thickness).
+// The weld age. A column whose salt was at least weldThick thick at the start of a record step and
+// is thinner at its end is welded; weldAge[j] (state.ts) keeps the age (Ma) of the first time that
+// happened. Columns that were never that thick (the pinch-out edge) never count.
+// Clipping. The M3.1 clip (a thickness below 0 set to 0, counted in diag.saltClip and booked as salt
+// coming in) is kept as a last guard only; it must be 0 in every benchmark.
 //
 // Cover bending stiffness (M3.2). Thin-sheet flow alone makes the narrowest bumps grow fastest (spike
 // 002: diapirs 1 to 4 grid cells wide whatever the cell size). The sediment above the salt is treated
@@ -95,7 +112,7 @@ import type { EngineParams } from './engineParams'
 import { createRng } from './rng'
 import { SALT, type LayerRecord } from './record'
 import { bandIndex, solveBanded } from './banded'
-import type { EngineState, SaltScratch } from './state'
+import { WELD_NONE, type EngineState, type SaltScratch } from './state'
 import { thomas } from './thomas'
 
 /** Record layer that holds the salt (M3.1: only layer 0). */
@@ -307,8 +324,9 @@ function solveBent(eng: EngineState, c: number): void {
  * Move salt for one record step of dtYr years at sea level SL (m): `nSaltSub` substeps of the
  * semi-implicit scheme in the header. Writes the new thickness to layer 0 and the change per
  * column to eng.salt.dh (the caller adds it to the surface H). Does nothing when saltOn = 0.
+ * `ageMa` is the age at the end of the step; it is written to eng.weldAge for columns that weld in it.
  */
-export function saltStep(eng: EngineState, P: EngineParams, SL: number, dtYr: number): void {
+export function saltStep(eng: EngineState, P: EngineParams, SL: number, dtYr: number, ageMa = 0): void {
   const S = eng.salt
   if (P.saltOn !== 1) {
     S.dh.fill(0)
@@ -324,6 +342,8 @@ export function saltStep(eng: EngineState, P: EngineParams, SL: number, dtYr: nu
   const c = (dtYr * YR) / n / (dx * dx)
   const base = SALT_LAYER * nx
   for (let j = 0; j < nx; j++) h[j] = rec.mud[base + j]
+  const hStart = S.hs
+  hStart.set(h)
   saltSedimentLoads(eng, P)
   const bend = P.coverBend === 1 && P.coverVisc > 0 && nx >= 5
   if (bend) coverStiffness(eng, P, (dtYr * YR) / n)
@@ -344,6 +364,14 @@ export function saltStep(eng: EngineState, P: EngineParams, SL: number, dtYr: nu
       }
       thomas(nx, S.lo, S.di, S.up, S.rhs, S.x, S.cp, S.dp)
     }
+    let low = false
+    for (let j = 0; j < nx; j++) {
+      if (h[j] + S.x[j] < 0) {
+        low = true
+        break
+      }
+    }
+    if (low) limitOutflow(eng, h)
     for (let j = 0; j < nx; j++) {
       let t = h[j] + S.x[j]
       if (t < 0) {
@@ -357,6 +385,42 @@ export function saltStep(eng: EngineState, P: EngineParams, SL: number, dtYr: nu
   for (let j = 0; j < nx; j++) {
     S.dh[j] = h[j] - rec.mud[base + j]
     rec.mud[base + j] = h[j]
+    if (eng.weldAge[j] === WELD_NONE && hStart[j] >= P.weldThick && h[j] < P.weldThick) eng.weldAge[j] = ageMa
+  }
+}
+
+/**
+ * The weld limiter (header). Called when the solved change S.x would leave a cell below 0: cuts each
+ * cell's outgoing flux to the salt it holds and rewrites S.x so that h + x is the limited thickness.
+ * Uses S.cp for the face fluxes and S.dp for the factors (free after the solve).
+ */
+function limitOutflow(eng: EngineState, h: Float64Array): void {
+  const S = eng.salt
+  const nx = eng.rec.nx
+  const dx = eng.rec.dx
+  const phi = S.cp
+  const lam = S.dp
+  const x = S.x
+  let run = 0
+  for (let f = 0; f < nx - 1; f++) {
+    run += x[f]
+    phi[f] = run
+  }
+  for (let j = 0; j < nx; j++) {
+    const left = j > 0 ? Math.max(phi[j - 1], 0) : 0
+    const right = j < nx - 1 ? Math.max(-phi[j], 0) : 0
+    const out = left + right
+    lam[j] = out > h[j] ? h[j] / out : 1
+    if (lam[j] < 1) {
+      eng.diag.saltLimited++
+      eng.diag.saltLimitedVol += (out - h[j]) * dx
+      if (h[j] > eng.diag.saltLimitMaxH) eng.diag.saltLimitMaxH = h[j]
+    }
+  }
+  for (let f = 0; f < nx - 1; f++) phi[f] *= phi[f] > 0 ? lam[f + 1] : lam[f]
+  for (let j = 0; j < nx; j++) {
+    const t = h[j] + (j < nx - 1 ? phi[j] : 0) - (j > 0 ? phi[j - 1] : 0)
+    x[j] = (t > 0 ? t : 0) - h[j]
   }
 }
 

@@ -217,6 +217,15 @@ export const PARAMS: readonly ParamDef[] = [
     source: { kind: 'tuned', refId: 'turcotte-schubert', note: 'Switch. With 0 the salt flows as in M3.1 and the narrowest bumps grow fastest (diapir width = a few grid cells). With 1 the sediment above the salt acts as a viscous plate that resists bending, so a preferred width appears (salt.ts). Only matters when salt is on.' } },
   { key: 'coverVisc', label: 'Cover effective viscosity as a plate (salt on)', unit: 'Pa s', displayUnit: 'Pa s', default: 1e19, min: 1e17, max: 1e22, startOnly: false,
     source: { kind: 'tuned', refId: 'turcotte-schubert', note: 'Effective viscosity of the sediment above the salt, treated as one viscous plate. No published value for a sediment cover is in this project\'s references (to verify). 1e19 is 100 times the default salt viscosity: tuned, it gives a preferred diapir spacing of about 8 km under 1 km of cover over 1.5 km of salt (physics-references, M3.2).' } },
+  // ---- welds and salt in the burial physics (M3.3) ----
+  { key: 'weldThick', label: 'Weld: salt thinner than', unit: 'm', displayUnit: 'ft', default: 10, min: 0, max: 200, startOnly: false,
+    source: { kind: 'tuned', refId: 'hudec-jackson-2007', note: 'A weld is the surface left where salt has been squeezed out (Hudec & Jackson 2007: the place where the layers above and below the salt come back together, with at most a thin remnant). A column counts as welded once its salt is thinner than this. It only labels the column and records the age; the salt limiter (never below zero) does not depend on it.' } },
+  { key: 'saltK0', label: 'Salt thermal conductivity at 0 deg C', unit: 'W/m/K', displayUnit: 'W/m/K', default: 6.0, min: 4.5, max: 7, startOnly: false,
+    source: { kind: 'to-verify', refId: 'clauser-huenges-1995', note: 'Halite is about 5 to 6.5 W/m/K near the surface (to verify against the paper). That is 2 to 4 times the conductivity of the sediment, so salt conducts heat well and cools what lies below it.' } },
+  { key: 'saltKa', label: 'Salt conductivity falls with temperature: a', unit: '1/K', displayUnit: '1/K', default: 0.0030, min: 0, max: 0.01, startOnly: false,
+    source: { kind: 'to-verify', refId: 'clauser-huenges-1995', note: 'k(T) = k0 / (0.99 + T (a - b / k0)), T in deg C: the form Clauser & Huenges (1995) quote from Sass et al. (1992). a = 0.0030 and b = 0.0042 are the crystalline-rock coefficients as remembered, NOT checked for halite (to verify).' } },
+  { key: 'saltKb', label: 'Salt conductivity falls with temperature: b', unit: 'W/m/K^2', displayUnit: 'W/m/K^2', default: 0.0042, min: 0, max: 0.02, startOnly: false,
+    source: { kind: 'to-verify', refId: 'clauser-huenges-1995', note: 'See saltKa. With these two numbers a salt of 6 W/m/K at 0 C is about 5.3 W/m/K at 60 C.' } },
 ]
 
 const BY_KEY = new Map(PARAMS.map((p) => [p.key, p]))

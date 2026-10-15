@@ -128,6 +128,12 @@ export interface EngineParams {
   coverBend: number
   /** Effective viscosity of the cover as a viscous plate, Pa s (M3.2). */
   coverVisc: number
+  /** A column is welded once its salt is thinner than this, m (M3.3). */
+  weldThick: number
+  /** Salt conductivity at 0 deg C, W/m/K, and the coefficients of its fall with temperature (M3.3). */
+  saltK0: number
+  saltKa: number
+  saltKb: number
 }
 
 /** Fresh copy of the registry defaults, typed. */

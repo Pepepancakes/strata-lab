@@ -180,7 +180,7 @@ With the switch on, any column whose factor of safety falls below 1 fails: the s
 
 Why did it fail? (M2.3, rule changed in M2.7.) Every failure carries one trigger tag, worked out from the weakest column's change over the last 4 steps (20 kyr at 5 kyr steps). Nothing is imposed; the factor of safety falls for physical reasons and the tag says which one did most of it. Each of three terms (steeper sea floor, rising pore pressure, falling sea level) is divided by its own tuned threshold, and the term with the largest ratio wins if that ratio is at least 1: *oversteepening*, *rapid loading* (the pressure term, when the column gained sediment faster than the rapid-loading rate), *overpressure* (the pressure term, when loading was slow) or *lowstand*. If no ratio reaches 1 the tag is *mixed*. The tag does not change the physics; it is a label on the cause, and the list shows all three terms behind it (section 13.4). Failures that move almost nothing are flagged *stalled*, and failures cut by the search depth limit are flagged *window-limited* (section 13.4). The preset *Overpressured slope (MTD-prone)* turns failure on with mud permeability x0.1 and supply 30 m²/yr (both tuned) so there are events to look at. Limits: slopes under 0.5° and slip surfaces shallower than 10 m are not searched.
 
-Salt (M3.1; off by default, so the default run is unchanged)
+Salt (M3.1 to M3.3; off by default, so the default run is unchanged)
 
 | Control | Default | Source |
 |---|---|---|
@@ -194,8 +194,12 @@ Salt (M3.1; off by default, so the default run is unchanged)
 | Cover effective viscosity as a plate (salt on) (Pa s) | 1e19 | tuned. No published value for a whole cover is in the references (to verify). Widths scale as its 1/6 power |
 | Unevenness of the older cover (salt on) | 0 | start. tuned. Seeded random thickness variation of the older cover |
 | Seed of the cover unevenness | 1 | start. tuned |
+| Weld: salt thinner than (ft) | 32.8 (10 m) | tuned (allowed 0 to 656). Hudec & Jackson (2007). A column counts as welded once its salt, which was thicker, falls below this. A label and an age only |
+| Salt thermal conductivity at 0 deg C (W/m/K) | 6.0 | to verify (Clauser & Huenges 1995). Halite is about 5 to 6.5 near the surface, 2 to 4 times the sediment |
+| Salt conductivity falls with temperature: a (1/K) | 0.0030 | to verify (Clauser & Huenges 1995). Coefficients as remembered for crystalline rock, not checked for halite |
+| Salt conductivity falls with temperature: b (W/m/K^2) | 0.0042 | to verify (Clauser & Huenges 1995). See a |
 
-With salt on, the sediment loads the salt and squeezes it basinward; the cover above rides up and down on the salt. Salt volume is conserved and has its own line in the mass balance. The cover resists bending (M3.2), so the width of the structures is set by the cover viscosity and thickness, not by the cell size: check by halving the cell size. Welds are not in yet (M3.3).
+With salt on, the sediment loads the salt and squeezes it basinward; the cover above rides up and down on the salt. Salt volume is conserved and has its own line in the mass balance. The cover resists bending (M3.2), so the width of the structures is set by the cover viscosity and thickness, not by the cell size: check by halving the cell size. Welds (M3.3): salt can never go below zero thickness. When a long step would ask a cell for more salt than it holds, the outflow is cut to what the cell has, so nothing is clipped and salt stays conserved. A column whose salt falls below Weld: salt thinner than is welded, and its first weld age is kept (it rewinds with the run). Salt conducts heat well, so everything below salt is cooler in the Temperature colour mode and the pseudo-well, and the weight of salt counts in the overburden.
 
 Two things to know about the edit boxes:
 - **Subsidence history (piecewise factors)** has no boxes in the app yet. It is a list the
@@ -567,9 +571,7 @@ look right for an overpressured slope is your call. Nothing here is calibrated t
 - **Default overpressure is mild** (maximum about 14 % of the load, at 20 m²/yr supply). To see
   strong overpressure lower **Mud permeability multiplier** or raise **Sediment supply**.
 - **Salt is early (M3.2).** Salt flows under the sediment load when Salt layer is on (section 3.3) and the
-  cover resists bending, so a preferred width appears (it depends on the tuned cover viscosity). There
-  is no weld limiter, and salt
-  is not yet checked against a published field example.
+  cover resists bending, so a preferred width appears (it depends on the tuned cover viscosity). Welds are recorded (M3.3) but salt is not yet checked against a published field example.
 - **Supply and subsidence are tuned**, not taken from a published Gulf of America rate.
 - **Temperature is steady conduction.** It ignores the cooling effect of fast burial, so deep
   temperatures read too warm. Several thermal inputs are marked to verify.
