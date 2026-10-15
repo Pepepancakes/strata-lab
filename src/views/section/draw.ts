@@ -26,10 +26,18 @@ export function timeLineEveryMa(runLengthMa: number): number {
   return 5
 }
 
-function fitCanvas(cv: HTMLCanvasElement): { dpr: number; W: number; H: number } {
-  const dpr = window.devicePixelRatio || 1
+/** Display height of the section, CSS px. The canvas is styled to exactly this height. */
+export const SECTION_CSS_HEIGHT = 360
+
+/**
+ * Size the canvas backing store to its display size times the display scaling.
+ * The CSS height is passed in, never read back from the canvas: the `height`
+ * attribute IS the backing size, so reading it back multiplied it by the scaling
+ * on every redraw (runaway growth and a crash above 100% Windows scaling).
+ */
+export function fitCanvas(cv: HTMLCanvasElement, cssHeight: number, dpr: number = window.devicePixelRatio || 1): { dpr: number; W: number; H: number } {
   const w = Math.max(1, cv.clientWidth)
-  const h = Number(cv.getAttribute('height')) || 360
+  const h = cssHeight
   if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) {
     cv.width = Math.round(w * dpr)
     cv.height = Math.round(h * dpr)
@@ -45,7 +53,7 @@ function depthStepFt(rangeFt: number): number {
 }
 
 export function drawSection(cv: HTMLCanvasElement, v: StateView, o: SectionDrawOptions): void {
-  const { dpr, W, H } = fitCanvas(cv)
+  const { dpr, W, H } = fitCanvas(cv, SECTION_CSS_HEIGHT)
   const ctx = cv.getContext('2d')
   if (!ctx) return
   const nx = v.nx
