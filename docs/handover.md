@@ -21,6 +21,12 @@ Update it whenever something here changes, in the same commit as the change.
 - Requires Node 22 or newer (developed on Node 26).
 
 ## Known traps
+- **Canvas size at display scaling above 100%.** A canvas's `height` attribute is its backing
+  size, not its display size. Reading it back to size the canvas multiplied it by the scaling on
+  every redraw, and the resize observer triggered the next redraw. At 150% Windows scaling the
+  section grew past 350,000 px in 2 s and crashed the page (found by John on 2026-10-15). The
+  display height is now a constant (`SECTION_CSS_HEIGHT`), passed in. Every headless-browser check
+  must also run at 125% and 150% scaling (`deviceScaleFactor`), not only 100%.
 - **Per-grain-size mass balance.** Total mass can balance while the sand/mud split is wrong. The
   first sorting scheme in spike 001 swapped about 27% of supply between grain sizes without any
   error showing in the total. Always test sand-only (and later salt-only) balance.
