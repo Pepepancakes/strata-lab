@@ -49,6 +49,6 @@ Owner: John, a geohazards geologist planning deepwater wells, mostly in the Gulf
   Benchmarks and comparisons with published numbers have to carry the rest.
 
 ## Relationship to geoblock
-geoblock (`C:/Users/John/Projects/geoblock`) is kinematic: you describe the geometry and it draws
+geoblock (a sibling project by the same owner) is kinematic: you describe the geometry and it draws
 it. Strata Lab is process-based: you set conditions and the geometry emerges. They are separate
 for now. A later link (for example, exporting a Strata Lab section into geoblock) is in the backlog.

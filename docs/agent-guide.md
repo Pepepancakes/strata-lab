@@ -32,6 +32,9 @@ Explain things in plain language and use oilfield units (ft, ppg) in anything he
    (lint enforces this). Engine units are SI. Views convert to ft/ppg in one place.
 5. **Data.** Synthetic, or published examples rebuilt with a full citation. Never use company,
    well, lease or seismic data. Papers stay in the git-ignored `References/` folder.
+   **The repository is public** (since 2026-10-15): every commit, including history, can be
+   read by anyone. Never commit secrets, local machine paths or personal data. Bundled data
+   needs a licence that allows redistribution and an entry in `NOTICE.md`.
 6. **Local-only.** No network requests at runtime. The app must work offline from one built
    HTML file *for now*. John expects it to grow beyond one file later (hosted page and/or desktop
    app; `docs/decisions.md` D9). So keep the single file a build output only, and put nothing in
