@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { store, useAppState } from '../../app/store'
 import type { ViewDefinition } from '../types'
-import { columnAtFraction, drawSection } from './draw'
+import { columnAtFraction, drawSection, SECTION_CSS_HEIGHT } from './draw'
 import { legendFor, MODES, ramp, viewHasMode } from './colors'
 
 const hex = (c: number[]) => `rgb(${c[0]},${c[1]},${c[2]})`
@@ -61,7 +61,7 @@ function SectionView() {
           ))}
         </div>
       </div>
-      <canvas ref={ref} id="section-canvas" height={360} style={{ width: '100%', display: 'block', cursor: 'crosshair', background: '#fff' }} onClick={onClick} aria-label="Stratigraphic section. Click to move the pseudo-well." />
+      <canvas ref={ref} id="section-canvas" style={{ width: '100%', height: SECTION_CSS_HEIGHT, display: 'block', cursor: 'crosshair', background: '#fff' }} onClick={onClick} aria-label="Stratigraphic section. Click to move the pseudo-well." />
       {s.info ? <Legend mode={s.mode} startAgeMa={s.info.startAgeMa} /> : null}
       {s.viewB && s.diff ? (
         <div className="muted">
