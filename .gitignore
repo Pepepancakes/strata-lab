@@ -1,0 +1,10 @@
+node_modules/
+dist/
+!spikes/*/dist/
+coverage/
+.worktrees/
+*.local
+.env*
+.DS_Store
+# copyrighted papers/figures are kept local only, never committed
+References/

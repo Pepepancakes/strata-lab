@@ -1,0 +1,28 @@
+# Handover notes (keep current)
+
+This file exists from day one so the project can move to another machine or agent at any time.
+Update it whenever something here changes, in the same commit as the change.
+
+## Where things stand
+- 2026-10-14: spike 001 (2D deepwater shelf-to-basin) built and accepted. John said go for a core
+  project. Repo created, docs written. Next: spike 002 (salt), in chat. After that, M1 cards are
+  proposed for John's approval.
+
+## How to run what exists
+- Open `spikes/001-shelf-to-basin/dist/strata-spike-001.html` in a browser. It is one offline file.
+- `node spikes/001-shelf-to-basin/test.js` runs the physics checks: Gibson, drained compaction,
+  mass balance, speed, determinism. It should end `ALL PASS`.
+- `node spikes/001-shelf-to-basin/build.js` rebuilds the HTML from `engine.js` + `app.html`.
+- Requires Node 22 or newer (developed on Node 26).
+
+## Known traps
+- **Per-grain-size mass balance.** Total mass can balance while the sand/mud split is wrong. The
+  first sorting scheme in spike 001 swapped about 27% of supply between grain sizes without any
+  error showing in the total. Always test sand-only (and later salt-only) balance.
+- **Bit-identical rewind needs identical arithmetic.** In spike 001, `restore()` recomputes cached
+  loads with exactly the same expression order as `compactColumn()`. Changing one without the
+  other breaks determinism by rounding error, and the determinism test catches it.
+- **Snapshot memory.** Spike 001 snapshots are full copies (about 75 MB of heap per branch at one
+  snapshot per 75 kyr). M1 should store changed layers only, or cap the number of branches.
+- **Headless screenshots.** To check the UI, drive headless Chrome over CDP with a separate
+  `--user-data-dir`. John's own Edge profile is locked while Edge is open.

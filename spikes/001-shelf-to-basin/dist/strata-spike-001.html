@@ -1,0 +1,974 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Strata Lab · spike 001 · shelf-to-basin</title>
+<style>
+  :root { --ink:#1d232b; --mute:#5d6875; --line:#d6dbe1; --panel:#f6f7f9; --acc:#1f6feb; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:13px/1.35 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); background:#fff; }
+  header { display:flex; align-items:center; gap:10px; padding:8px 14px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  header h1 { font-size:15px; margin:0 12px 0 0; }
+  header .age { font-variant-numeric: tabular-nums; min-width:250px; font-weight:600; }
+  button { font:inherit; padding:4px 9px; border:1px solid var(--line); background:#fff; border-radius:5px; cursor:pointer; }
+  button:hover { border-color:#9aa5b1; }
+  button.on { background:var(--acc); border-color:var(--acc); color:#fff; }
+  #scrub { flex:1; min-width:260px; }
+  main { display:grid; grid-template-columns: 250px 1fr 270px; gap:0; min-height: calc(100vh - 50px); }
+  aside { background:var(--panel); padding:10px 12px; border-right:1px solid var(--line); overflow:auto; }
+  aside.right { border-right:none; border-left:1px solid var(--line); }
+  h2 { font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--mute); margin:12px 0 6px; }
+  h2:first-child { margin-top:2px; }
+  .param { margin:0 0 9px; }
+  .param label { display:flex; justify-content:space-between; font-weight:600; }
+  .param label span { font-weight:400; color:var(--mute); font-variant-numeric: tabular-nums; }
+  .param input { width:100%; }
+  .param small { color:var(--mute); display:block; }
+  .note { color:var(--mute); font-size:12px; }
+  #center { padding:8px 12px; overflow:auto; }
+  .bar { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:6px; }
+  canvas { display:block; width:100%; border:1px solid var(--line); border-radius:4px; }
+  #sec, #sec2 { cursor:crosshair; }
+  .row2 { display:grid; grid-template-columns: 1fr 340px; gap:10px; margin-top:8px; }
+  .legend { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--mute); }
+  .legend canvas { width:180px; height:12px; border:none; }
+  table { border-collapse:collapse; width:100%; font-size:12px; }
+  td { padding:2px 4px; border-bottom:1px solid var(--line); vertical-align:top; }
+  td.num { text-align:right; font-variant-numeric: tabular-nums; white-space:nowrap; }
+  .pass { color:#137333; font-weight:700; } .fail { color:#c5221f; font-weight:700; }
+  .br { display:flex; align-items:center; gap:6px; padding:5px 6px; border:1px solid var(--line); border-radius:5px; background:#fff; margin-bottom:5px; }
+  .br.act { border-color:var(--acc); box-shadow:0 0 0 1px var(--acc) inset; }
+  .br .sw { width:10px; height:10px; border-radius:2px; }
+  .br .nm { flex:1; cursor:pointer; }
+  .br .nm small { display:block; color:var(--mute); }
+  #busy { position:fixed; inset:0; background:rgba(255,255,255,.7); display:none; align-items:center; justify-content:center; font-size:16px; font-weight:600; z-index:5; }
+  .lbl2 { font-size:12px; color:var(--mute); margin:6px 0 2px; }
+</style>
+</head>
+<body>
+<div id="busy">Computing…</div>
+<header>
+  <h1>Strata Lab <span class="note">spike 001 · deepwater shelf-to-basin</span></h1>
+  <button id="bStart" title="Start of run">⏮</button>
+  <button id="bBack" title="Step back 5 kyr">◀</button>
+  <button id="bPlay">▶ Play</button>
+  <button id="bFwd" title="Step forward 5 kyr">▶</button>
+  <button id="bEnd" title="End of run (present day)">⏭</button>
+  <select id="speed" title="Playback speed">
+    <option value="1">5 kyr / frame</option><option value="2" selected>10 kyr / frame</option><option value="5">25 kyr / frame</option>
+  </select>
+  <input id="scrub" type="range" min="0" max="600" value="600">
+  <div class="age" id="ageLbl"></div>
+</header>
+<main>
+  <aside>
+    <h2>Controls · <span id="pBranch"></span></h2>
+    <div class="note" id="pNote"></div>
+    <div id="params"></div>
+    <h2>How it works</h2>
+    <div class="note">
+      Sediment enters at the left edge and moves by water-depth-dependent diffusion, sand
+      less mobile than mud. When the shoreline nears the shelf edge, part of the supply runs
+      out as turbidity currents that bypass the slope and deposit where the gradient eases.
+      Every column compacts as fluid drains through the mud; if it can't drain fast enough,
+      pressure builds. All quantities balance: see the checks on the right.
+    </div>
+  </aside>
+  <section id="center">
+    <div class="bar">
+      Colour by:
+      <button data-mode="grain" class="on">Grain size</button>
+      <button data-mode="age">Age</button>
+      <button data-mode="phi">Porosity</button>
+      <button data-mode="op">Overpressure</button>
+      <span class="legend"><canvas id="leg" width="180" height="12"></canvas><span id="legTxt"></span></span>
+    </div>
+    <div class="lbl2" id="secTitle"></div>
+    <canvas id="sec" height="380"></canvas>
+    <div id="cmpWrap" style="display:none"><div class="lbl2" id="sec2Title"></div><canvas id="sec2" height="380"></canvas></div>
+    <div class="row2">
+      <div><div class="lbl2">Sea level through time (current branch); vertical line = now</div><canvas id="slc" height="150"></canvas>
+        <div class="note" style="margin-top:6px">Click the section to move the pseudo-well. Depths in ft below sea level; horizontal scale km.</div></div>
+      <div><div class="lbl2" id="wellTitle">Pseudo-well</div><canvas id="well" height="300"></canvas></div>
+    </div>
+  </section>
+  <aside class="right">
+    <h2>Branches (what-if)</h2>
+    <div id="branches"></div>
+    <button id="bBranch">⑂ Branch from this time</button>
+    <div class="note" style="margin-top:4px">A branch shares history up to its start, then runs with its own controls. Edit a branch's controls to change only its future.</div>
+    <div style="margin-top:8px">Compare with: <select id="cmp"><option value="">none</option></select></div>
+    <h2>Mass balance (current branch, now)</h2>
+    <table id="mb"></table>
+    <h2>Speed</h2>
+    <table id="perf"></table>
+    <h2>Physics checks</h2>
+    <button id="bChecks">Run checks</button>
+    <table id="checks" style="margin-top:6px"></table>
+    <canvas id="gib" height="200" style="margin-top:6px; display:none"></canvas>
+    <div class="note" id="gibNote"></div>
+  </aside>
+</main>
+<script>
+/*
+ * Strata Lab - spike 001 - process engine (pure JS, no DOM).
+ *
+ * 2D shelf-to-basin section. Each record step (dtRec years) every column gets one
+ * new layer. Within a record step:
+ *   1. tectonic subsidence lowers the basement
+ *   2. sediment transport (nSub substeps):
+ *        - two-lithology diffusion (Rivenaes 1992 style), water-depth dependent
+ *          diffusivity (Kaufman et al. 1991), solved implicitly, mass conserving
+ *        - turbidity-current routing (transport-length rule) for the share of supply
+ *          that reaches the shelf edge when the shoreline is near it
+ *   3. compaction + pore pressure per column: 1D consolidation in solid
+ *      coordinates, Athy-type porosity vs effective stress, porosity-dependent
+ *      permeability, implicit (backward Euler) tridiagonal solve.
+ * Units: SI internally (m, Pa, years for time, m^2 for permeability).
+ */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.Strata = api;
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  const G = 9.81, RHO_W = 1025, RHO_S = 2650, MU = 1.0e-3, YR = 3.15576e7;
+  const DRHO_G = (RHO_S - RHO_W) * G;
+  const SAND = 0, MUD = 1;
+  const ACTIVE_SOLID = 1.0;   // m of solids that define surface (active layer) composition
+  const EMPTY = 1e-9;         // m of solids below which a layer is treated as empty
+
+  function defaultParams() {
+    return {
+      // grid & time (fixed for a run)
+      nx: 150, dx: 1000, duration: 3.0e6, dtRec: 5000, nSub: 5,
+      // boundary conditions (editable; in a branch they apply from the branch time)
+      supply: 20,          // solid sediment supply, m^2/yr per metre of margin
+      sandFrac: 0.35,      // sand share of supply (solid volume)
+      slAmp: 40,           // eustatic amplitude, m
+      slPeriod: 100000,    // eustatic period, yr
+      slShift: 0,          // step offset of sea level, m
+      subsShelf: 40,       // tectonic subsidence at landward edge, m/Myr
+      subsBasin: 150,      // tectonic subsidence at basinward edge, m/Myr
+      // transport diffusivities, bulk m^2/yr, [sand, mud]
+      Kc: [5.0e4, 1.0e5],  // subaerial (fluvial); gives ~0.3 m/km coastal-plain gradient
+      Km: [400, 2500],     // marine, at the shoreline
+      dm: [10, 40],        // e-folding water depth of marine diffusivity, m
+      Kg: [100, 1000],     // deep-marine background (gravity creep), m^2/yr; tuned for 5-7 deg muddy slopes
+      // turbidity-current routing
+      tcMax: 0.6,          // max share of supply routed as turbidity currents
+      tcLambda: 8000,      // shoreline-to-shelf-edge distance scale, m
+      sBreak: 0.01,        // gradient that defines the shelf edge
+      tcL0: [20000, 400000], // deposition length at reference gradient, m [sand, mud]
+      tcSref: 0.005, tcN: 2,
+      // compaction: Athy law in effective stress, phi = phi0 exp(-beta sigma')
+      // phi0 from Sclater & Christie (1980); beta converted from their depth
+      // coefficients (sand 0.27/km, shale 0.51/km) to match their curves at 2 km.
+      phi0: [0.49, 0.63],
+      beta: [2.68e-8, 5.2e-8],
+      // permeability: log10 k(m^2) = kA + kB*phi
+      kA: [-14.5, -22.0], kB: [7.0, 8.0],
+      kMudMult: 1,         // multiplier on mud permeability
+      elastic: 0.05,       // unloading compressibility as share of loading value
+      linear: null,        // benchmark mode: {e0, C, k} constant properties
+    };
+  }
+
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+
+  function porosity(P, i, s) { return P.phi0[i] * Math.exp(-P.beta[i] * (s > 0 ? s : 0)); }
+  function setPor(st, P, i, sig) {
+    if (!st.kps) { st.phs[i] = porosity(P, SAND, sig); st.phm[i] = porosity(P, MUD, sig); return; }
+    const a = porosity(P, SAND, sig), b = porosity(P, MUD, sig);
+    st.phs[i] = a; st.phm[i] = b; st.kps[i] = perm(P, SAND, a); st.kpm[i] = perm(P, MUD, b);
+  }
+  function voidRatio(P, i, s) { const p = porosity(P, i, s); return p / (1 - p); }
+  function perm(P, i, phi) {
+    let lk = P.kA[i] + P.kB[i] * phi;
+    if (i === MUD) lk += Math.log10(P.kMudMult);
+    return Math.pow(10, lk);
+  }
+  function seaLevel(P, t) { return P.slAmp * Math.sin(2 * Math.PI * t / P.slPeriod) + P.slShift; }
+
+  // initial surface: coastal plain, shelf, slope, basin floor (elevation, m)
+  const PROFILE = [[0, 15], [10000, 0], [40000, -100], [65000, -1500], [150000, -1900]];
+  function initialSurface(x) {
+    for (let i = 0; i < PROFILE.length - 1; i++) {
+      const [x0, z0] = PROFILE[i], [x1, z1] = PROFILE[i + 1];
+      if (x <= x1) return z0 + (z1 - z0) * (x - x0) / (x1 - x0);
+    }
+    return PROFILE[PROFILE.length - 1][1];
+  }
+
+  function createState(P) {
+    const nx = P.nx, nSteps = Math.round(P.duration / P.dtRec), NL = nSteps + 1;
+    const st = {
+      k: 0, nx, NL, nSteps,
+      b: new Float64Array(nx),
+      sand: new Float64Array(NL * nx), mud: new Float64Array(NL * nx),
+      smax: new Float64Array(NL * nx), u: new Float64Array(NL * nx), ld: new Float64Array(NL * nx),
+      phs: new Float64Array(NL * nx), phm: new Float64Array(NL * nx),   // cached porosities
+      kps: new Float64Array(NL * nx), kpm: new Float64Array(NL * nx),   // cached permeabilities
+      H: new Float64Array(nx),
+      cumIn: 0, cumOut: 0, cumInS: 0, cumOutS: 0, deficit: 0, swap: 0, short: 0, clamps: 0, initSolid: 0, initSand: 0,
+      scratch: makeScratch(nx, NL),
+    };
+    // pre-existing substrate: 200 m of compacted mixed sediment
+    const subBulk = 200, subSmax = 20e6, f = 0.3;
+    const e = f * voidRatio(P, SAND, subSmax) + (1 - f) * voidRatio(P, MUD, subSmax);
+    const solid = subBulk / (1 + e);
+    for (let j = 0; j < nx; j++) {
+      st.b[j] = initialSurface((j + 0.5) * P.dx) - subBulk;
+      st.sand[j] = f * solid; st.mud[j] = (1 - f) * solid; st.smax[j] = subSmax;
+      setPor(st, P, j, subSmax);
+    }
+    st.initSolid = nx * solid * P.dx; st.initSand = nx * f * solid * P.dx;
+    for (let j = 0; j < nx; j++) loadsInto(st, j, 0);
+    recomputeH(st, P);
+    return st;
+  }
+
+  function makeScratch(nx, NL) {
+    const n = Math.max(nx, NL);
+    const f = () => new Float64Array(n);
+    return {
+      F: f(), aS: f(), aT: f(), Qf: f(), iSs: f(), iMs: f(), order: new Array(nx), Ke: f(), Ks: f(), Km: f(), Hn: f(), cp: f(), dp: f(),
+      idx: new Int32Array(NL), L: f(), A: f(), hh: f(), kk: f(), T: f(),
+      lo: f(), di: f(), up: f(), rhs: f(), x: f(),
+    };
+  }
+
+  function layerBulk(st, P, i) {
+    const s = st.sand[i], m = st.mud[i];
+    if (s + m <= 0) return 0;
+    if (P.linear) return (s + m) * (1 + P.linear.e0);
+    return s / (1 - st.phs[i]) + m / (1 - st.phm[i]);
+  }
+
+  function recomputeH(st, P) {
+    const nx = st.nx;
+    for (let j = 0; j < nx; j++) {
+      let z = st.b[j];
+      for (let l = 0; l <= st.k; l++) z += layerBulk(st, P, l * nx + j);
+      st.H[j] = z;
+    }
+  }
+
+  // buoyant vertical load at layer mid-points (= sigma_v - hydrostatic); identical
+  // arithmetic is used inside compactColumn so restore() reproduces ld bit-for-bit
+  function loadsInto(st, j, top) {
+    const nx = st.nx;
+    let above = 0;
+    for (let l = top; l >= 0; l--) {
+      const i = l * nx + j, s = st.sand[i] + st.mud[i];
+      if (s <= EMPTY) continue;
+      st.ld[i] = DRHO_G * (above + 0.5 * s);
+      above += s;
+    }
+  }
+
+  // solid sand and total solid in the top ACTIVE_SOLID of a column
+  function surfComp(st, j, top, S) {
+    const nx = st.nx;
+    let s = 0, m = 0;
+    for (let l = top; l >= 0; l--) {
+      const i = l * nx + j;
+      s += st.sand[i]; m += st.mud[i];
+      if (s + m >= ACTIVE_SOLID) break;
+    }
+    S.aS[j] = s; S.aT[j] = s + m;
+  }
+
+  // remove `amount` of solid of one lithology from the top of a column;
+  // returns bulk removed, leaves any shortfall in st.short
+  function erode(st, P, j, lith, amount, top) {
+    const nx = st.nx, arr = lith === SAND ? st.sand : st.mud;
+    let need = amount, bulk = 0;
+    for (let l = top; l >= 0 && need > 1e-12; l--) {
+      const i = l * nx + j, a = arr[i];
+      if (a <= 0) continue;
+      const take = a < need ? a : need;
+      arr[i] = a - take; need -= take;
+      bulk += take / (1 - (lith === SAND ? st.phs[i] : st.phm[i]));
+    }
+    st.short = need > 1e-12 ? need : 0;
+    return bulk;
+  }
+
+  function thomas(n, lo, di, up, rhs, x, cp, dp) {
+    cp[0] = up[0] / di[0]; dp[0] = rhs[0] / di[0];
+    for (let i = 1; i < n; i++) {
+      const m = di[i] - lo[i] * cp[i - 1];
+      cp[i] = up[i] / m; dp[i] = (rhs[i] - lo[i] * dp[i - 1]) / m;
+    }
+    x[n - 1] = dp[n - 1];
+    for (let i = n - 2; i >= 0; i--) x[i] = dp[i] - cp[i] * x[i + 1];
+  }
+
+  function transportSubstep(st, P, t, dt) {
+    const nx = st.nx, dx = P.dx, top = st.k + 1, H = st.H, S = st.scratch;
+    const SL = seaLevel(P, t);
+    const F = S.F, Ke = S.Ke, Ks = S.Ks, Km = S.Km, Hn = S.Hn;
+
+    // shoreline and shelf edge -> share of supply that goes to turbidity currents
+    let js = -1, je = -1, Ftc = 0;
+    for (let j = 0; j < nx; j++) if (H[j] < SL) { js = j; break; }
+    if (js >= 0) {
+      for (let j = js; j < nx - 1; j++) if ((H[j] - H[j + 1]) / dx > P.sBreak) { je = j; break; }
+      if (je >= 0) Ftc = P.tcMax * Math.exp(-(je - js) * dx / P.tcLambda);
+    }
+    st.shore = js; st.shelfEdge = je; st.tcShare = Ftc;
+    const qS = P.supply * P.sandFrac, qM = P.supply * (1 - P.sandFrac);   // solid m^2/yr
+    const pS = 1 - P.phi0[SAND], pM = 1 - P.phi0[MUD];
+    const inS = qS * (1 - Ftc) / pS, inM = qM * (1 - Ftc) / pM;           // bulk m^2/yr
+
+    const r = dt / (dx * dx);
+    function solve() {
+      // face diffusivities, composition from the upwind cell
+      for (let f = 0; f < nx - 1; f++) {
+        const jU = H[f] >= H[f + 1] ? f : f + 1;
+        const d = SL - 0.5 * (H[f] + H[f + 1]);
+        let k0, k1;
+        if (d <= 0) { k0 = P.Kc[0]; k1 = P.Kc[1]; }
+        else { k0 = P.Km[0] * Math.exp(-d / P.dm[0]) + P.Kg[0]; k1 = P.Km[1] * Math.exp(-d / P.dm[1]) + P.Kg[1]; }
+        Ks[f] = k0 * F[jU]; Km[f] = k1 * (1 - F[jU]); Ke[f] = Ks[f] + Km[f];
+      }
+      // implicit solve for the new surface
+      for (let j = 0; j < nx; j++) {
+        const a = j > 0 ? -r * Ke[j - 1] : 0, c = j < nx - 1 ? -r * Ke[j] : 0;
+        S.lo[j] = a; S.up[j] = c; S.di[j] = 1 - a - c;
+        S.rhs[j] = H[j] + (j === 0 ? dt * (inS + inM) / dx : 0);
+      }
+      thomas(nx, S.lo, S.di, S.up, S.rhs, Hn, S.cp, S.dp);
+    }
+
+    // total face fluxes from the implicit solve (diffusivity from the active-layer mix)
+    for (let j = 0; j < nx; j++) { surfComp(st, j, top, S); F[j] = S.aT[j] > 0 ? S.aS[j] / S.aT[j] : 0.5; }
+    solve();
+    const c = dt / dx, Qf = S.Qf, iSs = S.iSs, iMs = S.iMs, order = S.order;
+    for (let f = 0; f < nx - 1; f++) Qf[f] = Ke[f] * (Hn[f] - Hn[f + 1]) / dx * c;   // bulk m over the substep
+    for (let j = 0; j < nx; j++) { iSs[j] = 0; iMs[j] = 0; order[j] = j; }
+    iSs[0] = inS * c * pS; iMs[0] = inM * c * pM;                                    // solid m
+    // flux always runs from higher to lower surface, so processing cells from high to
+    // low means every cell's inflow (amount and grain size) is known before it is used
+    order.sort((a, b) => Hn[b] - Hn[a]);
+    const open = top * nx;
+    for (let o = 0; o < nx; o++) {
+      const j = order[o];
+      const qL = j > 0 ? Qf[j - 1] : 0, qR = j < nx - 1 ? Qf[j] : 0;
+      const outL = qL < 0 ? -qL : 0, outR = qR > 0 ? qR : 0, Qout = outL + outR;
+      const iS = iSs[j], iM = iMs[j];
+      let oS = 0, oM = 0;
+      if (Qout > 0) {
+        const Qin = iS / pS + iM / pM;
+        if (Qout <= Qin) {
+          // net deposition: pass on a mobility-weighted mix of inflow + active layer
+          const poolS = iS + S.aS[j], poolM = iM + (S.aT[j] - S.aS[j]);
+          const d = SL - Hn[j];
+          let kS, kM;
+          if (d <= 0) { kS = P.Kc[0]; kM = P.Kc[1]; }
+          else { kS = P.Km[0] * Math.exp(-d / P.dm[0]) + P.Kg[0]; kM = P.Km[1] * Math.exp(-d / P.dm[1]) + P.Kg[1]; }
+          const wS = kS * poolS, wM = kM * poolM;
+          const f = wS + wM > 0 ? wS / (wS + wM) : 0;
+          const solid = Qout / (f / pS + (1 - f) / pM);
+          oS = f * solid; oM = solid - oS;
+          if (oS > poolS) { oS = poolS; oM = Math.min(poolM, (Qout - oS / pS) * pM); }
+          else if (oM > poolM) { oM = poolM; oS = Math.min(poolS, (Qout - oM / pM) * pS); }
+          const dS = iS - oS, dM = iM - oM;
+          if (dS > 0) { st.sand[open + j] += dS; H[j] += dS / pS; } else if (dS < 0) H[j] -= erode(st, P, j, SAND, -dS, top);
+          if (dM > 0) { st.mud[open + j] += dM; H[j] += dM / pM; } else if (dM < 0) H[j] -= erode(st, P, j, MUD, -dM, top);
+          if (st.short > 0) st.deficit += st.short * dx;
+        } else {
+          // net erosion: everything arriving passes on, plus bed material in its real mix
+          oS = iS; oM = iM;
+          let need = Qout - Qin;
+          for (let l = top; l >= 0 && need > 1e-12; l--) {
+            const i = l * nx + j, s = st.sand[i], m = st.mud[i];
+            if (s + m <= 0) continue;
+            const b = s / pS + m / pM, fr = b <= need ? 1 : need / b;
+            const ts = s * fr, tm = m * fr;
+            st.sand[i] = s - ts; st.mud[i] = m - tm;
+            H[j] -= ts / (1 - st.phs[i]) + tm / (1 - st.phm[i]);
+            oS += ts; oM += tm; need -= b * fr;
+          }
+        }
+        if (outR > 0) { const sh = outR / Qout; iSs[j + 1] += oS * sh; iMs[j + 1] += oM * sh; }
+        if (outL > 0) { const sh = outL / Qout; iSs[j - 1] += oS * sh; iMs[j - 1] += oM * sh; }
+      } else {
+        if (iS > 0) { st.sand[open + j] += iS; H[j] += iS / pS; }
+        if (iM > 0) { st.mud[open + j] += iM; H[j] += iM / pM; }
+      }
+    }
+    st.cumIn += (qS + qM) * dt; st.cumInS += qS * dt;
+
+    // turbidity currents: bypass steep slope, deposit where gradient decreases
+    if (Ftc > 0) {
+      const q = [qS * Ftc / pS, qM * Ftc / pM];
+      for (let j = je; j < nx; j++) {
+        let sl = j < nx - 1 ? (H[j] - H[j + 1]) / dx : (H[j - 1] - H[j]) / dx;
+        if (sl < 1e-5) sl = 1e-5;
+        for (let lith = 0; lith < 2; lith++) {
+          const L = P.tcL0[lith] * Math.pow(sl / P.tcSref, P.tcN);
+          const dep = q[lith] * (1 - Math.exp(-dx / L));
+          q[lith] -= dep;
+          const dB = dep * dt / dx;
+          if (lith === SAND) st.sand[open + j] += dB * pS; else st.mud[open + j] += dB * pM;
+          H[j] += dB;
+        }
+      }
+      st.cumOut += (q[0] * pS + q[1] * pM) * dt; st.cumOutS += q[0] * pS * dt;
+    }
+  }
+
+  // 1D consolidation of one column (excess pore pressure u, porosity via max effective stress)
+  function compactColumn(st, P, j, top, dtYr) {
+    const nx = st.nx, S = st.scratch, idx = S.idx;
+    let n = 0;
+    for (let l = 0; l <= top; l++) { const i = l * nx + j; if (st.sand[i] + st.mud[i] > EMPTY) idx[n++] = i; }
+    if (n === 0) return;
+    const L = S.L, A = S.A, hh = S.hh, kk = S.kk, T = S.T;
+    let above = 0;
+    for (let m = n - 1; m >= 0; m--) {
+      const i = idx[m], s = st.sand[i] + st.mud[i];
+      L[m] = DRHO_G * (above + 0.5 * s); above += s;
+    }
+    for (let m = 0; m < n; m++) {
+      const i = idx[m], s = st.sand[i] + st.mud[i];
+      let C, k, h;
+      if (P.linear) { C = P.linear.C; k = P.linear.k; h = s * (1 + P.linear.e0); }
+      else {
+        const fs = st.sand[i] / s, sm = st.smax[i];
+        const phS = st.phs[i], phM = st.phm[i];
+        const kS = st.kps[i], kM = st.kpm[i];
+        h = st.sand[i] / (1 - phS) + st.mud[i] / (1 - phM);
+        k = 1 / (fs / kS + (1 - fs) / kM);   // vertical flow across interbeds
+        const Cl = fs * P.beta[SAND] * phS / ((1 - phS) * (1 - phS)) + (1 - fs) * P.beta[MUD] * phM / ((1 - phM) * (1 - phM));
+        C = (L[m] - st.u[i]) >= sm ? Cl : P.elastic * Cl;
+      }
+      A[m] = s * C; hh[m] = h; kk[m] = k;
+    }
+    for (let m = 0; m < n - 1; m++) T[m] = 1 / (hh[m] / (2 * kk[m]) + hh[m + 1] / (2 * kk[m + 1]));
+    const Ttop = 2 * kk[n - 1] / hh[n - 1];
+    const w = dtYr * YR / MU;
+    for (let m = 0; m < n; m++) {
+      const i = idx[m];
+      const lo = m > 0 ? -w * T[m - 1] : 0, up = m < n - 1 ? -w * T[m] : 0;
+      S.lo[m] = lo; S.up[m] = up;
+      S.di[m] = A[m] - lo - up + (m === n - 1 ? w * Ttop : 0);
+      S.rhs[m] = A[m] * (st.u[i] + (L[m] - st.ld[i]));
+    }
+    thomas(n, S.lo, S.di, S.up, S.rhs, S.x, S.cp, S.dp);
+    for (let m = 0; m < n; m++) {
+      const i = idx[m];
+      let uu = S.x[m];
+      if (uu > L[m]) { uu = L[m]; st.clamps++; }
+      st.u[i] = uu;
+      const sig = L[m] - uu;
+      if (sig > st.smax[i]) { st.smax[i] = sig; setPor(st, P, i, sig); }
+      st.ld[i] = L[m];
+    }
+  }
+
+  function step(st, P) {
+    const nx = st.nx, k1 = st.k + 1;
+    if (k1 > st.nSteps) return false;
+    const t0 = st.k * P.dtRec;
+    for (let j = 0; j < nx; j++) {
+      const rate = (P.subsShelf + (P.subsBasin - P.subsShelf) * (j + 0.5) / nx) * 1e-6;
+      const dz = rate * P.dtRec;
+      st.b[j] -= dz; st.H[j] -= dz;
+    }
+    const op = k1 * nx;
+    for (let j = 0; j < nx; j++) setPor(st, P, op + j, 0);
+    const dt = P.dtRec / P.nSub;
+    for (let s = 0; s < P.nSub; s++) transportSubstep(st, P, t0 + (s + 0.5) * dt, dt);
+    for (let j = 0; j < nx; j++) compactColumn(st, P, j, k1, P.dtRec);
+    st.k = k1;
+    recomputeH(st, P);
+    return true;
+  }
+
+  // ---- time machine -------------------------------------------------------
+  function snapshot(st) {
+    const n = (st.k + 1) * st.nx;
+    return {
+      k: st.k, b: st.b.slice(), sand: st.sand.slice(0, n), mud: st.mud.slice(0, n),
+      smax: st.smax.slice(0, n), u: st.u.slice(0, n),
+      cumIn: st.cumIn, cumOut: st.cumOut, cumInS: st.cumInS, cumOutS: st.cumOutS, deficit: st.deficit, swap: st.swap, clamps: st.clamps,
+      shore: st.shore, shelfEdge: st.shelfEdge, tcShare: st.tcShare,
+    };
+  }
+  function restore(snap, st, P) {
+    const n = (snap.k + 1) * st.nx;
+    st.k = snap.k; st.b.set(snap.b);
+    for (const key of ['sand', 'mud', 'smax', 'u']) { st[key].fill(0, n); st[key].set(snap[key]); }
+    st.ld.fill(0);
+    for (let i = 0; i < n; i++) setPor(st, P, i, st.smax[i]);
+    st.cumIn = snap.cumIn; st.cumOut = snap.cumOut; st.cumInS = snap.cumInS; st.cumOutS = snap.cumOutS; st.deficit = snap.deficit; st.swap = snap.swap; st.clamps = snap.clamps;
+    st.shore = snap.shore; st.shelfEdge = snap.shelfEdge; st.tcShare = snap.tcShare;
+    for (let j = 0; j < st.nx; j++) loadsInto(st, j, st.k);
+    recomputeH(st, P);
+  }
+
+  function storedSolid(st, P) {
+    let s = 0, sand = 0;
+    const n = (st.k + 1) * st.nx;
+    for (let i = 0; i < n; i++) { s += st.sand[i] + st.mud[i]; sand += st.sand[i]; }
+    return { all: s * P.dx, sand: sand * P.dx };
+  }
+  function massBalance(st, P) {
+    const ss = storedSolid(st, P);
+    const stored = ss.all - st.initSolid, expected = st.cumIn - st.cumOut;
+    const storedS = ss.sand - st.initSand, expectedS = st.cumInS - st.cumOutS;
+    return { supplied: st.cumIn, exported: st.cumOut, stored, error: stored - expected,
+      relError: st.cumIn > 0 ? (stored - expected) / st.cumIn : 0,
+      sandRelError: st.cumInS > 0 ? (storedS - expectedS) / st.cumInS : 0,
+      deficit: st.deficit };
+  }
+
+  // ---- benchmarks ---------------------------------------------------------
+  // Gibson (1958): excess pore pressure in a layer growing at constant rate m on an
+  // impermeable base. U = u/(gamma' h), X = z/h, T = m^2 t / c_v.
+  function gibsonAnalytic(X, T) {
+    const a = X * Math.sqrt(T) / 2, sT = Math.sqrt(T);
+    const top = a + 10, N = 4000, hstep = top / N;
+    const fn = (e) => e * Math.tanh(sT * e) * (Math.exp(-(e - a) * (e - a)) + Math.exp(-(e + a) * (e + a)));
+    let sum = fn(0) + fn(top);
+    for (let i = 1; i < N; i++) sum += fn(i * hstep) * (i % 2 ? 4 : 2);
+    const I = sum * hstep / 3;
+    return 1 - 2 / Math.sqrt(Math.PI * T) * I;
+  }
+
+  // run the real compactColumn() in constant-property mode against Gibson
+  function gibsonNumeric(T, nSteps) {
+    nSteps = nSteps || 400;
+    const m = 1e-3, tEnd = 1e6, dt = tEnd / nSteps, e0 = 1, mv = 1e-8;
+    const cv = m * m * tEnd / T;                     // m^2/yr
+    const k = cv * MU * mv / YR;
+    const P = defaultParams();
+    P.nx = 1; P.linear = { e0, C: mv * (1 + e0), k };
+    const st = { k: 0, nx: 1, NL: nSteps + 1, sand: new Float64Array(nSteps + 1), mud: new Float64Array(nSteps + 1),
+      smax: new Float64Array(nSteps + 1), u: new Float64Array(nSteps + 1), ld: new Float64Array(nSteps + 1),
+      phs: new Float64Array(nSteps + 1).fill(P.phi0[SAND]), phm: new Float64Array(nSteps + 1).fill(P.phi0[MUD]),
+      kps: new Float64Array(nSteps + 1).fill(perm(P, SAND, P.phi0[SAND])), kpm: new Float64Array(nSteps + 1).fill(perm(P, MUD, P.phi0[MUD])),
+      clamps: 0, scratch: makeScratch(1, nSteps + 1) };
+    const sl = m * dt / (1 + e0);
+    for (let s = 0; s < nSteps; s++) { st.mud[s] = sl; compactColumn(st, P, 0, s, dt); }
+    const h = m * tEnd, gp = DRHO_G / (1 + e0);
+    const X = [], U = [];
+    for (let s = 0; s < nSteps; s++) { X.push((s + 0.5) / nSteps); U.push(st.u[s] / (gp * h)); }
+    return { X, U };
+  }
+
+  // slow deposition, very permeable: should stay hydrostatic; compare porosity to
+  // Sclater & Christie (1980) depth curves
+  function drainedColumn(lith, depthTarget) {
+    const P = defaultParams(); P.kMudMult = 1e6; P.kA = [-10, -10]; P.kB = [0, 0];
+    const nSteps = 600, dt = 5000, rate = depthTarget / (nSteps * dt) * 1.7;
+    const st = { k: 0, nx: 1, NL: nSteps + 1, sand: new Float64Array(nSteps + 1), mud: new Float64Array(nSteps + 1),
+      smax: new Float64Array(nSteps + 1), u: new Float64Array(nSteps + 1), ld: new Float64Array(nSteps + 1),
+      phs: new Float64Array(nSteps + 1).fill(P.phi0[SAND]), phm: new Float64Array(nSteps + 1).fill(P.phi0[MUD]),
+      kps: new Float64Array(nSteps + 1).fill(perm(P, SAND, P.phi0[SAND])), kpm: new Float64Array(nSteps + 1).fill(perm(P, MUD, P.phi0[MUD])),
+      clamps: 0, scratch: makeScratch(1, nSteps + 1) };
+    for (let s = 0; s < nSteps; s++) {
+      const bulk = rate * dt, sol = bulk * (1 - P.phi0[lith]);
+      if (lith === SAND) st.sand[s] = sol; else st.mud[s] = sol;
+      compactColumn(st, P, 0, s, dt);
+    }
+    const out = []; let z = 0, maxLam = 0;
+    for (let s = nSteps - 1; s >= 0; s--) {
+      const ph = porosity(P, lith, st.smax[s]);
+      const solid = st.sand[s] + st.mud[s], h = solid / (1 - ph);
+      out.push({ z: z + h / 2, phi: ph, sc: P.phi0[lith] * Math.exp(-(lith === SAND ? 0.27e-3 : 0.51e-3) * (z + h / 2)) });
+      maxLam = Math.max(maxLam, st.u[s] / st.ld[s]);
+      z += h;
+    }
+    return { profile: out, maxLam };
+  }
+
+  return { defaultParams, clone, createState, step, snapshot, restore, massBalance, seaLevel,
+    porosity, voidRatio, layerBulk, gibsonAnalytic, gibsonNumeric, drainedColumn,
+    consts: { G, RHO_W, RHO_S, MU, YR, DRHO_G, SAND, MUD, EMPTY } };
+});
+
+</script>
+<script>
+'use strict';
+const E = Strata, C = E.consts;
+const SNAP = 15, FT = 3.28084;   // snapshot every 75 kyr: any jump replays at most 14 steps
+const BASE = E.defaultParams();
+const NSTEPS = Math.round(BASE.duration / BASE.dtRec);
+const NX = BASE.nx, DX = BASE.dx, DT = BASE.dtRec, DUR = BASE.duration;
+const COLORS = ['#1f6feb', '#d93f0b', '#2da44e', '#8250df'];
+const $ = (id) => document.getElementById(id);
+
+// ---------------- parameters shown as sliders -------------------------------
+const PARAMS = [
+  { key: 'supply', name: 'Sediment supply', min: 1, max: 40, step: 1, fmt: (v) => `${v} m²/yr`, hint: 'solid volume per metre of margin' },
+  { key: 'sandFrac', name: 'Sand in supply', min: 0, max: 0.8, step: 0.05, fmt: (v) => `${Math.round(v * 100)} %` },
+  { key: 'slAmp', name: 'Sea-level swing', min: 0, max: 100, step: 5, fmt: (v) => `±${v} m`, hint: 'eustatic amplitude' },
+  { key: 'slPeriod', name: 'Sea-level cycle', min: 20000, max: 400000, step: 10000, fmt: (v) => `${v / 1000} kyr` },
+  { key: 'slShift', name: 'Sea-level shift', min: -120, max: 60, step: 5, fmt: (v) => `${v > 0 ? '+' : ''}${v} m`, hint: 'step change; use in a branch' },
+  { key: 'subsShelf', name: 'Subsidence, landward', min: 0, max: 200, step: 5, fmt: (v) => `${v} m/Myr` },
+  { key: 'subsBasin', name: 'Subsidence, basinward', min: 0, max: 400, step: 10, fmt: (v) => `${v} m/Myr` },
+  { key: 'kMudMult', name: 'Mud permeability', min: -2, max: 2, step: 0.25, log: true, fmt: (v) => `×${fmtMult(v)}`, hint: 'lower = drains slower, more overpressure' },
+  { key: 'tcMax', name: 'Turbidite routing', min: 0, max: 1, step: 0.05, fmt: (v) => `${Math.round(v * 100)} % max`, hint: 'share of supply sent downslope at lowstand' },
+];
+function fmtMult(v) { return v >= 1 ? (+v.toPrecision(2)).toString() : (+v.toPrecision(2)).toString(); }
+
+// ---------------- branches & time machine ------------------------------------
+let branches = [], active = null, compare = null, curK = NSTEPS, nextId = 0;
+let playing = false, mode = 'grain', wellJ = 69;   // upper slope: where mud piles up fastest
+const perf = { run: 0, scrub: 0, render: 0 };
+
+function makeBranch(parent, kStart, P) {
+  const b = { id: nextId++, parent, kStart, P, snaps: new Map(), work: E.createState(P), runMs: 0 };
+  b.color = COLORS[b.id % COLORS.length];
+  b.name = parent ? `Branch ${String.fromCharCode(65 + b.id)}` : 'Base case';
+  return b;
+}
+function computeBranch(b) {
+  const t0 = performance.now();
+  b.snaps.clear();
+  if (!b.parent) b.work = E.createState(b.P);
+  else E.restore(E.snapshot(stateAt(b.parent, b.kStart)), b.work, b.P);
+  b.snaps.set(b.kStart, E.snapshot(b.work));
+  while (E.step(b.work, b.P)) if (b.work.k % SNAP === 0 || b.work.k === NSTEPS) b.snaps.set(b.work.k, E.snapshot(b.work));
+  b.runMs = performance.now() - t0;
+  perf.run = b.runMs;
+}
+function recompute(b) { computeBranch(b); for (const c of branches) if (c.parent === b) recompute(c); }
+function owner(b, k) { while (b.parent && k < b.kStart) b = b.parent; return b; }
+function stateAt(b, k) {
+  b = owner(b, k);
+  const w = b.work;
+  let best = b.kStart;
+  for (const key of b.snaps.keys()) if (key <= k && key > best) best = key;
+  if (w.k > k || w.k < best) E.restore(b.snaps.get(best), w, b.P);
+  while (w.k < k) E.step(w, b.P);
+  return w;
+}
+function paramsAt(b, k) { return owner(b, k).P; }
+
+// ---------------- colour ramps -----------------------------------------------
+const RAMPS = {
+  grain: [[0, [92, 99, 88]], [0.35, [150, 145, 112]], [0.7, [226, 196, 110]], [1, [250, 214, 72]]],
+  age: [[0, [68, 1, 84]], [0.25, [59, 82, 139]], [0.5, [33, 145, 140]], [0.75, [94, 201, 98]], [1, [253, 231, 37]]],
+  phi: [[0, [84, 48, 5]], [0.35, [191, 129, 45]], [0.7, [199, 234, 229]], [1, [1, 102, 94]]],
+  op: [[0, [236, 238, 232]], [0.25, [253, 208, 120]], [0.5, [240, 120, 60]], [0.75, [200, 40, 40]], [1, [110, 0, 30]]],
+};
+const LEG = {
+  grain: 'mud → sand', age: `${DUR / 1e6} Ma → 0 Ma (young)`, phi: 'porosity 0.10 → 0.65',
+  op: 'hydrostatic → at overburden (fraction of load carried by fluid)',
+};
+function ramp(name, x) {
+  const R = RAMPS[name]; x = Math.max(0, Math.min(1, x));
+  for (let i = 0; i < R.length - 1; i++) {
+    const [a, ca] = R[i], [b, cb] = R[i + 1];
+    if (x <= b) { const t = (x - a) / (b - a); return [0, 1, 2].map((c) => Math.round(ca[c] + (cb[c] - ca[c]) * t)); }
+  }
+  return R[R.length - 1][1];
+}
+const pack = (c) => ((255 << 24) | (c[2] << 16) | (c[1] << 8) | c[0]) >>> 0;
+const SUBSTRATE = pack([170, 170, 170]), BASEMENT = pack([84, 86, 92]), WATER = pack([206, 227, 245]), SKY = pack([255, 255, 255]);
+function cellValue(st, P, l, j) {
+  const i = l * NX + j, s = st.sand[i], m = st.mud[i], tot = s + m;
+  if (mode === 'grain') return s / tot;
+  if (mode === 'age') return ((l - 0.5) * DT) / DUR;
+  if (mode === 'phi') { const bulk = E.layerBulk(st, P, i); return (1 - tot / bulk - 0.1) / 0.55; }
+  if (mode === 'op') return st.ld[i] > 0 ? st.u[i] / st.ld[i] : 0;
+  return 0;
+}
+
+// ---------------- section rendering ------------------------------------------
+let view = { zTop: 120, zBot: -2600 };
+function updateView() {
+  let zb = Infinity, zt = -Infinity;
+  for (const b of branches) {
+    const st = stateAt(b, NSTEPS);
+    for (let j = 0; j < NX; j++) { zb = Math.min(zb, st.b[j]); zt = Math.max(zt, st.H[j]); }
+  }
+  view = { zTop: Math.max(zt, 40) + 40, zBot: zb - 30 };
+}
+function fitCanvas(cv) {
+  const dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = +cv.getAttribute('height');
+  if (cv.width !== Math.round(w * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+  return { dpr, W: cv.width, H: cv.height };
+}
+function renderSection(cv, b, k) {
+  const st = stateAt(b, k), P = paramsAt(b, k);
+  const { dpr, W, H } = fitCanvas(cv);
+  const ctx = cv.getContext('2d');
+  const top = st.k, nb = top + 2;
+  const bnd = new Float64Array(nb * NX), col = new Uint32Array((top + 1) * NX);
+  for (let j = 0; j < NX; j++) {
+    let z = st.b[j]; bnd[j] = z;
+    for (let l = 0; l <= top; l++) {
+      const i = l * NX + j;
+      z += E.layerBulk(st, P, i); bnd[(l + 1) * NX + j] = z;
+      col[i] = l === 0 ? SUBSTRATE : (st.sand[i] + st.mud[i] > 0 ? pack(ramp(mode, cellValue(st, P, l, j))) : 0);
+    }
+  }
+  const SL = E.seaLevel(P, k * DT);
+  const sy = H / (view.zTop - view.zBot), row = (z) => Math.round((view.zTop - z) * sy);
+  const img = ctx.createImageData(W, H), buf = new Uint32Array(img.data.buffer);
+  buf.fill(SKY);
+  for (let px = 0; px < W; px++) {
+    let xf = (px + 0.5) / W * NX - 0.5, j0 = Math.floor(xf), w = xf - j0;
+    if (j0 < 0) { j0 = 0; w = 0; } if (j0 >= NX - 1) { j0 = NX - 1; w = 0; }
+    const j1 = Math.min(j0 + 1, NX - 1), jn = w < 0.5 ? j0 : j1;
+    const lerp = (l) => bnd[l * NX + j0] * (1 - w) + bnd[l * NX + j1] * w;
+    const surf = lerp(top + 1);
+    if (SL > surf) for (let r = Math.max(0, row(SL)); r < Math.min(H, row(surf)); r++) buf[r * W + px] = WATER;
+    for (let r = Math.max(0, row(lerp(0))); r < H; r++) buf[r * W + px] = BASEMENT;
+    let zt = surf;
+    for (let l = top; l >= 0; l--) {
+      const zb = lerp(l);
+      // a layer can be empty in one column and present in its neighbour: use whichever has colour
+      const c = col[l * NX + jn] || col[l * NX + (jn === j0 ? j1 : j0)];
+      if (c && zt > zb) {
+        const r0 = Math.max(0, row(zt)), r1 = Math.min(H, row(zb));
+        for (let r = r0; r < r1; r++) buf[r * W + px] = c;
+      }
+      zt = zb;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+  // time lines every 100 kyr
+  const X = (j) => ((j + 0.5) / NX) * W;
+  ctx.lineWidth = 0.7 * dpr; ctx.strokeStyle = 'rgba(20,20,20,0.35)';
+  for (let l = 20; l <= top; l += 20) {
+    ctx.beginPath();
+    for (let j = 0; j < NX; j++) { const y = row(bnd[l * NX + j]); j ? ctx.lineTo(X(j), y) : ctx.moveTo(X(j), y); }
+    ctx.stroke();
+  }
+  // seafloor + sea level
+  ctx.strokeStyle = 'rgba(0,0,0,0.8)'; ctx.lineWidth = 1 * dpr; ctx.beginPath();
+  for (let j = 0; j < NX; j++) { const y = row(bnd[(top + 1) * NX + j]); j ? ctx.lineTo(X(j), y) : ctx.moveTo(X(j), y); }
+  ctx.stroke();
+  ctx.strokeStyle = '#2b7bd6'; ctx.setLineDash([6 * dpr, 4 * dpr]); ctx.beginPath(); ctx.moveTo(0, row(SL)); ctx.lineTo(W, row(SL)); ctx.stroke(); ctx.setLineDash([]);
+  // pseudo-well
+  ctx.strokeStyle = '#111'; ctx.lineWidth = 2 * dpr; ctx.beginPath(); ctx.moveTo(X(wellJ), row(Math.max(SL, st.H[wellJ]))); ctx.lineTo(X(wellJ), row(st.b[wellJ])); ctx.stroke();
+  // shoreline & shelf-edge markers
+  ctx.font = `${11 * dpr}px system-ui`; ctx.fillStyle = '#123';
+  const mark = (j, txt) => { if (j < 0) return; const x = X(j), y = row(SL) - 4 * dpr; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - 4 * dpr, y - 7 * dpr); ctx.lineTo(x + 4 * dpr, y - 7 * dpr); ctx.fill(); ctx.fillText(txt, x + 6 * dpr, y - 2 * dpr); };
+  mark(st.shore, 'shoreline'); if (st.shelfEdge !== st.shore) mark(st.shelfEdge, 'shelf edge');
+  // axes
+  ctx.fillStyle = 'rgba(30,35,43,0.85)'; ctx.font = `${10 * dpr}px system-ui`;
+  for (let ft = 0; ft >= view.zBot * FT; ft -= 2000) { const y = row(ft / FT); ctx.fillRect(0, y, 5 * dpr, 1 * dpr); ctx.fillText(`${(-ft).toLocaleString()} ft`, 7 * dpr, y + 3 * dpr); }
+  for (let km = 0; km <= NX * DX / 1000; km += 25) { const x = km * 1000 / (NX * DX) * W; ctx.fillRect(x, H - 6 * dpr, 1 * dpr, 6 * dpr); ctx.fillText(`${km} km`, Math.min(x + 3 * dpr, W - 40 * dpr), H - 8 * dpr); }
+  const ve = (NX * DX / W) / ((view.zTop - view.zBot) / H);
+  ctx.fillText(`vertical exaggeration ≈ ${ve.toFixed(0)}×`, W - 170 * dpr, 14 * dpr);
+  return st;
+}
+
+// ---------------- sea-level chart ---------------------------------------------
+function renderSL() {
+  const cv = $('slc'), { dpr, W, H } = fitCanvas(cv), ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+  const lo = -140, hi = 80, y = (v) => H - 14 * dpr - (v - lo) / (hi - lo) * (H - 24 * dpr), x = (k) => 40 * dpr + k / NSTEPS * (W - 50 * dpr);
+  ctx.strokeStyle = '#ccd'; ctx.lineWidth = 1; ctx.font = `${10 * dpr}px system-ui`; ctx.fillStyle = '#556';
+  for (const v of [-100, -50, 0, 50]) { ctx.beginPath(); ctx.moveTo(x(0), y(v)); ctx.lineTo(x(NSTEPS), y(v)); ctx.stroke(); ctx.fillText(`${v} m`, 2 * dpr, y(v) + 3 * dpr); }
+  for (let ma = 0; ma <= DUR / 1e6; ma += 0.5) { const k = NSTEPS - ma * 1e6 / DT; ctx.fillText(`${ma} Ma`, x(k) - 12 * dpr, H - 2 * dpr); }
+  const drawB = (b, colr, w) => {
+    ctx.strokeStyle = colr; ctx.lineWidth = w * dpr; ctx.beginPath();
+    for (let k = 0; k <= NSTEPS; k++) { const v = E.seaLevel(paramsAt(b, k), k * DT); k ? ctx.lineTo(x(k), y(v)) : ctx.moveTo(x(k), y(v)); }
+    ctx.stroke();
+  };
+  if (compare && compare !== active) drawB(compare, compare.color + '99', 1.2);
+  drawB(active, active.color, 1.6);
+  if (active.parent) { ctx.fillStyle = active.color; ctx.fillRect(x(active.kStart) - 1, 0, 2 * dpr, H); }
+  ctx.strokeStyle = '#111'; ctx.lineWidth = 1.5 * dpr; ctx.beginPath(); ctx.moveTo(x(curK), 0); ctx.lineTo(x(curK), H); ctx.stroke();
+}
+
+// ---------------- pseudo-well ---------------------------------------------------
+function renderWell(st, P) {
+  const cv = $('well'), { dpr, W, H } = fitCanvas(cv), ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+  const SL = E.seaLevel(P, curK * DT), j = wellJ;
+  $('wellTitle').textContent = `Pseudo-well at ${((j + 0.5) * DX / 1000).toFixed(1)} km — pore pressure & overburden (ppg EMW, ref. sea level), porosity`;
+  if (st.H[j] >= SL) { ctx.fillStyle = '#556'; ctx.font = `${12 * dpr}px system-ui`; ctx.fillText('Onshore at this time — click a marine location.', 10 * dpr, 20 * dpr); return; }
+  const pts = []; let z = st.H[j], sv = C.RHO_W * C.G * (SL - st.H[j]);
+  for (let l = st.k; l >= 0; l--) {
+    const i = l * NX + j, s = st.sand[i] + st.mud[i]; if (s <= C.EMPTY) continue;
+    const h = E.layerBulk(st, P, i), phi = 1 - s / h, rb = C.RHO_W * phi + C.RHO_S * (1 - phi);
+    const zm = z - h / 2, d = SL - zm;
+    const svm = sv + rb * C.G * h / 2; sv += rb * C.G * h; z -= h;
+    const pp = C.RHO_W * C.G * d + st.u[i];
+    pts.push({ dft: d * FT, pp: pp / (C.G * d) / 119.83, ob: svm / (C.G * d) / 119.83, phi, sand: st.sand[i] / s });
+  }
+  const dMax = (SL - st.b[j]) * FT, dMin = (SL - st.H[j]) * FT;
+  const L = 44 * dpr, R = W - 70 * dpr, T = 14 * dpr, B = H - 18 * dpr;
+  const y = (d) => T + (d - dMin) / (dMax - dMin) * (B - T), xp = (v) => L + (v - 8) / (20 - 8) * (R - L);
+  const xphi = (v) => R + 8 * dpr + v / 0.7 * (W - R - 12 * dpr);
+  ctx.font = `${10 * dpr}px system-ui`; ctx.fillStyle = '#556'; ctx.strokeStyle = '#e1e4e8'; ctx.lineWidth = 1;
+  for (let v = 8; v <= 20; v += 2) { ctx.beginPath(); ctx.moveTo(xp(v), T); ctx.lineTo(xp(v), B); ctx.stroke(); ctx.fillText(v, xp(v) - 5 * dpr, B + 12 * dpr); }
+  const step = (dMax - dMin) > 6000 ? 2000 : 1000;
+  for (let d = Math.ceil(dMin / step) * step; d <= dMax; d += step) { ctx.fillText(`${d.toLocaleString()}`, 2 * dpr, y(d) + 3 * dpr); ctx.beginPath(); ctx.moveTo(L, y(d)); ctx.lineTo(R, y(d)); ctx.stroke(); }
+  // lithology strip
+  for (const p of pts) { const c = ramp('grain', p.sand); ctx.fillStyle = `rgb(${c})`; ctx.fillRect(L - 8 * dpr, y(p.dft) - 1.5 * dpr, 6 * dpr, 3 * dpr); }
+  const line = (key, colr, xf, w) => { ctx.strokeStyle = colr; ctx.lineWidth = w * dpr; ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(xf(p[key]), y(p.dft)) : ctx.moveTo(xf(p[key]), y(p.dft))); ctx.stroke(); };
+  ctx.strokeStyle = '#2b7bd6'; ctx.setLineDash([4 * dpr, 3 * dpr]); ctx.beginPath(); ctx.moveTo(xp(C.RHO_W / 119.83), T); ctx.lineTo(xp(C.RHO_W / 119.83), B); ctx.stroke(); ctx.setLineDash([]);
+  line('ob', '#555', xp, 1.4); line('pp', '#d0342c', xp, 2);
+  line('phi', '#0f766e', xphi, 1.4);
+  ctx.fillStyle = '#d0342c'; ctx.fillText('pore pressure', xp(14.5), T + 10 * dpr);
+  ctx.fillStyle = '#555'; ctx.fillText('overburden', xp(17), T + 22 * dpr);
+  ctx.fillStyle = '#2b7bd6'; ctx.fillText('hydrostatic', xp(8.6) + 3 * dpr, B - 4 * dpr);
+  ctx.fillStyle = '#0f766e'; ctx.fillText('φ', xphi(0.35), T + 10 * dpr);
+  ctx.fillStyle = '#556'; ctx.fillText('ppg', R - 18 * dpr, B + 12 * dpr); ctx.fillText('ft TVDSS', 2 * dpr, T - 3 * dpr);
+  ctx.fillText(`mudline ${Math.round(dMin).toLocaleString()} ft`, L + 4 * dpr, y(dMin) + 11 * dpr);
+}
+
+// ---------------- panels ------------------------------------------------------------
+function buildParams() {
+  const box = $('params'); box.innerHTML = '';
+  for (const p of PARAMS) {
+    const div = document.createElement('div'); div.className = 'param';
+    const val = active.P[p.key], sv = p.log ? Math.log10(val) : val;
+    div.innerHTML = `<label>${p.name}<span id="v_${p.key}">${p.fmt(val)}</span></label><input type="range" min="${p.min}" max="${p.max}" step="${p.step}" value="${sv}">${p.hint ? `<small>${p.hint}</small>` : ''}`;
+    const inp = div.querySelector('input');
+    const read = () => (p.log ? Math.pow(10, +inp.value) : +inp.value);
+    inp.addEventListener('input', () => { $(`v_${p.key}`).textContent = p.fmt(read()); });
+    inp.addEventListener('change', () => { active.P[p.key] = read(); busy(() => { recompute(active); updateView(); }); });
+    box.appendChild(div);
+  }
+  $('pBranch').textContent = active.name;
+  $('pNote').textContent = active.parent ? `Applies from ${maOf(active.kStart)} onward; earlier history is shared with ${active.parent.name}.` : 'Applies to the whole run.';
+}
+const maOf = (k) => `${((DUR - k * DT) / 1e6).toFixed(2)} Ma`;
+function buildBranches() {
+  const box = $('branches'); box.innerHTML = '';
+  for (const b of branches) {
+    const d = document.createElement('div'); d.className = 'br' + (b === active ? ' act' : '');
+    d.innerHTML = `<span class="sw" style="background:${b.color}"></span><span class="nm">${b.name}<small>${b.parent ? `from ${b.parent.name} at ${maOf(b.kStart)}` : 'full run'} · ${Math.round(b.runMs)} ms</small></span>${b.parent ? '<button title="Delete branch">✕</button>' : ''}`;
+    d.querySelector('.nm').onclick = () => { active = b; if (compare === b) compare = null; buildBranches(); buildParams(); render(); };
+    const del = d.querySelector('button');
+    if (del) del.onclick = () => { const kill = new Set([b]); let grew = true; while (grew) { grew = false; for (const c of branches) if (!kill.has(c) && kill.has(c.parent)) { kill.add(c); grew = true; } } branches = branches.filter((c) => !kill.has(c)); if (kill.has(active)) active = branches[0]; if (kill.has(compare)) compare = null; buildBranches(); buildParams(); render(); };
+    box.appendChild(d);
+  }
+  const sel = $('cmp'); const cur = compare ? compare.id : '';
+  sel.innerHTML = '<option value="">none</option>' + branches.filter((b) => b !== active).map((b) => `<option value="${b.id}">${b.name}</option>`).join('');
+  sel.value = compare && compare !== active ? cur : '';
+  $('bBranch').disabled = branches.length >= 4;
+}
+function renderTables(st) {
+  const mb = E.massBalance(st, paramsAt(active, curK));
+  const km2 = (v) => (v / 1e6).toFixed(3) + ' km²';
+  $('mb').innerHTML = `<tr><td>Supplied</td><td class="num">${km2(mb.supplied)}</td></tr><tr><td>Stored in section</td><td class="num">${km2(mb.stored)}</td></tr><tr><td>Exported basinward</td><td class="num">${km2(mb.exported)}</td></tr>
+    <tr><td>Imbalance, all sediment</td><td class="num">${mb.relError.toExponential(1)}</td></tr><tr><td>Imbalance, sand only</td><td class="num">${mb.sandRelError.toExponential(1)}</td></tr>
+    <tr><td colspan=2 class="note">Areas of solid grains in the section (m² = m³ per metre of margin). Imbalance is relative to supply; ~1e-14 is rounding.</td></tr>`;
+  $('perf').innerHTML = `<tr><td>Full 3 Myr run (${active.name})</td><td class="num">${Math.round(active.runMs)} ms</td></tr><tr><td>Last time jump (replay)</td><td class="num">${perf.scrub.toFixed(0)} ms</td></tr><tr><td>Draw section</td><td class="num">${perf.render.toFixed(0)} ms</td></tr>`;
+}
+
+// ---------------- main render -----------------------------------------------------
+function render() {
+  const t0 = performance.now();
+  const st = stateAt(active, curK);
+  perf.scrub = performance.now() - t0;
+  const t1 = performance.now();
+  renderSection($('sec'), active, curK);
+  perf.render = performance.now() - t1;
+  const P = paramsAt(active, curK);
+  $('secTitle').innerHTML = `<b style="color:${active.color}">${active.name}</b> at ${maOf(curK)} · sea level ${E.seaLevel(P, curK * DT).toFixed(0)} m · turbidite share of supply ${Math.round(100 * (st.tcShare || 0))} %`;
+  if (compare && compare !== active) {
+    $('cmpWrap').style.display = '';
+    const s2 = renderSection($('sec2'), compare, curK);
+    $('sec2Title').innerHTML = `<b style="color:${compare.color}">${compare.name}</b> at ${maOf(curK)} · sea level ${E.seaLevel(paramsAt(compare, curK), curK * DT).toFixed(0)} m · turbidite share ${Math.round(100 * (s2.tcShare || 0))} %`;
+  } else $('cmpWrap').style.display = 'none';
+  const st2 = stateAt(active, curK);
+  renderWell(st2, P);
+  renderSL();
+  renderTables(st2);
+  $('scrub').value = curK;
+  $('ageLbl').textContent = `${maOf(curK)}  ·  ${(curK * DT / 1e6).toFixed(2)} Myr since start`;
+  const lg = $('leg').getContext('2d');
+  for (let x = 0; x < 180; x++) { lg.fillStyle = `rgb(${ramp(mode, x / 179)})`; lg.fillRect(x, 0, 1, 12); }
+  $('legTxt').textContent = LEG[mode];
+}
+
+function busy(fn) { $('busy').style.display = 'flex'; setTimeout(() => { try { fn(); } finally { $('busy').style.display = 'none'; buildBranches(); render(); } }, 30); }
+
+// ---------------- checks -------------------------------------------------------------
+function runChecks() {
+  const rows = [];
+  const add = (ok, name, detail) => rows.push(`<tr><td class="${ok ? 'pass' : 'fail'}">${ok ? 'PASS' : 'FAIL'}</td><td>${name}<div class="note">${detail}</div></td></tr>`);
+  const gib = {};
+  for (const T of [0.1, 1, 10]) {
+    const num = E.gibsonNumeric(T, 400); let mx = 0;
+    num.X.forEach((x, i) => { mx = Math.max(mx, Math.abs(num.U[i] - E.gibsonAnalytic(x, T))); });
+    gib[T] = num;
+    add(mx < 0.02, `Pore pressure vs Gibson (1958), T=${T}`, `max error ${mx.toFixed(4)} of overburden`);
+  }
+  for (const [lith, nm] of [[0, 'sand'], [1, 'mud']]) {
+    const r = E.drainedColumn(lith, 3000);
+    const p = r.profile.reduce((a, b) => Math.abs(b.z - 2000) < Math.abs(a.z - 2000) ? b : a);
+    add(r.maxLam < 0.01, `Drained ${nm} stays hydrostatic`, `porosity at 2 km ${p.phi.toFixed(3)} vs Sclater & Christie (1980) ${p.sc.toFixed(3)}`);
+  }
+  // determinism: replay 30 steps from a snapshot and compare with the stored next snapshot
+  const keys = [...active.snaps.keys()].filter((k) => k + SNAP <= NSTEPS && active.snaps.has(k + SNAP));
+  if (keys.length) {
+    const k0 = keys[Math.floor(keys.length / 2)], tmp = E.createState(active.P);
+    E.restore(active.snaps.get(k0), tmp, active.P);
+    while (tmp.k < k0 + SNAP) E.step(tmp, active.P);
+    const ref = active.snaps.get(k0 + SNAP), now = E.snapshot(tmp);
+    const same = ['sand', 'mud', 'smax', 'u', 'b'].every((key) => ref[key].every((v, i) => v === now[key][i]));
+    add(same, 'Rewind/replay is exact', `replayed ${maOf(k0)} → ${maOf(k0 + SNAP)} and compared every cell bit-for-bit`);
+  }
+  const mb = E.massBalance(stateAt(active, NSTEPS), active.P);
+  add(Math.abs(mb.relError) < 1e-9 && Math.abs(mb.sandRelError) < 1e-9, 'Sediment mass conserved', `end of run: total ${mb.relError.toExponential(1)}, sand ${mb.sandRelError.toExponential(1)}`);
+  $('checks').innerHTML = rows.join('');
+  drawGibson(gib);
+  stateAt(active, curK);
+}
+function drawGibson(gib) {
+  const cv = $('gib'); cv.style.display = ''; const { dpr, W, H } = fitCanvas(cv), ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+  const L = 30 * dpr, B = H - 18 * dpr, x = (u) => L + u * (W - L - 8 * dpr), y = (z) => B - z * (B - 8 * dpr);
+  ctx.strokeStyle = '#ccd'; ctx.strokeRect(L, 8 * dpr, W - L - 8 * dpr, B - 8 * dpr);
+  ctx.font = `${10 * dpr}px system-ui`; ctx.fillStyle = '#556';
+  ctx.fillText('excess pressure / overburden →', L + 20 * dpr, H - 4 * dpr); ctx.save(); ctx.translate(10 * dpr, B - 10 * dpr); ctx.rotate(-Math.PI / 2); ctx.fillText('height / thickness →', 0, 0); ctx.restore();
+  const cols = { 0.1: '#2da44e', 1: '#1f6feb', 10: '#d93f0b' };
+  for (const T of [0.1, 1, 10]) {
+    ctx.strokeStyle = cols[T]; ctx.lineWidth = 1.5 * dpr; ctx.beginPath();
+    for (let i = 0; i <= 50; i++) { const z = i / 50, u = E.gibsonAnalytic(z, T); i ? ctx.lineTo(x(u), y(z)) : ctx.moveTo(x(u), y(z)); }
+    ctx.stroke(); ctx.fillStyle = cols[T];
+    gib[T].X.forEach((z, i) => { if (i % 20 === 10) { ctx.beginPath(); ctx.arc(x(gib[T].U[i]), y(z), 2.5 * dpr, 0, 7); ctx.fill(); } });
+    const u0 = E.gibsonAnalytic(0.02, T); ctx.fillText(`T=${T}`, x(u0) + 4 * dpr, y(0.08));
+  }
+  $('gibNote').textContent = 'Lines: exact solution (Gibson 1958). Dots: this model\'s solver. T = (deposition rate)² × time ÷ consolidation coefficient; high T = fast burial, poor drainage.';
+}
+
+// ---------------- wiring --------------------------------------------------------------
+function setK(k) { curK = Math.max(0, Math.min(NSTEPS, k)); render(); }
+$('scrub').max = NSTEPS;
+$('scrub').addEventListener('input', (e) => setK(+e.target.value));
+$('bStart').onclick = () => setK(0); $('bEnd').onclick = () => setK(NSTEPS);
+$('bBack').onclick = () => setK(curK - 1); $('bFwd').onclick = () => setK(curK + 1);
+$('bPlay').onclick = () => {
+  playing = !playing; $('bPlay').textContent = playing ? '❚❚ Pause' : '▶ Play';
+  if (playing && curK >= NSTEPS) curK = 0;
+  const tick = () => { if (!playing) return; setK(curK + +$('speed').value); if (curK >= NSTEPS) { playing = false; $('bPlay').textContent = '▶ Play'; return; } requestAnimationFrame(tick); };
+  if (playing) requestAnimationFrame(tick);
+};
+document.querySelectorAll('[data-mode]').forEach((b) => b.onclick = () => { mode = b.dataset.mode; document.querySelectorAll('[data-mode]').forEach((c) => c.classList.toggle('on', c === b)); render(); });
+for (const id of ['sec', 'sec2']) $(id).addEventListener('click', (e) => { const r = e.target.getBoundingClientRect(); wellJ = Math.max(0, Math.min(NX - 1, Math.floor((e.clientX - r.left) / r.width * NX))); render(); });
+$('bBranch').onclick = () => {
+  const par = owner(active, curK);
+  const b = makeBranch(par, curK, E.clone(par.P));
+  branches.push(b); compare = active; active = b;
+  busy(() => { computeBranch(b); }); buildParams();
+};
+$('cmp').onchange = (e) => { compare = branches.find((b) => String(b.id) === e.target.value) || null; render(); };
+$('bChecks').onclick = () => busy(runChecks);
+window.addEventListener('resize', () => render());
+
+// ---------------- start -----------------------------------------------------------------
+const base = makeBranch(null, 0, E.clone(BASE));
+branches.push(base); active = base;
+buildParams();
+busy(() => { computeBranch(base); updateView(); });
+window.__strata = { E, branches: () => branches, stateAt, setK, recompute, updateView, render, get active() { return active; } };
+</script>
+</body>
+</html>
