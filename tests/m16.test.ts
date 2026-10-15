@@ -119,7 +119,7 @@ describe('M1.6 worker data', () => {
 })
 
 describe('pseudo-well details', () => {
-  const pt = (tvdssFt: number, tempF: number): WellPoint => ({ layer: 0, tvdssFt, thickFt: 10, poreEmw: null, overburdenEmw: null, hydroEmw: null, porosity: 0.3, tempF, sandFrac: 0, salt: false })
+  const pt = (tvdssFt: number, tempF: number): WellPoint => ({ layer: 0, tvdssFt, thickFt: 10, poreEmw: null, overburdenEmw: null, hydroEmw: null, porosity: 0.3, tempF, sandFrac: 0, salt: false, mtd: false })
   it('finds the cementation onset by interpolation', () => {
     expect(cementationOnsetDepthFt([pt(0, 50), pt(1000, 150), pt(2000, 250)], 100)).toBeCloseTo(500, 9)
     expect(cementationOnsetDepthFt([pt(0, 50), pt(1000, 60)], 100)).toBeNull()

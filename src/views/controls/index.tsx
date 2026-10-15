@@ -161,11 +161,33 @@ function PresetInfo({ note }: { note: string }) {
   )
 }
 
+/** Slope failure on/off: a check box for the 0/1 parameter failOn (start-only, so a branch cannot change it). */
+function FailToggle({ def }: { def: ParamDef }) {
+  const s = useAppState()
+  const p = s.params[s.activeId] as unknown as Record<string, ParamValue> | undefined
+  const isBranch = !!s.branches.find((b) => b.id === s.activeId)?.parentId
+  const disabled = (isBranch && def.startOnly) || !p || !!s.busy
+  const on = Number(p ? p[def.key] : def.default) === 1
+  return (
+    <div className="control" data-param={def.key}>
+      <div className="clabel">
+        <label className="toggle">
+          <input type="checkbox" checked={on} disabled={disabled} aria-label="Slope failure (MTDs) on" onChange={(e) => void store.editParam(def.key, e.target.checked ? 1 : 0)} />
+          {' '}Slope failure (MTDs) {on ? 'on' : 'off'}
+        </label>
+        <Info def={def} />
+      </div>
+      {isBranch && def.startOnly ? <div className="muted small">Set at the start of the run; a branch cannot change it.</div> : <div className="muted small">Changing it runs the main run again from the start.</div>}
+    </div>
+  )
+}
+
 function ControlsView() {
   const s = useAppState()
   const editable = PARAMS.filter((d) => !SCENARIO.includes(d.key))
   const main = MAIN.map((k) => editable.find((d) => d.key === k)!).filter(Boolean)
-  const rest = editable.filter((d) => !MAIN.includes(d.key))
+  const rest = editable.filter((d) => !MAIN.includes(d.key) && d.key !== 'failOn')
+  const failDef = editable.find((d) => d.key === 'failOn')
   const active = s.branches.find((b) => b.id === s.activeId)
   return (
     <div>
@@ -174,6 +196,7 @@ function ControlsView() {
       <p className="muted small">
         {active?.parentId ? `Editing branch "${active.label}". Start-only controls are locked.` : 'Editing the main run: a change runs it again from the start.'}
       </p>
+      {failDef ? <FailToggle def={failDef} /> : null}
       {main.map((d) => <Control key={d.key} def={d} />)}
       <details>
         <summary>All other parameters ({rest.length})</summary>

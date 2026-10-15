@@ -1,0 +1,111 @@
+{
+  "errors": [],
+  "externalRequests": [],
+  "checks": {
+    "presetOptions": [
+      "Last 3 Myr (default)",
+      "Miocene to present (23 Myr)",
+      "Full Cenozoic (66 Myr)",
+      "Overpressured slope (MTD-prone)"
+    ],
+    "toggleOffAtStart": true,
+    "noEventsMessageWhenOff": "Slope failure is off. Turn it on under Controls (it restarts the run), or pick the “Overpressured slope (MTD-prone)” preset.",
+    "toggleOnForPreset": true,
+    "eventRows": [
+      "1 2.485 lowstand 47 110 0.033 4.5",
+      "2 2.485 lowstand 47 55 0.017 2.3",
+      "3 2.430 lowstand 49 137 0.042 7.8",
+      "4 2.065 lowstand 52 73 0.022 2.8",
+      "5 2.065 lowstand 52 46 0.014 1.6",
+      "6 2.065 lowstand 52 35 0.011 0.4",
+      "7 0.880 lowstand 73–74 915 0.292 15.1",
+      "8 0.880 lowstand 73 50 0.015 0.8",
+      "9 0.880 lowstand 73–74 731 0.239 11.3",
+      "10 0.880 lowstand 72 144 0.044 3.5",
+      "11 0.880 lowstand 77 52 0.016 0.2",
+      "12 0.875 lowstand 74 219 0.067 3.5",
+      "13 0.745 lowstand 76 153 0.047 4.5",
+      "14 0.735 rapid loading 78 40 0.012 0.0",
+      "15 0.735 rapid loading 78 35 0.011 0.0",
+      "16 0.735 rapid loading 78 33 0.010 0.0",
+      "17 0.640 lowstand 82 38 0.012 0.4",
+      "18 0.635 lowstand 82 897 0.274 16.9",
+      "19 0.635 lowstand 81 974 0.297 12.9",
+      "20 0.635 lowstand 81–82 124 0.052 1.7",
+      "21 0.635 lowstand 81–82 79 0.048 0.0",
+      "22 0.635 lowstand 81–82 92 0.048 0.0",
+      "23 0.625 rapid loading 81 36 0.011 0.0",
+      "24 0.625 rapid loading 81 33 0.010 0.0",
+      "25 0.145 lowstand 94 246 0.075 6.7",
+      "26 0.140 lowstand 94–95 796 0.312 17.3",
+      "27 0.140 lowstand 94–95 124 0.055 2.9",
+      "28 0.140 lowstand 95 76 0.023 0.0",
+      "29 0.140 lowstand 95 76 0.023 0.0",
+      "30 0.140 lowstand 95 76 0.023 0.0"
+    ],
+    "nSteps": 600,
+    "controls": {
+      "total": 63,
+      "withoutSource": [],
+      "hasNew": [
+        [
+          "failMinDepth",
+          true
+        ],
+        [
+          "failSlopeMin",
+          true
+        ],
+        [
+          "failLowstandDrop",
+          true
+        ],
+        [
+          "failRapidRate",
+          true
+        ],
+        [
+          "mtdPhiMud",
+          true
+        ]
+      ]
+    },
+    "legendFs": "0.25 (fails)\n4 (safe)\nlog scale, 1.0 in the middle, red below 1.2; flat seafloor (no driving stress) is blue. Dashed line: critical slip depth. Hatched = MTD.\nMTD (debris deposit)",
+    "afterPick": {
+      "step": 103,
+      "selectedRow": "1 2.485 lowstand 47 110 0.033 4.5",
+      "timeText": "step 103 of 600 — 2.485 Ma (million years ago)",
+      "wellTitle": "Pseudo-well at 51 km",
+      "wellMtd": 1
+    },
+    "eventFirst": {
+      "id": 1,
+      "row": "1 2.485 lowstand 47 110 0.033 4.5"
+    },
+    "scrubBefore": {
+      "step": 102
+    },
+    "wellHover": "MTD #1: 2.485 Ma, lowstand, source 47 km, scar 110 ft deep, 0.033 km², run-out 4.5 km",
+    "wellMtdLabels": [
+      "MTD #1"
+    ],
+    "afterToggleOff": "Slope failure is off. Turn it on under Controls (it restarts the run), or pick the “Overpressured slope (MTD-prone)” preset."
+  },
+  "files": [
+    "mtd-end-grain-canvas.png",
+    "mtd-end-grain-page.png",
+    "mtd-end-age-canvas.png",
+    "mtd-end-phi-canvas.png",
+    "mtd-end-op-canvas.png",
+    "mtd-end-op-page.png",
+    "mtd-end-temp-canvas.png",
+    "mtd-end-fs-canvas.png",
+    "mtd-end-fs-page.png",
+    "mtd-event-selected-grain-canvas.png",
+    "mtd-event-selected-page.png",
+    "mtd-event-selected-fs-canvas.png",
+    "mtd-scrub-before-event-canvas.png",
+    "mtd-pseudo-well-page.png",
+    "mtd-failure-off-page.png"
+  ]
+}

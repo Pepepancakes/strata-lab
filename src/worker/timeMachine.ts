@@ -23,7 +23,8 @@
 // parameters, in the straight run and after a restore alike, so both agree.
 
 import { buoyantLoad, cellBulk, setPor } from '../engine/compaction'
-import { EMPTY } from '../engine/constants'
+import { EMPTY, SAND, MUD } from '../engine/constants'
+import { computeStability, infiniteSlopeFS, seafloorSlope } from '../engine/stability'
 import { stateHash } from '../engine/determinism'
 import { cloneParams, defaultEngineParams, type EngineParams } from '../engine/engineParams'
 import type { ParamValue } from '../engine/params'
@@ -359,6 +360,7 @@ export class TimeMachine {
         for (let i = 0; i < n; i++) t[i] = cellBulk(eng, era.P, i)
         view.thick = t
       } else if (f === 'lam') view.lam = this.overpressureRatio()
+      else if (f === 'fs') this.addSafety(view, era.P)
       else if (f === 'temp') view.temp = this.temperatures(era.P, view.seaLevelM)
       else view[f] = rec[f].slice(0, n)
     }
@@ -388,6 +390,38 @@ export class TimeMachine {
       }
     }
     return lam
+  }
+
+  /**
+   * Factor of safety for display (M2.4): per cell (infinite slope with the cell's own buoyant load and
+   * excess pore pressure and the column's seafloor slope; same formula as stability.ts) and per column
+   * (computeStability with the limits the failure step uses). Display only, nothing is stored.
+   */
+  private addSafety(view: StateView, P: EngineParams): void {
+    const rec = this.eng.rec
+    const nx = rec.nx
+    const tanS = Math.tan((P.phiFric[SAND] * Math.PI) / 180)
+    const tanM = Math.tan((P.phiFric[MUD] * Math.PI) / 180)
+    const fsCell = new Float64Array(rec.nLayers * nx).fill(Infinity)
+    for (let j = 0; j < nx; j++) {
+      const beta = Math.atan(seafloorSlope(rec.H, rec.dx, j))
+      let above = 0
+      for (let l = rec.nLayers - 1; l >= 0; l--) {
+        const i = l * nx + j
+        if (rec.material[i] === SALT) continue
+        const s = rec.sand[i] + rec.mud[i]
+        if (s <= EMPTY) continue
+        const L = buoyantLoad(above, s)
+        above += s
+        const f = rec.sand[i] / s
+        fsCell[i] = infiniteSlopeFS(L, rec.u[i], beta, f * tanS + (1 - f) * tanM, f * P.cohesion[SAND] + (1 - f) * P.cohesion[MUD])
+      }
+    }
+    const st = computeStability(this.eng, P, { minSlope: Math.tan((P.failSlopeMin * Math.PI) / 180), minDepth: P.failMinDepth })
+    view.fsCell = fsCell
+    view.fsMin = st.fsMin
+    view.fsDepth = st.critDepth
+    view.fsLayer = st.critLayer
   }
 
   /** Steady-conduction temperature (deg C) at the middle of every cell, from the record as it is now. */

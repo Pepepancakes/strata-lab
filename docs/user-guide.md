@@ -144,7 +144,7 @@ slope and coastal-plain diffusivities were tuned by eye, not calibrated to data.
 | **Sand grain diameter (cement surface area)** (mm) | 0.2 | tuned. Synthetic |
 | **Share of grain surface that is clean quartz** | 0.7 | tuned. Synthetic |
 
-**Slope stability** (M2.1; the controls exist, but the app does not draw the result until M2.4)
+**Slope stability** (M2.1; drawn by the Factor of safety colour mode, section 4)
 | Control | Default (sand / mud) | Source |
 |---|---|---|
 | **Friction angle phi' (effective stress)** (deg) | 33 / 25 | to verify (Hampton et al. 1996). Muds about 20 to 30°, sands about 30 to 38° |
@@ -155,11 +155,11 @@ The factor of safety is the strength holding a slab of sediment in place divided
 gravity along the slope. Below 1 the slab would slide. The engine works it out from the
 seafloor slope and the model's own pore pressure, so overpressure lowers it directly.
 
-Slope failure and debris-flow run-out (M2.2; the controls exist, but the app does not draw the failures until M2.4)
+Slope failure and debris-flow run-out (M2.2; drawn in the section, the event list and the pseudo-well, sections 4, 8 and 10)
 
 | Control | Default | Source |
 |---|---|---|
-| Slope failure on (1) / off (0) | 0 | start. tuned (switch). Off keeps the run identical to M1 |
+| Slope failure on (1) / off (0) | 0 | start. tuned (switch). Shown as the check box *Slope failure (MTDs)* at the top of the controls. Off keeps the run identical to M1 |
 | Most columns in one failure | 10 | tuned. How far a failure spreads sideways |
 | Most failures per step (rechecks of the scar) | 5 | tuned |
 | Debris-flow yield strength (psi) | 0.73 (5 kPa) | tuned. Imran et al. (2001) model, to verify |
@@ -199,6 +199,19 @@ Pick a colour mode with the buttons above it. The legend below the picture shows
 - **Temperature (°F)**: 32 to 392 °F, blue to red, steady conduction from the basal heat flow.
   It is always available. It does not need the temperature switch (that switch matters for
   cement, section 9).
+- **Factor of safety**: the slope-stability result for every cell, on a log scale from 0.25 to 4 with 1.0
+  in the middle. Reds are cells with a factor of safety below 1.2 (below 1 the slab would slide);
+  pale to blue is safe. Flat seafloor has nothing pulling the slab down, so it is blue. A black
+  dashed line shows the critical slip depth: the cell with the lowest factor of safety in each
+  sloping column. Safety is worked out from the model's own pore pressure, so overpressure turns
+  cells red.
+
+**MTDs in every colour mode.** Debris-flow deposits (MTDs) are drawn hatched, with the stripes
+changing direction from patch to patch, so they stand out over any colour. The hatching marks every
+cell in the deposit of a slope-failure event, not only cells where debris is at least half of the
+solids. A pink flag marked *headwall #n* shows where a failure started, for three steps after it
+(and always for the event picked in the event list). With a picked event, the source columns are
+drawn in pink on the seafloor and its deposit is outlined in yellow.
 
 Click anywhere on the section to move the pseudo-well to that column. A vertical line shows where it is.
 
@@ -277,6 +290,9 @@ Depth is TVDSS in ft (below the sea surface). It has four tracks:
    crossed, and the depth where it happens is labelled. If cement is off the label says
    "(cement off)".
 4. **Grain size**: yellow is sand, grey-green is mud.
+   Debris-flow deposits (MTDs) in the column are hatched, labelled *MTD #n* with the event number.
+   Hover (or tab to) a hatched interval to read the event: time, cause, source position, scar depth,
+   volume and run-out. The same text appears under the plot.
 
 If salt is ever present (it is not, in M1) it is drawn pink and labelled "salt".
 
@@ -318,6 +334,14 @@ factor of about 4.6 for every 30 °C (54 °F) of heating. What it does:
 If you change these on the main run you must wait for the run to recompute.
 
 ## 10. Panels on the right
+**Slope failures** (the list at the top of the right column). One row per failure event: number,
+time (Ma), cause (lowstand, oversteepening, rapid loading or overpressure; section 3.3), source
+position (km along the section), scar depth (ft), volume and run-out (km). Volume is the area
+removed from this 2D section in km², not a 3D volume. Click a row (or its number) to go to that
+event: the time bar moves to just after it, the pseudo-well moves to the middle of its deposit,
+and the section marks the headwall, the source columns and the deposit. Click again to clear.
+Rows after the current time are greyed. With failure off the panel says so.
+
 **Mass balance** (km² of solid in the section; grains only, no pores):
 - *supplied*: total delivered at the landward end.
 - *stored*: change in the amount in the record since the start.
@@ -372,7 +396,7 @@ also asks if it would throw away branches.
 
 ## 13. Known limits
 - **Turbidites are a transport-length rule, not flow physics.** No turbidity-current flow, no
-  channels or levees, no slope failure, faults, salt or 3D yet.
+  channels or levees, slope failure is off by default and limited (section 3.3), no faults, salt or 3D yet.
 - **The slopes are tuned.** Slope and coastal-plain diffusivities were tuned by eye to about 6°
   muddy slopes and a 0.3 m/km coastal plain, not calibrated to data.
 - **Default overpressure is mild** (maximum about 14 % of the load, at 20 m²/yr supply). To see

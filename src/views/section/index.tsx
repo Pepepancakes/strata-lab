@@ -8,13 +8,14 @@ const hex = (c: number[]) => `rgb(${c[0]},${c[1]},${c[2]})`
 
 function Legend({ mode, startAgeMa }: { mode: (typeof MODES)[number]['id']; startAgeMa: number }) {
   const leg = legendFor(mode, startAgeMa)
-  const stops = Array.from({ length: 6 }, (_, i) => hex(ramp(mode, i / 5)))
+  const stops = Array.from({ length: 21 }, (_, i) => hex(ramp(mode, i / 20)))
   return (
     <div className="legend" aria-label="Colour legend">
       <span>{leg.low}</span>
       <span className="ramp" style={{ background: `linear-gradient(90deg, ${stops.join(',')})` }} />
       <span>{leg.high}</span>
       <span className="muted">{leg.note}</span>
+      <span className="hatch" aria-hidden="true" /><span className="muted">MTD (debris deposit)</span>
     </div>
   )
 }
@@ -28,11 +29,11 @@ function SectionView() {
     const cv = ref.current
     if (!cv || !s.view || !s.extent || !viewHasMode(s.view, s.mode)) return
     const t0 = performance.now()
-    drawSection(cv, s.view, { mode: s.mode, wellCol: s.wellCol, extent: s.extent, runLengthMa: s.runLengthMa })
+    drawSection(cv, s.view, { mode: s.mode, wellCol: s.wellCol, extent: s.extent, runLengthMa: s.runLengthMa, events: s.events, selectedEvent: s.selectedEvent })
     store.recordDraw(performance.now() - t0)
     cv.dataset.drawnMode = s.mode
     cv.dataset.drawnStep = String(s.view.step)
-  }, [s.view, s.mode, s.wellCol, s.extent, s.runLengthMa, widthTick])
+  }, [s.view, s.mode, s.wellCol, s.extent, s.runLengthMa, s.events, s.selectedEvent, widthTick])
 
   useEffect(() => {
     const cv = ref.current

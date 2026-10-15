@@ -11,6 +11,7 @@ import { cloneParams, type EngineParams } from '../engine/engineParams'
 import type { ParamValue } from '../engine/params'
 import { getPreset, presetParams, type PresetId } from '../engine/presets'
 import type { Segment } from '../engine/schedule'
+import type { FailureEvent } from '../engine/state'
 import { validateBranchEdits } from '../worker/edits'
 import { EngineClient } from '../worker/client'
 import type {
@@ -21,7 +22,7 @@ import { Autosave, browserStorage, type KeyValueStorage } from './autosave'
 import { ReplaceGuard, type PendingReplace } from './replaceGuard'
 import { buildScenarioFile, compareHashes, parseScenario, serializeScenario, type ScenarioFile } from './scenarioFile'
 
-export type ColorMode = 'grain' | 'age' | 'phi' | 'op' | 'temp'
+export type ColorMode = 'grain' | 'age' | 'phi' | 'op' | 'temp' | 'fs'
 
 /** Vertical range of the section drawing, m. Only grows during a run, so playing does not rescale. */
 export interface Extent {
@@ -91,6 +92,10 @@ export interface AppState {
   diff: DiffSummary | null
   well: WellColumn | null
   series: SeriesData | null
+  /** Slope failures of the active branch over the whole run, oldest first (M2.4). */
+  events: FailureEvent[]
+  /** Id of the event picked in the event list, or null. */
+  selectedEvent: number | null
   extent: Extent | null
   playing: boolean
   fps: number
@@ -137,6 +142,8 @@ const initial = (): AppState => ({
   diff: null,
   well: null,
   series: null,
+  events: [],
+  selectedEvent: null,
   extent: null,
   playing: false,
   fps: 10,
@@ -149,6 +156,7 @@ const initial = (): AppState => ({
 export function fieldsForMode(mode: ColorMode): ViewField[] {
   if (mode === 'op') return ['thick', 'sand', 'mud', 'lam']
   if (mode === 'temp') return ['thick', 'sand', 'mud', 'temp']
+  if (mode === 'fs') return ['thick', 'sand', 'mud', 'fs']
   return ['thick', 'sand', 'mud']
 }
 
@@ -585,6 +593,24 @@ export class AppStore {
     this.refresh(false)
   }
 
+  /**
+   * Pick an event in the event list: go to the view just after the step it happened in (record step
+   * k is seen at view step k + 1), put the pseudo-well in the
+   * middle of its deposit (or its source when nothing stayed in the section) and highlight it.
+   * null clears the pick.
+   */
+  selectEvent(id: number | null): void {
+    const ev = id === null ? undefined : this.state.events.find((e) => e.id === id)
+    if (!ev) {
+      this.set({ selectedEvent: null })
+      return
+    }
+    const nx = this.state.info?.nx ?? 0
+    const col = ev.depositTo >= ev.depositFrom && ev.layer >= 0 ? Math.round((ev.depositFrom + ev.depositTo) / 2) : Math.round((ev.sourceFrom + ev.sourceTo) / 2)
+    this.set({ selectedEvent: ev.id, step: Math.min(this.state.info?.nSteps ?? ev.step + 1, ev.step + 1), wellCol: Math.max(0, Math.min(nx - 1, col)) })
+    this.refresh(false)
+  }
+
   setWellColumn(j: number): void {
     const nx = this.state.info?.nx ?? 0
     this.set({ wellCol: Math.max(0, Math.min(nx - 1, j)) })
@@ -662,6 +688,11 @@ export class AppStore {
         if (want.series) {
           const r = await this.ask({ kind: 'series', branchId: s.activeId })
           if (r && r.kind === 'seriesData') this.set({ series: r.series })
+          const ev = await this.ask({ kind: 'events', branchId: s.activeId })
+          if (ev && ev.kind === 'eventList') {
+            const keep = this.state.selectedEvent
+            this.set({ events: ev.events, selectedEvent: ev.events.some((e) => e.id === keep) ? keep : null })
+          }
         }
         if (want.view) await this.fetchView(s)
       }
