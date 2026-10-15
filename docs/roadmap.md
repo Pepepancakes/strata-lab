@@ -79,6 +79,26 @@ Rebuild the engine and app as maintained code:
 - Every slider shows its source or "tuned".
 - A saved scenario reopens with identical results.
 
+**Cards (written 2026-10-14; parked until John approves).** A stacked chain: each card merges
+the previous card's branch, and nothing reaches main until John approves the tip.
+| Card | Who | What |
+|---|---|---|
+| M1.1 | coder | Scaffold: TS/Vite/React/Vitest, lint rules that keep the engine pure, CI, one offline HTML file, engine worker inside it |
+| M1.2 | coder | Layer record (units tagged sediment/salt, per spike 002), parameter registry with sources, sea-level interface, determinism harness |
+| M1.3 | coder | Port spike 001 physics test-first; must match spike 001's output column by column (golden file) |
+| M1.4 | coder | Published 3 Myr sea-level curve as default (licence checked, cited); sine kept for teaching |
+| M1.5 | coder | Worker + time machine: scrub, play, branches, compare; ≤ 25 MB per branch (spike: ~75 MB) |
+| M1.6 | frontend-dev | The app: section colour modes, pseudo-well, sea-level chart, balance, checks panel, ⓘ source on every control |
+| M1.7 | frontend-dev | Save/open scenario files (recomputed, hash-checked), autosave, warn before replacing work |
+| M1.8 | doc-writer | User guide, handover, agent guide, physics references checked against the registry |
+| M1.9 | safety-reviewer | Integrity review with its own check script; reruns the 2 Ma experiment in both engines; verdict |
+
+**Picks (recommended, for John to confirm):**
+- The default sea level is a published global curve covering 3 Myr. M1.4 chooses it by licence;
+  Bintanja & van de Wal (2008) is checked first. If none can be bundled, the card stops and asks.
+- The grid, run length and time step stay as in the spike: 150 km of 1 km columns, 3 Myr, 5 kyr steps.
+- Depths are in ft and pressures in ppg; horizontal distance is in km. A metric toggle stays in the Backlog.
+
 ## M2 — Slope failure and MTDs
 - Slope stability in every slope cell: infinite-slope factor of safety using the excess pore
   pressure from the consolidation solver.
