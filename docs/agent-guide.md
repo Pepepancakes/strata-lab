@@ -1,7 +1,7 @@
 # Strata Lab: agent guide
 
 Read this first. It is the source of truth for how work is done in this repo.
-**Status (2026-10-14):** project started. Spike 001 is done. Spike 002 (salt) is next, then M1.
+**Status (2026-10-14):** spikes 001 and 002 are done. M1 is approved and being built as a chain of cards.
 Plan: `docs/roadmap.md`. Decisions: `docs/decisions.md`. Background: `PROJECT.md`.
 Physics sources: `docs/physics-references.md`.
 
@@ -33,7 +33,9 @@ Explain things in plain language and use oilfield units (ft, ppg) in anything he
 5. **Data.** Synthetic, or published examples rebuilt with a full citation. Never use company,
    well, lease or seismic data. Papers stay in the git-ignored `References/` folder.
 6. **Local-only.** No network requests at runtime. The app must work offline from one built
-   HTML file.
+   HTML file *for now*. John expects it to grow beyond one file later (hosted page and/or desktop
+   app; `docs/decisions.md` D9). So keep the single file a build output only, and put nothing in
+   `src/` that only works as one file.
 7. **Permissive licences only** (MIT / Apache-2 / BSD).
 8. **Readable over clever.** Each physics module starts with a comment giving the equation, its
    source and its assumptions.

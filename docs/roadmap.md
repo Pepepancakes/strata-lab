@@ -79,7 +79,7 @@ Rebuild the engine and app as maintained code:
 - Every slider shows its source or "tuned".
 - A saved scenario reopens with identical results.
 
-**Cards (written 2026-10-14; parked until John approves).** A stacked chain: each card merges
+**Cards (approved by John 2026-10-14, running).** A stacked chain: each card merges
 the previous card's branch, and nothing reaches main until John approves the tip.
 | Card | Who | What |
 |---|---|---|
@@ -93,7 +93,7 @@ the previous card's branch, and nothing reaches main until John approves the tip
 | M1.8 | doc-writer | User guide, handover, agent guide, physics references checked against the registry |
 | M1.9 | safety-reviewer | Integrity review with its own check script; reruns the 2 Ma experiment in both engines; verdict |
 
-**Picks (recommended, for John to confirm):**
+**Picks (accepted with the approval):**
 - The default sea level is a published global curve covering 3 Myr. M1.4 chooses it by licence;
   Bintanja & van de Wal (2008) is checked first. If none can be bundled, the card stops and asks.
 - The grid, run length and time step stay as in the spike: 150 km of 1 km columns, 3 Myr, 5 kyr steps.
@@ -157,3 +157,7 @@ A 3D version on the GPU (WebGPU). Opens with a spike on speed.
 - Teaching mode: guided scenarios ("why did this sand get here?").
 - Export a section to geoblock.
 - Metric/oilfield units toggle.
+- **Grow beyond one HTML file** (John, D9): a private hosted web page with a login, and/or an
+  installable desktop app. The likely triggers are big bundled data, saving straight to folders,
+  3D needs (M6), or sharing with others. M1 keeps `src/` free of single-file-only assumptions,
+  so this is a build change rather than a rewrite.

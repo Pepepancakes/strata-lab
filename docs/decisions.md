@@ -39,3 +39,26 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
   published numbers is in the backlog. A specialist review is planned once M2 or M3 exist.
 - **D8. Units.** The engine works in SI. Anything John reads is in oilfield units (ft, ppg),
   converted in one place.
+- **D9. Delivery: one offline HTML file for now, not forever.** (John, 2026-10-14.) John
+  accepted the single-file build for M1 onward, and said: "I would like documented somewhere that
+  I see this app growing beyond a single html file."
+  - Why one file for now: it opens anywhere with no install, server or internet, can be copied or
+    emailed, and can't send data anywhere.
+  - What John expects next: a private hosted web page (with a login), an installable desktop app,
+    or both. Triggers that would force the move:
+    - bundled data too large for one file
+    - saving straight to folders on disk
+    - 3D (M6) needing more than a double-clicked file allows
+    - sharing with other people
+  - Rule for everyone building now: **don't paint us into a corner.**
+    - The single file is a build *output*, not a design limit.
+    - Keep `src/` free of anything that only works as one file (no assumptions about `file://`
+      paths, no inlined-only tricks outside the build config).
+    - Keep the engine/worker boundary clean, so a hosted or desktop build can reuse it unchanged.
+- **D10. Spike 002 result → record shape.** Salt is a material tag on units in the layer record,
+  not a special bottom layer. That way a canopy (salt above younger sediment) stays storable later.
+  Diapir width in thin-sheet flow is set by the grid, so M3 adds cover bending stiffness before
+  diapirs count (see `spikes/002-salt/README.md`).
+- **D11. M1 approved** (John, 2026-10-14: "approve"). Nine stacked cards as listed in the
+  roadmap, with the recommended picks: a published 3 Myr sea-level curve as default (chosen by
+  licence), the spike's grid and timing, and ft/ppg/km units.
