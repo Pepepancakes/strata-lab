@@ -21,6 +21,7 @@ import { makeSeaLevel } from '../engine/sealevel'
 import { allocateEngine } from '../engine/state'
 import { createEngine, step } from '../engine/step'
 import type { CheckResult } from './protocol'
+import { runChecksM2 } from './checksM2'
 import { TimeMachine } from './timeMachine'
 
 function gibsonAnalytic(X: number, T: number): number {
@@ -143,5 +144,6 @@ export function runChecks(): CheckResult[] {
   const same = tm.hashAt(tm.root, at) === straight
   add('rewind', 'Rewind is bit-identical', same ? 0 : 1, 1, 'differences',
     `Record restored from a saved state and replayed to step ${at} against the same step of an uninterrupted run (0 = identical).`)
+  out.push(...runChecksM2())
   return out
 }

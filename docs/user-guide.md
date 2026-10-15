@@ -178,7 +178,7 @@ Slope failure and debris-flow run-out (M2.2; drawn in the section, the event lis
 
 With the switch on, any column whose factor of safety falls below 1 fails: the sediment above the slip surface runs out as a debris flow and stops where the yield strength holds it, as a mass-transport deposit (MTD). Sand and mud are conserved separately; debris that runs off the basinward edge counts as exported.
 
-Why did it fail? (M2.3.) Every failure carries one trigger tag, worked out from the weakest column's change over the last 4 steps (20 kyr at 5 kyr steps). Nothing is imposed; the factor of safety falls for physical reasons and the tag says which one did most of it. In order: *lowstand* (sea level fell by at least the lowstand threshold), *oversteepening* (the slope got steeper, and that explains more of the drop than pore pressure), *rapid loading* (pressure explains it and the column gained sediment faster than the rapid-loading rate) and *overpressure* (pressure explains it and the loading was slow, so the pressure was already there). The tag does not change the physics; it is a label on the cause. The numbers behind it are stored with each event. The preset *Overpressured slope (MTD-prone)* turns failure on with mud permeability x0.1 and supply 30 m²/yr (both tuned) so there are events to look at. Limits: slopes under 0.5° and slip surfaces shallower than 10 m are not searched.
+Why did it fail? (M2.3, rule changed in M2.7.) Every failure carries one trigger tag, worked out from the weakest column's change over the last 4 steps (20 kyr at 5 kyr steps). Nothing is imposed; the factor of safety falls for physical reasons and the tag says which one did most of it. Each of three terms (steeper sea floor, rising pore pressure, falling sea level) is divided by its own tuned threshold, and the term with the largest ratio wins if that ratio is at least 1: *oversteepening*, *rapid loading* (the pressure term, when the column gained sediment faster than the rapid-loading rate), *overpressure* (the pressure term, when loading was slow) or *lowstand*. If no ratio reaches 1 the tag is *mixed*. The tag does not change the physics; it is a label on the cause, and the list shows all three terms behind it (section 13.4). Failures that move almost nothing are flagged *stalled*, and failures cut by the search depth limit are flagged *window-limited* (section 13.4). The preset *Overpressured slope (MTD-prone)* turns failure on with mud permeability x0.1 and supply 30 m²/yr (both tuned) so there are events to look at. Limits: slopes under 0.5° and slip surfaces shallower than 10 m are not searched.
 
 Two things to know about the edit boxes:
 - **Subsidence history (piecewise factors)** has no boxes in the app yet. It is a list the
@@ -340,12 +340,12 @@ If you change these on the main run you must wait for the run to recompute.
 
 ## 10. Panels on the right
 **Slope failures** (the list at the top of the right column). One row per failure event: number,
-time (Ma), cause (lowstand, oversteepening, rapid loading or overpressure; section 3.3), source
+time (Ma), cause (lowstand, oversteepening, rapid loading, overpressure or mixed; section 13.3), source
 position (km along the section), scar depth (ft), volume and run-out (km). Volume is the area
 removed from this 2D section in km², not a 3D volume. Click a row (or its number) to go to that
 event: the time bar moves to just after it, the pseudo-well moves to the middle of its deposit,
 and the section marks the headwall, the source columns and the deposit. Click again to clear.
-Rows after the current time are greyed. With failure off the panel says so.
+Under each row a grey line gives the three terms behind the cause in words, and a stalled or window-limited event adds a note (section 13.4). The header counts events, stalled events and unresolved columns. Rows after the current time are greyed. With failure off the panel says so.
 
 **Mass balance** (km² of solid in the section; grains only, no pores):
 - *supplied*: total delivered at the landward end.
@@ -370,6 +370,10 @@ shows the measured number, its limit and its source.
 | **Consolidation vs Gibson (1958)**, T = 0.1, 1, 10 | The pore-pressure solver reproduces the exact solution for a clay layer that thickens at a constant rate. Limit 0.001 of overburden. Results are of order 1e-4 or less |
 | **Drained sand porosity at 2 km vs Sclater & Christie (1980)** and **Drained mud porosity at 2 km ...** | With water free to leave, compaction follows the published porosity-depth curve to within 0.02 porosity |
 | **Mass balance, sand only** and **Mass balance, mud only** | Over a 1 Myr coupled run, what is stored equals what was supplied minus what left, per grain size, to 1e-9 |
+| **Infinite-slope FS, 6° slope, 25° friction, r_u 0.5** | The engine's factor of safety equals tan 25° / tan 6° × (1 − 0.5) = 2.2183 (hand calculation, relative error under 1e-12) |
+| **FS crosses 1 at r_u = 1 − tan β / tan φ** | For 6° and 25° that is r_u = 0.7746. The engine gives FS = 1 there, above 1 just below it and below 1 just above it |
+| **Bingham plug thickness** | A debris flow on a 5° slope has a rigid plug of thickness τ_y / (ρ′ g sin θ); a flow thinner than that does not move |
+| **Mass balance through a slope failure, sand** and **... mud** | On a steep, overpressured hand-built slope, the sand (and the mud) before the failure equals what is left in the section plus what ran off the end, to 1e-12 |
 | **Rewind is bit-identical** | A state restored from a saved state and replayed equals an uninterrupted run exactly. This is why scrubbing and branching can be trusted |
 
 What the checks do **not** prove: that the parameters are right for any real basin, that the
@@ -434,19 +438,22 @@ mass-balance panel counts it under *exported*.
 ### 13.3 What each trigger means
 Each event is tagged with the main reason FS fell, worked out from the weakest column's change
 over the last 4 steps (20 kyr at 5 kyr steps). Nothing is forced: the tag is a label on a physical
-result. The tests run in this order and the first match wins:
-- **lowstand**: sea level fell by at least **Sea-level fall that makes an event a lowstand event**
-  (16.4 ft) over those steps.
-- **oversteepening**: the slope got steeper, and that explains more of the drop in FS than
-  pressure does.
-- **rapid loading**: pressure explains the drop, and the column gained sediment faster than
+result. Three terms are measured, each divided by its own threshold (**Slope term that counts as oversteepening**, **Pressure term that counts as
+overpressure** and **Sea-level fall that makes an event a lowstand event** in section 3.3, all tuned), and the largest ratio wins if it
+is at least 1:
+- **oversteepening**: the sea-floor slope got steeper.
+- **rapid loading**: pore pressure rose and the column gained sediment faster than
   **Accumulation rate that counts as rapid loading** (0.001 m/yr).
-- **overpressure**: pressure explains the drop and loading was slow, so the pressure was already
-  there.
+- **overpressure**: pore pressure rose and loading was slow, so the pressure was already there.
+- **lowstand**: sea level fell (default threshold 65.6 ft, 20 m, over those steps).
+- **mixed**: none of the three reaches its threshold, so no single cause stands out.
 
-Because sea-level fall is tested first, an event during a lowstand is called lowstand even when
-pore pressure did much of the work. The thresholds change the tag only, never the physics. Read the
-tag as "what changed most just before the failure", not as the whole chain of cause.
+The thresholds change the tag only, never the physics. Because the pressure term is measured on
+a log scale it can reach tens of times its threshold when the pressure jumps toward the load, so
+on the MTD-prone preset most events read rapid loading or oversteepening and few read lowstand.
+That is a property of the tuned thresholds, not a finding about the sea level. Read the tag as
+"what changed most just before the failure", not as the whole chain of cause. Tap the (i) next to
+**Cause** in the list for the same rule in short form.
 
 ### 13.4 Reading the Factor of safety colour mode and the event list
 - **Factor of safety** (a colour button above the section). Dark red to red is FS below 1, pink is
@@ -461,7 +468,18 @@ tag as "what changed most just before the failure", not as the whole chain of ca
   inside its own source columns. Click a row: the time bar goes to just after the event, the
   pseudo-well moves into the deposit, and the section shows the pink *headwall #n* flag, the source
   columns and the yellow-outlined deposit. Click again to clear. Rows later than the current time
-  are grey.
+  are grey. Under each row, a grey line gives the three terms behind the cause in words, for
+  example *steepening ×1.2 in the last 4 steps; pressure rise: effective stress fell to 67% of its earlier
+  value; sea-level fall 7.0 m*. The ×1.2 is how many times steeper the sea floor became, and the
+  percentage is how much of the effective stress (load minus excess pore pressure) was left.
+- **Stalled.** A row marked *(stalled)* says *failed but debris stayed: column unresolved*. The slope
+  failed, but the debris moved less than 0.5 km, so the columns are still unstable. The model
+  does not fail the same columns again in the same step, so they are counted, not hidden: the
+  list header gives *N events, M stalled; K unresolved columns*. Treat an unresolved column as
+  "still unstable, not modelled further in that step". Tap the (i) next to the note.
+- **Window-limited.** A note *scar depth equals the search window (300 m, tuned)* means the
+  scar went as deep as the search allows, so the real failure may be deeper and the scar depth and
+  volume are lower bounds.
 - **Pseudo-well** (section 8). MTD intervals are hatched and labelled *MTD #n*. Hover one to read
   its event.
 - Events in the same step share a place and a time, so their headwall flags overlap in the section.
@@ -470,16 +488,18 @@ tag as "what changed most just before the failure", not as the whole chain of ca
 ### 13.5 The preset *Overpressured slope (MTD-prone)*
 The default scenario with **Mud permeability multiplier** 0.1 and **Sediment supply** 30 m²/yr
 (both tuned), slope failure on, 3 Myr, 5 kyr steps. Slow draining plus fast loading overpressures
-the slope mud. The run is deterministic, so the same code gives the same events. When the M2.4
-screenshots were taken it gave:
-- 30 events between 2.49 Ma and 0.14 Ma, at 12 distinct times; 25 tagged lowstand and 5 rapid
-  loading, none tagged overpressure or oversteepening.
-- Sources between km 47 and km 95, scars of 33 to 974 ft, 0.01 to 0.31 km² removed, run-outs of
-  0 to 17 km.
-- The biggest events (scars of roughly 800 to 970 ft) are at 0.88, 0.635 and 0.14 Ma, all at falls
-  in sea level.
+the slope mud. The run is deterministic: the same code in the same runtime gives the same events. It does
+**not** give the same events on every platform (section 14). After the M2.7 fixes it gave:
+- Node 26 (the tests): 24 events, 16 tagged rapid loading and 8 oversteepening, 2 stalled, 4 unresolved
+  columns, 3 window-limited (deepest scar 299.3 m of the 300 m window).
+- The built app in Chrome 155: 37 events from 2.49 Ma to 0.02 Ma, 32 rapid loading and 5
+  oversteepening, 9 stalled, 10 unresolved columns, 1 window-limited. The sources are between km 47 and km 98.
+- No event is tagged lowstand, overpressure or mixed. The M2.3 version tagged 32 of 33 events
+  lowstand because sea level was tested first with a 5 m threshold; that was a flaw of the rule and
+  it is fixed.
 
-So pressure helps set the stage, and sea-level falls pick the moment. Whether the places and times
+The events sit where the pressure is high and the slope is steep, which is what the physics says
+should fail first. Whether the places and times
 look right for an overpressured slope is your call. Nothing here is calibrated to a basin.
 
 ### 13.6 Limits (read before trusting a picture)
@@ -502,6 +522,16 @@ look right for an overpressured slope is your call. Nothing here is calibrated t
 - **Salt is never moved** by a failure, and cement in the released cells is dropped with the debris.
 
 ## 14. Known limits
+- **Same results on the same machine, not on every machine.** On one browser the same inputs give
+  identical results, and rewind and scrubbing are bit-exact. Different platforms (Node against
+  Chrome, Windows against Linux) can differ in the last digit of a calculation. Slope failure is a
+  threshold process, so a last-digit difference can move an event by whole steps: the same preset gave
+  24 events in Node and 37 in Chrome. Compare event lists only on one runtime. A project file opened
+  on another machine can show a different list of failures.
+- **Slope failure costs run time.** The M2.3 aim of at most 15 % extra was missed on the long presets
+  with failure on: the Miocene preset takes 37 to 55 % longer and the Cenozoic preset 47 to 75 %
+  longer (three runs each, noisy machine). Every preset still finishes in about 5 s. Failure off
+  costs nothing.
 - **Turbidites are a transport-length rule, not flow physics.** No turbidity-current flow, no
   channels or levees, slope failure is off by default and limited (section 13.6), no faults, salt or 3D yet.
 - **The slopes are tuned.** Slope and coastal-plain diffusivities were tuned by eye to about 6°

@@ -36,6 +36,10 @@ export function mtdMask(v: StateView, events?: readonly FailureEvent[]): Uint8Ar
     if (e.layer < 0 || e.layer >= v.nLayers || e.depositFrom < 0) continue
     for (let j = e.depositFrom; j <= e.depositTo; j++) out[e.layer * v.nx + j] = 1
   }
+  // M2.8 (review finding 6): a cell with no sediment (or no thickness) cannot show, so it is never marked
+  if (v.sand && v.mud && v.thick) {
+    for (let i = 0; i < out.length; i++) if (out[i] && !(v.sand[i] + v.mud[i] > 0 && v.thick[i] > 0)) out[i] = 0
+  }
   return out
 }
 

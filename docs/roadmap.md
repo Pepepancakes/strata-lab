@@ -127,17 +127,23 @@ the previous card's branch, and nothing reaches main until John approves the tip
 - With low mud permeability and high supply, MTDs come off the overpressured upper slope, and
   John judges where and when they happen.
 
-**Status (2026-10-15): built, under review.** M2.1 to M2.4 are built on the stacked branches
+**Status (2026-10-15): built, reviewed (M2.6: request changes), fixes in M2.7 (engine) and M2.8 (UI and docs); not on main.** M2.1 to M2.4 are built on the stacked branches
 `strata-lab/m2-01-stability` to `m2-04-views`, M2.5 (docs) on `m2-05-docs`. Nothing is on main yet.
 Results so far (`npm run check`: 262 passed, 1 skipped at M2.4; build and offline check pass):
 - Factor of safety matches the infinite-slope hand calculations to 1e-9 (`tests/stability.test.ts`).
   Default run: minimum FS 4.08 at km 70.5, 905 ft below the seafloor.
 - Mass is conserved per grain size through failures (`tests/failure.test.ts`); the Bingham run-out
   matches its uniform-flow solution within 1 % (`tests/runout.test.ts`).
-- The preset *Overpressured slope (MTD-prone)* gives 30 events (km 47 to 95, run-outs up to 17 km),
-  25 tagged lowstand and 5 rapid loading. **John still has to judge** whether places and times look right.
-- Open: failure on costs +9 % (3 Myr), +38 % (Miocene), +45 % (Cenozoic) run time, over the 15 %
-  budget for the two long presets. Friction angle and cohesion are "to verify"; the run-out
+- The preset *Overpressured slope (MTD-prone)* gives 24 events in Node and 37 in the built app in
+  Chrome (D14: event lists differ between runtimes). After M2.7 the tag is the dominant term: rapid
+  loading and oversteepening, none lowstand (M2.3 had 32 of 33 lowstand). **John still has to judge**
+  whether places and times look right.
+- **The 15 % speed budget of M2.3 was MISSED** on the long presets with failure on: Miocene +37 to
+  55 %, Cenozoic +47 to 75 % (M2.6 review, three runs). Every preset still finishes in about 5 s.
+- Results are identical on one runtime and rewind is bit-exact, but event lists can differ between
+  Node, Chrome and Linux. The test strategy for this is John's decision (open).
+- The Physics checks panel has five M2 rows (M2.8); the event list shows all three cause terms,
+  stalled and window-limited flags and the unresolved-column count. Friction angle and cohesion are "to verify"; the run-out
   parameters are tuned and the Imran et al. (2001) form is unchecked against the paper.
 - Limits: 2D infinite slope (no rotational slumps, no 3D), no earthquakes, no gentle-slope failures
   (under 0.5 deg).

@@ -112,7 +112,14 @@ try {
   await settle()
   await until(`!!document.querySelector('[data-testid=event-list]')`, 'the event list')
   report.checks.mtdToggleOn = await ev(`document.querySelector('input[aria-label="Slope failure (MTDs) on"]').checked === true`)
-  report.checks.eventRows = await ev(`[...document.querySelectorAll('[data-testid=event-list] tbody tr')].map((r) => r.innerText.replace(/\\s+/g, ' ').trim())`)
+  report.checks.eventRows = await ev(`[...document.querySelectorAll('[data-testid=event-list] tbody tr[data-event]')].map((r) => r.innerText.replace(/\\s+/g, ' ').trim())`)
+  report.checks.eventCountHeader = await ev(`document.querySelector("[data-testid=event-header]")?.innerText ?? null`)
+  report.checks.eventDetails = await ev(`[...document.querySelectorAll("[data-event-detail]")].map((r) => r.innerText.replace(/\\s+/g, " ").trim())`)
+  report.checks.stalledNotes = await ev(`document.querySelectorAll("[data-testid=stalled-note]").length`)
+  report.checks.windowNotes = await ev(`document.querySelectorAll("[data-testid=window-note]").length`)
+  await ev(`document.querySelector("[data-testid=event-header]")?.scrollIntoView({ block: "start" })`)
+  await shot("m2-event-list-page.png")
+  await ev("window.scrollTo(0, 0)")
   report.checks.eventHeader = await ev(`[...document.querySelectorAll('[data-testid=event-list] thead th')].map((t) => t.innerText.trim())`)
   report.checks.eventHeading = await ev(`document.querySelector('[data-testid=event-list]')?.closest('section, div')?.querySelector('h2')?.innerText ?? null`)
   const nSteps = Number(await ev(`document.querySelector('input[type=range]').max`))
@@ -147,7 +154,7 @@ try {
   await showMode('grain', 'Grain size')
 
   // --- 5. the event list seeks: click every event, the slider must land on its step
-  const rowsMeta = JSON.parse(await ev(`JSON.stringify([...document.querySelectorAll('[data-testid=event-list] tbody tr')].map((r) => ({ id: Number(r.dataset.event), text: r.innerText.replace(/\\s+/g, ' ').trim() })))`))
+  const rowsMeta = JSON.parse(await ev(`JSON.stringify([...document.querySelectorAll('[data-testid=event-list] tbody tr[data-event]')].map((r) => ({ id: Number(r.dataset.event), text: r.innerText.replace(/\\s+/g, ' ').trim() })))`))
   const seeks = []
   for (const row of rowsMeta) {
     await ev(`document.querySelector('[data-testid=event-list] tbody tr[data-event="${row.id}"] button.evbtn').click()`)
@@ -189,7 +196,7 @@ try {
   await settle()
   await ev(`document.querySelector('input[aria-label="Slope failure (MTDs) on"]').click()`)
   await settle()
-  report.checks.defaultWithFailureOn = await ev(`({ rows: document.querySelectorAll('[data-testid=event-list] tbody tr').length, noEvents: document.querySelector('[data-testid=no-events]')?.innerText ?? null })`)
+  report.checks.defaultWithFailureOn = await ev(`({ rows: document.querySelectorAll('[data-testid=event-list] tbody tr[data-event]').length, noEvents: document.querySelector('[data-testid=no-events]')?.innerText ?? null })`)
   await shot('m2-default-failure-on-page.png')
 
   // --- 9. resources the page actually fetched

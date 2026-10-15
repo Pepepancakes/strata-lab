@@ -117,6 +117,7 @@ describe('docs/physics-references.md matches the registry', () => {
  'Pressure, ppg EMW', 'Porosity', 'Temperature, \u00b0F', 'Grain size', 'Published curve', 'Sine (teaching)',
  'Rewind is bit-identical', 'Consolidation vs Gibson (1958)', 'Mass balance, sand only', 'Mass balance, mud only',
  ' porosity at 2 km vs Sclater & Christie (1980)', 'Drained ',
+ 'Infinite-slope FS', 'FS crosses 1 at', 'Bingham plug thickness', 'Mass balance through a slope failure',
  'supplied', 'stored', 'exported', 'imbalance', 'frames per second', 'steps per frame',
  ]
 
