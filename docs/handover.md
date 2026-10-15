@@ -6,8 +6,9 @@ Update it whenever something here changes, in the same commit as the change.
 ## Where things stand
 - 2026-10-15: M1 is on main (merge 56b964a). Linux CI is red because floating-point results differ
   from Windows (`docs/decisions.md` D14).
-- 2026-10-15: M2 (slope failure and MTDs) is built on the branch chain `strata-lab/m2-01-stability`
-  to `m2-05-docs` and is under review (M2.6). It is not on main. See "M2 slope failure and MTDs" below.
+- 2026-10-15: M2 (slope failure and MTDs) is done and on main: review round 3 APPROVE, John's
+  preview checks all pass (`docs/decisions.md` D16). See "M2 slope failure and MTDs" below. Next:
+  make Linux CI compare results with tolerances (D16.4), then M3 salt.
 - 2026-10-14: spike 001 (2D deepwater shelf-to-basin) built and accepted. John said go for a core
   project. Repo created, docs written. Spike 002 (salt) built the same day; see
   `spikes/002-salt/README.md`.
@@ -62,7 +63,7 @@ Update it whenever something here changes, in the same commit as the change.
 - `node scripts/verify-scenario-built.mjs` checks the round trip in the built file (real download through CDP).
 
 ## M2 slope failure and MTDs (2026-10-15)
-Built as a chain `strata-lab/m2-01-stability` -> `m2-02-failure-runout` -> `m2-03-triggers` -> `m2-04-views` -> `m2-05-docs`. Under review (M2.6), not on main.
+Built as a chain `strata-lab/m2-01-stability` -> `m2-02-failure-runout` -> `m2-03-triggers` -> `m2-04-views` -> `m2-05-docs`, then fixes M2.7, M2.8, M2.10 and the canvas fix; merged to main 2026-10-15.
 - Code: `src/engine/stability.ts` (`computeStability`, `infiniteSlopeFS`, `seafloorSlope`), `failure.ts` (failure and MTD deposit), `runout.ts` (Bingham run-out), `triggers.ts` (cause tag and its history). Views: `src/views/events` (event list), FS mode in `src/views/section`, MTD intervals in `src/views/well`. Registry keys and their sources: `docs/physics-references.md`, "M2 parameter summary".
 - **Trap: failure is OFF by default (`failOn` = 0, start-only).** That is what keeps the M1 golden runs bit-identical, so `ENGINE_VERSION` is still 1. Anything that changes failure, run-out, stability or trigger code changes the hashes of runs with failure on (the MTD-prone preset) but not the M1 fixtures, so no test warns you. Raise `ENGINE_VERSION` by hand if you change results.
 - **Trap: FS is not stored.** `computeStability()` recomputes it from the record each time, so nothing has to be rebuilt on restore. Do not cache it in the record. The worker sends an `fs` field to the section and has an `events` request for the list.

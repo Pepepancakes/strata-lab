@@ -72,10 +72,11 @@ For development with hot reload, run `npm run dev` instead.
 
 ## Known issues
 
-- **CI on Linux is red.** All checks pass on Windows, but some golden-output tests fail on the
-  GitHub Linux runner: floating-point results are not bit-identical across operating systems, and
-  the threshold logic amplifies the difference. Same inputs give the same result on one machine,
-  not across machines. How to fix it is an open decision ([`docs/decisions.md`](docs/decisions.md), D14).
+- **CI on Linux is red.** All checks pass on Windows. On the GitHub Linux runner the golden-output
+  and stored-hash tests fail, because floating-point results are not bit-identical across
+  operating systems and the threshold logic amplifies the difference; several timed tests also
+  exceed their limits on the slower runner. Same inputs give the same result on one machine, not
+  across machines. How to fix it is an open decision ([`docs/decisions.md`](docs/decisions.md), D14).
 - More limits are listed in section 13 of the user guide.
 
 ## Development
