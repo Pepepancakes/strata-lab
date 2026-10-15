@@ -82,6 +82,20 @@ export interface EngineParams {
   cohesion: Pair
   /** Slope-stability search depth below the seafloor, m. */
   stabMaxDepth: number
+  /** 1 = slope failure on (M2.2). */
+  failOn: number
+  /** Most contiguous columns in one failure. */
+  failMaxCells: number
+  /** Most failures per step (scar rechecks). */
+  failMaxIters: number
+  /** Debris-flow Bingham yield strength, Pa. */
+  runYield: number
+  /** Debris-flow Bingham viscosity, Pa s. */
+  runViscosity: number
+  /** Debris-flow bulk density, kg/m^3. */
+  runDensity: number
+  /** Porosity of mud in a fresh debris deposit. */
+  mtdPhiMud: number
 }
 
 /** Fresh copy of the registry defaults, typed. */

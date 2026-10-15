@@ -162,6 +162,22 @@ export const PARAMS: readonly ParamDef[] = [
     source: { kind: 'to-verify', refId: 'hampton-1996', note: "Clean sand has c' = 0; normally consolidated marine clay has c' near 0 (Hampton et al. 1996; not checked against the paper). Raise the mud value to test cemented or overconsolidated muds." } },
   { key: 'stabMaxDepth', label: 'Stability search depth below the seafloor', unit: 'm', displayUnit: 'ft', default: 300, min: 10, max: 2000, startOnly: false,
     source: { kind: 'tuned', note: 'Search window for the lowest factor of safety (about 1,000 ft). A set-up choice.' } },
+
+  // ---- slope failure and debris-flow run-out (M2.2) ----
+  { key: 'failOn', label: 'Slope failure on (1) / off (0)', unit: '-', displayUnit: '-', default: 0, min: 0, max: 1, startOnly: true,
+    source: { kind: 'tuned', note: 'Off switch, OFF by default so the default run stays bit-identical to M1 (golden parity). When on, every column with a factor of safety below 1 fails after each step.' } },
+  { key: 'failMaxCells', label: 'Most columns in one failure', unit: '-', displayUnit: '-', default: 10, min: 1, max: 100, startOnly: false,
+    source: { kind: 'tuned', note: 'Caps how far a failure retrogresses sideways (contiguous columns with FS < 1). More unstable columns fail as further events in the same step.' } },
+  { key: 'failMaxIters', label: 'Most failures per step (rechecks of the scar)', unit: '-', displayUnit: '-', default: 5, min: 1, max: 50, startOnly: false,
+    source: { kind: 'tuned', note: 'After a failure the new headwall is checked again, up to this many times per step. Anything still unstable is counted and retried next step.' } },
+  { key: 'runYield', label: 'Debris-flow yield strength', unit: 'Pa', displayUnit: 'psi', default: 5000, min: 100, max: 1e5, startOnly: false,
+    source: { kind: 'tuned', refId: 'imran-2001', note: 'Bingham yield strength tau_y of the moving debris (Imran et al. 2001 model). Clay-rich debris flows use values from tens of Pa to tens of kPa; this one is picked for run-outs of tens of km. No value was checked against a paper.' } },
+  { key: 'runViscosity', label: 'Debris-flow viscosity', unit: 'Pa s', displayUnit: 'Pa s', default: 1000, min: 1, max: 1e5, startOnly: false,
+    source: { kind: 'tuned', refId: 'imran-2001', note: 'Bingham plastic viscosity mu of the moving debris. Sets the speed (tens of m/s for a 30 m thick flow on 3 degrees), not where the flow stops.' } },
+  { key: 'runDensity', label: 'Debris-flow bulk density', unit: 'kg/m^3', displayUnit: 'kg/m^3', default: 1800, min: 1100, max: 2200, startOnly: false,
+    source: { kind: 'tuned', note: 'Water plus solids while moving. Sets the flow volume (solids / concentration) and the buoyant driving force (density minus sea water).' } },
+  { key: 'mtdPhiMud', label: 'Porosity of mud in a fresh debris deposit', unit: '-', displayUnit: '-', default: 0.55, min: 0.3, max: 0.8, startOnly: false,
+    source: { kind: 'tuned', note: 'Remoulded mud restarts consolidation here. It is turned into a starting maximum effective stress from the porosity law; a value at or above the surface porosity gives 0 (fresh sediment). Sand in the deposit follows the same stress.' } },
 ]
 
 const BY_KEY = new Map(PARAMS.map((p) => [p.key, p]))

@@ -49,6 +49,49 @@ export interface Diagnostics {
   shore: number
   shelfEdge: number
   tcShare: number
+  /** Failures that were still unstable after failMaxIters rechecks (M2.2). */
+  failUnresolved: number
+}
+
+/**
+ * One slope failure and its debris deposit (M2.2). Plain numbers only, so copying the list for a
+ * snapshot or keyframe is cheap and exact. Volumes are m^2 (= m^3 per metre of section); solids
+ * are without pores. The deposit sits in layer `layer` (the layer of the step that failed).
+ */
+export interface FailureEvent {
+  /** 1, 2, 3 ... in the order the failures happened. */
+  id: number
+  /** Index of the record step during which it happened. */
+  step: number
+  /** Elapsed years at the end of that step (= tDep of the deposit). */
+  tYr: number
+  ageMa: number
+  /** First and last source column (inclusive). */
+  sourceFrom: number
+  sourceTo: number
+  /** Deepest cut below the seafloor, m (bulk thickness). */
+  scarDepth: number
+  /** In-place bulk area that was removed, m^2. */
+  volume: number
+  /** Solids released, m^2. */
+  sand: number
+  mud: number
+  /** Quartz cement lost with the debris (own ledger line), m^2. */
+  cement: number
+  /** Solids that ran off the basinward edge (counted as exported), m^2. */
+  exportedSand: number
+  exportedMud: number
+  /** Solids that stayed in the section as the deposit, m^2 (released = deposited + exported). */
+  depositedSand: number
+  depositedMud: number
+  /** Distance the front travelled, m. */
+  runout: number
+  /** Flow time, s. */
+  flowTime: number
+  /** Layer holding the deposit and its first and last column (-1 when nothing stayed in the section). */
+  layer: number
+  depositFrom: number
+  depositTo: number
 }
 
 export interface EngineState {
@@ -66,6 +109,8 @@ export interface EngineState {
   temp: Float64Array
   /** True when `temp` matches the record. False at creation and after a restore; step() rebuilds it. */
   tempOk: boolean
+  /** Slope failures so far, oldest first (M2.2). Snapshots and keyframes keep and restore it. */
+  events: FailureEvent[]
 }
 
 function makeScratch(nx: number, nLayers: number): Scratch {
@@ -89,9 +134,10 @@ export function allocateEngine(rec: LayerRecord): EngineState {
     kpm: new Float64Array(cells),
     ld: new Float64Array(cells),
     scratch: makeScratch(rec.nx, rec.capacity),
-    diag: { stepIndex: 0, deficit: 0, clamps: 0, short: 0, shore: -1, shelfEdge: -1, tcShare: 0 },
+    diag: { stepIndex: 0, deficit: 0, clamps: 0, short: 0, shore: -1, shelfEdge: -1, tcShare: 0, failUnresolved: 0 },
     lagLoads: false,
     temp: new Float64Array(cells),
     tempOk: false,
+    events: [],
   }
 }

@@ -154,6 +154,20 @@ The factor of safety is the strength holding a slab of sediment in place divided
 gravity along the slope. Below 1 the slab would slide. The engine works it out from the
 seafloor slope and the model's own pore pressure, so overpressure lowers it directly.
 
+Slope failure and debris-flow run-out (M2.2; the controls exist, but the app does not draw the failures until M2.4)
+
+| Control | Default | Source |
+|---|---|---|
+| Slope failure on (1) / off (0) | 0 | start. tuned (switch). Off keeps the run identical to M1 |
+| Most columns in one failure | 10 | tuned. How far a failure spreads sideways |
+| Most failures per step (rechecks of the scar) | 5 | tuned |
+| Debris-flow yield strength (psi) | 0.73 (5 kPa) | tuned. Imran et al. (2001) model, to verify |
+| Debris-flow viscosity (Pa s) | 1000 | tuned. Sets the speed, not where the flow stops |
+| Debris-flow bulk density (kg/m^3) | 1800 | tuned |
+| Porosity of mud in a fresh debris deposit | 0.55 | tuned |
+
+With the switch on, any column whose factor of safety falls below 1 fails: the sediment above the slip surface runs out as a debris flow and stops where the yield strength holds it, as a mass-transport deposit (MTD). Sand and mud are conserved separately; debris that runs off the basinward edge counts as exported.
+
 Two things to know about the edit boxes:
 - **Subsidence history (piecewise factors)** has no boxes in the app yet. It is a list the
   engine accepts but the controls have no editor for, so the *history* choice of **Subsidence
