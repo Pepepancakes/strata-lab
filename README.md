@@ -73,13 +73,15 @@ For development with hot reload, run `npm run dev` instead.
 
 ## Known issues
 
-- **CI on Linux is red.** All checks pass on Windows. On the GitHub Linux runner the golden-output
-  and stored-hash tests fail, because floating-point results are not bit-identical across
-  operating systems and the threshold logic amplifies the difference; several timed tests also
-  exceed their limits on the slower runner. Same inputs give the same result on one machine, not
-  across machines. The fix is decided: cross-machine tests will compare with tolerances and
-  summary statistics, while exact equality stays the rule on one machine
-  ([`docs/decisions.md`](docs/decisions.md), D14 and D16).
+- **Cross-platform results (D14, decided in D16.4, implemented).** Results are bit-identical on
+  one machine, not across operating systems: the maths library differs in the last bit and the
+  threshold logic amplifies it (single columns move by tens of metres). Tests that compare across
+  machines (golden parity, the committed scenario fixture, scenario files from another computer)
+  therefore use tolerances and summary statistics; exact equality stays for rewind, branch and
+  repeat-run tests on one machine. Opening a scenario file whose fingerprint differs but whose
+  summary numbers agree gives no warning. Wall-clock tests are skipped when `CI` is set. Still
+  open: this was verified on Linux (Node 22) under WSL, not on a GitHub run; the first CI run on
+  the branch is the final check ([`docs/handover.md`](docs/handover.md), Known traps).
 - More limits are listed in section 13 of the user guide.
 
 ## Development

@@ -105,6 +105,7 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      statistics, not bit-exact goldens and hashes. Bit-exact determinism stays the rule on one
      machine (rewind, branches and same-run repeat tests keep exact equality). Wall-clock limits
      do not fail CI on a slower runner. The engine is not rewritten for platform-independent maths.
+     Implemented: parity, scenario-file and MTD-preset tests compare with tolerances and summary statistics (`src/engine/summary.ts`); wall-clock tests skip when `CI` is set; the MTD view tests run the preset at its own 5 kyr steps (at 25 kyr it sat on a knife-edge of 0 to 4 events). Details in `docs/handover.md`, Known traps.
   5. **Kept as is, labelled:** the cause-label rule (largest term wins, 20 m lowstand threshold,
      tuned) and the slope strength defaults (friction 33/25 deg, no cohesion, "to verify").
   6. **Overnight D13 calls kept:** Miocene wall-clock limit 5 s, starting M2 while CI was red, two

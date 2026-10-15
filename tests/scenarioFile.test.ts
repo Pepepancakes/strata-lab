@@ -42,6 +42,8 @@ if (process.env.STRATA_WRITE_FIXTURE === '1') {
 }
 
 describe('scenario file', () => {
+  /** The hashes the file carries, by file branch id. */
+  const stored = (f: ScenarioFile): Record<string, string> => Object.fromEntries(f.branches.map((b) => [b.id, b.stateHash!]))
   it('round trip: save -> open gives identical hashes for every branch', () => {
     const { src, hashes } = liveScenario()
     expect(src.branches.map((b) => b.id)).toEqual(['b1', 'b2', 'b4']) // the deleted branch left a gap
@@ -70,14 +72,20 @@ describe('scenario file', () => {
     expect(text.length).toBeLessThan(5000)
   })
 
-  it('a committed v1 fixture loads and recomputes to its stored hashes', () => {
+  it('a committed v1 fixture loads and recomputes to its stored hashes (or, on another machine, to its stored summary numbers)', () => {
     const parsed = parseScenario(readFileSync(FIXTURE, 'utf8'))
     expect(parsed.ok).toBe(true)
     if (!parsed.ok) return
     expect(parsed.file.version).toBe(1)
     expect(parsed.file.branches.length).toBe(3)
     const r = replayScenario(new TimeMachine(), parsed.file)
-    const cmp = compareHashes(parsed.file, r.hashes, { nx: r.info.nx, dx: r.info.dx })
+    // The fixture was written on Windows. Same hash there; on Linux the hash may differ in the
+    // last bit of the maths, and the summary numbers must still agree within SUMMARY_TOL.
+    const cmp = compareHashes(parsed.file, r.hashes, { nx: r.info.nx, dx: r.info.dx }, r.summaries)
+    for (const b of parsed.file.branches) {
+      const diff = compareSummaries(b.summary!, r.summaries[b.id])
+      expect(diff, `${b.name}: ${r.hashes[b.id] === b.stateHash ? 'same hash' : 'hash differs (other maths library)'}`).toEqual([])
+    }
     expect(cmp.differing).toEqual([])
     expect(cmp.same).toBe(true)
   })
@@ -86,7 +94,7 @@ describe('scenario file', () => {
     const parsed = parseScenario(readFileSync(FIXTURE, 'utf8'))
     if (!parsed.ok) throw new Error('fixture')
     const r = replayScenario(new TimeMachine(), parsed.file)
-    const wrong = { ...r.hashes, b2: 'deadbeef' }
+    const wrong = { ...stored(parsed.file), b2: 'deadbeef' } // other branches: hashes as stored, so this test reads the same on every machine
     const moved = { ...r.summaries, b2: { ...r.summaries.b2, meanH: r.summaries.b2.meanH * 1.02 } } // a 2 % change in mean surface height
     const cmp = compareHashes(parsed.file, wrong, { nx: r.info.nx, dx: r.info.dx }, moved)
     expect(cmp.same).toBe(false)
@@ -99,17 +107,18 @@ describe('scenario file', () => {
     const parsed = parseScenario(readFileSync(FIXTURE, 'utf8'))
     if (!parsed.ok) throw new Error('fixture')
     const r = replayScenario(new TimeMachine(), parsed.file)
-    const wrong = { ...r.hashes, b2: 'deadbeef' }
+    const wrong = { ...stored(parsed.file), b2: 'deadbeef' } // other branches: hashes as stored, so this test reads the same on every machine
     const cmp = compareHashes(parsed.file, wrong, { nx: r.info.nx, dx: r.info.dx }, r.summaries)
-    expect(cmp).toMatchObject({ same: true, differing: [], closeOnly: ['More supply'], message: null })
+    expect(cmp).toMatchObject({ same: true, differing: [], message: null })
+    expect(cmp.closeOnly).toContain('More supply')
   })
 
   it('an old file without summary numbers still warns on a different hash', () => {
     const parsed = parseScenario(readFileSync(FIXTURE, 'utf8'))
     if (!parsed.ok) throw new Error('fixture')
-    const old = { ...parsed.file, branches: parsed.file.branches.map((b) => ({ ...b, summary: undefined })) }
+    const old = { ...parsed.file, branches: parsed.file.branches.map((b) => (b.id === 'b2' ? { ...b, summary: undefined } : b)) }
     const r = replayScenario(new TimeMachine(), parsed.file)
-    const cmp = compareHashes(old, { ...r.hashes, b2: 'deadbeef' }, { nx: r.info.nx, dx: r.info.dx }, r.summaries)
+    const cmp = compareHashes(old, { ...stored(parsed.file), b2: 'deadbeef' }, { nx: r.info.nx, dx: r.info.dx }, r.summaries)
     expect(cmp.same).toBe(false)
     expect(cmp.differing).toEqual(['More supply'])
   })

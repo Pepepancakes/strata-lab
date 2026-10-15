@@ -11,6 +11,7 @@ import { causeTerms, eventFlags, unresolvedColumns, CAUSE_RULE_HELP, STALLED_HEL
 import { EventsList } from '../src/views/events'
 import { mtdMask } from '../src/views/section/draw'
 import { MTD_SEGMENTS } from './helpers/run'
+import { survivingDeposit } from './helpers/events'
 
 function ev(over: Partial<FailureEvent>): FailureEvent {
   return {
@@ -94,8 +95,10 @@ describe('empty cells are never painted (finding 6), MTD-prone preset', () => {
     expect(marked).toBeGreaterThan(0)
   })
   it('a hand-made empty cell in an event deposit is dropped from the mask', () => {
-    const e = events.find((x) => x.depositFrom >= 0)!
-    const i = e.layer * end.nx + e.depositFrom
+    const s = survivingDeposit(events, end)
+    expect(s, 'at least one event keeps a deposit').toBeDefined()
+    const e = s!.e
+    const i = e.layer * end.nx + s!.col
     const sand = end.sand!.slice()
     const mud = end.mud!.slice()
     sand[i] = 0
