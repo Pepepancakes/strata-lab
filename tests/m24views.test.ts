@@ -9,6 +9,7 @@ import { eventRow, eventsAtCell } from '../src/views/events/format'
 import { cellValue, FS_WARN, FS_WARN_T, fsToT, MODES, ramp } from '../src/views/section/colors'
 import { mtdMask, mtdTexture, eventViewStep } from '../src/views/section/draw'
 import { wellProfile } from '../src/views/well/profile'
+import { MTD_SEGMENTS } from './helpers/run'
 
 describe('factor-of-safety colour scale', () => {
   it('is centred on 1.0 and red below 1.2', () => {
@@ -49,7 +50,7 @@ describe('MTD preset in the views', () => {
   let end: StateView
   let nSteps = 0
   beforeAll(() => {
-    const info = tm.run({ presetId: 'mtd', segments: [{ fromAgeMa: 3, toAgeMa: 0, dt: 25000 }], overrides: {} }, 1)
+    const info = tm.run({ presetId: 'mtd', segments: MTD_SEGMENTS, overrides: {} }, 1)
     nSteps = info.nSteps
     events = tm.eventsAt(tm.root, nSteps)
     end = tm.seek(tm.root, nSteps, ['thick', 'sand', 'mud', 'fs'])

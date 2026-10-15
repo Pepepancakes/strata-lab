@@ -32,7 +32,16 @@
       "parent": null,
       "startStep": 0,
       "edits": {},
-      "stateHash": "13f1a5f02a243631"
+      "stateHash": "13f1a5f02a243631",
+      "summary": {
+        "nx": 60,
+        "nLayers": 101,
+        "sand": 4124.91348615,
+        "mud": 8652.86101535,
+        "meanH": -1003.17003798,
+        "maxU": 652678.719835,
+        "events": 0
+      }
     },
     {
       "id": "b2",
@@ -42,7 +51,16 @@
       "edits": {
         "supply": 30
       },
-      "stateHash": "4ae5129e360641df"
+      "stateHash": "4ae5129e360641df",
+      "summary": {
+        "nx": 60,
+        "nLayers": 101,
+        "sand": 4544.91348614,
+        "mud": 9278.89863508,
+        "meanH": -964.974508299,
+        "maxU": 1082562.90122,
+        "events": 0
+      }
     },
     {
       "id": "b4",
@@ -56,7 +74,16 @@
         ],
         "sandFrac": 0.5
       },
-      "stateHash": "5dcc8d7d12d225b4"
+      "stateHash": "5dcc8d7d12d225b4",
+      "summary": {
+        "nx": 60,
+        "nLayers": 101,
+        "sand": 4904.91348614,
+        "mud": 8965.67646105,
+        "meanH": -966.870300389,
+        "maxU": 895615.708072,
+        "events": 0
+      }
     }
   ]
 }

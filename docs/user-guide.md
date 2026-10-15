@@ -385,12 +385,18 @@ project (`tests/burial.test.ts`) but not in this panel.
 The four buttons at the top of the controls:
 - **Save** downloads a file `*.strata.json`. It stores the recipe: preset, seed, grid, run length,
   time steps, the main run's edited controls, every branch with its edits, and one fingerprint (a
-  hash) per branch. It does **not** store the computed section.
+  hash) per branch plus a few summary numbers (total sand and mud, mean surface height, largest
+  overpressure, number of slope failures). It does **not** store the computed section.
 - **Open…** reads such a file, recomputes everything, and compares the fingerprints. If they
-  match you get exactly what was saved. If they don't (usually because the engine changed after
-  the file was made) a warning banner says the file "was made with a different engine version;
-  results differ" and names the branches that differ. A file that is not a valid scenario is
-  refused with a plain message and your current work is left alone.
+  match you get exactly what was saved. If a fingerprint differs, the app compares the summary
+  numbers: the same computer program gives slightly different last digits on a different
+  operating system (Windows, Linux, Mac), so a file saved on one machine can open on another with
+  a different fingerprint but the same totals. That is accepted without a warning. Only if the
+  summary numbers differ too (usually because the engine changed after the file was made), or the
+  file has no summary numbers (files from before this was added), a warning banner says the file
+  "was made with a different engine version; results differ" and names the branches that differ.
+  A file that is not a valid scenario is refused with a plain message and your current work is
+  left alone.
 - **New** goes back to the default last-3-Myr scenario.
 - **Reset** keeps the current preset at full length and puts the controls back to its values.
 

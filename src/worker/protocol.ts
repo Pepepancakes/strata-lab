@@ -13,6 +13,7 @@ import type { ParamValue } from '../engine/params'
 import type { PresetId } from '../engine/presets'
 import type { Ledger, RecordBalance } from '../engine/record'
 import type { Segment } from '../engine/schedule'
+import type { RunSummary } from '../engine/summary'
 import type { FailureEvent } from '../engine/state'
 import type { ScenarioFile } from '../app/scenarioFile'
 
@@ -216,8 +217,8 @@ export type EngineResponse =
   | { id: number; kind: 'wellColumn'; well: WellColumn; ms: number }
   | { id: number; kind: 'seriesData'; series: SeriesData; ms: number }
   | { id: number; kind: 'eventList'; branchId: string; events: FailureEvent[]; ms: number }
-  | { id: number; kind: 'hashList'; hashes: Record<string, string>; ms: number }
-  | { id: number; kind: 'scenarioOpened'; info: RunInfo; branches: BranchInfo[]; idMap: Record<string, string>; hashes: Record<string, string>; ms: number }
+  | { id: number; kind: 'hashList'; hashes: Record<string, string>; summaries: Record<string, RunSummary>; ms: number }
+  | { id: number; kind: 'scenarioOpened'; info: RunInfo; branches: BranchInfo[]; idMap: Record<string, string>; hashes: Record<string, string>; summaries: Record<string, RunSummary>; ms: number }
 
 /** The buffers of a response that should be transferred, not cloned. */
 export function transferListOf(resp: EngineResponse): ArrayBuffer[] {
