@@ -177,6 +177,6 @@ Diapirs that stay at the seafloor, the main feature of the Plio-Pleistocene slop
 S3/M3b). Read the preset as a teaching section with the right ingredients, now without a boundary artifact, not as
 a Gulf section.
 
-Linux parity: see the line below.
+Linux parity (WSL Ubuntu, Node 22, CI=true, fresh clone of this branch, npm ci then npm run check): typecheck and lint clean; main project 32 files, 344 passed, 1 skipped; wallclock project 5 files, 81 passed, 7 skipped; 0 failed. Windows, same code: 344 passed, 1 skipped and 87 passed, 1 skipped. The 6 extra Linux skips are the wall-clock tests that skip when CI is set; no count is zero on one OS and many on the other.
 
 VERDICT: APPROVE
