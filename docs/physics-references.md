@@ -264,6 +264,7 @@ Status of every M3 registry key as shown next to the control; the index at the e
 | `saltOn` | 0 | tuned | switch |
 | `saltThick` | 1,500 m | tuned | synthetic; not checked against a published thickness |
 | `saltPinchStart`, `saltPinchEnd` | 25 km, 45 km | tuned | set-up |
+| `saltLimitStart`, `saltLimitEnd` | 2,000 km, 2,500 km (beyond any section) | tuned | basinward end of the salt basin; idea after Hudec et al. (2013), position tuned (M3.10) |
 | `saltVisc` | 1e17 Pa s | tuned (range cited) | Hudec & Jackson (2007) range about 1e17 to 1e19, not checked against the paper |
 | `nSaltSub` | 5 | tuned | numerical |
 | `coverUneven`, `coverSeed` | 0, 1 | tuned | set-up; seeded through `rng.ts` |
@@ -315,6 +316,17 @@ tests: `tests/gulfPreset.test.ts`; sweep script: `scripts/review/m3-sweep.mjs` (
 - **References added:** Wagner & Jackson (2011), Pilcher et al. (2011) (abstract read; gives no minibasin width, so none is used). Both **to verify**.
 - **Short preset.** `saltshort` (10 Myr, 150 columns, supply 50 m2/yr, salt 1,000 m at 1e17 Pa s, cover 100 m at 1e18 Pa s, 50 % uneven) makes about 13 small diapirs and minibasins in under a second. A toy; all tuned.
 
+## M3.10 Basinward edge of the salt basin (Gulf-style preset)
+Source code: `initialSaltThickness` in `src/engine/salt.ts`, parameters `saltLimitStart` and `saltLimitEnd` in `src/engine/params.ts`; tests: `tests/saltLimit.test.ts`, `tests/gulfPreset.test.ts`; numbers: `scripts/review/m3-10-edge.mjs`, full tables in `docs/reviews/m3-10-edge-fix.md`.
+- **Cause.** In the M3.8/M3.9 preset the salt started 4 km thick from 100 km to the closed basinward edge (400 km). The wedge squeezed it basinward at about 9 m2/yr across the 250 km face, and with no room it piled against the edge: the salt volume beyond 250 km doubled (600 to 1,202 km2), 8 to 9 km thick at the end. The four crests that met the D18 target were ripples of a few hundred metres on that slab (re-review finding 4).
+- **Fix.** The salt basin now ends before the section does: full thickness landward of `saltLimitStart` (200 km in the Gulf preset), none basinward of `saltLimitEnd` (240 km), smoothstep between. The defaults (2,000 and 2,500 km) are beyond any section, so all other runs are unchanged. Both are **tuned**. Hudec, Norton, Jackson & Peel (2013, AAPG Bulletin 97, 1683-1710; abstract read, not the paper, **to verify**) report that the limit of normal oceanic crust coincides with a basement ramp near the seaward end of the salt basin and that salt in places flowed seaward onto new oceanic crust, so a basin that ends, with salt spreading past its depositional limit, is the right kind of geometry; the position in km is not in the abstract and the synthetic section is not scaled to the Gulf.
+- **Result.** At the end of the run the salt front is at 355 km, no salt lies within 20 km of the edge (0 m; the test limit is 100 m) and the thickest salt beyond 250 km is 5.0 km, 1.25 times the 4 km start (limit in the test: 1.5 times). The edge did not move: salt is conserved to 1e-14, nothing is clipped, and the edge stays closed.
+- **Crests, reported not tuned toward.** Crests within 2 km of the seafloor, 20 km or more from the section edge and from the salt basin's edges (more than 100 m of salt): 5 at the plain run (286.5 to 322.5 km, 4,200 to 6,400 ft below the seafloor), 2 to 5 across six noise salts. Four of the five have a relief of 300 to 850 m on a salt slab 4.2 to 4.8 km thick: ripples of the cover seed on a flat slab, not diapirs. The first, at 286.5 km, is the top of the slab itself. So the D18 count is met by its letter and not in spirit; diapirs that stay at the seafloor are for S3 and M3b. The cover seed and supply were not retuned.
+- **The 4 km salt thickness** is **tuned** (re-review finding 11). Hudec et al. (2013) describe, in the abstract, salt that thins seaward; no thickness was taken from it or from any other source, and the old preset note's "upper end of Louann Salt estimates" is withdrawn.
+- **Welds.** Total weld length (runs of any width, salt thinner than 100 m that was thicker before) was 17 km in the plain run and 14, 18, 14, 15, 20, 12 km under six 1 ulp noise salts; the longest run 4 km plain and 3, 4, 3, 3, 3, 3 km. The longest run in M3.9 moved from 1 to 3 km between noise salts, so the test now asks only for a band all seven runs pass: total weld length of 8 km or more and a run of 2 km or more.
+- **Grid** (200 km section; the record holds 400 columns, so dx 500 m can cover only 200 km). Dominant wavelength 23.2 km at dx 1,000 and 22.9 km at dx 500 (1.3 %); salt highs 4 and 5, mean spacing 16.0 and 17.6 km (9.6 %). On the 400 km section the spacing is 19.2 km at dx 1,000 and 21.5 km at dx 2,000 (12 %), the wavelength 14.1 and 12.8 km (9 %). The 200 km grid check ends the salt basin at the section edge (the limit starts at 200 km), so it still has an edge pile of its own; it checks the wavelength and spacing of the structures, not the edge.
+- **Not claimed.** The position of the limit; that 200/240 km is the best one (the sweep in `docs/reviews/m3-10-edge-fix.md` was judged by the pile test only); that the salt shape past the limit resembles the Gulf; that a Gulf geologist would accept a 160 km salt-free outer section.
+
 ## Set-up parameters and what the registry adds (M1.8)
 These are numerical or set-up choices, not measured quantities, so they are all **tuned** and the
 app labels them so: columns (`nx`, default 150), column width (`dx`, 1 km), run length
@@ -339,7 +351,7 @@ Where a source gives a range, it is quoted in the section for that parameter.
 Generated from `src/engine/references.ts` and `src/engine/params.ts` and checked by
 `tests/docs.test.ts`. Rewrite with `STRATA_WRITE_DOCS=1 npm run test:run -- docs`.
 
-References (26):
+References (27):
 - `gibson-1958`: Gibson (1958)
 - `sclater-christie-1980`: Sclater & Christie (1980)
 - `athy-1930`: Athy (1930)
@@ -360,6 +372,7 @@ References (26):
 - `hampton-1996`: Hampton et al. (1996)
 - `imran-2001`: Imran et al. (2001) (to verify)
 - `hudec-jackson-2007`: Hudec & Jackson (2007)
+- `hudec-2013`: Hudec et al. (2013) (to verify)
 - `gemmer-2004`: Gemmer et al. (2004) (to verify)
 - `ge-1997`: Ge et al. (1997) (to verify)
 - `eaton-1969`: Eaton (1969)
@@ -367,7 +380,7 @@ References (26):
 - `wagner-jackson-2011`: Wagner & Jackson (2011) (to verify)
 - `pilcher-2011`: Pilcher et al. (2011) (to verify)
 
-Parameters (81), as `key`: status, reference id:
+Parameters (83), as `key`: status, reference id:
 - `nx`: tuned
 - `dx`: tuned
 - `duration`: tuned
@@ -438,6 +451,8 @@ Parameters (81), as `key`: status, reference id:
 - `saltThick`: tuned
 - `saltPinchStart`: tuned
 - `saltPinchEnd`: tuned
+- `saltLimitStart`: tuned, hudec-2013
+- `saltLimitEnd`: tuned, hudec-2013
 - `saltVisc`: tuned, hudec-jackson-2007
 - `nSaltSub`: tuned
 - `coverUneven`: tuned

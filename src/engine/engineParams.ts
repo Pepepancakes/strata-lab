@@ -117,6 +117,9 @@ export interface EngineParams {
   /** Salt pinch-out: none landward of this distance, full thickness basinward of saltPinchEnd, m. */
   saltPinchStart: number
   saltPinchEnd: number
+  /** Salt basin basinward limit (M3.10): full thickness landward of saltLimitStart, none basinward of saltLimitEnd, m. Defaults lie beyond any section. */
+  saltLimitStart: number
+  saltLimitEnd: number
   /** Salt viscosity, Pa s. */
   saltVisc: number
   /** Salt substeps per record step. */

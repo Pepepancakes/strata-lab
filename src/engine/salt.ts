@@ -126,13 +126,24 @@ export interface DeepWindow {
   lw: number
 }
 
-/** Smooth start-up thickness: 0 landward of the first pinch-out edge, full basinward of the second (smoothstep). */
+/**
+ * Smooth start-up thickness: 0 landward of the first pinch-out edge, full basinward of the second
+ * (smoothstep). M3.10: a basinward limit takes it back to 0 the same way, full thickness landward of
+ * saltLimitStart and none basinward of saltLimitEnd. The defaults lie beyond any section and a column
+ * landward of saltLimitStart is returned exactly as before, so runs that do not set the limit are unchanged.
+ */
 export function initialSaltThickness(P: EngineParams, x: number): number {
   const x0 = P.saltPinchStart
   const x1 = P.saltPinchEnd
   let f = Math.max(0, Math.min(1, (x - x0) / (x1 - x0)))
   f = f * f * (3 - 2 * f)
-  return P.saltThick * f
+  let h = P.saltThick * f
+  if (x > P.saltLimitStart) {
+    let g = Math.max(0, Math.min(1, (x - P.saltLimitStart) / (P.saltLimitEnd - P.saltLimitStart)))
+    g = g * g * (3 - 2 * g)
+    h *= 1 - g
+  }
+  return h
 }
 
 /**

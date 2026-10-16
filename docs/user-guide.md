@@ -192,6 +192,8 @@ Salt (M3.1 to M3.3; off by default, so the default run is unchanged)
 | Initial salt thickness (ft) | 4921 (1500 m) | start. tuned. Synthetic |
 | Salt pinch-out: no salt landward of (km) | 25 | start. tuned |
 | Salt pinch-out: full thickness basinward of (km) | 45 | start. tuned |
+| Salt basin limit: full thickness landward of | 2000 | start. tuned; idea after Hudec et al. (2013), to verify. The basinward end of the salt basin; the Gulf-style preset uses 200 km |
+| Salt basin limit: no salt basinward of | 2500 | start. tuned. The Gulf-style preset uses 240 km. Salt can flow past it, but none starts there |
 | Salt viscosity (Pa s) | 1e17 | tuned. Hudec & Jackson (2007) range about 1e17 to 1e19, to verify; the default is the fast end so flow shows in 3 Myr |
 | Salt substeps per record step | 5 | start. tuned. Numerical |
 | Cover resists bending (1) / not (0) (salt on) | 1 | tuned (switch). 1: the sediment above the salt is a viscous plate, so a preferred diapir width emerges. 0: thin-sheet flow only (M3.1), where the narrowest bumps grow fastest |

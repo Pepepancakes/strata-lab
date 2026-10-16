@@ -143,6 +143,12 @@ export const REFERENCES: readonly Reference[] = [
     full: 'Hudec, M.R. & Jackson, M.P.A. (2007). Terra infirma: understanding salt tectonics. Earth-Sci. Rev. 82, 1-28.',
   },
   {
+    id: 'hudec-2013',
+    short: 'Hudec et al. (2013)',
+    full: 'Hudec, M.R., Norton, I.O., Jackson, M.P.A. & Peel, F.J. (2013). Jurassic evolution of the Gulf of Mexico salt basin. AAPG Bulletin 97(10), 1683-1710. doi:10.1306/04011312073.',
+    toVerify: true,
+  },
+  {
     id: 'gemmer-2004',
     short: 'Gemmer et al. (2004)',
     full: 'Gemmer, L. et al. (2004). Salt tectonics driven by differential sediment loading. Basin Research 16.',
