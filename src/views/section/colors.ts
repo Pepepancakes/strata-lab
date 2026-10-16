@@ -2,7 +2,8 @@
 // picture looks the same. Colours are packed as 0xAABBGGRR (little-endian RGBA), the layout of
 // ImageData, so the raster can be written straight into a Uint32Array.
 
-import { cToF } from '../../units'
+import { SALT } from '../../engine/record'
+import { cToF, mToFt } from '../../units'
 import type { ColorMode } from '../../app/store'
 import type { StateView } from '../../worker/protocol'
 
@@ -26,6 +27,8 @@ export const RAMPS: Record<ColorMode, Stop[]> = {
   // blue (cold) to red (hot); new in M1.6
   temp: [[0, [49, 54, 149]], [0.25, [116, 173, 209]], [0.5, [254, 224, 144]], [0.75, [244, 109, 67]], [1, [165, 0, 38]]],
   // factor of safety, log scale centred on FS = 1 (t = 0.5): reds up to FS 1.2 (the unsafe band), then pale to blue
+  // salt thickness (M3.5): pale pink for thin salt to deep magenta for thick salt; sediment is grey in this mode
+  salt: [[0, [253, 226, 234]], [0.35, [236, 140, 168]], [0.7, [176, 44, 104]], [1, [84, 0, 52]]],
   fs: [[0, [103, 0, 13]], [0.25, [165, 15, 21]], [0.5, [222, 45, 38]], [FS_WARN_T, [252, 187, 161]], [FS_WARN_T + 0.01, [226, 232, 240]], [0.7, [209, 226, 243]], [0.85, [107, 174, 214]], [1, [8, 81, 156]]],
 }
 
@@ -36,6 +39,8 @@ export const MODES: { id: ColorMode; label: string }[] = [
   { id: 'op', label: 'Overpressure (\u03bb*)' },
   { id: 'temp', label: 'Temperature (\u00b0F)' },
   { id: 'fs', label: 'Factor of safety' },
+  // M3.5: the button shows only when the run has salt
+  { id: 'salt', label: 'Salt thickness' },
 ]
 
 /** Porosity range of the ramp (spike 001): 0.10 to 0.65. */
@@ -68,6 +73,46 @@ export const SKY = pack([255, 255, 255])
 /** Salt, pink as in spike 002. Not present in M1 runs; drawn when the record has it. */
 export const SALT_COLOUR = pack([232, 150, 170])
 
+/** Salt-thickness mode: the top of the ramp, m (5 km = 16,404 ft). Thicker salt takes the top colour. Fixed, so colours compare across time steps. */
+export const SALT_RAMP_MAX_M = 5000
+/** Sediment in salt-thickness mode: neutral grey (the older cover a shade darker). */
+export const NEUTRAL_SEDIMENT = pack([214, 214, 210])
+/** The older (pre-run) cover is drawn this much darker than the same colour in the run's own sediment. */
+export const COVER_SHADE = 0.68
+
+/** Does this view come from a run with salt? (layer 0 salt, layer 1 the older cover) */
+export const viewHasSalt = (v: StateView): boolean => (v.nPre ?? 1) === 2
+
+/** Darken a packed colour (0xAABBGGRR) by a factor 0..1. */
+export function shade(c: number, k: number): number {
+  const r = Math.round((c & 255) * k)
+  const g = Math.round(((c >>> 8) & 255) * k)
+  const b = Math.round(((c >>> 16) & 255) * k)
+  return ((255 << 24) | (b << 16) | (g << 8) | r) >>> 0
+}
+
+/** Salt thickness of every column, m: bulk thickness of its salt cells that hold salt (zero where none is left). */
+export function saltColumnThickness(v: StateView): Float64Array {
+  const out = new Float64Array(v.nx)
+  if (!v.thick) return out
+  for (let l = 0; l < v.nLayers; l++) {
+    for (let j = 0; j < v.nx; j++) {
+      const i = l * v.nx + j
+      if (v.material[i] === SALT && v.thick[i] > 0) out[j] += v.thick[i]
+    }
+  }
+  return out
+}
+
+/** Is a column welded in this view? Its salt has thinned below the weld thickness after once being thicker (weldAge set). */
+export function weldedColumns(v: StateView, thick: Float64Array = saltColumnThickness(v)): Uint8Array {
+  const out = new Uint8Array(v.nx)
+  if (!v.weldAge) return out
+  const limit = v.weldThick ?? 10
+  for (let j = 0; j < v.nx; j++) out[j] = v.weldAge[j] >= 0 && thick[j] < limit ? 1 : 0
+  return out
+}
+
 /** Does the view carry the arrays this colour mode needs? (A new mode is drawn only once its data has arrived.) */
 export function viewHasMode(v: StateView, mode: ColorMode): boolean {
   if (mode === 'op') return !!v.lam
@@ -99,6 +144,8 @@ export function cellValue(v: StateView, mode: ColorMode, l: number, j: number): 
       return (v.temp![i] - TEMP_LO_C) / (TEMP_HI_C - TEMP_LO_C)
     case 'fs':
       return fsToT(v.fsCell![i])
+    case 'salt':
+      return 0 // salt cells take the colour of the column's salt thickness (draw.ts); sediment is neutral grey
   }
 }
 
@@ -107,6 +154,8 @@ export interface Legend {
   low: string
   high: string
   note: string
+  /** The words behind the (i) button of the ramp (salt thickness mode only). */
+  info?: string
 }
 
 export function legendFor(mode: ColorMode, startAgeMa: number): Legend {
@@ -122,6 +171,13 @@ export function legendFor(mode: ColorMode, startAgeMa: number): Legend {
       return { low: '0 hydrostatic', high: '1 at overburden', note: '\u03bb* = share of the buoyant load carried by the pore fluid' }
     case 'temp':
       return { low: t(TEMP_LO_C), high: t(TEMP_HI_C), note: 'steady conduction from the basal heat flow (no transient burial cooling)' }
+    case 'salt': {
+      const top = `${Math.round(mToFt(SALT_RAMP_MAX_M)).toLocaleString('en-US')} ft`
+      return {
+        low: '0 ft', high: `${top} or more`, note: 'thickness of the salt in the column; sediment is grey',
+        info: `The colour of the salt shows how thick the salt is at that place, from pale pink (thin) to deep magenta (thick). The scale is fixed at 0 to ${top}, so colours compare between time steps; anything thicker takes the top colour. Sediment is grey so the salt stands out; the older cover (laid down before the run) is the darker grey. Thickness is the total salt in the column, in feet.`,
+      }
+    }
     case 'fs':
       return { low: `${FS_LO} (fails)`, high: `${FS_HI} (safe)`, note: `log scale, 1.0 in the middle, red below ${FS_WARN}; flat seafloor (no driving stress) is blue. Dashed line: critical slip depth. Hatched = MTD.` }
   }

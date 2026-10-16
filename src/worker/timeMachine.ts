@@ -34,7 +34,7 @@ import { copyLedger, recordBalance, SALT } from '../engine/record'
 import { buildSchedule, type Schedule } from '../engine/schedule'
 import { curveCreditAtAge, makeSeaLevel, type SeaLevelCurve } from '../engine/sealevel'
 import { createEngine, step as engineStep } from '../engine/step'
-import type { EngineState, FailureEvent } from '../engine/state'
+import { WELD_NONE, type EngineState, type FailureEvent } from '../engine/state'
 import { subsidenceYears } from '../engine/subsidence'
 import { columnTemperatures } from '../engine/thermal'
 import { getReference } from '../engine/references'
@@ -367,6 +367,9 @@ export class TimeMachine {
       ledger: copyLedger(rec.ledger),
       shore: eng.diag.shore,
       shelfEdge: eng.diag.shelfEdge,
+      nPre: rec.nPre,
+      weldAge: eng.weldAge.slice(),
+      weldThick: era.P.weldThick,
     }
     for (const f of fields) {
       if (f === 'thick') {
@@ -484,6 +487,8 @@ export class TimeMachine {
       seaLevelM, b: rec.b[column], H: rec.H[column], nLayers: n,
       thick, sand, mud, u, temp, material,
       cemTonsetC: era.P.cemTonset, cementOn: era.P.cement === 1,
+      weldAge: this.eng.weldAge[column] === WELD_NONE ? null : this.eng.weldAge[column],
+      weldThick: era.P.weldThick,
     }
   }
 

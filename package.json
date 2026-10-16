@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "test": "vitest",
     "test:run": "vitest run",
-    "check": "npm run typecheck && npm run lint && vitest run",
+    "test:gated": "vitest run --project main && vitest run --project wallclock",
+    "check": "npm run typecheck && npm run lint && npm run test:gated",
     "build": "vite build",
     "check:offline": "node scripts/check-offline.mjs",
     "verify:built": "node scripts/verify-built.mjs"

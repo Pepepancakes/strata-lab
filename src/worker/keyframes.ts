@@ -27,7 +27,7 @@ import { cloneHistory, copyHistory, type TriggerHistory } from '../engine/trigge
 import type { Diagnostics, EngineState, FailureEvent } from '../engine/state'
 
 export interface Keyframe {
-  /** Steps completed (0 = the substrate only). The record then has step + 1 layers. */
+  /** Steps completed (0 = the pre-run layers only). The record then has step + nPre layers. */
   step: number
   nLayers: number
   /** Per layer: [sand | mud | cem | cemS] or [sand | mud]. Immutable once made. */
@@ -45,6 +45,8 @@ export interface Keyframe {
   events: FailureEvent[]
   /** Trigger history (M2.3). */
   hist: TriggerHistory
+  /** Age of the first weld of each column (M3.3). */
+  weldAge: Float64Array
 }
 
 /** True when the engine can be rebuilt exactly from a keyframe taken after `step` steps. */
@@ -130,6 +132,7 @@ export function packKeyframe(eng: EngineState, prev?: Keyframe): Keyframe {
     diag: { ...eng.diag },
     events: eng.events.slice(),
     hist: cloneHistory(eng.hist),
+    weldAge: eng.weldAge.slice(),
   }
 }
 
@@ -182,17 +185,19 @@ export function restoreKeyframe(kf: Keyframe, eng: EngineState, P: EngineParams,
   rec.stepDt.fill(0, 0, rec.capacity)
   rec.stepAgeMa.fill(0, 0, rec.capacity)
   rec.tDep.fill(0)
-  rec.stepAgeMa[0] = schedule.startAgeMa
-  for (let l = 1; l < nL; l++) {
-    rec.stepDt[l] = schedule.stepDt[l - 1]
-    rec.stepAgeMa[l] = schedule.stepAgeMa[l - 1]
-    rec.tDep.fill(schedule.tEndYr[l - 1], l * nx, (l + 1) * nx)
+  const nPre = rec.nPre // pre-run layers (1, or 2 with salt) come before the first step's layer
+  for (let l = 0; l < nPre; l++) rec.stepAgeMa[l] = schedule.startAgeMa
+  for (let l = nPre; l < nL; l++) {
+    rec.stepDt[l] = schedule.stepDt[l - nPre]
+    rec.stepAgeMa[l] = schedule.stepAgeMa[l - nPre]
+    rec.tDep.fill(schedule.tEndYr[l - nPre], l * nx, (l + 1) * nx)
   }
   rec.nLayers = nL
   rec.ledger = copyLedger(kf.ledger)
   eng.diag = { ...kf.diag }
   eng.events = kf.events.slice()
   copyHistory(eng.hist, kf.hist)
+  eng.weldAge.set(kf.weldAge)
   eng.tempOk = kf.hasTemp
   rebuildCaches(eng, P)
   recomputeH(eng, P)

@@ -110,6 +110,35 @@ export interface EngineParams {
   failPressTerm: number
   /** Run-out (m) below which a repeat failure of the same columns in one step is not tried again; 0 = off (M2.7). */
   failStallRunout: number
+  /** 1 = mobile salt layer (M3.1). */
+  saltOn: number
+  /** Initial salt thickness basinward of the pinch-out, m. */
+  saltThick: number
+  /** Salt pinch-out: none landward of this distance, full thickness basinward of saltPinchEnd, m. */
+  saltPinchStart: number
+  saltPinchEnd: number
+  /** Salt basin basinward limit (M3.10): full thickness landward of saltLimitStart, none basinward of saltLimitEnd, m. Defaults lie beyond any section. */
+  saltLimitStart: number
+  saltLimitEnd: number
+  /** Salt viscosity, Pa s. */
+  saltVisc: number
+  /** Salt substeps per record step. */
+  nSaltSub: number
+  /** +- relative thickness variation of the older cover, and its seed. */
+  coverUneven: number
+  coverSeed: number
+  /** Bulk thickness of the pre-run cover over the salt at the start, m (M3.4). Only used when saltOn = 1. */
+  coverThick: number
+  /** 1 = the older cover resists bending (M3.2); 0 = thin-sheet flow alone (M3.1). Only used when saltOn = 1. */
+  coverBend: number
+  /** Effective viscosity of the cover as a viscous plate, Pa s (M3.2). */
+  coverVisc: number
+  /** A column is welded once its salt is thinner than this, m (M3.3). */
+  weldThick: number
+  /** Salt conductivity at 0 deg C, W/m/K, and the coefficients of its fall with temperature (M3.3). */
+  saltK0: number
+  saltKa: number
+  saltKb: number
 }
 
 /** Fresh copy of the registry defaults, typed. */

@@ -143,6 +143,12 @@ export const REFERENCES: readonly Reference[] = [
     full: 'Hudec, M.R. & Jackson, M.P.A. (2007). Terra infirma: understanding salt tectonics. Earth-Sci. Rev. 82, 1-28.',
   },
   {
+    id: 'hudec-2013',
+    short: 'Hudec et al. (2013)',
+    full: 'Hudec, M.R., Norton, I.O., Jackson, M.P.A. & Peel, F.J. (2013). Jurassic evolution of the Gulf of Mexico salt basin. AAPG Bulletin 97(10), 1683-1710. doi:10.1306/04011312073.',
+    toVerify: true,
+  },
+  {
     id: 'gemmer-2004',
     short: 'Gemmer et al. (2004)',
     full: 'Gemmer, L. et al. (2004). Salt tectonics driven by differential sediment loading. Basin Research 16.',
@@ -163,6 +169,18 @@ export const REFERENCES: readonly Reference[] = [
     id: 'matthews-kelly-1967',
     short: 'Matthews & Kelly (1967)',
     full: 'Matthews, W.R. & Kelly, J. (1967). How to predict formation pressure and fracture gradient. Oil & Gas J.',
+  },
+  {
+    id: 'wagner-jackson-2011',
+    short: 'Wagner & Jackson (2011)',
+    full: 'Wagner, B.H. & Jackson, M.P.A. (2011). Viscous flow during salt welding. Tectonophysics 510(3-4), 309-326, doi:10.1016/j.tecto.2011.07.012. Abstract only read: where flow is held back by drag along the boundaries (for example under a broad prograding wedge) up to about 50 m of salt stays in an incomplete weld; where flow is unrestricted only a vanishingly thin smear remains.',
+    toVerify: true,
+  },
+  {
+    id: 'pilcher-2011',
+    short: 'Pilcher et al. (2011)',
+    full: 'Pilcher, R.S., Kilsdonk, B. & Trude, J. (2011). Primary basins and their boundaries in the deep-water northern Gulf of Mexico: origin, trap types, and petroleum system implications. AAPG Bull. 95(2), 219-240, doi:10.1306/06301010004. Abstract read: describes salt-stock-canopy and bucket-weld provinces; it gives no minibasin width, so no width is taken from it.',
+    toVerify: true,
   },
 ]
 

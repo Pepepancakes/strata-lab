@@ -72,6 +72,11 @@ export interface StateView {
   /** Column index of the shoreline / shelf edge after the last step (-1 = none). */
   shore: number
   shelfEdge: number
+  /** Pre-run layers: 1 (substrate) or 2 with salt (layer 0 salt, layer 1 older cover) (M3.5). */
+  nPre?: number
+  /** Salt welds (M3.5): age (Ma) of each column's first weld, -1 = never (state.ts WELD_NONE), and the thickness below which a column counts as welded, m. */
+  weldAge?: Float64Array
+  weldThick?: number
   /** Present only when asked for (it costs a pass over the whole record). */
   hash?: string
 }
@@ -161,6 +166,9 @@ export interface WellColumn {
   /** Temperature where quartz cementation starts (cemTonset), deg C. */
   cemTonsetC: number
   cementOn: boolean
+  /** Salt (M3.5): age (Ma) of the first weld of this column (null = never) and the weld thickness, m. */
+  weldAge?: number | null
+  weldThick?: number
 }
 
 export interface CurveCreditInfo {

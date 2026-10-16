@@ -22,7 +22,7 @@ import { Autosave, browserStorage, type KeyValueStorage } from './autosave'
 import { ReplaceGuard, type PendingReplace } from './replaceGuard'
 import { buildScenarioFile, compareHashes, parseScenario, serializeScenario, type ScenarioFile } from './scenarioFile'
 
-export type ColorMode = 'grain' | 'age' | 'phi' | 'op' | 'temp' | 'fs'
+export type ColorMode = 'grain' | 'age' | 'phi' | 'op' | 'temp' | 'fs' | 'salt'
 
 /** Vertical range of the section drawing, m. Only grows during a run, so playing does not rescale. */
 export interface Extent {

@@ -11,7 +11,7 @@ import { M_PER_FT, mToFt } from '../../units'
 import { MTD, SALT } from '../../engine/record'
 import type { FailureEvent } from '../../engine/state'
 import type { StateView } from '../../worker/protocol'
-import { BASEMENT, cellValue, pack, ramp, SALT_COLOUR, SKY, SUBSTRATE, WATER } from './colors'
+import { BASEMENT, COVER_SHADE, cellValue, NEUTRAL_SEDIMENT, pack, ramp, SALT_COLOUR, SALT_RAMP_MAX_M, saltColumnThickness, shade, SKY, SUBSTRATE, viewHasSalt, WATER, weldedColumns } from './colors'
 
 export interface SectionDrawOptions {
   mode: ColorMode
@@ -116,6 +116,12 @@ export function drawSection(cv: HTMLCanvasElement, v: StateView, o: SectionDrawO
   const bnd = new Float64Array(nb * nx)
   const col = new Uint32Array((top + 1) * nx)
   const isMtd = mtdMask(v, o.events)
+  // Salt (M3.5): layer 0 is salt and layer 1 the older cover when the run has salt. Salt cells are salt-coloured in
+  // every mode (never porosity or pressure); in salt-thickness mode the colour is the column's salt thickness.
+  const hasSalt = viewHasSalt(v)
+  const saltMode = o.mode === 'salt' && hasSalt
+  const modeForCells: ColorMode = o.mode === 'salt' ? 'grain' : o.mode
+  const saltThick = hasSalt ? saltColumnThickness(v) : null
   for (let j = 0; j < nx; j++) {
     let z = v.b[j]
     bnd[j] = z
@@ -123,9 +129,13 @@ export function drawSection(cv: HTMLCanvasElement, v: StateView, o: SectionDrawO
       const i = l * nx + j
       z += v.thick![i]
       bnd[(l + 1) * nx + j] = z
-      if (l === 0) col[i] = SUBSTRATE
-      else if (v.material[i] === SALT) col[i] = SALT_COLOUR
-      else col[i] = v.sand![i] + v.mud![i] > 0 ? pack(ramp(o.mode, cellValue(v, o.mode, l, j))) : 0
+      if (hasSalt && v.material[i] === SALT) {
+        col[i] = v.sand![i] + v.mud![i] > 0 ? (saltMode ? pack(ramp('salt', saltThick![j] / SALT_RAMP_MAX_M)) : SALT_COLOUR) : 0
+      } else if (l === 0) col[i] = SUBSTRATE
+      else if (v.sand![i] + v.mud![i] > 0) {
+        const c = saltMode ? NEUTRAL_SEDIMENT : pack(ramp(modeForCells, cellValue(v, modeForCells, l, j)))
+        col[i] = hasSalt && l === 1 ? shade(c, COVER_SHADE) : c // the older cover is a shade darker than the run's sediment
+      } else col[i] = 0
     }
   }
   const SL = v.seaLevelM
@@ -179,6 +189,7 @@ export function drawSection(cv: HTMLCanvasElement, v: StateView, o: SectionDrawO
     ctx.stroke()
   }
   // seafloor and sea level
+  if (hasSalt) drawSaltMarks(ctx, v, bnd, X, row, dpr)
   ctx.strokeStyle = 'rgba(0,0,0,0.8)'
   ctx.lineWidth = dpr
   ctx.beginPath()
@@ -264,6 +275,77 @@ export function drawSection(cv: HTMLCanvasElement, v: StateView, o: SectionDrawO
     ctx.fillText(`${km} km`, Math.min(x + 3 * dpr, W - 40 * dpr), H - 8 * dpr)
   }
   ctx.fillText(`vertical exaggeration \u2248 ${verticalExaggeration(nx * v.dx, W, zTop - zBot, H).toFixed(0)}\u00d7`, W - 170 * dpr, 14 * dpr)
+}
+
+/** Colours of the salt marks (also used by the legend in index.tsx). */
+export const WELD_LINE = '#3b0a24'
+export const COVER_LINE = '#5a4630'
+
+/**
+ * Salt marks (M3.5): the top of the salt (a thin magenta line), the top of the older cover (a dashed brown line:
+ * everything below it was laid down before the run), and the welds (a heavy dark line on the base of the salt,
+ * where the salt has thinned below the weld thickness, with a white edge so it shows on every colour).
+ * `bnd` holds the layer boundaries, (layer + 1) * nx + column: layer 0 (salt) lies between bnd[0..nx) and bnd[nx..2nx).
+ */
+function drawSaltMarks(
+  ctx: CanvasRenderingContext2D, v: StateView, bnd: Float64Array,
+  X: (j: number) => number, row: (z: number) => number, dpr: number,
+): void {
+  const nx = v.nx
+  const trace = (layer: number) => {
+    ctx.beginPath()
+    for (let j = 0; j < nx; j++) {
+      const y = row(bnd[layer * nx + j])
+      if (j) ctx.lineTo(X(j), y)
+      else ctx.moveTo(X(j), y)
+    }
+  }
+  trace(1)
+  ctx.strokeStyle = '#a02a62'
+  ctx.lineWidth = 1.4 * dpr
+  ctx.stroke()
+  if (v.nLayers > 2) {
+    trace(2)
+    ctx.strokeStyle = COVER_LINE
+    ctx.lineWidth = 1.2 * dpr
+    ctx.setLineDash([5 * dpr, 3 * dpr])
+    ctx.stroke()
+    ctx.setLineDash([])
+  }
+  const welded = weldedColumns(v)
+  let first = -1
+  for (let j = 0; j <= nx; j++) {
+    if (j < nx && welded[j]) {
+      if (first < 0) first = j
+      continue
+    }
+    if (first < 0) continue
+    const a = first
+    const b = j - 1
+    first = -1
+    const run = () => {
+      ctx.beginPath()
+      ctx.moveTo(X(a) - 0.5 * (X(1) - X(0)), row(bnd[a]))
+      for (let k = a; k <= b; k++) ctx.lineTo(X(k), row(bnd[k]))
+      ctx.lineTo(X(b) + 0.5 * (X(1) - X(0)), row(bnd[b]))
+    }
+    run()
+    ctx.strokeStyle = 'rgba(255,255,255,0.9)'
+    ctx.lineWidth = 6.5 * dpr
+    ctx.lineCap = 'round'
+    ctx.stroke()
+    run()
+    ctx.strokeStyle = WELD_LINE
+    ctx.lineWidth = 3.5 * dpr
+    ctx.stroke()
+    ctx.lineCap = 'butt'
+    ctx.font = `bold ${11 * dpr}px system-ui`
+    ctx.fillStyle = WELD_LINE
+    const mid = (X(a) + X(b)) / 2
+    ctx.textAlign = 'center'
+    ctx.fillText('weld', mid, row(bnd[Math.round((a + b) / 2)]) - 6 * dpr)
+    ctx.textAlign = 'start'
+  }
 }
 
 /** Horizontal metres per pixel over vertical metres per pixel. */

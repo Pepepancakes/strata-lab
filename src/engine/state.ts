@@ -9,6 +9,7 @@
 // makes rewind bit-identical.
 
 import type { LayerRecord } from './record'
+import { makeBandedScratch, type BandedScratch } from './banded'
 import { createHistory, type TriggerCause, type TriggerHistory } from './triggers'
 
 export interface Scratch {
@@ -54,6 +55,61 @@ export interface Diagnostics {
   failUnresolved: number
   /** 1 when the record may hold a cell tagged MTD (set when a deposit tags one, cleared when a scan finds none). Lets the failure step skip the full-record scan (M2.10). Copied with diag in snapshots and keyframes. */
   mtdPresent: number
+  /** Salt volume that was clipped (a thickness that would have gone below 0), m^2 (M3.1). Must stay 0: the weld limiter (M3.3) keeps salt from going below 0 without clipping. */
+  saltClip: number
+  /** Weld limiter (M3.3): salt-cell substeps where the outflow was cut to the salt the cell held, the salt volume withheld, m^2, and the largest thickness (m) at which a cell needed it. */
+  saltLimited: number
+  saltLimitedVol: number
+  saltLimitMaxH: number
+}
+
+/** Work arrays of the salt flow (salt.ts), one value per column. Rebuilt every step, never stored. */
+export interface SaltScratch {
+  /** Weight of the sediment above the salt, Pa, and its bulk thickness, m. */
+  W: Float64Array
+  Sb: Float64Array
+  /** Driving potential at the salt roof, Pa, and d(potential)/d(salt thickness), Pa/m. */
+  Phi: Float64Array
+  aw: Float64Array
+  /** Face mobility, m^3/(Pa s) x 12 eta folded in (see salt.ts). */
+  M: Float64Array
+  /** Working thickness during the substeps, m. */
+  h: Float64Array
+  /** Thickness at the start of the record step, m (weld detection, M3.3). */
+  hs: Float64Array
+  /** Change of salt thickness in the last step, m (columns ride on it). */
+  dh: Float64Array
+  lo: Float64Array
+  di: Float64Array
+  up: Float64Array
+  rhs: Float64Array
+  x: Float64Array
+  cp: Float64Array
+  dp: Float64Array
+  /** Cover bending (M3.2): plate stiffness D = eta_c h_c^3 / 3 per column, the stiffness matrix K / dt in three bands (diagonal, +1, +2), and the banded system. */
+  Dc: Float64Array
+  s0: Float64Array
+  s1: Float64Array
+  s2: Float64Array
+  band: BandedScratch
+  /**
+   * Cache of the load of the OLD layers (M3.4, bundled runs only): W and Sb summed over the layers
+   * below `cacheLw`, for the bundling cycle `cacheId` (-1 = no cache). `low[j]` is the lowest layer
+   * of column j that transport removed sediment from since the cache was built. Derived, never stored.
+   */
+  Wd: Float64Array
+  Sbd: Float64Array
+  low: Int32Array
+  cacheId: number
+  cacheLw: number
+}
+
+/** `low` value of a column nothing has been removed from. */
+export const NOT_TOUCHED = 0x7fffffff
+
+export function makeSaltScratch(nx: number): SaltScratch {
+  const f = () => new Float64Array(nx)
+  return { W: f(), Sb: f(), Phi: f(), aw: f(), M: f(), h: f(), hs: f(), dh: f(), lo: f(), di: f(), up: f(), rhs: f(), x: f(), cp: f(), dp: f(), Dc: f(), s0: f(), s1: f(), s2: f(), band: makeBandedScratch(nx, 3, 3), Wd: f(), Sbd: f(), low: new Int32Array(nx).fill(NOT_TOUCHED), cacheId: -1, cacheLw: 0 }
 }
 
 /**
@@ -120,6 +176,8 @@ export interface EngineState {
   kpm: Float64Array
   ld: Float64Array
   scratch: Scratch
+  /** Work arrays of the salt flow (M3.1). */
+  salt: SaltScratch
   diag: Diagnostics
   /** True when bundled deep compaction is on: cached loads of deep layers lag, so snapshots must store them. */
   lagLoads: boolean
@@ -131,7 +189,12 @@ export interface EngineState {
   events: FailureEvent[]
   /** End-of-step slope and pressure of the last few steps, for trigger attribution (M2.3). Kept only when failOn = 1. */
   hist: TriggerHistory
+  /** Age (Ma) at which each column's salt first thinned below weldThick, or WELD_NONE for never (M3.3). History, so STATE: snapshots and keyframes copy it. Only a column that was thicker than weldThick before can weld, so the thin pinch-out edge never counts. */
+  weldAge: Float64Array
 }
+
+/** weldAge of a column that has not welded. */
+export const WELD_NONE = -1
 
 function makeScratch(nx: number, nLayers: number): Scratch {
   const n = Math.max(nx, nLayers)
@@ -154,11 +217,13 @@ export function allocateEngine(rec: LayerRecord): EngineState {
     kpm: new Float64Array(cells),
     ld: new Float64Array(cells),
     scratch: makeScratch(rec.nx, rec.capacity),
-    diag: { stepIndex: 0, deficit: 0, clamps: 0, short: 0, shore: -1, shelfEdge: -1, tcShare: 0, failUnresolved: 0, mtdPresent: 0 },
+    salt: makeSaltScratch(rec.nx),
+    diag: { stepIndex: 0, deficit: 0, clamps: 0, short: 0, shore: -1, shelfEdge: -1, tcShare: 0, failUnresolved: 0, mtdPresent: 0, saltClip: 0, saltLimited: 0, saltLimitedVol: 0, saltLimitMaxH: 0 },
     lagLoads: false,
     temp: new Float64Array(cells),
     tempOk: false,
     events: [],
     hist: createHistory(rec.nx),
+    weldAge: new Float64Array(rec.nx).fill(WELD_NONE),
   }
 }
