@@ -55,6 +55,9 @@ function WellView() {
   const emwHi = 20
   const tMax = Math.max(250, Math.ceil(Math.max(...pts.map((p) => p.tempF), 100) / 50) * 50)
   const km = (w.xM / 1000).toFixed(0)
+  // Where the salt label block (three lines) starts. Normally inside the interval; with a weld in the column the weld labels
+  // sit at the salt base, so the salt block moves above the salt top instead of overlapping them.
+  const labelY = (a: number, b: number): number => (prof.weld ? y(a) - 40 : Math.min(y(b) - 2, y(a) + 10))
   return (
     <div>
       <h2>Pseudo-well at {km} km</h2>
@@ -116,9 +119,9 @@ function WellView() {
             <rect x={TRACKS[0].x} y={y(a)} width={TRACKS[0].w} height={Math.max(1, y(b) - y(a))} fill="rgba(232,150,170,0.18)" stroke="#a03050" strokeDasharray="3 2" />
             <text x={TRACKS[0].x + TRACKS[0].w / 2} y={(y(a) + y(b)) / 2 + 3} fontSize={9} textAnchor="middle" fill="#7a2040">salt: no pore fluid</text>
             <text x={TRACKS[1].x + TRACKS[1].w / 2} y={(y(a) + y(b)) / 2 + 3} fontSize={9} textAnchor="middle" fill="#7a2040">no pores</text>
-            <text x={TRACKS[3].x + TRACKS[3].w + 4} y={Math.min(y(b) - 2, y(a) + 10)} fontSize={10} fontWeight={600} fill="#a03050">salt</text>
-            <text x={TRACKS[3].x + TRACKS[3].w + 4} y={Math.min(y(b) - 2, y(a) + 10) + 11} fontSize={9} fill="#a03050">top {fmtFt(a)} ft</text>
-            <text x={TRACKS[3].x + TRACKS[3].w + 4} y={Math.min(y(b) - 2, y(a) + 10) + 21} fontSize={9} fill="#a03050">base {fmtFt(b)} ft</text>
+            <text x={TRACKS[3].x + TRACKS[3].w + 4} y={labelY(a, b)} fontSize={10} fontWeight={600} fill="#a03050">salt</text>
+            <text x={TRACKS[3].x + TRACKS[3].w + 4} y={labelY(a, b) + 11} fontSize={9} fill="#a03050">top {fmtFt(a)} ft</text>
+            <text x={TRACKS[3].x + TRACKS[3].w + 4} y={labelY(a, b) + 21} fontSize={9} fill="#a03050">base {fmtFt(b)} ft</text>
           </g>
         ))}
         {prof.weld ? (
