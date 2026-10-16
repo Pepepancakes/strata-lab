@@ -140,9 +140,9 @@ S3/M3b). (e) All values are tuned and the preset says so; start time 66 Ma means
 where the real Mesozoic cover is thicker. Read the preset as a teaching section with the right ingredients, not as a
 Gulf section.
 
-VERDICT: REQUEST CHANGES
-(Blocking: 1, 2, 3 are docs the shepherd or orchestrator can add; 4 needs John's decision or a boundary fix.
-The physics core is unchanged and sound: salt conserved, no clipping, nothing else moved, salt off equals main.)
-
 Linux parity (WSL Ubuntu, Node 22, CI=true, npm ci then npm run check): 36 files passed, 414 passed, 8 skipped, 0 failed (typecheck and lint clean).
 Windows, same commit: 36 files, 418 passed, 2 skipped, 2 failed (wall-clock, finding 9). The 6 extra skips on Linux are the wall-clock tests that skip when CI is set; no count is zero on one OS and many on the other.
+
+Blocking: 1, 2 and 3 are docs the orchestrator can add; 4 needs John's decision or a boundary fix. The physics core is sound: salt conserved, no clipping, nothing else moved, salt off equals main.
+
+VERDICT: REQUEST CHANGES
