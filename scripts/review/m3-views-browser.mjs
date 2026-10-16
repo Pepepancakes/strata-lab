@@ -154,7 +154,6 @@ try {
     if (!row.saltIntervals && !found.none) found.none = row
   }
   report.wellPicks = found
-  let i = 0
   for (const [name, row] of Object.entries(found)) {
     if (!row) continue
     await clickCanvasFrac(row.f)
@@ -162,7 +161,6 @@ try {
     await ev(`document.querySelector('section.well svg')?.scrollIntoView({ block: 'center' })`)
     await shot(`well-${name}-page.png`)
     await ev('window.scrollTo(0, 0)')
-    i++
   }
 
   // --- 7. rewind / branch / compare with salt
