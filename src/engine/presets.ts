@@ -11,7 +11,7 @@
 import { defaultEngineParams, type EngineParams } from './engineParams'
 import { buildSchedule, DEFAULT_SEGMENTS, type Schedule, type Segment } from './schedule'
 
-export type PresetId = 'last3' | 'miocene' | 'cenozoic' | 'mtd' | 'gulf'
+export type PresetId = 'last3' | 'miocene' | 'cenozoic' | 'mtd' | 'gulf' | 'saltshort'
 
 export interface Preset {
   id: PresetId
@@ -70,10 +70,23 @@ export const PRESETS: readonly Preset[] = [
     runLengthMa: 66,
     segments: [{ fromAgeMa: 66, toAgeMa: 23, dt: 100000 }, { fromAgeMa: 23, toAgeMa: 3, dt: 50000 }, RECENT],
     params: {
-      duration: 66e6, nx: 400, dx: 1000, supply: 22, subsShelf: 40, subsBasin: 80, bundleEvery: 20, bundleAgeYr: 100000,
-      saltOn: 1, saltThick: 2000, saltPinchStart: 40000, saltPinchEnd: 120000, saltVisc: 1e18, coverThick: 1000, coverUneven: 0.2, coverVisc: 3e20,
+      duration: 66e6, nx: 400, dx: 1000, supply: 28, subsShelf: 90, subsBasin: 80, bundleEvery: 20, bundleAgeYr: 100000, tcMax: 0.1,
+      saltOn: 1, saltThick: 4000, saltPinchStart: 10000, saltPinchEnd: 100000, saltVisc: 1e18,
+      coverThick: 300, coverUneven: 0.5, coverSeed: 2, coverVisc: 1e19, weldThick: 100,
     },
-    note: 'draft',
+    note: 'All values are tuned (no published Gulf rate or section was used or checked); the targets are the D18 ones: weld runs of 2 km or more (salt thinner than 100 m), at least two salt crests within 2 km of the seafloor, a wedge that keeps prograding. Salt: 4 km thick (the upper end of Louann Salt estimates, to verify) with a 10 to 100 km pinch-out ramp, viscosity 1e18 (D17.5), 300 m of older cover that is 50 % uneven (seed 2; seeds 1 to 4 were tried), cover as a plate at 1e19 (the default). Only 10 % of the supply is routed as turbidity currents (tcMax 0.1) so the deep basin is starved and the crests there stay shallow; supply 28 m^2/yr and subsidence 90/80 m/Myr keep the wedge prograding while loading the ramp enough to weld. The deep-basin crests are 1.4 to 1.9 km below the seafloor, not at it, and sit on a thick salt pile against the closed basinward edge. See docs/physics-references.md (M3.8) and decision D18.',
+  },
+  {
+    id: 'saltshort',
+    label: 'Salt: uneven cover (10 Myr)',
+    runLengthMa: 10,
+    segments: [{ fromAgeMa: 10, toAgeMa: 0, dt: 50000 }],
+    params: {
+      duration: 10e6, nx: 150, dx: 1000, supply: 50, subsShelf: 40, subsBasin: 150, bundleEvery: 1,
+      saltOn: 1, saltThick: 1000, saltPinchStart: 10000, saltPinchEnd: 30000, saltVisc: 1e17,
+      coverThick: 100, coverUneven: 0.5, coverVisc: 1e18,
+    },
+    note: 'A teaching run (under a second): thin salt at a viscosity of 1e17 under a thin, 50 % uneven cover, with a fast tuned supply of 50 m^2/yr, gives a dozen small diapirs and minibasins in 10 Myr. Cover bending is on at 1e18 (the cover is thin, so it is a weak plate). All values are tuned and synthetic. It is a toy, not a Gulf section: the structures are 1 to 25 km wide and several are only a few cells wide.',
   },
 ]
 

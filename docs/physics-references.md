@@ -303,6 +303,18 @@ These are the numbers the roadmap quotes; the tests state the bands.
 
 Not in the model: faulting of the cover; salt that flows over the seafloor; dissolution; sideways motion of columns.
 
+## M3.8 Gulf-style preset retuned against the D18 targets
+Source code: `src/engine/presets.ts` (`gulf`, `saltshort`), `saltWavelength` in `src/engine/saltStructures.ts`;
+tests: `tests/gulfPreset.test.ts`; sweep script: `scripts/review/m3-sweep.mjs` (`ULP=` reruns under 1 ulp noise, `DUMP=` writes profiles).
+- **Targets (D18), written before the sweep:** weld runs of 2 km or more; at least two salt crests within 2 km of the seafloor and 20 km or more from the basinward edge; a wedge that keeps prograding; salt conserved.
+- **Result.** Weld runs of 2 km or more and four buried crests (3,600 to 6,100 ft below the seafloor) were reached; salt is conserved to about 1e-14 with nothing clipped. A crest *at* the seafloor was not reached. The weld positions and counts are not stable under 1 ulp noise (3, 2, 1, 3 runs in four tries), so the tests only ask for one or more. All values are **tuned**. `weldThick` is 100 m for this preset, a tuned label: thin-sheet flow slows as h^3 and never reaches 10 m in 66 Myr; Wagner & Jackson (2011, abstract only, to verify) report up to about 50 m of salt left in an incomplete weld under a broad prograding wedge.
+- **What moved the result** (sweeps of supply, subsidence, salt thickness, pinch-out, cover thickness and viscosity, `tcMax`): a starved deep basin (`tcMax` 0.1) keeps the crests shallow; a thin, uneven cover (300 m, 50 %) lets the salt move; supply 28 m2/yr with subsidence 90 and 80 m/Myr keeps the wedge prograding while loading the ramp enough to weld.
+- **Correction to M3.2.** The preferred diapir spacing under 1 km of cover over 1.5 km of salt at cover viscosity 1e19 is about 10.2 km, not the 8 km written in M3.2 (re-measured here).
+- **Wavelength measure.** `saltWavelength` is the power-weighted mean wavelength of the Hann-tapered, de-trended spectrum of the salt thickness in a window. It is checked against a sine of known period. It is used instead of the strongest spectral line because that line jumps between neighbouring lines.
+- **Grid check.** The record holds 400 columns at most, so dx 500 m covers 200 km; the tests compare dx 1,000 and 500 m on the same 200 km section (wavelengths agree within 15 %).
+- **References added:** Wagner & Jackson (2011), Pilcher et al. (2011) (abstract read; gives no minibasin width, so none is used). Both **to verify**.
+- **Short preset.** `saltshort` (10 Myr, 150 columns, supply 50 m2/yr, salt 1,000 m at 1e17 Pa s, cover 100 m at 1e18 Pa s, 50 % uneven) makes about 13 small diapirs and minibasins in under a second. A toy; all tuned.
+
 ## Set-up parameters and what the registry adds (M1.8)
 These are numerical or set-up choices, not measured quantities, so they are all **tuned** and the
 app labels them so: columns (`nx`, default 150), column width (`dx`, 1 km), run length
@@ -327,7 +339,7 @@ Where a source gives a range, it is quoted in the section for that parameter.
 Generated from `src/engine/references.ts` and `src/engine/params.ts` and checked by
 `tests/docs.test.ts`. Rewrite with `STRATA_WRITE_DOCS=1 npm run test:run -- docs`.
 
-References (24):
+References (26):
 - `gibson-1958`: Gibson (1958)
 - `sclater-christie-1980`: Sclater & Christie (1980)
 - `athy-1930`: Athy (1930)
@@ -352,6 +364,8 @@ References (24):
 - `ge-1997`: Ge et al. (1997) (to verify)
 - `eaton-1969`: Eaton (1969)
 - `matthews-kelly-1967`: Matthews & Kelly (1967)
+- `wagner-jackson-2011`: Wagner & Jackson (2011) (to verify)
+- `pilcher-2011`: Pilcher et al. (2011) (to verify)
 
 Parameters (81), as `key`: status, reference id:
 - `nx`: tuned

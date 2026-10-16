@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { minibasins, saltHighs, spacings, weldRuns } from '../src/engine/saltStructures'
+import { minibasins, saltHighs, saltWavelength, spacings, weldRuns } from '../src/engine/saltStructures'
 import { WELD_NONE } from '../src/engine/state'
 
 // A hand-made thickness profile, dx = 1000 m: two highs (1500, 1200) with a 300 m sag between them.
@@ -46,5 +46,19 @@ describe('salt structures', () => {
     expect(r.map((q) => [q.j0, q.j1, q.fromKm, q.toKm])).toEqual([[1, 3, 1, 4], [5, 5, 5, 6]])
     expect(r[0].firstMa).toBe(5)
     expect(r[0].lastMa).toBe(4)
+  })
+
+  // Hand calculation: h = 1000 + 4 j + 300 sin(2 pi x / 20 km) over a 100 km window is exactly 5 periods;
+  // after the straight-line trend is removed, the (Hann-windowed) spectrum has its weight at the 20 km line.
+  it('wavelength of a sine is its period, and it ignores the mean and a linear trend', () => {
+    const dx = 1000
+    const h = Array.from({ length: 140 }, (_, j) => 1000 + 4 * j + 300 * Math.sin((2 * Math.PI * (j + 0.5) * dx) / 20000))
+    const wl = saltWavelength(h, dx, 20000, 120000, 4000, 60000)
+    expect(wl / 20000).toBeGreaterThan(0.9)
+    expect(wl / 20000).toBeLessThan(1.1)
+  })
+
+  it('returns NaN for a flat profile (no wavelength to speak of)', () => {
+    expect(Number.isNaN(saltWavelength(new Array(100).fill(500), 1000, 0, 100000, 4000, 60000))).toBe(true)
   })
 })

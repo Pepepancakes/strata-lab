@@ -134,3 +134,52 @@ export function weldRuns(weldAge: ArrayLike<number>, h: ArrayLike<number>, weldT
   }
   return runs
 }
+
+/**
+ * Dominant wavelength of the salt thickness (m) between x = fromM and toM: the power-weighted mean
+ * wavelength of its spectrum, counting only wavelengths between minWl and maxWl.
+ * The profile is cut to the window, a straight line is removed (so the pinch-out ramp does not count)
+ * and a Hann taper is applied; then a direct discrete Fourier transform. The weighted mean is used
+ * instead of the strongest line because the strongest line jumps between neighbouring lines when two
+ * are nearly equal, while the weighted mean moves smoothly (measured: M3.8, docs/physics-references.md).
+ * Returns NaN when the window has no power in the band (a flat profile).
+ */
+export function saltWavelength(h: ArrayLike<number>, dx: number, fromM: number, toM: number, minWl: number, maxWl: number): number {
+  const i0 = Math.max(0, Math.round(fromM / dx))
+  const i1 = Math.min(h.length, Math.round(toM / dx))
+  const n = i1 - i0
+  if (n < 8) return NaN
+  let sx = 0
+  let sy = 0
+  let sxx = 0
+  let sxy = 0
+  for (let i = 0; i < n; i++) {
+    const y = h[i0 + i]
+    sx += i
+    sy += y
+    sxx += i * i
+    sxy += i * y
+  }
+  const slope = (n * sxy - sx * sy) / (n * sxx - sx * sx)
+  const icpt = (sy - slope * sx) / n
+  const z = new Float64Array(n)
+  for (let i = 0; i < n; i++) z[i] = (h[i0 + i] - (slope * i + icpt)) * (0.5 - 0.5 * Math.cos((2 * Math.PI * (i + 0.5)) / n))
+  const length = n * dx
+  let num = 0
+  let den = 0
+  for (let k = 1; k < n / 2; k++) {
+    const wl = length / k
+    if (wl < minWl || wl > maxWl) continue
+    let re = 0
+    let im = 0
+    for (let i = 0; i < n; i++) {
+      const a = (2 * Math.PI * k * i) / n
+      re += z[i] * Math.cos(a)
+      im -= z[i] * Math.sin(a)
+    }
+    const p = re * re + im * im
+    num += p * wl
+    den += p
+  }
+  return den > 1e-9 ? num / den : NaN
+}

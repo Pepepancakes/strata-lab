@@ -164,6 +164,18 @@ export const REFERENCES: readonly Reference[] = [
     short: 'Matthews & Kelly (1967)',
     full: 'Matthews, W.R. & Kelly, J. (1967). How to predict formation pressure and fracture gradient. Oil & Gas J.',
   },
+  {
+    id: 'wagner-jackson-2011',
+    short: 'Wagner & Jackson (2011)',
+    full: 'Wagner, B.H. & Jackson, M.P.A. (2011). Viscous flow during salt welding. Tectonophysics 510(3-4), 309-326, doi:10.1016/j.tecto.2011.07.012. Abstract only read: where flow is held back by drag along the boundaries (for example under a broad prograding wedge) up to about 50 m of salt stays in an incomplete weld; where flow is unrestricted only a vanishingly thin smear remains.',
+    toVerify: true,
+  },
+  {
+    id: 'pilcher-2011',
+    short: 'Pilcher et al. (2011)',
+    full: 'Pilcher, R.S., Kilsdonk, B. & Trude, J. (2011). Primary basins and their boundaries in the deep-water northern Gulf of Mexico: origin, trap types, and petroleum system implications. AAPG Bull. 95(2), 219-240, doi:10.1306/06301010004. Abstract read: describes salt-stock-canopy and bucket-weld provinces; it gives no minibasin width, so no width is taken from it.',
+    toVerify: true,
+  },
 ]
 
 const BY_ID = new Map(REFERENCES.map((r) => [r.id, r]))
