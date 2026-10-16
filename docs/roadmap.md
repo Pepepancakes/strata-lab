@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-15):** spikes 001 and 002 done and reviewed by John. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. Now: M3 salt built through the docs card (M3.6), waiting for the M3.7 review and John's judgement (D17).
+**Status (2026-10-16):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. Now: M3 salt is built and fixed through M3.11 (chain `strata-lab/m3-01-salt-flow` to `m3-11-docs-d18`), NOT on main; it waits for John's judgement of the Gulf-style preset (D17, D18, D19). Next after M3: M3b passive diapirs, then M4.
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -172,41 +172,85 @@ bending stiffness to the thin-sheet flow, so diapir width comes from physics, no
 | M3.5 | frontend-dev | Salt in every view: section, salt-thickness mode, welds, pseudo-well, checks panel |
 | M3.6 | doc-writer | User guide, references, handover |
 | M3.7 | safety-reviewer | Integrity review with its own checks; verdict |
+| M3.8 | coder | Gulf preset retuned to the relaxed D18 targets; short salt preset; leftovers (10 km table, speed) |
+| M3.9 | safety-reviewer | Re-review (REQUEST CHANGES: D18 missing, S3/M3b missing, handover stale, salt piled at the edge) |
+| M3.10 | coder | Basinward limit of the salt basin, no-pile tests, serial wall-clock test project (D19) |
+| M3.11 | doc-writer | D18 and D19 recorded; S3 and M3b in the roadmap; handover and user guide brought up to date |
 
-**Done when:**
+**Done when** (rewritten 2026-10-15 to the relaxed Gulf targets, D18; the first version asked for a weld
+under 10 m and a crest within 1 km of the seafloor):
 - The channel-flow benchmark passes.
 - Salt is conserved.
 - Diapir width converges as the grid is refined (1,000 / 500 / 250 m cells).
-- A Gulf-style example (a prograding wedge over autochthonous salt) builds minibasins and welds
-  that John recognises.
+- A Gulf-style example (a prograding wedge over autochthonous salt, `saltVisc` 1e18, starting at 66 Ma) shows:
+  - at least one weld run of 2 km or more (salt under 100 m) under the shelf or the pinch-out ramp the wedge crossed;
+  - at least two salt crests within 2 km of the seafloor that are not edge artifacts (20 km or more from the
+    section edge and the salt edges);
+  - a wedge that keeps prograding;
+  - spacing of the structures within 15 % at 1,000 and 500 m cells.
+- Diapirs that reach and stay at the seafloor are NOT in M3: they are S3 and M3b (D18).
 
 Canopies and sheets need a different solver (salt spreading over the seafloor). See the Backlog.
 
-**Status (2026-10-15): built through M3.6 on the chain `strata-lab/m3-01-salt-flow` to `m3-06-docs`; NOT on main.** Waiting
-for the M3.7 integrity review and for John. Windows `npm run check` at M3.5: 35 files, 399 passed, 2 skipped; Linux (CI=true, WSL): 394 passed, 7 skipped
-(the extra skips are the wall-clock tests); build, offline check and built-file check pass. Salt is off by default and the M1/M2 fixtures are unchanged.
+**Status (2026-10-16): built through M3.11 on the chain `strata-lab/m3-01-salt-flow` to `m3-11-docs-d18`; NOT on main.** Waiting
+for John. The M3.7 review approved the chain, John relaxed the Gulf targets (D18), the M3.9 re-review asked for changes, and John chose to
+fix the basinward edge (D19, M3.10). Windows `npm run check` at M3.10: 37 files, 431 tests passed, 2 skipped; Linux (CI=true, WSL): wall-clock
+project 81 passed, 7 skipped (the extra skips are the wall-clock tests); build, offline check and built-file check pass. Salt is off by default
+and the M1/M2 fixtures and state hashes are unchanged.
 Results against the done-when:
 - **Channel-flow benchmark: passes.** Thin-sheet decay within 1 % of linear theory (25 to 200 km wavelengths, eta 1e17 and 1e18; worst
-  -0.57 % at 25 km), load-step flux within 0.02 % of the hand calculation (`tests/salt.test.ts`). Three M3 rows in the checks panel
-  (decay 0.00181 against a limit of 0.01, bending wavelength 0.0214 against 0.05, salt balance 2.5e-16 against 1e-12).
-- **Salt conserved: passes.** Salt-only balance to rounding (under 1e-12 in the tests; 3e-14 relative over the 66 Myr Gulf run); the weld
+  -0.57 % at 25 km), load-step flux within 0.02 % of the hand calculation (`tests/salt.test.ts`). Three M3 rows in the checks panel.
+- **Salt conserved: passes.** Salt-only balance to rounding (3e-14 relative over the 66 Myr Gulf run, 5.8e-15 at M3.9); the weld
   limiter keeps salt at or above 0 with nothing clipped (`saltClip` 0).
 - **Diapir width converges with the grid: passes for the linear stage.** Roof wavelength, mean of three seeds, with bending on (cover 1e19 Pa s):
   9.92 km at 1,000 m cells, 10.12 km at 500 m, 9.97 km at 250 m, against lambda* = 10.24 km; with bending off 2.47, 1.34 and 0.77 km (2 to 3 cells,
-  following the grid). The finite-amplitude needle is a few cells wide and not stable across machines, so it is reported, not tested.
-- **Gulf-style preset (draft) builds minibasins; John has not judged it.** At the end of the 66 Myr run (Node 26, Windows, structures of at least 300 m relief):
-  11 minibasins (6 to 15 km wide, one of 46 km; spacing 15 to 33 km), 11 salt highs (4 to 46 km), the salt pushed basinward (thickest 13,900 ft at 321 km,
-  against 6,560 ft at the start). **No weld** with the preset's values (one weld column only in a changed run) and **no salt high reaches the seafloor**
-  (cover over the highs 14,900 to 25,500 ft). Whether these look like Gulf salt is for John to say.
-- **Speed.** The 66 Myr Gulf run takes about 5.0 s in Node (20.3 s before the M3.4 load cache, same state hash). Not reported: the paired
-  "within 5 % of main with salt off" comparison of the other presets.
+  following the grid). On the Gulf preset itself the wavelength agrees within 1.3 % (200 km section, 1,000 against 500 m); counts and spacing of
+  structures do NOT converge with the grid (spacing differs 9 to 12 %, counts 4 against 5). The finite-amplitude needle is reported, not tested.
+- **Gulf-style preset (D18 targets), after M3.10:**
+  - **Weld: met, but not robust.** Welds (salt under 100 m, thicker before) total 17 km in the plain run and 12 to 20 km across six 1 ulp
+    noise salts; the longest run is 3 to 4 km. Their positions move with the last digit of the maths, so the tests ask for a band (total 8 km or
+    more, a run of 2 km or more) and not for particular welds.
+  - **Crests: met by the letter only.** 5 crests (2 to 5 across the noise salts) lie within 2 km of the seafloor and 20 km or more from the edges,
+    at 286 to 323 km, but the shallowest has 4,243 ft (1.3 km) of cover. They are ripples of 300 to 850 m on a flat salt slab 5 km thick, not
+    diapirs.
+  - **Wedge: progrades** (shoreline 54.5 km at 56 Ma, 212.5 km at 0.6 Ma at M3.9).
+  - **Basinward edge fixed (D19).** At M3.9 salt piled 8 to 9 km thick against the closed 400 km edge. The preset now ends the salt basin at
+    200/240 km (tuned); the thickest salt beyond 250 km is 5.0 km, the last 20 km hold none.
+  - **Speed.** The 66 Myr Gulf run takes 5.0 to 5.1 s in Node; salt-off presets are within 5 % of main (best of three, interleaved).
 - Views (M3.5): pink salt in every colour mode, a Salt thickness mode, weld and cover marks with (i) buttons, a salt-aware pseudo-well; checked in the built file at 100, 125 and 150 % scaling with 0 console errors.
+- **Two salt presets:** *Gulf-style: wedge over salt (66 Ma)* and *Salt: uneven cover (10 Myr)*. The second is a teaching toy (under 1 s): its section is over-filled and its structures are 1 to 2 cells wide.
 
-**John still has to judge:** (1) whether the Gulf-style preset's minibasin spacing (about 15 to 33 km) and widths look like Gulf salt, and
-whether it should show a weld or a diapir at the seafloor; (2) whether the tuned cover viscosity (3e20 in the preset) is acceptable
-as the control on structure width; (3) the single salt preset (the 3 Myr one formed nothing). Open for M3.7: the paired speed comparison, the grid check on the preset itself
-(1,000 and 500 m) and its spread under 1 ulp noise, the 10 km thickness table, and the stale "about 8 km" note on `coverVisc`.
+**John still has to judge:** (1) whether the Gulf-style preset looks acceptable as a teaching section, given the stated limits (tuned limit at
+200/240 km, ripples on a slab, no canopies); (2) whether the tuned cover viscosity is acceptable as the control on structure width; (3) whether
+M3 can go to main with passive diapirs left for M3b. Nothing merges without him (D6, D17.6).
 Limits: no canopies, columns fixed in x, no dissolution, no faults over salt, viscous-cover approximation, runs start at 66 Ma at the earliest (D17.4).
+
+## S3 — Spike 003: diapirs that reach the seafloor  *(built 2026-10-16; code on the branch `strata-lab/s3-passive-diapir`, `spikes/003-passive-diapir/`; not on main)*
+Question (D18): can a salt crest reach the seafloor and stay there while sediment piles up around it, with salt and sediment conserved,
+benchmarked against a hand calculation?
+- Built: exposed salt with sediment bypass (sediment landing on a column with no roof goes to the lower neighbours), roof thinning, power-law
+  salt, cover bending and the weld limiter ported from M3, and a controlled test mode. All options are off by default.
+- **Result in plain words:** the machinery works when salt is fed in by hand. With a prescribed feed, the crest stays at the seafloor exactly when
+  it rises at least as fast as the sediment around it builds up, matching the closed form to under 0.2 % (11 runs), with salt, sand and mud
+  conserved to 1e-12 or better. On its own, in the Gulf preset values, exposed salt is buried again within a few Myr (about 3 Myr or less):
+  thin-sheet flow drains a column as fast as sediment loads it, so no column gets a lasting supply. Nothing persisted to the end of a run.
+- Making passive diapirs appear on their own needs a source of salt that keeps up (power-law weakening or a deeper source layer).
+- **Open questions, waiting on John:** (1) is a transient, prescribed-feed passive diapir enough, or should the next card add a salt source that
+  keeps up? (2) should exposed salt dissolve (a rate-limited loss to seawater; it would have to be booked as a sink in the salt balance)?
+  (3) bypass splits sediment equally between the two lower sides; real sediment follows the slope (a small change); (4) roof thinning is a tuned
+  rule, not physics.
+
+## M3b — Passive diapirs and thinner welds  *(after M3 and S3, before M4; scope to be set from S3 and John's answers)*
+Build S3's approach into the engine, as maintained code and test-first, so that the Gulf preset shows crests that reach and stay at the seafloor
+and welds that thin closer to zero than the 100 m label of D18.
+- Scope is NOT fixed yet. It depends on John's answers to the S3 questions (feed or a salt source that keeps up; dissolution).
+- Salt, sand and mud stay conserved separately; salt stays off by default; the M1/M2 fixtures stay unchanged.
+
+**Done when (proposed, to be confirmed when the scope is set):**
+- The exposed-crest rule matches a hand calculation (as S3 result 1).
+- Salt, sand and mud are conserved.
+- The Gulf preset shows at least two crests at the seafloor at the end of the run, not edge artifacts, and the wedge still progrades.
+- John says the picture reads as passive diapirs, or names what is wrong.
 
 ## M4 — Well-planning outputs
 - A planned well (vertical or deviated) through the section.

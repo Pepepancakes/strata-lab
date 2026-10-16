@@ -4,9 +4,11 @@ This file exists from day one so the project can move to another machine or agen
 Update it whenever something here changes, in the same commit as the change.
 
 ## Where things stand
-- 2026-10-15: M3 (salt) is built as a chain `strata-lab/m3-01-salt-flow` -> `m3-02-cover-bending` ->
-  `m3-03-welds-burial` -> `m3-04-gulf-preset` -> `m3-05-views` -> `m3-06-docs`. Not on main; waiting for
-  the M3.7 integrity review and for John's judgement of the Gulf-style preset (roadmap, M3). See "M3 salt" below.
+- 2026-10-16: M3 (salt) is built and fixed on the chain `strata-lab/m3-01-salt-flow` -> ... -> `m3-06-docs` ->
+  `m3-08-fix-gulf-preset` -> `m3-09-rereview` -> `m3-10-fix-salt-edge` -> `m3-11-docs-d18`. NOT on main; waiting
+  for John's judgement (roadmap M3; decisions D17, D18, D19). Spike S3 (passive diapirs, branch
+  `strata-lab/s3-passive-diapir`) is built and waits for his answers; milestone M3b follows M3 (roadmap).
+  See "M3 salt" and "M3 state after M3.10" below.
 - 2026-10-15: M1 is on main (merge 56b964a). Linux CI was red because floating-point results differ
   from Windows (`docs/decisions.md` D14); the tolerance fix (D16.4) is merged.
 - 2026-10-15: M2 (slope failure and MTDs) is done and on main: review round 3 APPROVE, John's
@@ -125,24 +127,112 @@ Salt is OFF by default (`saltOn` = 0, start-only, D17.2): with it off every M1/M
 - **Trap: the cross-machine spread of salt results (D16.4).** Same-machine runs are bit-identical and rewind is exact. Across machines (and
   under `withUlpNoise`) widths of individual structures move. Tested bands: the roof wavelength within 10 % across the grids and within 3 % under
   1 ulp noise (`tests/coverConvergence.test.ts`). NOT a test: the width of a finite-amplitude needle (one to five cells; 1.76 km became 2.32 km at 250 m cells
-  under 1 ulp). The Gulf-style preset counts (11 minibasins, 11 highs) come from one Node 26 / Windows run; the spread of those counts under ulp
-  noise and the grid check at 1,000 and 500 m were NOT reported by M3.4. Test the Gulf preset with bands and summary statistics only, and never on a
-  count near zero (the number of welds is 0).
+  under 1 ulp). Test the Gulf preset with bands and summary statistics only, and never on a count near zero. The spread of its welds and crests
+  is in "M3 state after M3.10" below (M3.4 reported counts from one run only: 11 minibasins, 11 highs; that was withdrawn).
 - **Trap: thin-sheet salt still has no width of its own.** With `coverBend` = 0 diapirs collapse to a few cells again. The registry default
-  (1) is what hides this; the width then depends on `coverVisc`, which is tuned (the Gulf preset uses 3e20).
-- **Trap: the `coverVisc` registry note says "about 8 km"**; the formula and the test give 10.2 km at 1e19 (1.5 km salt, 1 km cover). The note in
-  `params.ts` is stale (found in M3.6, docs only; not changed here).
+  (1) is what hides this; the width then depends on `coverVisc`, which is tuned (the Gulf preset uses the default, 1e19 Pa s).
+- **Trap: the preferred diapir spacing at `coverVisc` 1e19 is about 10.2 km** (1.5 km salt, 1 km cover). The old "about 8 km" note in
+  `params.ts` was corrected in M3.8.
 - **Trap: `coverThick` default (200 m) is the salt-off substrate**, which is why M3.1 to M3.3 runs did not change when M3.4 added it. The Gulf
-  preset sets 1,000 m.
+  preset sets 300 m (it was 1,000 m at M3.4).
 - **Trap: the section extent only grows** (`extentOf`/`growExtent`, `store.ts`, an M1 behaviour). A canvas pixel hash after visiting views in a
   different order is therefore different. Compare screenshots only after the extent has settled.
-- **Open: only one salt preset.** The card for M3.4/M3.5 expected two. The 3 Myr "uneven cover" preset formed no minibasins or diapirs, so M3.4 removed it.
-- **Open: the Gulf preset (draft) has no weld and no diapir at the seafloor** with default values. A weld appears only with changed values
-  (`saltVisc` 1e17, supply 60 m2/yr: one column, km 91, from 4.45 Ma). John may want a preset or a note that shows one.
-- **Open: speed.** The Gulf run takes 5.0 s (20.3 s before the M3.4 cache) in Node on the development machine; the M3.4 card's 8 s budget is met. The
-  card's "every existing preset within 5 % of main with salt off" was not reported by M3.4. `tests/run.test.ts` "runs in under 3 s" fails now and
-  then under full-suite load (3.1 to 3.2 s) and passes alone; it is a wall-clock test, not a salt change.
 - Browser evidence for the views: `scripts/review/m3-views-browser.mjs <outdir>` after `npm run build` (screenshots are kept out of the repo). It
   checks the default run, the Gulf preset, all colour modes, pseudo-wells, rewind/branch/compare and 100/125/150 % scaling (section 643 x 360 CSS px at all three, no growth).
 - Labels: when you rename a salt control or a view label, rename it in section 14 of `docs/user-guide.md`; `tests/docs.test.ts` checks the control labels.
 
+## M3 state after M3.10 (2026-10-16)
+Read with D18 and D19 in `docs/decisions.md`. Full tables: `docs/reviews/m3-10-edge-fix.md` (script `scripts/review/m3-10-edge.mjs`) and
+`docs/reviews/m3-rereview.md` (script `scripts/review/m3-rereview.mjs`).
+- **Two salt presets.** *Gulf-style: wedge over salt (66 Ma)* (`gulf`, 5.0 to 5.1 s in Node) and *Salt: uneven cover (10 Myr)* (`saltshort`, 0.4 s).
+  `saltshort` is a teaching toy: its section ends 3.3 km above sea level with 3.5 to 6 km of cover over the salt, and its structures are 1 to 2 cells
+  wide (minibasin widths 2, 25, 2, 1, 1, 5 km). Do not read its widths or its depths (re-review finding 10).
+- **Weld label is 100 m** (`weldThick`, D18). The Gulf preset sets 100 m; the registry default stays 10 m, so no other run changes. It is a tuned
+  label, not physics: thin-sheet flow slows as the cube of the thickness and never reaches 10 m in 66 Myr. Wagner and Jackson (2011) is cited,
+  abstract only, to verify.
+- **Basinward salt limit** (`saltLimitStart`, `saltLimitEnd`, start-only, M3.10, D19): the salt basin ends between 200 and 240 km in the Gulf preset
+  (smoothstep). Defaults are 2,000 and 2,500 km, so every other run is unchanged. The values are tuned, chosen by the pile test (see the trap below),
+  not by crest count. The 4 km start thickness is tuned too (no source; the old "upper end of Louann estimates" note was withdrawn, finding 11).
+- **The weld is real, but its length is not robust.** Under 1 ulp noise (six noise salts, M3.10) the total weld length is 12 to 20 km (17 km plain)
+  and the longest run 3 to 4 km. Before the edge fix (M3.9) the longest run was 2, 3, 1, 2, 2, 3 km across six salts, so one in six missed the 2 km
+  target. Positions move too (28-31, 35-37, 44-45, 50-52, 75-76 km in the M3.9 base run). `tests/gulfPreset.test.ts` therefore asks for a band that
+  all seven runs pass (total 8 km or more, one run of 2 km or more), never for particular welds. The tolerance was proved with `withUlpNoise`.
+- **Crests.** 5 crests lie within 2 km of the seafloor and 20 km or more from the section edge and the salt edges in the plain run (2 to 5 across the
+  six noise salts) at 286.5, 308.5, 314.5, 318.5 and 322.5 km. The shallowest has 4,243 ft (1.3 km) of cover. They are 300 to 850 m ripples of the
+  cover seed on a flat slab 5 km thick (the first is the slab's own top), not diapirs. The D18 target is met by the letter, not in spirit. Diapirs at
+  the seafloor are S3 and M3b. M3.9's four crests were 287.5, 314.5, 354.5 and 389.5 km with 1,863, 1,567, 1,247 and 1,106 m of cover, on a slab 8 to 9
+  km thick; the last one was 10.5 km from the edge. With `coverUneven` 0 there were no crests; with other `coverSeed` values 1 to 2 at other places.
+- **Grid.** Wavelength of the salt thickness agrees within 1.3 % at dx 1,000 against 500 m (200 km section: 23.2 against 22.9 km), 9 % at dx 1,000
+  against 2,000 on 400 km (14.1 against 12.8 km). Counts and spacing do NOT converge (spacing 16.0 against 17.6 km, 4 against 5 highs; M3.9 reported
+  59.6 % for the median crest gap and 25.8 % for spacing). The record holds 400 columns, so dx 500 m covers only 200 km. Keep saying counts and spacing
+  are not grid-converged (finding 7).
+- **Salt thickness every 10 km at the end of the run (0 Ma), m.** M3.9 piled 8 to 9 km of salt beyond 250 km; M3.10 has 5.0 km at most and none after
+  355 km. (Columns are centred at the km shown for M3.9 and 0.5 km less for M3.10; the 66, 40 and 20 Ma tables and the seafloor in ft are in the
+  review doc. Finding 6.)
+
+```
+  km      M3.9 (no limit)   M3.10 (now)
+    5             0                 0
+   15            30                30
+   25           637               637
+   35           145                85
+   45            41              2778
+   55           546              1809
+   65           201               324
+   75           248               142
+   85          1159               533
+   95           674              1799
+  105           726               456
+  115           894              1792
+  125           987               669
+  135           718               782
+  145           565               569
+  155           381              1005
+  165           505              1650
+  175           368              1431
+  185           324              1102
+  195           459               955
+  205           478               749
+  215           590               553
+  225           817              1089
+  235          1595              2751
+  245          3521              3838
+  255          4615              4253
+  265          6020              4791
+  275          7107              4835
+  285          8057              4787
+  295          8094              4511
+  305          8283              4566
+  315          8741              4801
+  325          8495              3609
+  335          8524              2620
+  345          8578              2013
+  355          8969               493
+  365          8550                 0
+  375          8609                 0
+  385          8709                 0
+  395          8575                 0
+```
+
+- **Speed.** Gulf preset 5.0 to 5.1 s (M3.9: 5.4 to 6.0 s). Salt-off presets against main, best of three, two interleaved passes, ms (M3.10): last3
+  1421 / 1461 on main, 1414 / 1475 here; mtd 2173 / 2127, 2208 / 2082; miocene 2316 / 2314, 2334 / 2298; cenozoic 2845 / 2745, 2728 / 2744. All within
+  5 % (a first, non-interleaved pass read mtd +12.7 %, which was machine noise). M3.9 measured the same (last3 1,447 / 1,505 against 1,475 / 1,447,
+  mtd 2,103 / 2,062 against 2,130 / 2,103, miocene 2,307 / 2,327 against 2,276 / 2,412, cenozoic 2,746 / 2,839 against 2,751 / 2,894). `stateHash` of
+  last3, mtd, miocene and cenozoic on this machine is identical to main (cb22255b, 9be1b3f3, fa992a56, ebd3965b); `gulf` changed on purpose
+  (f2e2fd2c, was dae567c7); `saltshort` b9d410d6 is unchanged since M3.9.
+- **Wall-clock tests** (`run`, `longruns`, `coverBending`, `m28views`, `gulfPreset`) flaked on a loaded Windows machine when the heavy salt files ran in
+  parallel (finding 9). Since M3.10 `vitest.config.ts` has a `main` project and a serial `wallclock` project, and `npm run check` runs
+  `test:gated` (main, then wallclock). `npm run test:run` is plain `vitest run` without that isolation, so those tests can still flake there. They are
+  skipped when `CI` is set.
+- **Known limit: the section's vertical scale depends on viewing history (finding 8).** Step 0 drawn on the first visit and on later visits differs by
+  a pixel in 7,750 of 231,480 pixels (every layer line and axis label). The engine state and the StateView at step 0 are identical on every visit
+  (hash 566eca05), so the difference is in the drawing only. It follows from the extent that only grows (trap above). No fix needed for the physics.
+- **Trap: a closed, zero-flux salt edge piles salt up against the section edge.** The basinward edge is closed (no salt may leave, which keeps the salt
+  balance exact). If salt starts 4 km thick all the way to that edge, the wedge squeezes it basinward at about 9 m2/yr and it stacks up (8 to 9 km thick
+  at the end at M3.9; salt volume beyond 250 km doubled from 600 to 1,202 km2). Any crests on that pile are ripples that follow the cover seed, not
+  diapirs. Give the salt basin its own basinward limit (`saltLimitStart`/`saltLimitEnd`) and leave room beyond it. Check with the no-pile test in
+  `tests/gulfPreset.test.ts` (under 100 m of salt in the last 20 km, under 1.5 times the start beyond 250 km). On a 200 km section the limit sits at the
+  section edge and the edge pile comes back, so use that section only for structure width.
+- Still wrong for a Gulf geologist: 200/240 km is tuned, not a Gulf position; the outer 160 km of the section has no salt at the start; no canopies;
+  structures are ripples on a slab; salt is 5 km thick at most with a 4 km start that has no source; the Hudec et al. (2013) reference was read at
+  abstract level only; the start at 66 Ma puts only 300 m of cover on the salt.

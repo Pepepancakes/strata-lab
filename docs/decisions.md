@@ -130,3 +130,50 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      each card on Windows and Linux, and may write one fix round plus a re-review after REQUEST
      CHANGES. Geology or product questions go to John with a recommended pick; D13 overnight
      authority does not carry over.
+
+- **D18. Gulf targets relaxed; passive-diapir physics next (John, 2026-10-15).** M3.8 found that the
+  Gulf-style preset could not meet the card's targets (a weld under 10 m and a crest within 1 km of the
+  seafloor) at `saltVisc` 1e18 with plausible values. John accepted the shortfall and relaxed the targets
+  instead of changing a D17 pick:
+  1. **Weld** = salt thinner than `weldThick` of **100 m** (about seismic resolution; tuned; Wagner and
+     Jackson 2011, abstract only, to verify). Target: at least one weld run of **2 km or more** under the
+     shelf or the pinch-out ramp the wedge crossed. The Gulf preset uses 100 m; the registry default stays
+     10 m (33 ft), so no other run changes.
+  2. **Crests:** at least two salt crests within **2 km** (about 6,600 ft) of the seafloor, and not edge
+     artifacts (20 km or more from the section edge and from the salt edges).
+  3. **The wedge must still prograde.** No drowned-shelf solutions.
+  4. **Kept:** `saltVisc` 1e18 and the 66 Ma start (D17.4, D17.5).
+  5. **Why:** thin-sheet flow slows as the cube of the salt thickness (h^3), so a column never gets down
+     to 10 m in 66 Myr, and the older cover always lies on a crest, so a crest cannot stay at the seafloor.
+  6. **Passive diapirs come next:** diapirs that reach the seafloor and stay there while sediment builds up
+     around them are spike **S3**, then milestone **M3b**, straight after M3 and ahead of M4 (roadmap).
+  7. **What M3.8 reached:** the weld target (runs of 2 km or more, salt left in a weld column 56 to 152 m),
+     the wedge still prograding (shoreline 54.5 km at 56 Ma, 212.5 km at 0.6 Ma, M3.9 re-review), salt conserved to about 1e-14
+     with nothing clipped, and spacing within 15 % at 1,000 and 500 m (by wavelength, not by count). Four
+     crests sat within 2 km of the seafloor, so the crest target was met by the letter. The M3.9 re-review
+     found the weld is real but its length moves with the last digit of the maths (the longest run was 1 to
+     3 km across six noise salts), and that the four crests were ripples on a pile (D19). So the tests ask
+     for a band, not for exact welds.
+
+- **D19. Fix the basinward edge instead of accepting the salt pile (John, 2026-10-16, option B).** The M3.9
+  re-review (REQUEST CHANGES, `docs/reviews/m3-rereview.md`, finding 4) showed that the Gulf preset's
+  shallow crests were small ripples on a salt slab 8 to 9 km thick, twice the 4 km start, that had piled up
+  against the closed (no-flow) basinward edge of the section at 400 km. The weld and wedge results were
+  sound. John chose to fix the edge, not to accept the pile.
+  1. **What M3.10 did:** two new start-only parameters, `saltLimitStart` and `saltLimitEnd` (a smooth
+     taper like the landward pinch-out), end the salt basin where it should end. Defaults 2,000 and
+     2,500 km are beyond any section, so every other run is bit-identical. The Gulf preset uses 200 and
+     240 km (tuned; the idea that the Louann salt basin ends near the continent-ocean boundary and that
+     salt flowed past it is after Hudec et al. 2013, abstract only, to verify). The limit was chosen from
+     a sweep of eight limits by whether the pile was gone, not by crest count.
+  2. **What it reached:** the thickest salt beyond 250 km fell from 9,068 m to 5,002 m (1.25 times the
+     start); the last 20 km of the section holds no salt (was 9,068 m); the salt front ends at 355 km, 45 km
+     short of the edge; salt in the section at the start fell from 1,380 to 660 km2. Total weld length is 12
+     to 20 km across the plain run and six noise salts, longest run 3 to 4 km. The Gulf run takes about 5 s.
+  3. **Crests, in plain words:** 5 crests meet the test (2 to 5 across the noise salts), at 286 to 323 km,
+     but none is closer than 4,243 ft (about 1.3 km) to the seafloor, and they are still ripples of 300 to
+     850 m on a flat slab, not diapirs. The D18 crest target is met by the letter, not in spirit. Making
+     diapirs that reach the seafloor is the job of S3 and M3b, not of a preset tweak.
+  4. **Still not Gulf-like:** 200/240 km is tuned, not a Gulf position; the outer 160 km of the section has
+     no salt at the start; no canopies; the 4 km start has no source (tuned).
+  5. Nothing merges to main without John (D6, D17.6).
