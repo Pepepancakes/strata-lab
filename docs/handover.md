@@ -4,8 +4,11 @@ This file exists from day one so the project can move to another machine or agen
 Update it whenever something here changes, in the same commit as the change.
 
 ## Where things stand
-- 2026-10-15: M1 is on main (merge 56b964a). Linux CI is red because floating-point results differ
-  from Windows (`docs/decisions.md` D14).
+- 2026-10-15: M3 (salt) is built as a chain `strata-lab/m3-01-salt-flow` -> `m3-02-cover-bending` ->
+  `m3-03-welds-burial` -> `m3-04-gulf-preset` -> `m3-05-views` -> `m3-06-docs`. Not on main; waiting for
+  the M3.7 integrity review and for John's judgement of the Gulf-style preset (roadmap, M3). See "M3 salt" below.
+- 2026-10-15: M1 is on main (merge 56b964a). Linux CI was red because floating-point results differ
+  from Windows (`docs/decisions.md` D14); the tolerance fix (D16.4) is merged.
 - 2026-10-15: M2 (slope failure and MTDs) is done and on main: review round 3 APPROVE, John's
   preview checks all pass (`docs/decisions.md` D16). See "M2 slope failure and MTDs" below. Next:
   make Linux CI compare results with tolerances (D16.4), then M3 salt.
@@ -94,4 +97,52 @@ Code: `limitOutflow` in `src/engine/salt.ts`, `src/engine/saltIntervals.ts`, sal
 - Salt temperature: exact steady conduction through a salt cell with k(T) = k0 / (0.99 + (a - b/k0) T). The coefficients a and b are marked to verify (halite not checked).
 - Salt weight is in `columnOverburden` (views). Compaction still does not add the weight of salt to sediment BELOW salt (canopies): not needed before M3.4.
 - Test at coarse steps: the limiter acts on thick cells too (a step-size guard); at the 20 kyr benchmark it acts only below 1 m.
+
+## M3 salt (2026-10-15)
+Chain above; the engine is `src/engine/salt.ts` (flow, cover bending, weld limiter), `banded.ts` (solver), `saltIntervals.ts`,
+`saltStructures.ts` (measures for reports), the Gulf preset in `presets.ts`; views in `src/views/section`, `src/views/well`; checks in
+`src/worker/checksM3.ts`. Numbers and benchmarks: `docs/roadmap.md` (M3) and `docs/physics-references.md` (M3 benchmarks and results).
+Salt is OFF by default (`saltOn` = 0, start-only, D17.2): with it off every M1/M2 run, golden and fixture is unchanged and `ENGINE_VERSION` is still 1.
+- **Trap: the record layout changes with salt on.** There are TWO pre-run layers: layer 0 = salt (every cell tagged `SALT`, thickness in
+  `mud`, possibly 0), layer 1 = the older cover (sediment). `rec.nPre` (1 or 2) is the number of pre-run layers; record step k fills layer
+  `nPre + k`. Never map a layer to its step or age with a literal 1: use `nPre` (`keyframes.ts` and the saved-record head, which carries
+  `nPre` only when it is not 1, were changed for this).
+- **Trap: what salt state is stored.** Stored and copied by snapshots and keyframes: the salt thickness (in the record), `weldAge`
+  (`WELD_NONE` = -1), and the `diag` counters `saltClip` and `saltLimited*`. Derived and never stored: everything in `eng.salt`
+  (`SaltScratch`: weights, potential, face mobility, the tridiagonal and banded work arrays, and the M3.4 cache of old-layer loads `Wd`,
+  `Sbd`, `low`, `cacheId`). If you add salt state, add it to `snapshotEngine`/`restoreEngine` and to `packKeyframe`/`restoreKeyframe`, or a rewound
+  run drifts. Rewind tests with salt on: `tests/salt.test.ts` (including a bundled run rewound from the middle of a cycle) and `tests/welds.test.ts` (weld age after rewind, snapshot and keyframe routes).
+- **Trap: weld age is history.** `weldAge` is the age of the FIRST time a column went from at least `weldThick` to below it. A column that was
+  never thicker than `weldThick` (the pinch-out, the landward edge) never welds. It is a label: the weld limiter does not use `weldThick`.
+  `weldThick` can be changed on a branch (not start-only), which changes labels from then on but not the flow.
+- **Trap: the load cache in bundled salt runs.** M3.4 keeps the weight of the old layers from the first step of a bundling cycle (`cacheId`),
+  and `low[j]` records the lowest layer that transport removed sediment from. A new place that removes or changes old sediment must set `low`,
+  or the salt sees stale weights. The cache gives bit-identical results to a full sum (`tests/saltSpeed.test.ts`); setting `eng.salt.cacheId = -1`
+  forces a full rebuild.
+- **Trap: the banded solver is plain Gaussian elimination in a fixed order** (`banded.ts`, LU with partial pivoting, 3 sub- and 3 super-diagonals,
+  same layout as LAPACK dgbtf2/dgbtrs, no `Math` calls) so it stays deterministic. Do not swap in a library or reorder the sums. It is checked
+  against a dense solve (`tests/banded.test.ts`).
+- **Trap: the cross-machine spread of salt results (D16.4).** Same-machine runs are bit-identical and rewind is exact. Across machines (and
+  under `withUlpNoise`) widths of individual structures move. Tested bands: the roof wavelength within 10 % across the grids and within 3 % under
+  1 ulp noise (`tests/coverConvergence.test.ts`). NOT a test: the width of a finite-amplitude needle (one to five cells; 1.76 km became 2.32 km at 250 m cells
+  under 1 ulp). The Gulf-style preset counts (11 minibasins, 11 highs) come from one Node 26 / Windows run; the spread of those counts under ulp
+  noise and the grid check at 1,000 and 500 m were NOT reported by M3.4. Test the Gulf preset with bands and summary statistics only, and never on a
+  count near zero (the number of welds is 0).
+- **Trap: thin-sheet salt still has no width of its own.** With `coverBend` = 0 diapirs collapse to a few cells again. The registry default
+  (1) is what hides this; the width then depends on `coverVisc`, which is tuned (the Gulf preset uses 3e20).
+- **Trap: the `coverVisc` registry note says "about 8 km"**; the formula and the test give 10.2 km at 1e19 (1.5 km salt, 1 km cover). The note in
+  `params.ts` is stale (found in M3.6, docs only; not changed here).
+- **Trap: `coverThick` default (200 m) is the salt-off substrate**, which is why M3.1 to M3.3 runs did not change when M3.4 added it. The Gulf
+  preset sets 1,000 m.
+- **Trap: the section extent only grows** (`extentOf`/`growExtent`, `store.ts`, an M1 behaviour). A canvas pixel hash after visiting views in a
+  different order is therefore different. Compare screenshots only after the extent has settled.
+- **Open: only one salt preset.** The card for M3.4/M3.5 expected two. The 3 Myr "uneven cover" preset formed no minibasins or diapirs, so M3.4 removed it.
+- **Open: the Gulf preset (draft) has no weld and no diapir at the seafloor** with default values. A weld appears only with changed values
+  (`saltVisc` 1e17, supply 60 m2/yr: one column, km 91, from 4.45 Ma). John may want a preset or a note that shows one.
+- **Open: speed.** The Gulf run takes 5.0 s (20.3 s before the M3.4 cache) in Node on the development machine; the M3.4 card's 8 s budget is met. The
+  card's "every existing preset within 5 % of main with salt off" was not reported by M3.4. `tests/run.test.ts` "runs in under 3 s" fails now and
+  then under full-suite load (3.1 to 3.2 s) and passes alone; it is a wall-clock test, not a salt change.
+- Browser evidence for the views: `scripts/review/m3-views-browser.mjs <outdir>` after `npm run build` (screenshots are kept out of the repo). It
+  checks the default run, the Gulf preset, all colour modes, pseudo-wells, rewind/branch/compare and 100/125/150 % scaling (section 643 x 360 CSS px at all three, no growth).
+- Labels: when you rename a salt control or a view label, rename it in section 14 of `docs/user-guide.md`; `tests/docs.test.ts` checks the control labels.
 

@@ -15,7 +15,8 @@ Early, and built in the open. The foundation (milestone M1) is on `main`: a 2D s
 transport, turbidity currents, subsidence, compaction coupled to pore pressure, burial temperature
 and quartz cement, a published sea-level curve, rewind, branches, and save/open. Slope failure and
 mass-transport deposits (M2) are on `main` too (off by default; try the *Overpressured slope
-(MTD-prone)* preset). Salt (M3) is next. See [`docs/roadmap.md`](docs/roadmap.md).
+(MTD-prone)* preset). Salt (M3) is built on a branch chain, off by default, and waiting for review
+(*Gulf-style: wedge over salt (66 Ma)* is a draft). See [`docs/roadmap.md`](docs/roadmap.md).
 
 **This is a learning and exploration tool.** It is not calibrated to any real basin and must not be
 used for operational well design or pore-pressure prediction.
@@ -47,8 +48,12 @@ For development with hot reload, run `npm run dev` instead.
   (66 Myr), with coarser time steps further back so long runs still take a few seconds.
 - **Sea level** from a published curve (Bintanja & van de Wal 2008 spliced to Miller et al. 2020),
   or a sine you control.
-- **Section views** coloured by grain size, age, porosity, overpressure or temperature, with a
-  time bar to scrub, play and rewind.
+- **Section views** coloured by grain size, age, porosity, overpressure or temperature (and factor of
+  safety, and salt thickness when salt is on), with a time bar to scrub, play and rewind.
+- **Slope failure** (off by default): debris flows and mass-transport deposits, tagged by cause.
+- **Salt** (off by default): a thin-sheet viscous salt layer under the sediment, with cover bending
+  stiffness so structure width comes from the physics, not the grid. Minibasins, welds and salt highs
+  in the section and pseudo-well; one draft preset, *Gulf-style: wedge over salt (66 Ma)*.
 - **Pseudo-well** at any position: pore pressure, overburden and hydrostatic in ppg EMW, porosity,
   temperature and grain size against depth in feet.
 - **Branches:** fork a what-if from any moment and compare it with the main run.
@@ -82,7 +87,12 @@ For development with hot reload, run `npm run dev` instead.
   summary numbers agree gives no warning. Wall-clock tests are skipped when `CI` is set. Still
   open: this was verified on Linux (Node 22) under WSL, not on a GitHub run; the first CI run on
   the branch is the final check ([`docs/handover.md`](docs/handover.md), Known traps).
-- More limits are listed in section 13 of the user guide.
+- **Salt (M3) limits.** No canopies or sheets, columns do not move sideways, no dissolution, no faults
+  over salt, and the cover is a viscous plate (its viscosity is tuned and sets the structure width).
+  Runs start at 66 Ma at the earliest. The Gulf-style preset is a draft that has not had a specialist review; with
+  its values no column welds and no salt high reaches the seafloor. Structure widths can differ in
+  detail between machines.
+- More limits are listed in section 15 of the user guide.
 
 ## Development
 

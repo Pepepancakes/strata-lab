@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-15):** spikes 001 and 002 done and reviewed by John. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. Now: M3 salt, cards running (D17).
+**Status (2026-10-15):** spikes 001 and 002 done and reviewed by John. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. Now: M3 salt built through the docs card (M3.6), waiting for the M3.7 review and John's judgement (D17).
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -181,6 +181,32 @@ bending stiffness to the thin-sheet flow, so diapir width comes from physics, no
   that John recognises.
 
 Canopies and sheets need a different solver (salt spreading over the seafloor). See the Backlog.
+
+**Status (2026-10-15): built through M3.6 on the chain `strata-lab/m3-01-salt-flow` to `m3-06-docs`; NOT on main.** Waiting
+for the M3.7 integrity review and for John. Windows `npm run check` at M3.5: 35 files, 399 passed, 2 skipped; Linux (CI=true, WSL): 394 passed, 7 skipped
+(the extra skips are the wall-clock tests); build, offline check and built-file check pass. Salt is off by default and the M1/M2 fixtures are unchanged.
+Results against the done-when:
+- **Channel-flow benchmark: passes.** Thin-sheet decay within 1 % of linear theory (25 to 200 km wavelengths, eta 1e17 and 1e18; worst
+  -0.57 % at 25 km), load-step flux within 0.02 % of the hand calculation (`tests/salt.test.ts`). Three M3 rows in the checks panel
+  (decay 0.00181 against a limit of 0.01, bending wavelength 0.0214 against 0.05, salt balance 2.5e-16 against 1e-12).
+- **Salt conserved: passes.** Salt-only balance to rounding (under 1e-12 in the tests; 3e-14 relative over the 66 Myr Gulf run); the weld
+  limiter keeps salt at or above 0 with nothing clipped (`saltClip` 0).
+- **Diapir width converges with the grid: passes for the linear stage.** Roof wavelength, mean of three seeds, with bending on (cover 1e19 Pa s):
+  9.92 km at 1,000 m cells, 10.12 km at 500 m, 9.97 km at 250 m, against lambda* = 10.24 km; with bending off 2.47, 1.34 and 0.77 km (2 to 3 cells,
+  following the grid). The finite-amplitude needle is a few cells wide and not stable across machines, so it is reported, not tested.
+- **Gulf-style preset (draft) builds minibasins; John has not judged it.** At the end of the 66 Myr run (Node 26, Windows, structures of at least 300 m relief):
+  11 minibasins (6 to 15 km wide, one of 46 km; spacing 15 to 33 km), 11 salt highs (4 to 46 km), the salt pushed basinward (thickest 13,900 ft at 321 km,
+  against 6,560 ft at the start). **No weld** with the preset's values (one weld column only in a changed run) and **no salt high reaches the seafloor**
+  (cover over the highs 14,900 to 25,500 ft). Whether these look like Gulf salt is for John to say.
+- **Speed.** The 66 Myr Gulf run takes about 5.0 s in Node (20.3 s before the M3.4 load cache, same state hash). Not reported: the paired
+  "within 5 % of main with salt off" comparison of the other presets.
+- Views (M3.5): pink salt in every colour mode, a Salt thickness mode, weld and cover marks with (i) buttons, a salt-aware pseudo-well; checked in the built file at 100, 125 and 150 % scaling with 0 console errors.
+
+**John still has to judge:** (1) whether the Gulf-style preset's minibasin spacing (about 15 to 33 km) and widths look like Gulf salt, and
+whether it should show a weld or a diapir at the seafloor; (2) whether the tuned cover viscosity (3e20 in the preset) is acceptable
+as the control on structure width; (3) the single salt preset (the 3 Myr one formed nothing). Open for M3.7: the paired speed comparison, the grid check on the preset itself
+(1,000 and 500 m) and its spread under 1 ulp noise, the 10 km thickness table, and the stale "about 8 km" note on `coverVisc`.
+Limits: no canopies, columns fixed in x, no dissolution, no faults over salt, viscous-cover approximation, runs start at 66 Ma at the earliest (D17.4).
 
 ## M4 — Well-planning outputs
 - A planned well (vertical or deviated) through the section.

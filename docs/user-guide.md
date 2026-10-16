@@ -19,14 +19,16 @@ physical processes forward in time:
   permeability, so fast-buried mud stays overpressured;
 - optionally, burial temperature and quartz cement are tracked in the sands;
 - optionally, steep slopes fail and run out as debris flows, leaving mass-transport deposits
-  (MTDs; section 13).
+  (MTDs; section 13);
+- optionally, a layer of salt under the sediment flows sideways and bends the cover above it into
+  minibasins, diapirs and welds (salt; section 14).
 
 You choose the conditions, watch the section build, scrub back to any time, and branch a what-if.
 Same inputs always give the same result, bit for bit, which is what makes rewind and branches
 trustworthy.
 
 It is a learning and planning tool. It is not calibrated to any field and uses no company data.
-See section 14 for what it cannot do.
+See section 15 for what it cannot do.
 
 ## 2. Opening it
 Open `dist/strata-lab.html` in a browser (after `npm run build`; see `README.md`). It is one file,
@@ -525,7 +527,7 @@ That is a property of the tuned thresholds, not a finding about the sea level. R
 The default scenario with **Mud permeability multiplier** 0.1 and **Sediment supply** 30 m²/yr
 (both tuned), slope failure on, 3 Myr, 5 kyr steps. Slow draining plus fast loading overpressures
 the slope mud. The run is deterministic: the same code in the same runtime gives the same events. It does
-**not** give the same events on every platform (section 14). After the M2.7 fixes it gave:
+**not** give the same events on every platform (section 15). After the M2.7 fixes it gave:
 - Node 26 (the tests): 24 events, 16 tagged rapid loading and 8 oversteepening, 2 stalled (header: 2 unresolved columns;
   the engine's own count is 4, because two steps ended at the recheck limit with the slope still unstable and no stalled flag), 3 window-limited (deepest scar 299.3 m of the 300 m window).
 - The built app in Chrome 155: 37 events from 2.49 Ma to 0.02 Ma, 32 rapid loading and 5
@@ -557,7 +559,140 @@ look right for an overpressured slope is your call. Nothing here is calibrated t
 - **Slope is resolved at column spacing** (1 km), so steep local scarps are smoothed.
 - **Salt is never moved** by a failure, and cement in the released cells is dropped with the debris.
 
-## 14. Known limits
+## 14. Salt
+
+Salt is off by default, so the default run and every other earlier preset look exactly as before. Turn
+it on with **Salt layer on (1) / off (0)** (section 3.3) or pick the *Gulf-style: wedge over salt (66 Ma)*
+preset.
+
+### 14.1 What the model does
+- A layer of salt lies on the basement, under an **older cover**: the sediment that was already
+  there before the run starts. The salt is weak and light (2,160 kg/m³, against about 2,300 to 2,600
+  for compacted sediment), so the weight of the new sediment squeezes it sideways, away from where
+  the load is heaviest.
+- It flows as a thin sheet of very thick fluid (the same maths as oil between two plates). The
+  push comes from differences in the weight of the sediment on top and in the relief of the
+  seafloor. Neither a fault nor a dip is needed.
+- The sediment above the salt is treated as one stiff plate that resists bending. Without that,
+  the narrowest bump would always grow fastest and the structures would come out one to four
+  cells wide, whatever the grid. With it, the structure width comes from the cover's thickness and
+  stiffness. That stiffness is a tuned number (**Cover effective viscosity as a plate (salt on)**), so the
+  widths are a model result, not a measurement.
+- **Columns do not move sideways.** They ride up and down on the salt: as salt leaves a column, its
+  sediment sinks; where salt arrives, the sediment is lifted. Sediment that sinks forms a
+  minibasin, and the sea-floor sag fills with more sediment, which presses harder on the salt.
+- Salt is counted separately in the mass balance (salt only), and it is conserved to rounding.
+  Salt can never go below zero thickness: when a column runs out of salt the flow out of it is
+  cut to what is there, which is how a weld forms.
+- Salt has no pores and no pore fluid. It adds its own weight to the load on everything below it
+  and, because it conducts heat well, makes the sediment below it cooler (section 8).
+
+### 14.2 The controls
+They sit under **All other parameters (N)**; the full table with defaults and sources is in section
+3.3. Depths and thicknesses show in ft, distances along the section in km.
+- **Salt layer on (1) / off (0)**: the switch. Set at the start of a run.
+- **Initial salt thickness**: how thick the salt is basinward of the pinch-out (default 4,921 ft; the preset
+  uses 6,562 ft). Set at the start.
+- **Salt pinch-out: no salt landward of** and **Salt pinch-out: full thickness basinward of**: the salt
+  thins smoothly from nothing to its full thickness between these two distances from the landward
+  edge (default 25 and 45 km; the preset uses 40 and 120 km). Set at the start.
+- **Salt viscosity**: how stiff the salt is. Lower flows faster. 1e17 Pa s is the fast end of the
+  published range, chosen so something happens in 3 Myr; the preset uses 1e18. Can be changed on a branch.
+- **Salt substeps per record step**: a numerical setting; more substeps are slower and steadier. Set at the start.
+- **Cover resists bending (1) / not (0) (salt on)** and **Cover effective viscosity as a plate (salt on)**:
+  the plate that gives the structures their width. Widths grow with the 1/6 power of the viscosity, so
+  ten times stiffer gives about 1.5 times wider. Can be changed on a branch.
+- **Thickness of the older cover (salt on)**: the sediment on the salt at the start (default 656 ft;
+  the preset uses 3,281 ft). Set at the start.
+- **Unevenness of the older cover (salt on)** and **Seed of the cover unevenness**: a small seeded
+  variation in the older cover's thickness. Salt flow needs something to start from; with a perfectly
+  flat cover and a flat seafloor nothing grows. The same seed always gives the same pattern. Set at the start.
+- **Weld: salt thinner than**: a column counts as welded when its salt, once thicker than this,
+  falls below it (default 33 ft). It only labels the column and records when; it does not change the flow.
+- **Salt thermal conductivity at 0 deg C (W/m/K)**, **Salt conductivity falls with temperature: a (1/K)**
+  and **Salt conductivity falls with temperature: b (W/m/K^2)**: how well salt carries heat. All three
+  are marked *to verify*.
+
+The ⓘ button on each control gives its source, and the tag says *cited*, *tuned* or *to verify*.
+
+### 14.3 The preset
+*Gulf-style: wedge over salt (66 Ma)* runs the Cenozoic from 66 Ma on 400 columns of 1 km:
+salt 6,562 ft thick basinward of a pinch-out between 40 and 120 km, a 3,281 ft older cover with a
+20 % seeded unevenness, salt viscosity 1e18 Pa s, cover viscosity 3e20 Pa s, supply 22 m²/yr, and the
+bundled sea-level curve. A wedge builds out across the salt. It takes about 5 s to run on the
+development machine. It is a **draft**: the values were explored by eye (all tuned) and are not
+matched to any field. Whether it looks like Gulf salt is for you to judge.
+
+There is only one salt preset. A 3 Myr salt preset was tried in M3.4 and removed, because in 3 Myr
+it formed no minibasins or diapirs. What the default 3 Myr run shows with **Salt layer on (1) / off (0)**
+switched on has not been written up; try it and judge.
+
+### 14.4 Reading the picture
+Salt is pink in every colour mode (never coloured as porosity or pressure). Pick **Salt thickness**
+to colour the salt by how thick it is in each column, pale pink for thin to dark plum at 16,404 ft or
+more; the sediment turns grey. The scale is fixed so colours compare from step to step.
+Under the section, a key shows: *Salt*, *Older cover (before the run)* and *Weld (none yet)*, which
+becomes *Weld* once a column has welded. Each has an (i) button.
+
+- **Minibasins** are places where the cover is thick and has sunk into the salt, so the salt below
+  is thin or gone. In **Salt thickness** mode they are a pale patch (or none) under a thick grey
+  fill; in the section the strata thicken into them. They are the places the sediment piles up.
+- **Salt highs** are where the salt is thick between minibasins. In **Salt thickness** mode they
+  are the dark columns. Sediment above them is thin or lifted, so look for thinner layers, onlap and
+  a raised older-cover line (the dashed line). A **passive diapir** is a salt high whose crest stays
+  near the seafloor while the sediment builds up around it. The model does not label diapirs; you
+  read them from the section.
+- **Welds** are columns where the salt has been squeezed out. They are drawn as a heavy dark line
+  labelled *weld*, with white circles. A column becomes welded the first time its salt falls below
+  **Weld: salt thinner than**, and keeps its first weld age when it is rewound.
+- Lines on the section in every mode: a magenta line on the top of the salt, a dashed brown line
+  on the top of the older cover.
+
+In the pseudo-well (section 8), salt is a pink band over the pressure, porosity and temperature
+tracks, labelled *salt: no pore fluid* and *no pores*, with its top and base depths in ft. The
+overburden line carries on and counts the salt at about 18 ppg. The pore-pressure line stops at the top
+of the salt and starts again below its base, because salt has no pore fluid; a note under the plot says so.
+A well through a welded column shows the weld, its age and the salt that is left.
+Tap the (i) buttons for what each mark means.
+
+### 14.5 What the Gulf-style preset gives
+These are numbers from one run on the development machine (Node 26, Windows); they are the model's
+output, not data. Another machine can move single structures a little (section 15). At the end of
+the run, with structures counted when their relief is at least 300 m (984 ft):
+- The shoreline and shelf edge prograde from about 100 km (56 Ma) to about 250 km (now).
+- 11 minibasins, mostly 6 to 15 km wide (one 46 km wide), spaced mostly 15 to 33 km apart (one gap of 80 km).
+- 11 salt highs, 4 to 46 km wide. **None is a diapir at the seafloor**: the top of every high is buried
+  under 14,900 to 25,500 ft of sediment at the end of the run.
+- The salt is pushed basinward: the thickest salt is 13,900 ft (4,240 m), at 321 km, against 6,560 ft at the
+  start. Total salt is conserved to 3e-14 (relative).
+- **No column welds** with the preset as it stands. Welds were seen only in a changed run (**Salt viscosity** 1e17 Pa s and **Sediment supply** 60 m²/yr), in one column (km 91, from 4.45 Ma, 31 ft of salt left).
+
+If this does not look like Gulf salt to you, that is a finding; say what is wrong. The model has no
+canopies, no sideways movement of salt and no faults, which may be the cause (below).
+
+### 14.6 Limits (read before trusting a picture)
+- **No canopies, tongues or sheets.** Salt never flows over the seafloor or over younger sediment. It
+  stays under the cover, so "salt that reaches the seafloor" is a passive diapir only. Canopies need a
+  different solver (backlog).
+- **Columns do not move sideways.** There is no tilt of structures, no overhang and no lateral
+  shift of a diapir.
+- **No dissolution.** Salt that reaches the seafloor is not dissolved away.
+- **No faults over salt.** The cover is one plate and does not break, so there are no crestal
+  faults, rafts or counter-regional faults.
+- **The cover is a viscous plate.** This stands in for real brittle and ductile cover and is the
+  main tuned unknown: widths scale with the 1/6 power of its viscosity, and no published value for a
+  whole sediment cover is in the references.
+- **Runs start at 66 Ma at the earliest.** Salt is already in place when a run starts, under an
+  older cover; the model does not deposit salt. Runs from the Jurassic need a redistributable older
+  sea-level curve and are in the backlog (D17.4).
+- **A finite-amplitude needle is a few cells wide**, and its width is not the same on every machine.
+  Check any narrow structure by halving **Column width**.
+- **Salt thermal conductivity is unchecked** (to verify). Compaction of the sediment below salt does not yet
+  count the weight of the salt; the overburden shown in the views does.
+- **Slope failure does not move salt** (section 13.6).
+- The Gulf-style preset is a draft, not matched to any field, and not yet judged by a stratigraphic specialist.
+
+## 15. Known limits
 - **Same results on the same machine, not on every machine.** On one browser the same inputs give
   identical results, and rewind and scrubbing are bit-exact. Different platforms (Node against
   Chrome, Windows against Linux) can differ in the last digit of a calculation. Slope failure is a
@@ -571,13 +706,15 @@ look right for an overpressured slope is your call. Nothing here is calibrated t
   4.4 s against 2.7 to 3.4 s), the MTD-prone preset +20 % (+16 to +31 %). Every preset finishes in
   under 5 s. Failure off costs nothing.
 - **Turbidites are a transport-length rule, not flow physics.** No turbidity-current flow, no
-  channels or levees, slope failure is off by default and limited (section 13.6), no faults, salt or 3D yet.
+  channels or levees, slope failure is off by default and limited (section 13.6), no faults or 3D yet, and salt is limited (section 14.6).
 - **The slopes are tuned.** Slope and coastal-plain diffusivities were tuned by eye to about 6°
   muddy slopes and a 0.3 m/km coastal plain, not calibrated to data.
 - **Default overpressure is mild** (maximum about 14 % of the load, at 20 m²/yr supply). To see
   strong overpressure lower **Mud permeability multiplier** or raise **Sediment supply**.
-- **Salt is early (M3.2).** Salt flows under the sediment load when Salt layer is on (section 3.3) and the
-  cover resists bending, so a preferred width appears (it depends on the tuned cover viscosity). Welds are recorded (M3.3) but salt is not yet checked against a published field example.
+- **Salt is a draft, and not checked against a field.** Salt flows under the sediment load when
+  **Salt layer on (1) / off (0)** is 1 and the cover resists bending, so a preferred width appears; that
+  width depends on a tuned cover viscosity. The limits are in section 14.6. The Gulf-style preset is a
+  draft for you to judge.
 - **Supply and subsidence are tuned**, not taken from a published Gulf of America rate.
 - **Temperature is steady conduction.** It ignores the cooling effect of fast burial, so deep
   temperatures read too warm. Several thermal inputs are marked to verify.

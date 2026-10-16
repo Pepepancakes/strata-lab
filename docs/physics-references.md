@@ -211,8 +211,97 @@ here means the power-weighted mean wavelength of the roof relief
     cover) to 53 km (3 km) and fastest at 31 to 70 km, far wider than minibasins.
   - Not modelled: faulting of the cover; the cover is one plate.
 
-Not in M3.2 (later cards): weld limiter (M3.3; clipped volume is counted in `saltClip` and must be 0),
-salt thermal and pore-pressure effects beyond the placeholder conductivity.
+## M3.3 Welds and salt in the burial physics
+Source code: `src/engine/salt.ts` (`limitOutflow`), `src/engine/saltIntervals.ts`, `src/engine/thermal.ts`; tests: `tests/welds.test.ts`.
+- **Weld limiter (own numerics, no citation).** When a salt substep would leave a cell below 0, each cell's
+  outgoing face flux is scaled by min(1, h / out). The same face flux is used on both sides, so salt is
+  conserved to rounding and `saltClip` stays 0; the M3.1 clip stays as a last guard. With no negative
+  cell the step is untouched. At coarse steps it also acts on thick cells (a step-size guard); at the
+  20 kyr benchmark it acts only below 1 m.
+- **Weld.** After Hudec & Jackson (2007): where the layers above and below the salt come back together,
+  with at most a thin remnant. `weldThick` (10 m, tuned) is the label threshold only. The age of the first
+  time a column went from at least `weldThick` to below it is state (`weldAge`).
+- **Salt in the load.** Salt weight (2,160 kg/m3, Hudec & Jackson 2007) is in the overburden the views use
+  (`columnOverburden`). Compaction of the sediment BELOW salt does not count it yet (not needed without canopies).
+  Salt has no porosity and no pore fluid.
+- **Salt temperature.** Exact steady conduction through a salt cell with k(T) = k0 / (0.99 + T (a - b / k0)),
+  T in deg C, the form Clauser & Huenges (1995) quote from Sass et al. (1992). `saltK0` = 6.0 W/m/K (halite
+  about 5 to 6.5 near the surface), `saltKa` = 0.0030 /K and `saltKb` = 0.0042 W/m/K^2 are **to verify**: a
+  and b are the crystalline-rock coefficients as remembered, NOT checked for halite.
+  - Clauser, C. & Huenges, E. (1995). Thermal conductivity of rocks and minerals. In: *Rock Physics and
+    Phase Relations*, AGU Ref. Shelf 3, 105-126 (to verify; same entry as in the registry).
+  - Sass et al. (1992) is named only as the source Clauser & Huenges quote for the form; it was not read
+    and is not in the registry (to verify).
+
+## M3.4 Gulf-style preset and salt structure measures
+Source code: `src/engine/presets.ts` (`gulf`), `src/engine/saltStructures.ts`; tests: `tests/saltStructures.test.ts`,
+`tests/saltSpeed.test.ts`; report script: `scripts/review/m3-gulf.mjs`.
+- **Preset values** (all **tuned**, labelled draft, not matched to any field): 66 Ma start, 400 columns of 1 km,
+  steps 100 kyr to 23 Ma, 50 kyr to 3 Ma, then 5 kyr; supply 22 m2/yr; `subsShelf` 40 and `subsBasin` 80 m/Myr;
+  bundled deep compaction every 20 steps (`bundleAgeYr` 100 kyr); `saltThick` 2,000 m; pinch-out 40 to 120 km;
+  `saltVisc` 1e18 Pa s (D17.5: middle of the published range of about 1e17 to 1e19, to verify);
+  `coverThick` 1,000 m; `coverUneven` 0.2 (seed 1); `coverVisc` 3e20 Pa s (tuned, explored by eye by M3.4; no reason beyond that is recorded). No published Louann salt thickness has been checked against
+  the initial 2,000 m (to verify); real thicknesses range from a few hundred metres to several kilometres.
+- **Structure measures** are our own definitions, not citations (stated in the header of `saltStructures.ts`):
+  prominence = topographic prominence of the salt-thickness profile; width = full width at half prominence;
+  minibasin = a local minimum with prominence at least `minProm` on both sides; weld run = neighbouring welded columns.
+  Every count depends on `minProm` (the report uses 300 m).
+- **Speed.** A 66 Myr Gulf run went from 20.3 s to 5.0 s by caching the sediment-load sums within a bundled
+  cycle. The cache is checked to give bit-identical results to a full sum every step (`tests/saltSpeed.test.ts`;
+  the state hash was identical before and after, cenozoic with salt on).
+
+## M3.5 Salt in the views and the checks panel
+Source code: `src/worker/checksM3.ts`, `src/views/`. The three M3 rows of the physics-checks panel write their expected
+values from the formulas, not from the engine: channel-flow decay h3 (rho_salt - rho_w) g k2 / 12 eta (limit 1 %),
+the cover-bending wavelength lambda* = 2 pi (eta_c h_c3 h3 / 18 eta_s)^(1/6) (limit 5 %), and salt-only mass balance (limit 1e-12).
+On the Gulf preset the panel read 0.00181, 0.0214 and 2.48e-16. The salt-thickness colour scale (0 to 16,404 ft) is a fixed display
+choice (tuned), not physics.
+
+## M3 parameter summary (M3.6)
+Status of every M3 registry key as shown next to the control; the index at the end of this file is checked by `tests/docs.test.ts`.
+| Key | Default | Status | Source |
+|---|---|---|---|
+| `saltOn` | 0 | tuned | switch |
+| `saltThick` | 1,500 m | tuned | synthetic; not checked against a published thickness |
+| `saltPinchStart`, `saltPinchEnd` | 25 km, 45 km | tuned | set-up |
+| `saltVisc` | 1e17 Pa s | tuned (range cited) | Hudec & Jackson (2007) range about 1e17 to 1e19, not checked against the paper |
+| `nSaltSub` | 5 | tuned | numerical |
+| `coverUneven`, `coverSeed` | 0, 1 | tuned | set-up; seeded through `rng.ts` |
+| `coverThick` | 200 m | tuned | 200 m is the salt-off substrate; the Gulf preset uses 1,000 m |
+| `coverBend` | 1 | tuned (switch) | plate theory, Turcotte & Schubert (2014) |
+| `coverVisc` | 1e19 Pa s | tuned | plate form cited; no published value for a whole cover (to verify) |
+| `weldThick` | 10 m | tuned | label threshold; weld definition Hudec & Jackson (2007) |
+| `saltK0`, `saltKa`, `saltKb` | 6.0, 0.0030, 0.0042 | to verify | Clauser & Huenges (1995) |
+
+Correction to a registry note: the `coverVisc` note says 1e19 Pa s gives a preferred spacing of "about 8 km" under 1 km of cover over
+1.5 km of salt. The formula above and the dispersion test give lambda* = 10.24 km for those numbers (the measured roof wavelength
+is 9.9 to 10.1 km, below). The note in `src/engine/params.ts` was not changed by M3.6 (docs only) and should be.
+
+## M3 benchmarks and results (M3.6)
+These are the numbers the roadmap quotes; the tests state the bands.
+- Channel-flow decay of a thickness bump against linear thin-sheet theory: within 1 % for 25 to 200 km wavelengths and eta of 1e17 and 1e18
+  (worst case 25 km, -0.57 %). Load-step flux against the hand calculation: -0.02 %. Salt volume conserved to rounding
+  (the Gulf run: 3e-14 relative over 66 Myr; the sandbox runs under 1e-12). `tests/salt.test.ts`.
+- Cover bending: the fastest-growing wavelength of the engine against lambda* (`tests/coverBending.test.ts`; the checks panel row, 5 %).
+- Grid convergence (`tests/coverConvergence.test.ts`, mean of 3 seeded roofs, level seafloor, 1.5 km salt under 1 km of cover, power-weighted mean
+  wavelength of the roof relief):
+
+| Grid cell | bending on, eta_c 1e19 | bending on, eta_c 1e20 | bending off |
+|---|---|---|---|
+| 1,000 m | 9.92 km (9.9 cells) | 14.81 km | 2.47 km (2.5 cells) |
+| 500 m | 10.12 km (20.2 cells) | 14.98 km | 1.34 km (2.7 cells) |
+| 250 m | 9.97 km (39.9 cells) | 14.64 km | 0.77 km (3.1 cells) |
+
+  Analytic lambda* is 10.24 km at 1e19 and 15.03 km at 1e20. With bending the width agrees within 10 % across the three grids and
+  sits near lambda* (within about 3 %); without bending it follows the grid (2 to 3 cells). A tenfold stiffer cover
+  gives about 1.47 times the wavelength (the 1/6 power). The bands hold under 1 ulp noise (`withUlpNoise`).
+- Not a test: the finite-amplitude needle grown from a strong thin spot in the full engine is one to five cells wide, and
+  its width changed from 1.76 km to 2.32 km at 250 m cells under 1 ulp noise. It is reported (`STRATA_SLOW=1`), not asserted (D16.4).
+- Gulf-style preset at the end of the run (Node 26, Windows, `scripts/review/m3-gulf.mjs`, `minProm` 300 m): 11 minibasins
+  (6 to 15 km wide, one 46 km; spacing 15 to 33 km, one 80 km), 11 salt highs (4 to 46 km), cover over the highs 4.6 to 7.8 km,
+  so none reaches the seafloor; no welds. The M3.4 handoff did not report the grid check at 1,000 and 500 m, the spread under ulp noise or the thickness table every 10 km that its card asked for; none of them is claimed here (open, for M3.7).
+
+Not in the model: faulting of the cover; salt that flows over the seafloor; dissolution; sideways motion of columns.
 
 ## Set-up parameters and what the registry adds (M1.8)
 These are numerical or set-up choices, not measured quantities, so they are all **tuned** and the
