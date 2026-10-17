@@ -43,9 +43,9 @@ function sweepCases() {
 const fmt = (v, d = 1) => (Number.isFinite(v) ? v.toFixed(d) : '-');
 function printRows(rows, onlyExposed) {
   const r = rows.filter((x) => !onlyExposed || x.exposedEver);
-  console.log('id  km   tNear tExp  tEnd  why     expMyr  F_pre A_pre F-A | dip pk/end s>g onlap | nb1/5/10 salt (m) frac | L/h  | kind | roof0 roofExp');
+  console.log('id  km   tNear tExp  tEnd  why     expMyr  F_pre A_pre F-A (burial) | Fn An F-An (near) | dip pk/end s>g onlap | nb1/5/10 salt (m) frac | L/h  | kind | roof0 roofExp');
   for (const x of r) {
-    console.log(`${String(x.id).padStart(2)} ${fmt(x.km0, 0).padStart(4)} ${fmt(x.tNear).padStart(5)} ${fmt(x.tExp).padStart(5)} ${fmt(x.tEnd).padStart(5)} ${x.endWhy.padEnd(8)} ${fmt(x.exposedMyr).padStart(5)}  ${fmt(x.F_pre, 0).padStart(6)} ${fmt(x.A_pre, 0).padStart(5)} ${fmt(x.FmA_pre, 0).padStart(5)} | ${fmt(x.dipPeak)}/${fmt(x.dipEnd)} ${x.steepToGentle ? 'y' : 'n'} ${x.onlap ? 'y' : 'n'} | ${fmt(x.nb1, 0)}/${fmt(x.nb5, 0)}/${fmt(x.nb10, 0)} ${x.nbClass} ${fmt(x.nbFrac10, 2)} | ${fmt(x.LoverH, 1)} | ${x.kind.padEnd(8)} | ${fmt(x.roofOnset, 2)}${x.roofOnsetFlag ? '*' : ''} ${fmt(x.roofExp, 2)}${x.roofExpFlag ? '*' : ''}`);
+    console.log(`${String(x.id).padStart(2)} ${fmt(x.km0, 0).padStart(4)} ${fmt(x.tNear).padStart(5)} ${fmt(x.tExp).padStart(5)} ${fmt(x.tEnd).padStart(5)} ${x.endWhy.padEnd(8)} ${fmt(x.exposedMyr).padStart(5)}  ${fmt(x.F_pre, 0).padStart(6)} ${fmt(x.A_pre, 0).padStart(5)} ${fmt(x.FmA_pre, 0).padStart(5)} | ${fmt(x.F_near, 0).padStart(5)} ${fmt(x.A_near, 0).padStart(4)} ${fmt(x.FmA_near, 0).padStart(5)} | ${fmt(x.dipPeak)}/${fmt(x.dipEnd)} ${x.steepToGentle ? 'y' : 'n'} ${x.onlap ? 'y' : 'n'} | ${fmt(x.nb1, 0)}/${fmt(x.nb5, 0)}/${fmt(x.nb10, 0)} ${x.nbClass} ${fmt(x.nbFrac10, 2)} | ${fmt(x.LoverH, 1)} | ${x.kind.padEnd(8)} | ${fmt(x.roofOnset, 2)}${x.roofOnsetFlag ? '*' : ''} ${fmt(x.roofExp, 2)}${x.roofExpFlag ? '*' : ''}`);
   }
 }
 
@@ -69,6 +69,11 @@ function aggregate(rows) {
     nb10: rng(buried.map((x) => x.nb10)), LoverH: rng(buried.map((x) => x.LoverH)),
     steepToGentle: buried.filter((x) => x.steepToGentle).length, onlap: buried.filter((x) => x.onlap).length,
     roofOnsetFlag: cnt((x) => x.roofOnsetFlag), roofExpFlag: cnt((x) => x.roofExpFlag),
+    // S3c: medians (D16.4 quotes medians), exposure counts, near-phase rates
+    exposedMax: ex.length ? Math.max(...ex.map((x) => x.exposedMyr)) : NaN, exposedOver3: cnt((x) => x.exposedMyr > 3),
+    F_near_med: med(buried.map((x) => x.F_near)), A_near_med: med(buried.map((x) => x.A_near)), FmA_near_med: med(buried.map((x) => x.FmA_near)),
+    FmA_near: rng(buried.map((x) => x.FmA_near)), F_pre_med: med(buried.map((x) => x.F_pre)), A_pre_med: med(buried.map((x) => x.A_pre)), FmA_pre_med: med(buried.map((x) => x.FmA_pre)),
+    nb5_med: med(buried.map((x) => x.nb5)), nb5: rng(buried.map((x) => x.nb5)), nb10_med: med(buried.map((x) => x.nb10)),
   };
 }
 

@@ -148,7 +148,7 @@
       smax: new Float64Array(NL * nx), u: new Float64Array(NL * nx), ld: new Float64Array(NL * nx),
       phs: new Float64Array(NL * nx), phm: new Float64Array(NL * nx),   // cached porosities
       kps: new Float64Array(NL * nx), kpm: new Float64Array(NL * nx),   // cached permeabilities
-      H: new Float64Array(nx), hs: new Float64Array(nx), initSalt: 0, saltClip: 0, cover: new Float64Array(nx), expo: new Uint8Array(nx),
+      H: new Float64Array(nx), H0: new Float64Array(nx), hs: new Float64Array(nx), initSalt: 0, saltClip: 0, cover: new Float64Array(nx), expo: new Uint8Array(nx),
       feedIn: 0, defS: 0, defM: 0, bypassS: 0, bypassM: 0, shedS: 0, shedM: 0, limited: 0, weldAge: new Float64Array(nx).fill(-1),
       cumIn: 0, cumOut: 0, cumInS: 0, cumOutS: 0, deficit: 0, swap: 0, short: 0, clamps: 0, initSolid: 0, initSand: 0,
       scratch: makeScratch(nx, NL),
@@ -629,17 +629,28 @@
 
   // ---- exposed salt: sediment bypass ---------------------------------------------------------------
   // A column is exposed when it holds salt and its cover is thinner than P.roofMin (st.expo, set in recomputeH).
-  // Sediment that arrives on it is not stored. It goes to the nearest NOT exposed column on each side, but only
-  // to a side whose seafloor is lower than (or level with) this one: sediment cannot be shed uphill, so a crest
-  // that sits in a depression (neighbours higher) keeps what arrives and is buried. Equal split between the
-  // eligible sides; whole solids move, per grain size, so sand and mud are each conserved exactly.
-  // `lay` is the layer that holds this substep's fresh deposit.
-  function receivers(st, j, Hs) {
+  // S3c rule (SALT-R1 finding S3-1). Sediment that arrives on an exposed column is shed ONLY IF the column is a
+  // topographic high, and it follows the slope. Both tests use the seafloor at the START of the record step
+  // (st.H0), never the surface after the substep's own deposit: that surface is smoothed by the transport, and a
+  // hole in the seafloor looks like a high to its neighbours once the transport has begun to fill it (the S3b bug).
+  //   - high: H0[j] is at or above the seafloor of the nearest NOT exposed column on each side;
+  //   - receivers: the nearest not exposed column on a side whose H0 is lower;
+  //   - split: in proportion to the slope to each receiver, (H0[j] - H0[q]) / ((j - q) dx). On a level top
+  //     the split is equal. A column in a depression keeps what arrives and is buried.
+  // Whole solids move, per grain size, so sand and mud are each conserved exactly.
+  // `lay` is the layer that holds this substep's fresh deposit. Returns [[column, share], ...].
+  function receivers(st, j, Hs, dx) {
     const nx = st.nx, out = [];
     let l = j - 1; while (l >= 0 && st.expo[l]) l--;
     let r = j + 1; while (r < nx && st.expo[r]) r++;
-    if (l >= 0 && Hs[l] <= Hs[j]) out.push(l);
-    if (r < nx && Hs[r] <= Hs[j]) out.push(r);
+    if (l >= 0 && Hs[l] > Hs[j]) return out;       // not a topographic high
+    if (r < nx && Hs[r] > Hs[j]) return out;
+    const cand = [];
+    if (l >= 0) cand.push([l, (Hs[j] - Hs[l]) / ((j - l) * dx)]);
+    if (r < nx) cand.push([r, (Hs[j] - Hs[r]) / ((r - j) * dx)]);
+    let sum = 0; for (const c of cand) sum += c[1];
+    if (sum > 0) { for (const c of cand) if (c[1] > 0) out.push([c[0], c[1] / sum]); }
+    else for (const c of cand) out.push([c[0], 1 / cand.length]);
     return out;
   }
   // bulk thickness of s solids of sand + m of mud sitting in cell i (constant-property mode aware)
@@ -651,14 +662,14 @@
       if (!st.expo[j]) continue;
       const i = lay * nx + j, s = st.sand[i], m = st.mud[i];
       if (s + m <= 0) continue;
-      const rc = receivers(st, j, H);
+      const rc = receivers(st, j, st.H0, P.dx);
       if (!rc.length) continue;
       const bulk = bulkSM(st, P, s, m, i);
       st.sand[i] = 0; st.mud[i] = 0; H[j] -= bulk;
-      for (const q of rc) {
+      for (const [q, w] of rc) {
         const iq = lay * nx + q;
-        st.sand[iq] += s / rc.length; st.mud[iq] += m / rc.length;
-        H[q] += bulkSM(st, P, s, m, iq) / rc.length;
+        st.sand[iq] += s * w; st.mud[iq] += m * w;
+        H[q] += bulkSM(st, P, s * w, m * w, iq);
       }
       st.bypassS += s * P.dx; st.bypassM += m * P.dx;
     }
@@ -740,6 +751,7 @@
       const dz = rate * P.dtRec;
       st.b[j] -= dz; st.H[j] -= dz;
     }
+    st.H0.set(st.H);                                   // seafloor at the start of the record step (bypass rule, S3c)
     const op = k1 * nx;
     for (let j = 0; j < nx; j++) setPor(st, P, op + j, 0);
     if (P.ctrl) ctrlDeposit(st, P, k1);

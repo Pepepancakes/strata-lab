@@ -114,6 +114,11 @@ function summarise(ep, P, hs0, dtMyr) {
   const pre = win(s, tLast - 1.0, tLast);                                  // last 1 Myr before the end of the near phase
   const F_ep = slope(s.map((q) => [q.t, q.zt])), A_ep = slope(s.map((q) => [q.t, q.Hf]));
   const F_pre = slope(pre.map((q) => [q.t, q.zt])), A_pre = slope(pre.map((q) => [q.t, q.Hf]));
+  // S3-2 (SALT-R1): F_pre/A_pre ("rate at burial") include the first records after the cover passes NEAR, when the
+  // new fill is pushing the salt top down. "Rate while near" uses records with cover under NEAR only, last 1 Myr of them.
+  const nearRecs = s.filter((q) => q.cover < NEAR), tNearLast = nearRecs.length ? nearRecs[nearRecs.length - 1].t : NaN;
+  const nearWin = nearRecs.filter((q) => q.t >= tNearLast - 1.0 - 1e-9);
+  const F_near = slope(nearWin.map((q) => [q.t, q.zt])), A_near = slope(nearWin.map((q) => [q.t, q.Hf]));
   const dipPeak = Math.max(...s.map((q) => q.dip).filter((v) => !isNaN(v)));
   const dipEnd = last.dip, dipStart = s[0].dip;
   const snap = ep.snapEnd, j = snap.j, nx = snap.hs.length;
@@ -136,7 +141,7 @@ function summarise(ep, P, hs0, dtMyr) {
   return {
     id: ep.id, col0: ep.j0, km0: ep.j0 + 0.5, kmEnd: j + 0.5, tNear: ep.tNear, tExp: ep.tExp === undefined ? NaN : ep.tExp, exposedEver: exposedSteps > 0,
     tEnd: ep.end === undefined ? NaN : ep.end, endWhy: ep.endWhy, nearMyr: n * dtMyr, exposedMyr: exposedSteps * dtMyr,
-    F_ep, A_ep, FmA_ep: F_ep - A_ep, F_pre, A_pre, FmA_pre: F_pre - A_pre, D: 0,
+    F_ep, A_ep, FmA_ep: F_ep - A_ep, F_pre, A_pre, FmA_pre: F_pre - A_pre, F_near, A_near, FmA_near: F_near - A_near, D: 0,
     dipStart, dipPeak, dipEnd, steepToGentle: dipEnd < 0.5 * dipPeak, onlap: flankAbove,
     hs0: ep.hs0, hsEnd: snap.hs[j], nb1: nb[1].hs, nb5: nb[5].hs, nb10: nb[10].hs, nbFrac1: nb[1].frac, nbFrac5: nb[5].frac, nbFrac10: nb[10].frac, nbClass: nbCls,
     Lflow, hbar, LoverH: Lflow / hbar, kind,
@@ -144,13 +149,17 @@ function summarise(ep, P, hs0, dtMyr) {
   };
 }
 
-const COLS = ['id', 'col0', 'km0', 'kmEnd', 'tNear', 'tExp', 'tEnd', 'endWhy', 'nearMyr', 'exposedMyr', 'exposedEver', 'F_ep', 'A_ep', 'FmA_ep', 'F_pre', 'A_pre', 'FmA_pre', 'D',
+const COLS = ['id', 'col0', 'km0', 'kmEnd', 'tNear', 'tExp', 'tEnd', 'endWhy', 'nearMyr', 'exposedMyr', 'exposedEver', 'F_ep', 'A_ep', 'FmA_ep', 'F_pre', 'A_pre', 'FmA_pre', 'F_near', 'A_near', 'FmA_near', 'D',
   'dipStart', 'dipPeak', 'dipEnd', 'steepToGentle', 'onlap', 'hs0', 'hsEnd', 'nb1', 'nb5', 'nb10', 'nbFrac1', 'nbFrac5', 'nbFrac10', 'nbClass', 'Lflow', 'hbar', 'LoverH', 'kind',
   'roofOnset', 'roofOnsetFlag', 'roofExp', 'roofExpFlag'];
 function toCsv(rows, extra) {
   const f = (v) => (typeof v === 'number' ? (Number.isFinite(v) ? String(+v.toPrecision(6)) : '') : String(v));
+  const note = ['# Rates in m/Myr, least squares over a 1 Myr window of 0.1 Myr records.',
+    '# F_near, A_near, FmA_near ("rate while near"): the last 1 Myr of records with bulk cover under NEAR (500 m) only.',
+    '# F_pre, A_pre, FmA_pre ("rate at burial"): the last 1 Myr up to the end of the near phase, which includes the 1 to 2 records after the cover passes NEAR (the burial squeeze).',
+    '# F = rise of the salt top, A = rise of the flank seafloor (columns 3 to 5 each side); F - A < 0 means the flank gains on the crest.'];
   const head = (extra ? Object.keys(extra).join(',') + ',' : '') + COLS.join(',');
-  return [head].concat(rows.map((r) => (extra ? Object.values(extra).map(f).join(',') + ',' : '') + COLS.map((c) => f(r[c])).join(','))).join('\n');
+  return note.concat([head]).concat(rows.map((r) => (extra ? Object.values(extra).map(f).join(',') + ',' : '') + COLS.map((c) => f(r[c])).join(','))).join('\n');
 }
 
 module.exports = { trackCrests, summarise, toCsv, candidates, slope, COLS, NEAR, PROM, GAP, TRACK };

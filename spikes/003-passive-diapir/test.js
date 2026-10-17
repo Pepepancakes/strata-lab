@@ -254,6 +254,73 @@ async function s3bChecks() {
     const nDiff = noisy.filter((v, i) => v !== plain[i]).length, maxRel = Math.max(...noisy.map((v, i) => Math.abs(v / plain[i] - 1)));
     ok(Math.pow === powBefore && nDiff > 0 && maxRel <= 4.5e-16, `1 ulp helper: restores Math.pow, changes ${nDiff} of 50 results by at most ${maxRel.toExponential(1)} (relative, under 2 ulp)`);
   }
+
+  console.log('\n== 12. pit census (SALT-R1 S3-1): an exposed column is not a hole in the seafloor ==');
+  {
+    // At each mark, every exposed column (salt, cover < roofMin) is compared with the seafloor of its nearest
+    // NON-exposed neighbour on each side. Pit depth = lower of the two neighbours minus this column. Allowed: one
+    // record step of deposition = the median thickness (bulk) of the newest layer over the non-exposed columns at
+    // that mark (10 to 20 m in the Gulf run; printed). A column that is a topographic high has a negative depth.
+    const P = gulfParams({ exposed: 1 }), st = S.createState(P);
+    const marks = [10, 20, 27, 30, 40, 50, 54, 66], dtMyr = P.dtRec / 1e6;
+    const ex = (j) => st.hs[j] > 0 && st.cover[j] < P.roofMin;
+    const nbr = (j, s) => { let q = j + s; while (q >= 0 && q < st.nx && ex(q)) q += s; return q >= 0 && q < st.nx ? q : -1; };
+    let mi = 0, allOk = true, totalExposed = 0;
+    while (S.step(st, P)) {
+      const t = st.k * dtMyr;
+      if (mi >= marks.length || Math.abs(t - marks[mi]) > dtMyr / 2) continue;
+      mi++;
+      const dep = [];
+      for (let j = 0; j < st.nx; j++) { if (ex(j)) continue; const i = st.k * st.nx + j; const b = S.bulkSM(st, P, st.sand[i], st.mud[i], i); if (b > 0) dep.push(b); }
+      dep.sort((a, b) => a - b);
+      const tol = dep[dep.length >> 1];
+      let n = 0, deepest = -Infinity, nBad = 0;
+      for (let j = 0; j < st.nx; j++) {
+        if (!ex(j)) continue;
+        n++;
+        const l = nbr(j, -1), r = nbr(j, 1);
+        const lo = Math.min(l >= 0 ? st.H[l] : Infinity, r >= 0 ? st.H[r] : Infinity);
+        const d = lo - st.H[j];
+        deepest = Math.max(deepest, d);
+        if (d > tol) nBad++;
+      }
+      totalExposed += n;
+      allOk = allOk && nBad === 0;
+      console.log(`${t.toFixed(0).padStart(3)} Myr: exposed columns ${n}, allowed ${tol.toFixed(1)} m, deepest pit ${n ? deepest.toFixed(0) : '-'} m, columns deeper than allowed ${nBad}`);
+    }
+    console.log(`census: ${totalExposed} exposed column-marks over ${mi} marks (printed, not asserted: after the fix exposure is rare and platform-dependent, D16.4)`);
+    ok(mi === marks.length, `census reached all ${marks.length} marks`);
+    ok(allOk, 'no exposed column lies below both nearest non-exposed neighbours by more than one record step of deposition');
+  }
+
+  console.log('\n== 13. bypass rule by hand (S3c): high sheds by slope, hole keeps, level top splits equally ==');
+  {
+    const mk = (H0, expo) => {
+      const P = S.defaultParams(); Object.assign(P, { nx: 7, dx: 1000, duration: 2e5, dtRec: 1e5, linear: { C: 1e-8, k: 1e-9, e0: 0.5 } });
+      const st = S.createState(P), nx = 7, lay = 1;
+      for (let j = 0; j < nx; j++) { st.H0[j] = H0[j]; st.H[j] = H0[j]; st.expo[j] = expo.includes(j) ? 1 : 0; }
+      st.sand[lay * nx + 3] = 8; st.mud[lay * nx + 3] = 4;
+      return { P, st, nx, lay };
+    };
+    const get = (c, a, j) => c.st[a][c.lay * c.nx + j];
+    // a) crest at 0 m, left neighbour 10 m lower, right 30 m lower: shares 1/4 and 3/4 of the slope
+    let c = mk([0, 0, -10, 0, -30, 0, 0], [3]); S.bypassFresh(c.st, c.P, c.lay);
+    ok(Math.abs(get(c, 'sand', 2) - 2) < 1e-12 && Math.abs(get(c, 'sand', 4) - 6) < 1e-12 && Math.abs(get(c, 'mud', 2) - 1) < 1e-12 && Math.abs(get(c, 'mud', 4) - 3) < 1e-12 && get(c, 'sand', 3) === 0 && get(c, 'mud', 3) === 0,
+      `high: sand 8 -> ${get(c, 'sand', 2)} / ${get(c, 'sand', 4)} (hand 2 / 6), mud 4 -> ${get(c, 'mud', 2)} / ${get(c, 'mud', 4)} (hand 1 / 3)`);
+    // b) hole: the column stands below the left neighbour (and the right): nothing moves
+    c = mk([0, 0, -10, -50, -30, 0, 0], [3]); S.bypassFresh(c.st, c.P, c.lay);
+    ok(get(c, 'sand', 3) === 8 && get(c, 'mud', 3) === 4 && get(c, 'sand', 2) === 0 && get(c, 'sand', 4) === 0, 'hole (both neighbours higher): the column keeps what arrives');
+    // c) below only ONE neighbour: still not a high, keeps everything (the old rule shed to the lower side)
+    c = mk([0, 0, -10, -20, -40, 0, 0], [3]); S.bypassFresh(c.st, c.P, c.lay);
+    ok(get(c, 'sand', 3) === 8 && get(c, 'sand', 4) === 0, 'on a slope, below the left neighbour: keeps what arrives (not a topographic high)');
+    // d) level top: equal split
+    c = mk([0, 0, -20, -20, -20, 0, 0], [3]); S.bypassFresh(c.st, c.P, c.lay);
+    ok(get(c, 'sand', 2) === 4 && get(c, 'sand', 4) === 4, 'level top: equal split');
+    // e) exposed neighbours are skipped: columns 2 and 3 exposed, receivers are the nearest non-exposed columns 1 and 4 (2 columns away on the left)
+    c = mk([0, -20, 0, 0, -20, 0, 0], [2, 3]); S.bypassFresh(c.st, c.P, c.lay);
+    ok(Math.abs(get(c, 'sand', 1) + get(c, 'sand', 4) - 8) < 1e-12 && Math.abs(get(c, 'sand', 1) - 8 * (20 / 2000) / (20 / 2000 + 20 / 1000)) < 1e-12,
+      `skips exposed neighbours; slope uses the real distance (sand to column 1: ${get(c, 'sand', 1).toFixed(4)}, hand 8/3)`);
+  }
 }
 
 s3bChecks().then(() => {
