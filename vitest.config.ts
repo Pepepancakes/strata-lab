@@ -11,6 +11,7 @@ const WALL_CLOCK = [
   'tests/coverBending.test.ts',
   'tests/m28views.test.ts',
   'tests/gulfPreset.test.ts',
+  'tests/wellTiming.test.ts',
 ]
 const INCLUDE = ['src/**/*.test.{ts,tsx}', 'tests/**/*.test.{ts,tsx}']
 const EXCLUDE = ['spikes/**', '**/.worktrees/**', 'dist/**', 'node_modules/**']

@@ -37,6 +37,7 @@ import { createEngine, step as engineStep } from '../engine/step'
 import { WELD_NONE, type EngineState, type FailureEvent } from '../engine/state'
 import { subsidenceYears } from '../engine/subsidence'
 import { columnTemperatures } from '../engine/thermal'
+import { sampleWell, validateWell, type WellDefinition, type WellSamples } from '../engine/well'
 import { getReference } from '../engine/references'
 import { validateBranchEdits } from './edits'
 import {
@@ -490,6 +491,17 @@ export class TimeMachine {
       weldAge: this.eng.weldAge[column] === WELD_NONE ? null : this.eng.weldAge[column],
       weldThick: era.P.weldThick,
     }
+  }
+
+  /** The planned well (M4.1) sampled from the record of a branch at a step. Reads the record; changes nothing. */
+  sampleWell(branchId: string, step: number, well: WellDefinition): WellSamples {
+    const b = this.get(branchId)
+    this.moveTo(b, step)
+    const problems = validateWell(well)
+    if (problems.length) throw new Error(problems.join(' '))
+    const era = this.eraAt(b, Math.max(0, step - 1))
+    const elapsed = step === 0 ? 0 : this.schedule.tEndYr[step - 1]
+    return sampleWell(this.eng, era.P, era.sea(elapsed), well)
   }
 
   /** Sea level and subsidence rate at the end of every step of a branch (each step uses its own era). */

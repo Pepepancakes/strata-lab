@@ -2,8 +2,10 @@
 // Pure function (tested in tests/well.test.ts). Pressures are in ppg equivalent mud weight (EMW).
 //
 // Definitions (all SI inside, converted at the end through src/units.ts):
-//   datum        the sea surface at this time, or the ground where the column is on land
-//                (water table at the surface). Pressure depth is measured from the datum.
+//   datum        the sea surface at this time, or the ground where the column is on land (water table at the
+//                surface). Hydrostatic pressure is measured from the datum. M4.1: the EMW is referenced to the
+//                rig floor (RKB), the air gap (80 ft default) above the datum: EMW = P / (g (depth + air gap)),
+//                so hydrostatic sea water reads a little under 8.55 ppg.
 //   hydrostatic  RHO_W * g * (datum - z)
 //   pore         hydrostatic + u (the engine's excess pore pressure)
 //   overburden   weight of water above the surface plus the bulk weight of the cells above,
@@ -15,7 +17,8 @@ import { G, RHO_S, RHO_SALT, RHO_W } from '../../engine/constants'
 import { MTD, SALT } from '../../engine/record'
 import type { FailureEvent } from '../../engine/state'
 import { eventsAtCell } from '../events/format'
-import { cToF, densityToPpg, mToFt } from '../../units'
+import { DEFAULT_AIR_GAP_FT } from '../../engine/well'
+import { cToF, densityToPpg, ftToM, mToFt } from '../../units'
 import type { WellColumn } from '../../worker/protocol'
 
 /** Cells shallower than this below the datum are left out of the ppg curves (EMW blows up at zero depth), m. */
@@ -61,7 +64,7 @@ export interface WellProfile {
   mtdIntervals: { topFt: number; botFt: number; layers: number[] }[]
 }
 
-export function wellProfile(w: WellColumn, events: readonly FailureEvent[] = []): WellProfile {
+export function wellProfile(w: WellColumn, events: readonly FailureEvent[] = [], airGapM: number = ftToM(DEFAULT_AIR_GAP_FT)): WellProfile {
   const n = w.nLayers
   const datum = Math.max(w.seaLevelM, w.H)
   const waterDepth = Math.max(0, w.seaLevelM - w.H)
@@ -99,9 +102,9 @@ export function wellProfile(w: WellColumn, events: readonly FailureEvent[] = [])
       layer: l,
       tvdssFt: mToFt(w.seaLevelM - zMid),
       thickFt: mToFt(w.thick[l]),
-      poreEmw: ok && !isSalt ? emw(hydro + w.u[l], depthBelowDatum) : null, // salt has no pore fluid: no pore pressure (M3.5)
-      overburdenEmw: ok ? emw(sv[l], depthBelowDatum) : null,
-      hydroEmw: ok ? emw(hydro, depthBelowDatum) : null,
+      poreEmw: ok && !isSalt ? emw(hydro + w.u[l], depthBelowDatum + airGapM) : null, // salt has no pore fluid: no pore pressure (M3.5)
+      overburdenEmw: ok ? emw(sv[l], depthBelowDatum + airGapM) : null,
+      hydroEmw: ok ? emw(hydro, depthBelowDatum + airGapM) : null,
       porosity: isSalt ? 0 : 1 - solid / w.thick[l],
       tempF: cToF(w.temp[l]),
       sandFrac: solid > 0 ? w.sand[l] / solid : 0,

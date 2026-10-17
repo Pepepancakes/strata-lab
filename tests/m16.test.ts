@@ -104,9 +104,16 @@ describe('M1.6 worker data', () => {
     expect(prof.points.length).toBeGreaterThan(5)
     const deep = prof.points.filter((p) => p.poreEmw !== null)
     expect(deep.length).toBeGreaterThan(5)
+    // M4.1 datum change: EMW is referenced to the rig floor, 80 ft above the sea surface, so a column of sea water
+    // of depth d below the sea surface reads RHO_W * d / (d + 80 ft), not RHO_W. Hand calculation for d = 3,000 ft:
+    //   8.554 ppg (1025 kg/m3 / 119.826 kg/m3 per ppg) x 3,000 / 3,080 = 8.332 ppg  (it was 8.554 before the change).
+    expect(ppgOf(RHO_W) * 3000 / 3080).toBeCloseTo(8.3318, 3)
     const hydro = ppgOf(RHO_W)
+    const datumM = Math.max(well.seaLevelM, well.H)
     for (const p of deep) {
-      expect(p.hydroEmw!).toBeCloseTo(hydro, 6)
+      const dFt = mToFt(datumM - (well.seaLevelM - p.tvdssFt * 0.3048)) // depth below the datum
+      expect(p.hydroEmw!).toBeCloseTo((hydro * dFt) / (dFt + 80), 6)
+      expect(p.hydroEmw!).toBeLessThan(hydro)
       expect(p.poreEmw!).toBeGreaterThanOrEqual(p.hydroEmw! - 1e-9)
       expect(p.overburdenEmw!).toBeGreaterThan(p.hydroEmw!)
       expect(p.poreEmw!).toBeLessThanOrEqual(p.overburdenEmw! + 1e-6)

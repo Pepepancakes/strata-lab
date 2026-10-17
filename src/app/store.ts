@@ -20,6 +20,7 @@ import type {
 import { clipSegments, lengthOf } from './scenario'
 import { Autosave, browserStorage, type KeyValueStorage } from './autosave'
 import { ReplaceGuard, type PendingReplace } from './replaceGuard'
+import type { WellDefinition } from '../engine/well'
 import { buildScenarioFile, compareHashes, parseScenario, serializeScenario, type ScenarioFile } from './scenarioFile'
 
 export type ColorMode = 'grain' | 'age' | 'phi' | 'op' | 'temp' | 'fs' | 'salt'
@@ -77,6 +78,8 @@ export interface AppState {
   runLengthMa: number
   /** Changes to the main run's parameters, relative to the preset (SI). */
   overrides: Record<string, ParamValue>
+  /** The planned well (M4.1), saved in the scenario file; null = none planned. No panel edits it yet (M4.3). */
+  wellPlan: WellDefinition | null
   segments: Segment[]
   info: RunInfo | null
   branches: BranchInfo[]
@@ -128,6 +131,7 @@ const initial = (): AppState => ({
   presetId: 'last3',
   runLengthMa: getPreset('last3').runLengthMa,
   overrides: {},
+  wellPlan: null,
   segments: getPreset('last3').segments.map((s) => ({ ...s })),
   info: null,
   branches: [],
@@ -442,7 +446,7 @@ export class AppStore {
     if (!s.info) return null
     return {
       presetId: s.presetId, seed: s.seed, nx: s.info.nx, dx: s.info.dx,
-      segments: s.segments, overrides: s.overrides, branches: s.branches,
+      segments: s.segments, overrides: s.overrides, branches: s.branches, well: s.wellPlan,
     }
   }
 
@@ -482,7 +486,7 @@ export class AppStore {
   requestNew(): void {
     this.guard.request('Start a new scenario', () => {
       const p = getPreset('last3')
-      this.set({ presetId: 'last3', seed: SEED, runLengthMa: p.runLengthMa, segments: p.segments.map((x) => ({ ...x })), overrides: {}, notice: null })
+      this.set({ presetId: 'last3', seed: SEED, runLengthMa: p.runLengthMa, segments: p.segments.map((x) => ({ ...x })), overrides: {}, wellPlan: null, notice: null })
       void this.startRun({ clean: true })
     })
   }
@@ -560,6 +564,7 @@ export class AppStore {
       presetId: file.run.presetId,
       seed: file.run.seed,
       overrides: { ...file.run.overrides },
+      wellPlan: file.well ? { ...file.well } : null,
       segments: file.run.segments.map((x) => ({ ...x })),
       runLengthMa: lengthOf(file.run.segments),
       info: r.info,
@@ -579,6 +584,12 @@ export class AppStore {
   }
 
   // ---- time and view settings ---------------------------------------------------------------
+
+  /** Plan (or clear, with null) the well. It is part of the scenario file; nothing in the engine reads it. */
+  setWellPlan(well: WellDefinition | null): void {
+    this.set({ wellPlan: well ? { ...well } : null })
+    this.afterChange(true)
+  }
 
   goto(step: number): void {
     const n = this.state.info?.nSteps ?? 0

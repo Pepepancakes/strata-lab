@@ -15,6 +15,7 @@ import { compareSummaries, type RunSummary } from '../engine/summary'
 import { buildSchedule, type Segment } from '../engine/schedule'
 import { getParamDef } from '../engine/params'
 import { validateBranchEdits, validateParamValues } from '../worker/edits'
+import { validateWell, type WellDefinition } from '../engine/well'
 import { APP_VERSION, ENGINE_VERSION } from '../version'
 
 export const SCENARIO_FORMAT = 'strata-lab-scenario'
@@ -57,6 +58,8 @@ export interface ScenarioFile {
     /** Changes to the main run's parameters relative to the preset (SI). */
     overrides: Record<string, ParamValue>
   }
+  /** The planned well (M4.1), one for all branches. Absent in files written before M4.1: they open unchanged. */
+  well?: WellDefinition
   /** Parents come before their children. */
   branches: ScenarioBranch[]
 }
@@ -70,6 +73,7 @@ export interface ScenarioSource {
   segments: readonly Segment[]
   overrides: Record<string, ParamValue>
   branches: readonly { id: string; parentId: string | null; forkStep: number; label: string; edits: Record<string, ParamValue> }[]
+  well?: WellDefinition | null
 }
 
 function copyValue(v: ParamValue): ParamValue {
@@ -86,7 +90,7 @@ function copyEdits(e: Record<string, ParamValue>): Record<string, ParamValue> {
 export function buildScenarioFile(src: ScenarioSource, hashes?: Record<string, string>, summaries?: Record<string, RunSummary>): ScenarioFile {
   const segments = src.segments.map((s) => ({ ...s }))
   const lengthMa = segments[0].fromAgeMa - segments[segments.length - 1].toAgeMa
-  return {
+  const file: ScenarioFile = {
     format: SCENARIO_FORMAT,
     version: 1,
     app: { version: APP_VERSION, engine: ENGINE_VERSION },
@@ -105,6 +109,28 @@ export function buildScenarioFile(src: ScenarioSource, hashes?: Record<string, s
       return out
     }),
   }
+  if (src.well) file.well = copyWell(src.well)
+  return file
+}
+
+function copyWell(w: WellDefinition): WellDefinition {
+  return {
+    xKm: w.xKm, airGapFt: w.airGapFt, kickoffFt: w.kickoffFt, buildRateDegPer100Ft: w.buildRateDegPer100Ft,
+    holdInclinationDeg: w.holdInclinationDeg, direction: w.direction, totalDepthFt: w.totalDepthFt,
+  }
+}
+
+/** Read the optional well of a file; undefined = no well, a string = the problem. */
+function readWell(raw: unknown): WellDefinition | undefined | string {
+  if (raw === undefined) return undefined
+  const bad = 'The planned well is incomplete or wrong.'
+  if (!isObj(raw)) return bad
+  const keys = ['xKm', 'airGapFt', 'kickoffFt', 'buildRateDegPer100Ft', 'holdInclinationDeg', 'totalDepthFt'] as const
+  for (const k of keys) if (!isNum(raw[k])) return bad
+  if (raw.direction !== 'basinward' && raw.direction !== 'landward') return bad
+  const w = copyWell(raw as unknown as WellDefinition)
+  const problems = validateWell(w)
+  return problems.length ? `The planned well: ${problems.join(' ')}` : w
 }
 
 export function serializeScenario(file: ScenarioFile): string {
@@ -233,16 +259,18 @@ export function parseScenario(text: string): ParseResult {
     branches.push(out)
   }
 
-  return {
-    ok: true,
-    file: {
-      format: SCENARIO_FORMAT,
-      version: 1,
-      app: { version: app.version as string, engine: app.engine as number },
-      run: { presetId: preset.id, seed: run.seed as number, grid: { nx: grid.nx as number, dx: grid.dx as number }, durationYr: run.durationYr as number, segments, overrides: ov.edits },
-      branches,
-    },
+  const well = readWell(raw.well)
+  if (typeof well === 'string') return fail(well)
+
+  const result: ScenarioFile = {
+    format: SCENARIO_FORMAT,
+    version: 1,
+    app: { version: app.version as string, engine: app.engine as number },
+    run: { presetId: preset.id, seed: run.seed as number, grid: { nx: grid.nx as number, dx: grid.dx as number }, durationYr: run.durationYr as number, segments, overrides: ov.edits },
+    branches,
   }
+  if (well) result.well = well
+  return { ok: true, file: result }
 }
 
 export interface HashComparison {
