@@ -16,6 +16,7 @@ import { buildSchedule, type Segment } from '../engine/schedule'
 import { getParamDef } from '../engine/params'
 import { validateBranchEdits, validateParamValues } from '../worker/edits'
 import { validateWell, type WellDefinition } from '../engine/well'
+import { validateWellPressureParams, WELL_PRESSURE_PARAMS, type WellPressureParams } from '../engine/wellPressureParams'
 import { APP_VERSION, ENGINE_VERSION } from '../version'
 
 export const SCENARIO_FORMAT = 'strata-lab-scenario'
@@ -60,6 +61,8 @@ export interface ScenarioFile {
   }
   /** The planned well (M4.1), one for all branches. Absent in files written before M4.1: they open unchanged. */
   well?: WellDefinition
+  /** Fracture-gradient method and window settings of the well (M4.3). Only written with a well; absent means the defaults. */
+  wellPressure?: WellPressureParams
   /** Parents come before their children. */
   branches: ScenarioBranch[]
 }
@@ -74,6 +77,7 @@ export interface ScenarioSource {
   overrides: Record<string, ParamValue>
   branches: readonly { id: string; parentId: string | null; forkStep: number; label: string; edits: Record<string, ParamValue> }[]
   well?: WellDefinition | null
+  wellPressure?: WellPressureParams
 }
 
 function copyValue(v: ParamValue): ParamValue {
@@ -109,8 +113,28 @@ export function buildScenarioFile(src: ScenarioSource, hashes?: Record<string, s
       return out
     }),
   }
-  if (src.well) file.well = copyWell(src.well)
+  if (src.well) {
+    file.well = copyWell(src.well)
+    if (src.wellPressure) file.wellPressure = copyWellPressure(src.wellPressure)
+  }
   return file
+}
+
+function copyWellPressure(p: WellPressureParams): WellPressureParams {
+  const out: Record<string, unknown> = {}
+  for (const d of WELL_PRESSURE_PARAMS) out[d.key] = (p as unknown as Record<string, unknown>)[d.key]
+  return out as unknown as WellPressureParams
+}
+
+/** Read the optional pressure settings; undefined = defaults, a string = the problem. */
+function readWellPressure(raw: unknown): WellPressureParams | undefined | string {
+  if (raw === undefined) return undefined
+  const bad = 'The well pressure settings are incomplete or wrong.'
+  if (!isObj(raw)) return bad
+  for (const d of WELL_PRESSURE_PARAMS) if (!(d.key in raw)) return bad
+  const p = copyWellPressure(raw as unknown as WellPressureParams)
+  const problems = validateWellPressureParams(p)
+  return problems.length ? `The well pressure settings: ${problems.join(' ')}` : p
 }
 
 function copyWell(w: WellDefinition): WellDefinition {
@@ -262,6 +286,9 @@ export function parseScenario(text: string): ParseResult {
   const well = readWell(raw.well)
   if (typeof well === 'string') return fail(well)
 
+  const wellPressure = readWellPressure(raw.wellPressure)
+  if (typeof wellPressure === 'string') return fail(wellPressure)
+
   const result: ScenarioFile = {
     format: SCENARIO_FORMAT,
     version: 1,
@@ -270,6 +297,7 @@ export function parseScenario(text: string): ParseResult {
     branches,
   }
   if (well) result.well = well
+  if (well && wellPressure) result.wellPressure = wellPressure
   return { ok: true, file: result }
 }
 

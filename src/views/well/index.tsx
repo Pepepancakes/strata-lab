@@ -5,6 +5,8 @@ import { ramp } from '../section/colors'
 import { BROKEN_PRESSURE_INFO, SALT_INFO, WELD_INFO, WhatItMeans } from '../WhatItMeans'
 import type { ViewDefinition } from '../types'
 import { wellProfile, type WellPoint } from './profile'
+import { DEFAULT_AIR_GAP_FT } from '../../engine/well'
+import { ftToM } from '../../units'
 
 const W = 640
 const H = 380
@@ -43,7 +45,7 @@ function WellView() {
   const dx = s.info?.dx ?? 1000
   const w = s.well
   if (!w) return <div><h2>Pseudo-well</h2><p className="muted">Waiting for the run.</p></div>
-  const prof = wellProfile(w, s.events)
+  const prof = wellProfile(w, s.events, ftToM(s.wellPlan?.airGapFt ?? DEFAULT_AIR_GAP_FT))
   const pts = prof.points
   const topFt = Math.min(prof.topFt, 0)
   const botFt = Math.max(prof.bottomFt, 1000)
