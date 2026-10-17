@@ -4,9 +4,11 @@ This file exists from day one so the project can move to another machine or agen
 Update it whenever something here changes, in the same commit as the change.
 
 ## Where things stand
+- 2026-10-16: M4 (planned well: path, pressures, fracture gradient, window, branch compare, PNG and CSV export) is built on the chain
+  `strata-lab/m4-01-well-path` -> ... -> `m4-05-docs`. NOT on main; waits for John's judgement (roadmap M4; D21). See "M4 planned well" below.
 - 2026-10-16: M3 (salt) is built and fixed on the chain `strata-lab/m3-01-salt-flow` -> ... -> `m3-06-docs` ->
-  `m3-08-fix-gulf-preset` -> `m3-09-rereview` -> `m3-10-fix-salt-edge` -> `m3-11-docs-d18`. NOT on main; waiting
-  for John's judgement (roadmap M3; decisions D17, D18, D19). Spike S3 (passive diapirs, branch
+  `m3-08-fix-gulf-preset` -> `m3-09-rereview` -> `m3-10-fix-salt-edge` -> `m3-11-docs-d18`. MERGED to main 2026-10-16 with John's
+  approval (roadmap M3; decisions D17, D18, D19). Spike S3 (passive diapirs, branch
   `strata-lab/s3-passive-diapir`) is built and waits for his answers; milestone M3b follows M3 (roadmap).
   See "M3 salt" and "M3 state after M3.10" below.
 - 2026-10-15: M1 is on main (merge 56b964a). Linux CI was red because floating-point results differ
@@ -236,3 +238,40 @@ Read with D18 and D19 in `docs/decisions.md`. Full tables: `docs/reviews/m3-10-e
 - Still wrong for a Gulf geologist: 200/240 km is tuned, not a Gulf position; the outer 160 km of the section has no salt at the start; no canopies;
   structures are ripples on a slab; salt is 5 km thick at most with a 4 km start that has no source; the Hudec et al. (2013) reference was read at
   abstract level only; the start at 66 Ma puts only 300 m of cover on the salt.
+
+## M4 planned well (2026-10-16)
+Chain: `strata-lab/m4-01-well-path` -> `m4-02-well-pressures` -> `m4-03-well-view` (merges UI-1) -> `m4-04-well-export` -> `m4-05-docs`.
+NOT on main. Picks are D21 in `docs/decisions.md`; numbers and the hand calculations are in `docs/physics-references.md` ("M4.1 Planned well path and
+sampling", "M4 well pressures"); the user text is in `docs/user-guide.md` section 8, "The planned well". The well is a VIEW: nothing here changes a run,
+`ENGINE_VERSION` is still 1, and `stateHash` of last3, mtd, miocene, cenozoic, saltshort and gulf is unchanged (cb22255b, 9be1b3f3, fa992a56, ebd3965b,
+b9d410d6, f2e2fd2c). `git diff main -- src/engine` is three new files and no edited one.
+- **Module contract.**
+  - `src/engine/well.ts`: `WellDefinition` (xKm, airGapFt, kickoffFt, buildRateDegPer100Ft, holdInclinationDeg, direction, totalDepthFt), `verticalWell`,
+    `validateWell`, `wellStations` (closed-form path, one station per 10 ft of MD), `sampleWell(eng, P, sl, well)` -> `WellSamples` (SI; kinds `WELL_AIR`,
+    `WELL_WATER`, `WELL_SEDIMENT`, `WELL_SALT`, `WELL_MTD`; stop reason `leftSection` or `baseOfRecord`), `emwPpg`, `DEFAULT_AIR_GAP_FT` (80, tuned).
+  - `src/engine/wellPressure.ts`: `wellPressures(samples, params)` -> `WellPressures` (fracture gradient, window, state per station `WINDOW_NONE/OK/TIGHT/NO_WINDOW`,
+    runs, narrowest window), `eatonK`, `fracturePressurePa`. Parameters: `src/engine/wellPressureParams.ts` (`WELL_PRESSURE_PARAMS`, a separate small
+    registry, NOT in `params.ts`, so they never enter a stateHash).
+  - Worker request `sampleWell` (`TimeMachine.sampleWell`, `src/worker/protocol.ts`, `handler.ts`): reads one branch at one step.
+  - Scenario file: optional `well` and `wellPressure` (written only with a well; absent = defaults), read and validated in `src/app/scenarioFile.ts`. Old files open
+    unchanged and the fixture did not change. The store holds `wellPlan`.
+  - Views: `src/views/wellplan` (panel `index.tsx`, `plot.ts` pure plot maths, `exportWell.ts` CSV and title lines, `exportPng.ts` PNG), the well path on the
+    section in `src/views/section/wellPath.ts`. The pseudo-well (`src/views/well`) uses the same RKB datum and the planned well's air gap.
+  - Export: `wellCsv(ctx, runs)`, `parseWellCsv`, `exportFileName`, `titleLines`, `describeWell`, `CSV_COLUMNS`; `plotPng(svg, titleLines, legend)`,
+    `downloadBlob`; `store.branchHashes()`. File names `strata-<preset>-well-stations-<Ma>Ma.csv` and `strata-<preset>-well-pressure-<Ma>Ma.png`.
+- **Trap: depth in every pressure formula is TVD below RKB**, not measured depth. A deviated well and a vertical well read the same at the same TVD (tested).
+  Keep ft TVDSS on the axis and ppg from the rig floor; sea water at 3,000 ft reads 8.332 ppg, not 8.554 (air gap 80 ft).
+- **Trap: salt has no pore pressure.** `porePa` is NaN in salt samples. The window's lower limit there is hydrostatic (a labelled choice) and the fracture
+  gradient is the overburden (D21; no source, to verify). Anything that plots or exports `porePa` must handle NaN (the CSV leaves the field empty).
+- **Trap: do not blend across a salt flank or an MTD edge.** Numbers are interpolated between the two columns only when both hold the same material at that
+  elevation; otherwise the nearest column is used (`sampleWell`). Overburden is always interpolated.
+- **Trap: Eaton and Matthews & Kelly use ONE constant each** (nu 0.40, Ki 0.60, both tuned; neither paper was read). With constant K the two differ only by
+  the number chosen. Do not add depth curves without reading the papers. The margins, the tight threshold, nu and Ki are saved in the file but have no
+  control in the panel yet (only the method does).
+- **Trap: the plot top moves down about 84 px when Compare branches is ticked** (the fieldset appears above the plot). The section does not move. Checked in
+  the built file at 100, 125 and 150 % scaling, canvas backing size stable, 0 console errors.
+- **Trap: `tests/wellTiming.test.ts` is wall-clock** and sits in the `wallclock` project (skipped when `CI` is set). It, and the cenozoic and 3 Myr gates,
+  failed once each at 10.1 s and 3.8 s while a browser was running; they passed alone. Re-run before suspecting a code change.
+- Checks: `node scripts/verify-well-export-built.mjs` after `npm run build` (25 checks: PNG magic bytes and size at 100 and 150 %, CSV parses back, fracture
+  gradient against the Eaton formula to 3.5e-8 relative, compare CSV has one block per branch, 0 console errors, 0 external requests).
+- Labels: the planned-well labels are listed in `tests/docs.test.ts` (`APP_STRINGS`), so the guide and the app source are checked against each other.

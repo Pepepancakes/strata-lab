@@ -345,7 +345,9 @@ basin-floor sand) because the ±40 m cycles already swing the shoreline across t
 
 ## 8. The pseudo-well
 The **Pseudo-well** panel is a synthetic well at the column you clicked, at the time on the slider.
-Depth is TVDSS in ft (below the sea surface). It has four tracks:
+Depth is TVDSS in ft (below the sea surface). Mud weights are measured from the rig floor, the
+same datum as the planned well (air gap 80 ft by default, or the air gap of the planned well). It
+has four tracks:
 1. **Pressure, ppg EMW**: pore pressure (red), overburden (black) and hydrostatic (blue dashed),
    on a 6 to 20 ppg scale. Where red moves right of blue, the well is overpressured. If it
    approaches black, the pore fluid is carrying nearly all the load.
@@ -382,12 +384,55 @@ total depth, and follows the time slider and the active branch.
 - **Fracture-gradient method**: Eaton (1969) or Matthews & Kelly (1967).
 - **Remove well** deletes the well from the scenario.
 
-The plot has mud weight (ppg) across and depth (ft TVDSS) down: pore pressure, hydrostatic,
-overburden and fracture gradient, with the mud-weight window shaded green, amber where it is tight
-and red where there is no window. Salt is pink. Hover the plot, or use the arrow keys, to read
-the values and the measured depth. Each line, shade and flag has an (i) that explains it. Tick
-other branches under **Compare branches** to draw the same well on up to three branches on the
-same axes, with a legend of branch names and a table of the narrowest window on each.
+**Planning steps.** (1) Run the scenario and put the slider at the time you want. (2) Click the
+section where the well should start, then press **Plan a well here**. (3) Set **Total depth**; for
+a deviated well choose **Build and hold** and set **Kickoff depth**, **Build rate**, **Hold angle**
+and **Direction**. (4) Read the plot below. (5) To see how another scenario changes the answer,
+make a branch (section 7), change the cause there, and tick it under **Compare branches**. Moving
+the well or changing the method never re-runs the model.
+
+**Reading the pressure plot.** Mud weight (ppg, measured from the rig floor) is across and depth
+(ft TVDSS) is down. Hover the plot, or use the arrow keys, to read the values and the measured
+depth; each line, shade and flag has an (i) that explains it.
+- **Hydrostatic** (blue, dashed): the pressure of sea water down to that depth. It reads a little
+  under 8.55 ppg because mud weight is measured from the rig floor, not the sea surface.
+- **Pore pressure** (red): the pressure of the water in the rock pores. To the right of the blue
+  line the rock is overpressured. It stops in salt, which has no pore water.
+- **Overburden** (black): the weight of the sea water and all the rock above, as a mud weight.
+- **Fracture gradient** (brown): the mud weight at which the rock would split. Above salt it is the
+  pore pressure plus a share of the load the grains carry. In salt it is the overburden.
+- **Mud-weight window** (green): the band between pore pressure and fracture gradient. A mud weight
+  inside the band holds the hole open without a kick (too light) or a loss (too heavy).
+- **Tight** (amber): the band is narrower than 0.5 ppg (a labelling threshold, not physics).
+- **No window** (red): the pore pressure has reached the fracture gradient, so no mud weight fits.
+  In a real well a casing string would have to be set above this depth.
+- **Salt** (pink) and **sea water** (blue shade, with the dashed sea floor). Neither has a window.
+- A well that leaves the section, or reaches the base of the record, stops there and is flagged.
+
+Under the plot a line gives the narrowest window, with its depth and measured depth. Tick other
+branches under **Compare branches** to draw the same well on up to three branches on the same
+axes, with a legend of branch names and a table of the narrowest window on each. The green window
+is shaded for the active branch only.
+
+**Choosing the fracture-gradient method.** Both methods give the pore pressure plus K times the
+load the grains carry (overburden minus pore pressure); they differ in K. **Eaton (1969)** is the
+default: K = Poisson's ratio / (1 - Poisson's ratio), 0.67 at a ratio of 0.40. **Matthews & Kelly
+(1967)** uses a stress ratio, 0.60 here. Each uses one number for every depth, and both numbers
+are tuned, not read from the papers' depth charts, so the two lines lie close together and
+neither is a calibrated field curve.
+
+**Limits of the planned well** (read before trusting a plot):
+- The well is in the plane of the section (2D). There are no S-shaped or sideways wells.
+- The window runs from pore pressure to fracture gradient only. There is **no collapse or shear
+  limit**, so the true lower limit can be higher than the pore pressure.
+- The pore pressure is the model's, from a synthetic run. It is not a pre-drill prediction for a
+  real prospect until it is calibrated to data.
+- In salt the fracture gradient is the overburden and the lower limit is hydrostatic. This is
+  common practice but has no source in this project, and may not hold near a salt flank or a weld.
+- Between two columns, numbers are interpolated only where both hold the same rock; across a salt
+  flank or a slope-failure deposit edge the nearest column is used.
+- Pressure depends on true vertical depth (TVDSS) only, so a deviated well and a vertical well
+  read the same pressure at the same TVD in the same rock.
 
 **Exporting the well (M4.4).** Under the plot, **Export plot (PNG)** saves the picture with a
 title (scenario, branches, time in Ma, the well, the fracture-gradient method) and a legend.
@@ -815,6 +860,8 @@ the 4 km start thickness and the 300 m cover are tuned and have no field behind 
   **Salt layer on** is ticked and the cover resists bending, so a preferred width appears; that
   width depends on a tuned cover viscosity. The limits are in section 14.6. The Gulf-style preset is tuned to targets, for you to judge.
 - **Supply and subsidence are tuned**, not taken from a published Gulf of America rate.
+- **The planned well is a 2D view with no collapse limit.** Its fracture gradient uses one tuned
+  constant per method and, in salt, the overburden (section 8). Its window is not a drilling plan.
 - **Temperature is steady conduction.** It ignores the cooling effect of fast burial, so deep
   temperatures read too warm. Several thermal inputs are marked to verify.
 - **Cement:** the grain surface area is held at its starting value, which slightly overestimates

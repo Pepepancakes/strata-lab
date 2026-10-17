@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-16):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. M3 salt (M3.1 to M3.12) was merged to main on 2026-10-16 with John's approval. The salt literature review (LIT cards) is done and approved. Now: UI-1, the controls panel in named groups (D20); the salt evidence round (SALT-1, S3b, S4, SALT-R1) that sets the M3b scope; and M4 well-planning outputs in parallel (D21).
+**Status (2026-10-16):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. M3 salt (M3.1 to M3.12) was merged to main on 2026-10-16 with John's approval. The salt literature review (LIT cards) is done and approved. Now: UI-1, the controls panel in named groups (D20); the salt evidence round (SALT-1, S3b, S4, SALT-R1) that sets the M3b scope; and M4 well-planning outputs, built and waiting for John's check (D21).
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -300,6 +300,16 @@ is geology or a limit of the thin-sheet method before M3b is scoped.
   1967) and the mud-weight window in ppg against TVDSS.
 - The same well across branches, to compare scenarios.
 - PNG and CSV export.
+
+**Status (2026-10-16): built, not on main; waits for John's check of the second done-when item.** Cards
+M4.1 to M4.4 on the chain `m4-01-well-path` -> `m4-02-well-pressures` -> `m4-03-well-view` -> `m4-04-well-export`,
+docs in M4.5. Numbers:
+- Path: build-and-hold hand check (KOP 5,000 ft, 3 deg/100 ft, hold 30 deg) gives R = 1,909.86 ft, TVD gain 954.93 ft and displacement 255.87 ft; the test matches to 1e-9 relative.
+- Fracture gradient hand calculation (5,000 ft of water, mud, 2,000 ft of salt, mud; nu 0.40, Ki 0.60) matches to 1e-9 relative at 6,500 ft (Eaton 10.1741 ppg, tight 0.26 ppg window), 9,000 ft in salt (= overburden 12.2102 ppg) and 12,000 ft (Eaton 13.2998, M&K 13.2178 ppg). A vertical well equals the pseudo-well at a cell middle to 1e-9.
+- Export, checked in the built file at 100 % and 150 % scaling: PNG 1328 x 1054 px, 146,550 bytes; CSV 659 rows; fracture gradient in the CSV against the Eaton formula, worst relative error 3.5e-8; 0 console errors, 0 external requests.
+- Tests on Windows and Linux (M4.4): main project 40 files, 429 passed, 1 skipped; wallclock project 6 files (89 passed, 1 skipped on Windows; 82 passed, 8 skipped on Linux, where the wall-clock gates skip).
+- No engine file was edited, so `stateHash` of last3, mtd, miocene, cenozoic, saltshort and gulf is unchanged.
+- Not claimed: nu 0.40, Ki 0.60 and the 80 ft air gap are tuned; Eaton (1969) and Matthews & Kelly (1967) were not read (to verify); fracture gradient = overburden in salt has no source here; no collapse limit; the pore pressure is a synthetic run's, not a calibrated prediction.
 
 **Done when:**
 - Fracture gradient matches a hand calculation.
