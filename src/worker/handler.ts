@@ -87,6 +87,11 @@ export class EngineHost {
         const t0 = now()
         return { id, kind: 'wellColumn', well: this.tm.wellColumn(req.branchId, req.step, req.column), ms: now() - t0 }
       }
+      case 'sampleWell': {
+        this.needRun()
+        const t0 = now()
+        return { id, kind: 'wellSamples', samples: this.tm.sampleWell(req.branchId, req.step, req.well), ms: now() - t0 }
+      }
       case 'series': {
         this.needRun()
         const t0 = now()

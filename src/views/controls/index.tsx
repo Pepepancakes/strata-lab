@@ -1,16 +1,30 @@
-import { useState } from 'react'
-import { store, useAppState } from '../../app/store'
+import { useState, type ReactNode } from 'react'
+import { store, useAppState, type AppState } from '../../app/store'
 import { describeSchedule, MIN_RUN_MA, stepCount } from '../../app/scenario'
 import { PARAMS, type ParamDef, type ParamValue } from '../../engine/params'
-import { PRESETS, type PresetId } from '../../engine/presets'
+import { PRESETS, presetParams, type PresetId } from '../../engine/presets'
 import { getReference } from '../../engine/references'
 import { displayConversion } from '../../units'
 import type { ViewDefinition } from '../types'
+import { changedKeys, DEFAULT_OPEN, filterGroups, GROUPS, modeNote, type ShownGroup } from './groups'
 
-/** Parameters shown at the top; everything else is under "All other parameters". */
-const MAIN = ['supply', 'sandFrac', 'seaLevelKind', 'slAmp', 'slPeriod', 'slShift', 'subsShelf', 'subsBasin']
-/** Set by the scenario controls (preset, run length and its schedule), not by a number box. */
-const SCENARIO = ['duration', 'dtRec']
+/** Where the open / closed state of the groups is remembered (its own key, not the scenario autosave). */
+export const OPEN_GROUPS_KEY = 'strata-lab:ui:openGroups'
+
+/** The ids of the open groups from storage; the defaults when there is nothing, it is damaged, or storage is blocked. */
+export function loadOpenGroups(): string[] {
+  try {
+    const raw = window.localStorage.getItem(OPEN_GROUPS_KEY)
+    if (raw === null) return [...DEFAULT_OPEN]
+    const v: unknown = JSON.parse(raw)
+    if (Array.isArray(v) && v.every((x) => typeof x === 'string')) return v as string[]
+  } catch { /* storage blocked: use the defaults */ }
+  return [...DEFAULT_OPEN]
+}
+
+function saveOpenGroups(ids: string[]): void {
+  try { window.localStorage.setItem(OPEN_GROUPS_KEY, JSON.stringify(ids)) } catch { /* storage blocked: not remembered */ }
+}
 
 const OPTION_LABELS: Record<string, string> = { curve: 'Published curve', sine: 'Sine (teaching)' }
 
@@ -77,13 +91,52 @@ function NumberBox({ def, value, disabled, onCommit, index }: { def: ParamDef; v
   )
 }
 
-function Control({ def }: { def: ParamDef }) {
-  const s = useAppState()
-  const p = s.params[s.activeId] as unknown as Record<string, ParamValue> | undefined
-  const isBranch = !!s.branches.find((b) => b.id === s.activeId)?.parentId
-  const disabled = (isBranch && def.startOnly) || !p || !!s.busy
+type Values = Record<string, ParamValue>
+
+/** Everything a control needs from the app state, worked out once by the panel. */
+interface Ctx {
+  /** Parameters of the active run (SI), or undefined before the first run. */
+  p: Values | undefined
+  /** Parameters of the preset (SI). */
+  preset: Values
+  changed: ReadonlySet<string>
+  isBranch: boolean
+  busy: boolean
+}
+
+function makeCtx(s: AppState): Ctx {
+  const p = s.params[s.activeId] as unknown as Values | undefined
+  const preset = presetParams(s.presetId) as unknown as Values
+  return {
+    p, preset,
+    changed: new Set(p && !s.busy ? changedKeys(p, preset) : []), // not while a run is replacing the params
+    isBranch: !!s.branches.find((b) => b.id === s.activeId)?.parentId,
+    busy: !!s.busy,
+  }
+}
+
+const defOf = (key: string): ParamDef => PARAMS.find((d) => d.key === key)!
+
+/** The preset's value as John reads it (display units). */
+function presetText(def: ParamDef, v: ParamValue): string {
+  const conv = displayConversion(def.unit, def.displayUnit)
+  const unit = def.displayUnit !== '-' && !def.options ? ` ${def.displayUnit}` : ''
+  if (typeof v === 'string') return OPTION_LABELS[v] ?? v
+  if (Array.isArray(v)) return `${v.map((x) => (typeof x === 'number' ? fmt(conv.to(x)) : String(x))).join(', ')}${unit}`
+  if (v === null) return 'none'
+  return `${fmt(conv.to(v))}${unit}`
+}
+
+function ChangedDot() {
+  return <span className="changed-dot" role="img" aria-label="changed from preset" title="Changed from the preset" />
+}
+
+function Control({ def, ctx, note }: { def: ParamDef; ctx: Ctx; note?: string | null }) {
+  const { p } = ctx
+  const disabled = (ctx.isBranch && def.startOnly) || !p || ctx.busy
   const cur = p ? p[def.key] : def.default
   const unit = def.displayUnit
+  const changed = ctx.changed.has(def.key)
   let input
   if (def.options) {
     input = (
@@ -108,11 +161,13 @@ function Control({ def }: { def: ParamDef }) {
   return (
     <div className="control" data-param={def.key}>
       <div className="clabel">
-        <span>{def.label}{unit !== '-' && !def.options ? <span className="muted"> ({unit})</span> : null}</span>
+        <span>{changed ? <ChangedDot /> : null}{def.label}{unit !== '-' && !def.options ? <span className="muted"> ({unit})</span> : null}</span>
         <Info def={def} />
       </div>
       {input}
-      {disabled && isBranch && def.startOnly ? <div className="muted small">Set at the start of the run; a branch cannot change it.</div> : null}
+      {changed ? <div className="muted small" data-testid="preset-value">preset {presetText(def, ctx.preset[def.key])}</div> : null}
+      {note ? <div className="muted small">{note}</div> : null}
+      {disabled && ctx.isBranch && def.startOnly ? <div className="muted small">Set at the start of the run; a branch cannot change it.</div> : null}
     </div>
   )
 }
@@ -161,47 +216,136 @@ function PresetInfo({ note }: { note: string }) {
   )
 }
 
-/** Slope failure on/off: a check box for the 0/1 parameter failOn (start-only, so a branch cannot change it). */
-function FailToggle({ def }: { def: ParamDef }) {
-  const s = useAppState()
-  const p = s.params[s.activeId] as unknown as Record<string, ParamValue> | undefined
-  const isBranch = !!s.branches.find((b) => b.id === s.activeId)?.parentId
-  const disabled = (isBranch && def.startOnly) || !p || !!s.busy
+/** A 0/1 parameter as a check box: a group's switch, or coverBend. Start-only ones lock on a branch. */
+function Toggle({ def, ctx, label, ariaLabel, children }: { def: ParamDef; ctx: Ctx; label: string; ariaLabel: string; children?: ReactNode }) {
+  const { p } = ctx
+  const disabled = (ctx.isBranch && def.startOnly) || !p || ctx.busy
   const on = Number(p ? p[def.key] : def.default) === 1
+  const changed = ctx.changed.has(def.key)
   return (
     <div className="control" data-param={def.key}>
       <div className="clabel">
         <label className="toggle">
-          <input type="checkbox" checked={on} disabled={disabled} aria-label="Slope failure (MTDs) on" onChange={(e) => void store.editParam(def.key, e.target.checked ? 1 : 0)} />
-          {' '}Slope failure (MTDs) {on ? 'on' : 'off'}
+          <input type="checkbox" checked={on} disabled={disabled} aria-label={ariaLabel} onChange={(e) => void store.editParam(def.key, e.target.checked ? 1 : 0)} />
+          {changed ? <ChangedDot /> : null}{' '}{label} {on ? 'on' : 'off'}
         </label>
         <Info def={def} />
       </div>
-      {isBranch && def.startOnly ? <div className="muted small">Set at the start of the run; a branch cannot change it.</div> : <div className="muted small">Changing it runs the main run again from the start.</div>}
+      {changed ? <div className="muted small" data-testid="preset-value">preset {Number(ctx.preset[def.key]) === 1 ? 'on' : 'off'}</div> : null}
+      {ctx.isBranch && def.startOnly ? <div className="muted small">Set at the start of the run; a branch cannot change it.</div> : null}
+      {!ctx.isBranch && def.startOnly ? <div className="muted small">Changing it runs the main run again from the start.</div> : null}
+      {children}
+    </div>
+  )
+}
+
+/** Names of the group switches as the check box shows them. */
+const SWITCH_LABELS: Record<string, { label: string; aria: string }> = {
+  saltOn: { label: 'Salt layer', aria: 'Salt layer on' },
+  failOn: { label: 'Slope failure (MTDs)', aria: 'Slope failure (MTDs) on' },
+  thermal: { label: 'Temperature', aria: 'Temperature on' },
+  cement: { label: 'Quartz cement', aria: 'Quartz cement on' },
+}
+
+const isOn = (ctx: Ctx, key: string): boolean => Number(ctx.p ? ctx.p[key] : defOf(key).default) === 1
+
+function GroupSwitch({ switchKey, ctx }: { switchKey: string; ctx: Ctx }) {
+  const names = SWITCH_LABELS[switchKey]
+  // Cement runs inside the temperature step (src/engine/step.ts thermalStep), so it needs temperature.
+  const needsTemp = switchKey === 'cement' && isOn(ctx, 'cement') && !isOn(ctx, 'thermal')
+  return (
+    <Toggle def={defOf(switchKey)} ctx={ctx} label={names.label} ariaLabel={names.aria}>
+      {isOn(ctx, switchKey) ? null : <div className="muted small">Off: these settings have no effect until it is switched on.</div>}
+      {needsTemp ? <div className="muted small">Needs Temperature on to have any effect.</div> : null}
+    </Toggle>
+  )
+}
+
+function GroupBlock({ shown, ctx, searching, open, onToggle }: { shown: ShownGroup; ctx: Ctx; searching: boolean; open: boolean; onToggle: (open: boolean) => void }) {
+  const { group } = shown
+  const p: Values = ctx.p ?? {}
+  const key = group.switchKey
+  const nChanged = [...(key ? [key] : []), ...group.sections.flatMap((x) => x.keys)].filter((k) => ctx.changed.has(k)).length
+  // Controls the current mode ignores are replaced by a note, except in a search (which finds them).
+  const hiddenInMode = (k: string): boolean => !searching && modeNote(k, p) !== null
+  const count = shown.sections.reduce((n, sec) => n + sec.keys.filter((k) => !hiddenInMode(k)).length, 0)
+  const total = group.sections.reduce((n, sec) => n + sec.keys.filter((k) => !hiddenInMode(k)).length, 0)
+  return (
+    <details className="group" data-group={group.id} open={open} onToggle={(e) => onToggle(e.currentTarget.open)}>
+      <summary>
+        <span className="gtitle">{group.title}</span>
+        {key ? <span className={`badge ${isOn(ctx, key) ? 'badge-on' : 'badge-off'}`}>{isOn(ctx, key) ? 'on' : 'off'}</span> : null}
+        {nChanged > 0 ? <span className="badge badge-changed">{nChanged} changed</span> : null}
+        <span className="gcount muted small">{count < total ? `${count} of ${total}` : count}</span>
+      </summary>
+      {group.note ? <p className="muted small gnote">{group.note}</p> : null}
+      {key ? <GroupSwitch switchKey={key} ctx={ctx} /> : null}
+      {shown.sections.map((sec, i) => {
+        const notes = new Set<string>()
+        const rows: ReactNode[] = []
+        for (const k of sec.keys) {
+          const note = modeNote(k, p)
+          if (note && !searching) {
+            if (!notes.has(note)) { notes.add(note); rows.push(<div key={`note-${k}`} className="muted small mode-note">{note}</div>) }
+          } else if (k === 'coverBend') {
+            rows.push(<Toggle key={k} def={defOf(k)} ctx={ctx} label="Cover resists bending" ariaLabel="Cover resists bending" />)
+          } else {
+            rows.push(<Control key={k} def={defOf(k)} ctx={ctx} note={note} />)
+          }
+        }
+        return (
+          <div key={sec.heading ?? i} className="gsection">
+            {sec.heading ? <h3>{sec.heading}</h3> : null}
+            {rows}
+          </div>
+        )
+      })}
+    </details>
+  )
+}
+
+/** The search box and the groups. Takes the state as a prop so a test can render it. */
+export function ControlsPanel({ state, initialQuery = '', initialOpen }: { state: AppState; initialQuery?: string; initialOpen?: string[] }) {
+  const [query, setQuery] = useState(initialQuery)
+  const [openIds, setOpenIds] = useState<string[]>(() => initialOpen ?? loadOpenGroups())
+  const ctx = makeCtx(state)
+  const active = state.branches.find((b) => b.id === state.activeId)
+  const searching = query.trim() !== ''
+  const shown = filterGroups(GROUPS, query, (k) => defOf(k).label)
+  const setOpen = (id: string, open: boolean) => {
+    if (searching) return // a search opens its groups without changing what is remembered
+    if (open === openIds.includes(id)) return
+    const next = open ? [...openIds, id] : openIds.filter((x) => x !== id)
+    setOpenIds(next)
+    saveOpenGroups(next)
+  }
+  return (
+    <div>
+      <h2>Controls</h2>
+      <p className="muted small">
+        {active?.parentId ? `Editing branch "${active.label}". Start-only controls are locked.` : 'Editing the main run: a change runs it again from the start.'}
+      </p>
+      <div className="ctlsearch">
+        <input
+          type="search" value={query} onChange={(e) => setQuery(e.target.value)}
+          aria-label="Find a parameter" placeholder="Find a parameter (e.g. salt, viscosity)"
+        />
+        {query !== '' ? <button aria-label="Clear search" onClick={() => setQuery('')}>{'\u00d7'}</button> : null}
+      </div>
+      {searching && shown.length === 0 ? <p className="muted">No parameter matches "{query.trim()}".</p> : null}
+      {shown.map((g) => (
+        <GroupBlock key={g.group.id} shown={g} ctx={ctx} searching={searching} open={searching || openIds.includes(g.group.id)} onToggle={(o) => setOpen(g.group.id, o)} />
+      ))}
     </div>
   )
 }
 
 function ControlsView() {
   const s = useAppState()
-  const editable = PARAMS.filter((d) => !SCENARIO.includes(d.key))
-  const main = MAIN.map((k) => editable.find((d) => d.key === k)!).filter(Boolean)
-  const rest = editable.filter((d) => !MAIN.includes(d.key) && d.key !== 'failOn')
-  const failDef = editable.find((d) => d.key === 'failOn')
-  const active = s.branches.find((b) => b.id === s.activeId)
   return (
     <div>
       <ScenarioControls />
-      <h2>Controls</h2>
-      <p className="muted small">
-        {active?.parentId ? `Editing branch "${active.label}". Start-only controls are locked.` : 'Editing the main run: a change runs it again from the start.'}
-      </p>
-      {failDef ? <FailToggle def={failDef} /> : null}
-      {main.map((d) => <Control key={d.key} def={d} />)}
-      <details>
-        <summary>All other parameters ({rest.length})</summary>
-        {rest.map((d) => <Control key={d.key} def={d} />)}
-      </details>
+      <ControlsPanel state={s} />
     </div>
   )
 }

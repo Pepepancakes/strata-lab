@@ -15,6 +15,8 @@ import { compareSummaries, type RunSummary } from '../engine/summary'
 import { buildSchedule, type Segment } from '../engine/schedule'
 import { getParamDef } from '../engine/params'
 import { validateBranchEdits, validateParamValues } from '../worker/edits'
+import { validateWell, type WellDefinition } from '../engine/well'
+import { validateWellPressureParams, WELL_PRESSURE_PARAMS, type WellPressureParams } from '../engine/wellPressureParams'
 import { APP_VERSION, ENGINE_VERSION } from '../version'
 
 export const SCENARIO_FORMAT = 'strata-lab-scenario'
@@ -57,6 +59,10 @@ export interface ScenarioFile {
     /** Changes to the main run's parameters relative to the preset (SI). */
     overrides: Record<string, ParamValue>
   }
+  /** The planned well (M4.1), one for all branches. Absent in files written before M4.1: they open unchanged. */
+  well?: WellDefinition
+  /** Fracture-gradient method and window settings of the well (M4.3). Only written with a well; absent means the defaults. */
+  wellPressure?: WellPressureParams
   /** Parents come before their children. */
   branches: ScenarioBranch[]
 }
@@ -70,6 +76,8 @@ export interface ScenarioSource {
   segments: readonly Segment[]
   overrides: Record<string, ParamValue>
   branches: readonly { id: string; parentId: string | null; forkStep: number; label: string; edits: Record<string, ParamValue> }[]
+  well?: WellDefinition | null
+  wellPressure?: WellPressureParams
 }
 
 function copyValue(v: ParamValue): ParamValue {
@@ -86,7 +94,7 @@ function copyEdits(e: Record<string, ParamValue>): Record<string, ParamValue> {
 export function buildScenarioFile(src: ScenarioSource, hashes?: Record<string, string>, summaries?: Record<string, RunSummary>): ScenarioFile {
   const segments = src.segments.map((s) => ({ ...s }))
   const lengthMa = segments[0].fromAgeMa - segments[segments.length - 1].toAgeMa
-  return {
+  const file: ScenarioFile = {
     format: SCENARIO_FORMAT,
     version: 1,
     app: { version: APP_VERSION, engine: ENGINE_VERSION },
@@ -105,6 +113,48 @@ export function buildScenarioFile(src: ScenarioSource, hashes?: Record<string, s
       return out
     }),
   }
+  if (src.well) {
+    file.well = copyWell(src.well)
+    if (src.wellPressure) file.wellPressure = copyWellPressure(src.wellPressure)
+  }
+  return file
+}
+
+function copyWellPressure(p: WellPressureParams): WellPressureParams {
+  const out: Record<string, unknown> = {}
+  for (const d of WELL_PRESSURE_PARAMS) out[d.key] = (p as unknown as Record<string, unknown>)[d.key]
+  return out as unknown as WellPressureParams
+}
+
+/** Read the optional pressure settings; undefined = defaults, a string = the problem. */
+function readWellPressure(raw: unknown): WellPressureParams | undefined | string {
+  if (raw === undefined) return undefined
+  const bad = 'The well pressure settings are incomplete or wrong.'
+  if (!isObj(raw)) return bad
+  for (const d of WELL_PRESSURE_PARAMS) if (!(d.key in raw)) return bad
+  const p = copyWellPressure(raw as unknown as WellPressureParams)
+  const problems = validateWellPressureParams(p)
+  return problems.length ? `The well pressure settings: ${problems.join(' ')}` : p
+}
+
+function copyWell(w: WellDefinition): WellDefinition {
+  return {
+    xKm: w.xKm, airGapFt: w.airGapFt, kickoffFt: w.kickoffFt, buildRateDegPer100Ft: w.buildRateDegPer100Ft,
+    holdInclinationDeg: w.holdInclinationDeg, direction: w.direction, totalDepthFt: w.totalDepthFt,
+  }
+}
+
+/** Read the optional well of a file; undefined = no well, a string = the problem. */
+function readWell(raw: unknown): WellDefinition | undefined | string {
+  if (raw === undefined) return undefined
+  const bad = 'The planned well is incomplete or wrong.'
+  if (!isObj(raw)) return bad
+  const keys = ['xKm', 'airGapFt', 'kickoffFt', 'buildRateDegPer100Ft', 'holdInclinationDeg', 'totalDepthFt'] as const
+  for (const k of keys) if (!isNum(raw[k])) return bad
+  if (raw.direction !== 'basinward' && raw.direction !== 'landward') return bad
+  const w = copyWell(raw as unknown as WellDefinition)
+  const problems = validateWell(w)
+  return problems.length ? `The planned well: ${problems.join(' ')}` : w
 }
 
 export function serializeScenario(file: ScenarioFile): string {
@@ -233,16 +283,22 @@ export function parseScenario(text: string): ParseResult {
     branches.push(out)
   }
 
-  return {
-    ok: true,
-    file: {
-      format: SCENARIO_FORMAT,
-      version: 1,
-      app: { version: app.version as string, engine: app.engine as number },
-      run: { presetId: preset.id, seed: run.seed as number, grid: { nx: grid.nx as number, dx: grid.dx as number }, durationYr: run.durationYr as number, segments, overrides: ov.edits },
-      branches,
-    },
+  const well = readWell(raw.well)
+  if (typeof well === 'string') return fail(well)
+
+  const wellPressure = readWellPressure(raw.wellPressure)
+  if (typeof wellPressure === 'string') return fail(wellPressure)
+
+  const result: ScenarioFile = {
+    format: SCENARIO_FORMAT,
+    version: 1,
+    app: { version: app.version as string, engine: app.engine as number },
+    run: { presetId: preset.id, seed: run.seed as number, grid: { nx: grid.nx as number, dx: grid.dx as number }, durationYr: run.durationYr as number, segments, overrides: ov.edits },
+    branches,
   }
+  if (well) result.well = well
+  if (well && wellPressure) result.wellPressure = wellPressure
+  return { ok: true, file: result }
 }
 
 export interface HashComparison {

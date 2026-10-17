@@ -20,6 +20,8 @@ import type {
 import { clipSegments, lengthOf } from './scenario'
 import { Autosave, browserStorage, type KeyValueStorage } from './autosave'
 import { ReplaceGuard, type PendingReplace } from './replaceGuard'
+import { validateWell, type WellDefinition, type WellSamples } from '../engine/well'
+import { defaultWellPressureParams, validateWellPressureParams, type WellPressureParams } from '../engine/wellPressureParams'
 import { buildScenarioFile, compareHashes, parseScenario, serializeScenario, type ScenarioFile } from './scenarioFile'
 
 export type ColorMode = 'grain' | 'age' | 'phi' | 'op' | 'temp' | 'fs' | 'salt'
@@ -77,6 +79,14 @@ export interface AppState {
   runLengthMa: number
   /** Changes to the main run's parameters, relative to the preset (SI). */
   overrides: Record<string, ParamValue>
+  /** The planned well (M4.1), saved in the scenario file; null = none planned. The Planned well panel edits it (M4.3). */
+  wellPlan: WellDefinition | null
+  /** Fracture-gradient method and window settings (M4.2), saved with the well plan. */
+  wellPressure: WellPressureParams
+  /** Other branches drawn on the pressure plot next to the active one (at most MAX_WELL_COMPARE). */
+  wellCompare: string[]
+  /** The planned well sampled from the record at the current step: the active branch first, then the compared ones. Empty when there is no usable plan. */
+  wellRuns: WellRun[]
   segments: Segment[]
   info: RunInfo | null
   branches: BranchInfo[]
@@ -104,6 +114,15 @@ export interface AppState {
   checks: ChecksState
 }
 
+/** Branches that can be laid over the active one on the pressure plot (three in all). */
+export const MAX_WELL_COMPARE = 2
+
+/** One branch's sample of the planned well. */
+export interface WellRun {
+  branchId: string
+  samples: WellSamples
+}
+
 const SEED = 1
 const downloadInBrowser = (filename: string, text: string): void => {
   const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }))
@@ -128,6 +147,10 @@ const initial = (): AppState => ({
   presetId: 'last3',
   runLengthMa: getPreset('last3').runLengthMa,
   overrides: {},
+  wellPlan: null,
+  wellPressure: defaultWellPressureParams(),
+  wellCompare: [],
+  wellRuns: [],
   segments: getPreset('last3').segments.map((s) => ({ ...s })),
   info: null,
   branches: [],
@@ -442,7 +465,7 @@ export class AppStore {
     if (!s.info) return null
     return {
       presetId: s.presetId, seed: s.seed, nx: s.info.nx, dx: s.info.dx,
-      segments: s.segments, overrides: s.overrides, branches: s.branches,
+      segments: s.segments, overrides: s.overrides, branches: s.branches, well: s.wellPlan, wellPressure: s.wellPressure,
     }
   }
 
@@ -454,6 +477,12 @@ export class AppStore {
       if (!src) throw new Error('nothing to save yet')
       return { text: serializeScenario(buildScenarioFile(src)), dirty: this.guard.isDirty }
     })
+  }
+
+  /** The final state hash of every branch (what a scenario file stores); null if the worker could not answer. Used by the well export header. */
+  async branchHashes(): Promise<Record<string, string> | null> {
+    const r = await this.ask({ kind: 'hashes' })
+    return r && r.kind === 'hashList' ? r.hashes : null
   }
 
   /** Write a scenario file (all branches, with each branch's final state hash) and hand it to John. Returns true when done. */
@@ -482,7 +511,7 @@ export class AppStore {
   requestNew(): void {
     this.guard.request('Start a new scenario', () => {
       const p = getPreset('last3')
-      this.set({ presetId: 'last3', seed: SEED, runLengthMa: p.runLengthMa, segments: p.segments.map((x) => ({ ...x })), overrides: {}, notice: null })
+      this.set({ presetId: 'last3', seed: SEED, runLengthMa: p.runLengthMa, segments: p.segments.map((x) => ({ ...x })), overrides: {}, wellPlan: null, wellPressure: defaultWellPressureParams(), wellCompare: [], notice: null })
       void this.startRun({ clean: true })
     })
   }
@@ -560,6 +589,10 @@ export class AppStore {
       presetId: file.run.presetId,
       seed: file.run.seed,
       overrides: { ...file.run.overrides },
+      wellPlan: file.well ? { ...file.well } : null,
+      wellPressure: file.wellPressure ? { ...file.wellPressure } : defaultWellPressureParams(),
+      wellCompare: [],
+      wellRuns: [],
       segments: file.run.segments.map((x) => ({ ...x })),
       runLengthMa: lengthOf(file.run.segments),
       info: r.info,
@@ -569,7 +602,7 @@ export class AppStore {
       compareId: null,
       step: r.info.nSteps,
       extent: null, view: null, viewB: null, diff: null, well: null, series: null,
-      wellCol: s0.wellCol >= 0 && s0.wellCol < r.info.nx ? s0.wellCol : Math.min(r.info.nx - 1, Math.round(r.info.nx * 0.46)),
+      wellCol: file.well ? columnOfKm(file.well.xKm, r.info.nx, r.info.dx) : s0.wellCol >= 0 && s0.wellCol < r.info.nx ? s0.wellCol : Math.min(r.info.nx - 1, Math.round(r.info.nx * 0.46)),
       notice: cmp.message,
       perf: { ...s0.perf, runMs: r.ms },
     })
@@ -579,6 +612,30 @@ export class AppStore {
   }
 
   // ---- time and view settings ---------------------------------------------------------------
+
+  /** Plan (or clear, with null) the well. It is part of the scenario file; nothing in the engine reads it. */
+  setWellPlan(well: WellDefinition | null): void {
+    const info = this.state.info
+    // the pseudo-well and the surface location are one place: moving the surface location moves the pseudo-well column
+    const wellCol = well && info ? columnOfKm(well.xKm, info.nx, info.dx) : this.state.wellCol
+    this.set({ wellPlan: well ? { ...well } : null, wellCol, ...(well ? {} : { wellRuns: [] }) })
+    this.afterChange(true)
+    this.refresh(false)
+  }
+
+  /** Fracture-gradient method and window settings; saved with the well plan. Ignored if a value is out of range. */
+  setWellPressure(p: WellPressureParams): void {
+    if (validateWellPressureParams(p).length) return
+    this.set({ wellPressure: { ...p } })
+    this.afterChange(true)
+  }
+
+  /** Branches drawn on the pressure plot with the active one (the active branch is always drawn). */
+  setWellCompare(ids: string[]): void {
+    const keep = ids.filter((id, i) => ids.indexOf(id) === i && id !== this.state.activeId).slice(0, MAX_WELL_COMPARE)
+    this.set({ wellCompare: keep })
+    this.refresh(false)
+  }
 
   goto(step: number): void {
     const n = this.state.info?.nSteps ?? 0
@@ -613,7 +670,14 @@ export class AppStore {
 
   setWellColumn(j: number): void {
     const nx = this.state.info?.nx ?? 0
-    this.set({ wellCol: Math.max(0, Math.min(nx - 1, j)) })
+    const col = Math.max(0, Math.min(nx - 1, j))
+    const plan = this.state.wellPlan
+    const dx = this.state.info?.dx ?? 0
+    // with a planned well, a click on the section moves its surface location to the middle of that column
+    if (plan && dx > 0) {
+      this.set({ wellCol: col, wellPlan: { ...plan, xKm: Math.round(((col + 0.5) * dx) / 10) / 100 } })
+      this.afterChange(true)
+    } else this.set({ wellCol: col })
     this.refresh(false)
   }
 
@@ -724,13 +788,28 @@ export class AppStore {
       const w = await this.ask({ kind: 'well', branchId: s.activeId, step: s.step, column: s.wellCol })
       if (w && w.kind === 'wellColumn') well = w.well
     }
+    // the planned well on the active branch and on the branches laid over it
+    const wellRuns: WellRun[] = []
+    const plan = this.state.wellPlan
+    if (plan && validateWell(plan).length === 0) {
+      const ids = [s.activeId, ...this.state.wellCompare.filter((id) => id !== s.activeId && this.state.branches.some((b) => b.id === id))]
+      for (const branchId of ids) {
+        const r = await this.ask({ kind: 'sampleWell', branchId, step: s.step, well: plan })
+        if (r && r.kind === 'wellSamples') wellRuns.push({ branchId, samples: r.samples })
+      }
+    }
     const cur = this.state
     this.set({
-      view, viewB, diff, well,
+      view, viewB, diff, well, wellRuns,
       extent: growExtent(cur.extent, viewB ? growExtent(extentOf(view), extentOf(viewB)) : extentOf(view)),
       perf: { ...cur.perf, jumpMs },
     })
   }
+}
+
+/** Column of the record that holds a position (km from the landward edge). */
+export function columnOfKm(xKm: number, nx: number, dx: number): number {
+  return Math.max(0, Math.min(nx - 1, Math.floor((xKm * 1000) / dx)))
 }
 
 export const store = new AppStore()

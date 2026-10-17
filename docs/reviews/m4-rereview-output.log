@@ -1,0 +1,105 @@
+# M4.8 re-review output (branch strata-lab/m4-08-rereview at b8b4a1d = strata-lab/m4-07-datum-fix). Local paths replaced by <out>.
+
+== m4-review-app-csv.mjs (app code in Node) + m4-review.mjs <csvDir> ==
+PASS  units: 1 ppg over 1 ft = 0.05197 psi at g 9.81 (0.05195 at standard g; field rule 0.052)  0.051966 / 0.051948 psi/ft per ppg
+PASS  units: sea water 1025 kg/m^3 = 8.554 ppg  8.5540 ppg; from RKB at 3,000 ft of water with an 80 ft air gap: 8.332 ppg
+PASS  gulf-j-basinward-eaton: 3398 rows, MD step 10 ft to TD 33963.07 ft, tvd_rkb - tvdss = air gap 80 ft + ground 118.2 ft, method line "Eaton (1969) (in salt the fractu"  
+PASS  gulf-j-basinward-eaton: geometry (min curvature, 10 ft surveys) vs CSV: worst |dTVD| 0.0069 ft, |dTVDSS| 0.0069 ft, |dx| 0.050 m (tol 0.011 ft, 0.11 m)  
+PASS  gulf-j-basinward-eaton: material agrees at every station (0 differ of 3398)  
+PASS  gulf-j-basinward-eaton: porosity 5.00e-5, pore psi 1.41e-3, pore ppg 1.16e-6, hydro ppg 5.27e-7, overburden ppg 1.04e-6, FG(eaton) ppg 8.10e-7, window ppg 1.08e-6 (tol 0.00002 ppg, 0.003 psi, 0.00011)  
+PASS  gulf-j-basinward-eaton: well end: my model reaches every CSV row (last MD 33963.07)  # branches: 1, rows: 3398
+PASS  gulf-j-landward-eaton: 3398 rows, MD step 10 ft to TD 33963.07 ft, tvd_rkb - tvdss = air gap 80 ft + ground 118.2 ft, method line "Eaton (1969) (in salt the fractu"  
+PASS  gulf-j-landward-eaton: geometry (min curvature, 10 ft surveys) vs CSV: worst |dTVD| 0.0069 ft, |dTVDSS| 0.0069 ft, |dx| 0.050 m (tol 0.011 ft, 0.11 m)  
+PASS  gulf-j-landward-eaton: material agrees at every station (0 differ of 3398)  
+PASS  gulf-j-landward-eaton: porosity 5.00e-5, pore psi 1.41e-3, pore ppg 1.14e-6, hydro ppg 5.27e-7, overburden ppg 1.01e-6, FG(eaton) ppg 8.48e-7, window ppg 1.08e-6 (tol 0.00002 ppg, 0.003 psi, 0.00011)  
+PASS  gulf-j-landward-eaton: well end: my model reaches every CSV row (last MD 33963.07)  # branches: 1, rows: 3398
+PASS  gulf-vertical-eaton: 3021 rows, MD step 10 ft to TD 30198.22 ft, tvd_rkb - tvdss = air gap 80 ft + ground 118.2 ft, method line "Eaton (1969) (in salt the fractu"  
+PASS  gulf-vertical-eaton: geometry (min curvature, 10 ft surveys) vs CSV: worst |dTVD| 0.0000 ft, |dTVDSS| 0.0026 ft, |dx| 0.000 m (tol 0.011 ft, 0.11 m)  
+PASS  gulf-vertical-eaton: material agrees at every station (0 differ of 3021)  
+PASS  gulf-vertical-eaton: porosity 5.00e-5, pore psi 5.00e-4, pore ppg 5.00e-7, hydro ppg 5.00e-7, overburden ppg 5.00e-7, FG(eaton) ppg 5.00e-7, window ppg 5.00e-7 (tol 0.00002 ppg, 0.003 psi, 0.00011)  
+PASS  gulf-vertical-eaton: well end: my model reaches every CSV row (last MD 30198.22)  # branches: 1, rows: 3021
+PASS  gulf-vertical-matthews-kelly: 3021 rows, MD step 10 ft to TD 30198.22 ft, tvd_rkb - tvdss = air gap 80 ft + ground 118.2 ft, method line "Matthews & Kelly (1967) (in salt"  
+PASS  gulf-vertical-matthews-kelly: geometry (min curvature, 10 ft surveys) vs CSV: worst |dTVD| 0.0000 ft, |dTVDSS| 0.0026 ft, |dx| 0.000 m (tol 0.011 ft, 0.11 m)  
+PASS  gulf-vertical-matthews-kelly: material agrees at every station (0 differ of 3021)  
+PASS  gulf-vertical-matthews-kelly: porosity 5.00e-5, pore psi 5.00e-4, pore ppg 5.00e-7, hydro ppg 5.00e-7, overburden ppg 5.00e-7, FG(mk) ppg 5.00e-7, window ppg 5.00e-7 (tol 0.00002 ppg, 0.003 psi, 0.00011)  
+PASS  gulf-vertical-matthews-kelly: well end: my model reaches every CSV row (last MD 30198.22)  # branches: 1, rows: 3021
+PASS  last3-j-basinward-eaton: 672 rows, MD step 10 ft to TD 6709.39 ft, tvd_rkb - tvdss = air gap 80 ft + ground 0.0 ft, method line "Eaton (1969) (in salt the fractu"  
+PASS  last3-j-basinward-eaton: geometry (min curvature, 10 ft surveys) vs CSV: worst |dTVD| 0.0050 ft, |dTVDSS| 0.0050 ft, |dx| 0.050 m (tol 0.011 ft, 0.11 m)  
+PASS  last3-j-basinward-eaton: material agrees at every station (0 differ of 672)  
+PASS  last3-j-basinward-eaton: porosity 5.00e-5, pore psi 1.12e-3, pore ppg 5.00e-7, hydro ppg 5.00e-7, overburden ppg 1.34e-6, FG(eaton) ppg 7.93e-7, window ppg 1.10e-6 (tol 0.00002 ppg, 0.003 psi, 0.00011)  
+PASS  last3-j-basinward-eaton: well end: my model reaches every CSV row (last MD 6709.39)  # branches: 1, rows: 672
+PASS  last3-j-landward-eaton: 672 rows, MD step 10 ft to TD 6709.39 ft, tvd_rkb - tvdss = air gap 80 ft + ground 0.0 ft, method line "Eaton (1969) (in salt the fractu"  
+PASS  last3-j-landward-eaton: geometry (min curvature, 10 ft surveys) vs CSV: worst |dTVD| 0.0050 ft, |dTVDSS| 0.0050 ft, |dx| 0.050 m (tol 0.011 ft, 0.11 m)  
+PASS  last3-j-landward-eaton: material agrees at every station (0 differ of 672)  
+PASS  last3-j-landward-eaton: porosity 5.00e-5, pore psi 1.04e-3, pore ppg 5.00e-7, hydro ppg 5.00e-7, overburden ppg 1.54e-6, FG(eaton) ppg 6.04e-7, window ppg 8.74e-7 (tol 0.00002 ppg, 0.003 psi, 0.00011)  
+PASS  last3-j-landward-eaton: well end: my model reaches every CSV row (last MD 6709.39)  # branches: 1, rows: 672
+PASS  last3-vertical-eaton: 659 rows, MD step 10 ft to TD 6580.00 ft, tvd_rkb - tvdss = air gap 80 ft + ground 0.0 ft, method line "Eaton (1969) (in salt the fractu"  
+PASS  last3-vertical-eaton: geometry (min curvature, 10 ft surveys) vs CSV: worst |dTVD| 0.0000 ft, |dTVDSS| 0.0000 ft, |dx| 0.000 m (tol 0.011 ft, 0.11 m)  
+PASS  last3-vertical-eaton: material agrees at every station (0 differ of 659)  
+PASS  last3-vertical-eaton: porosity 5.00e-5, pore psi 4.99e-4, pore ppg 5.00e-7, hydro ppg 5.00e-7, overburden ppg 5.00e-7, FG(eaton) ppg 4.98e-7, window ppg 4.99e-7 (tol 0.00002 ppg, 0.003 psi, 0.00011)  
+PASS  last3-vertical-eaton: well end: my model reaches every CSV row (last MD 6580.00)  # branches: 1, rows: 659
+PASS  last3-vertical-matthews-kelly: 659 rows, MD step 10 ft to TD 6580.00 ft, tvd_rkb - tvdss = air gap 80 ft + ground 0.0 ft, method line "Matthews & Kelly (1967) (in salt"  
+PASS  last3-vertical-matthews-kelly: geometry (min curvature, 10 ft surveys) vs CSV: worst |dTVD| 0.0000 ft, |dTVDSS| 0.0000 ft, |dx| 0.000 m (tol 0.011 ft, 0.11 m)  
+PASS  last3-vertical-matthews-kelly: material agrees at every station (0 differ of 659)  
+PASS  last3-vertical-matthews-kelly: porosity 5.00e-5, pore psi 4.99e-4, pore ppg 5.00e-7, hydro ppg 5.00e-7, overburden ppg 5.00e-7, FG(mk) ppg 4.99e-7, window ppg 4.99e-7 (tol 0.00002 ppg, 0.003 psi, 0.00011)  
+PASS  last3-vertical-matthews-kelly: well end: my model reaches every CSV row (last MD 6580.00)  # branches: 1, rows: 659
+HAND CALC OK: 42 checks, 0 failed
+
+== m4-review.mjs BROWSER_CSV=1 against the CSVs the built app downloaded in Chrome (record-independent lines; the record-dependent lines fail by the Chrome/Node record difference, D14, M4.6 Finding 5) ==
+PASS  gulf-j-basinward-eaton (browser CSV, record-independent): FG = K(S - P) + P with K 0.6667 to 6.7e-7 ppg; window = FG - pore to 1.0e-6; psi = ppg x 0.051966 x D to 4.8e-3 psi; hydrostatic datum constant to 1.7e-3 ft (rig floor 80.0 ft above the pressure datum = air gap 80; M4.7); salt rows wrong 0; sea rows wrong 0; TVD monotonic true; 3390 rock rows  
+PASS  gulf-j-landward-eaton (browser CSV, record-independent): FG = K(S - P) + P with K 0.6667 to 6.7e-7 ppg; window = FG - pore to 1.0e-6; psi = ppg x 0.051966 x D to 4.9e-3 psi; hydrostatic datum constant to 1.7e-3 ft (rig floor 80.0 ft above the pressure datum = air gap 80; M4.7); salt rows wrong 0; sea rows wrong 0; TVD monotonic true; 3390 rock rows  
+PASS  gulf-vertical-eaton (browser CSV, record-independent): FG = K(S - P) + P with K 0.6667 to 6.7e-7 ppg; window = FG - pore to 1.0e-6; psi = ppg x 0.051966 x D to 1.2e-3 psi; hydrostatic datum constant to 1.7e-3 ft (rig floor 80.0 ft above the pressure datum = air gap 80; M4.7); salt rows wrong 0; sea rows wrong 0; TVD monotonic true; 3013 rock rows  
+PASS  gulf-vertical-matthews-kelly (browser CSV, record-independent): FG = K(S - P) + P with K 0.6000 to 8.0e-7 ppg; window = FG - pore to 1.0e-6; psi = ppg x 0.051966 x D to 1.2e-3 psi; hydrostatic datum constant to 1.7e-3 ft (rig floor 80.0 ft above the pressure datum = air gap 80; M4.7); salt rows wrong 0; sea rows wrong 0; TVD monotonic true; 3013 rock rows  
+PASS  last3-j-basinward-eaton (browser CSV, record-independent): FG = K(S - P) + P with K 0.6667 to 6.7e-7 ppg; window = FG - pore to 1.0e-6; psi = ppg x 0.051966 x D to 2.9e-3 psi; hydrostatic datum constant to 4.2e-4 ft (rig floor 80.0 ft above the pressure datum = air gap 80; M4.7); salt rows wrong 0; sea rows wrong 0; TVD monotonic true; 555 rock rows  
+PASS  last3-j-landward-eaton (browser CSV, record-independent): FG = K(S - P) + P with K 0.6667 to 6.7e-7 ppg; window = FG - pore to 1.0e-6; psi = ppg x 0.051966 x D to 2.7e-3 psi; hydrostatic datum constant to 4.2e-4 ft (rig floor 80.0 ft above the pressure datum = air gap 80; M4.7); salt rows wrong 0; sea rows wrong 0; TVD monotonic true; 555 rock rows  
+PASS  last3-vertical-eaton (browser CSV, record-independent): FG = K(S - P) + P with K 0.6667 to 6.7e-7 ppg; window = FG - pore to 1.0e-6; psi = ppg x 0.051966 x D to 6.3e-4 psi; hydrostatic datum constant to 3.7e-4 ft (rig floor 80.0 ft above the pressure datum = air gap 80; M4.7); salt rows wrong 0; sea rows wrong 0; TVD monotonic true; 542 rock rows  
+PASS  last3-vertical-matthews-kelly (browser CSV, record-independent): FG = K(S - P) + P with K 0.6000 to 8.0e-7 ppg; window = FG - pore to 1.0e-6; psi = ppg x 0.051966 x D to 6.3e-4 psi; hydrostatic datum constant to 3.7e-4 ft (rig floor 80.0 ft above the pressure datum = air gap 80; M4.7); salt rows wrong 0; sea rows wrong 0; TVD monotonic true; 542 rock rows  
+HAND CALC FAILED: 50 checks, 22 failed
+
+== m4-review-browser.mjs on dist/strata-lab.html ==
+PASS  last3 vertical eaton: CSV downloaded with 659 rows and the method in the header  <out>\last3-vertical-eaton.csv
+PASS  last3 vertical matthews-kelly: CSV downloaded with 659 rows and the method in the header  <out>\last3-vertical-matthews-kelly.csv
+PASS  last3 j-basinward eaton: CSV downloaded with 672 rows and the method in the header  <out>\last3-j-basinward-eaton.csv
+PASS  last3 j-landward eaton: CSV downloaded with 672 rows and the method in the header  <out>\last3-j-landward-eaton.csv
+PASS  gulf vertical eaton: CSV downloaded with 3021 rows and the method in the header  <out>\gulf-vertical-eaton.csv
+PASS  gulf vertical matthews-kelly: CSV downloaded with 3021 rows and the method in the header  <out>\gulf-vertical-matthews-kelly.csv
+PASS  gulf j-basinward eaton: CSV downloaded with 3398 rows and the method in the header  <out>\gulf-j-basinward-eaton.csv
+PASS  gulf j-landward eaton: CSV downloaded with 3398 rows and the method in the header  <out>\gulf-j-landward-eaton.csv
+PASS  six wells: 0 console errors so far
+PASS  100%: devicePixelRatio reported 1
+PASS  100%: canvas backing size does not grow across redraws and exports  {"w":643,"h":360,"cssW":643,"cssH":360} -> {"w":643,"h":360,"cssW":643,"cssH":360}
+PASS  100%: canvas backing = css size x dpr (within 2 px)  {"w":643,"h":360,"cssW":643,"cssH":360}
+PASS  100%: section canvas and controls stay where they were after the well is planned  section {"top":74,"left":341,"w":658,"h":360} -> {"top":74,"left":341,"w":643,"h":360}; controls {"top":36,"left":6,"w":320,"h":1339} -> {"top":36,"left":6,"w":320,"h":1339}
+PASS  100%: plot and panels are inside the 1440 px viewport width  plot {"top":1253,"left":341,"w":643,"h":422} wellPlan {"top":1086,"left":341,"w":643,"h":803}
+PASS  100%: PNG magic bytes, IEND, over 10 KB  146550 bytes, 1328x1054
+PASS  100%: CSV has header, 14 columns and rows, no NaN  75332 bytes
+PASS  100%: 0 console errors at this scaling
+PASS  125%: devicePixelRatio reported 1.25
+PASS  125%: canvas backing size does not grow across redraws and exports  {"w":804,"h":450,"cssW":643,"cssH":360} -> {"w":804,"h":450,"cssW":643,"cssH":360}
+PASS  125%: canvas backing = css size x dpr (within 2 px)  {"w":804,"h":450,"cssW":643,"cssH":360}
+PASS  125%: section canvas and controls stay where they were after the well is planned  section {"top":74,"left":341,"w":658,"h":360} -> {"top":74,"left":341,"w":643,"h":360}; controls {"top":36,"left":6,"w":320,"h":1339} -> {"top":36,"left":6,"w":320,"h":1339}
+PASS  125%: plot and panels are inside the 1440 px viewport width  plot {"top":1253,"left":341,"w":643,"h":422} wellPlan {"top":1086,"left":341,"w":643,"h":803}
+PASS  125%: PNG magic bytes, IEND, over 10 KB  146550 bytes, 1328x1054
+PASS  125%: CSV has header, 14 columns and rows, no NaN  75332 bytes
+PASS  125%: 0 console errors at this scaling
+PASS  150%: devicePixelRatio reported 1.5
+PASS  150%: canvas backing size does not grow across redraws and exports  {"w":965,"h":540,"cssW":643,"cssH":360} -> {"w":965,"h":540,"cssW":643,"cssH":360}
+PASS  150%: canvas backing = css size x dpr (within 2 px)  {"w":965,"h":540,"cssW":643,"cssH":360}
+PASS  150%: section canvas and controls stay where they were after the well is planned  section {"top":74,"left":341,"w":658,"h":360} -> {"top":74,"left":341,"w":643,"h":360}; controls {"top":36,"left":6,"w":320,"h":1339} -> {"top":36,"left":6,"w":320,"h":1339}
+PASS  150%: plot and panels are inside the 1440 px viewport width  plot {"top":1253,"left":341,"w":643,"h":422} wellPlan {"top":1086,"left":341,"w":643,"h":803}
+PASS  150%: PNG magic bytes, IEND, over 10 KB  146550 bytes, 1328x1054
+PASS  150%: CSV has header, 14 columns and rows, no NaN  75332 bytes
+PASS  150%: 0 console errors at this scaling
+PASS  PNG pixel size is the same at 100, 125 and 150 %  [{"bytes":146550,"w":1328,"h":1054},{"bytes":146550,"w":1328,"h":1054},{"bytes":146550,"w":1328,"h":1054}]
+PASS  CSV bytes are the same at 100, 125 and 150 % (the export does not depend on the display)  [{"bytes":75332,"rows":659},{"bytes":75332,"rows":659},{"bytes":75332,"rows":659}]
+PASS  CSV text identical at 100 and 150 %
+PASS  no console errors in the whole session
+PASS  no external requests
+BROWSER CHECKS OK: 38 checks, 0 failed; files in <out>
+
+== panel flags text captured in the browser (gulf vertical eaton) ==
+
+== Linux (WSL Ubuntu, fresh clone of b8b4a1d, CI=true npm run check) ==
+[2m Test Files [22m [1m[32m6 passed[39m[22m[90m (6)[39m
+[2m      Tests [22m [1m[32m82 passed[39m[22m[2m | [22m[33m8 skipped[39m[90m (90)[39m
+main project (CI=true npx vitest run --project main): Test Files 40 passed (40); Tests 432 passed | 1 skipped (433)

@@ -16,6 +16,7 @@ import type { Segment } from '../engine/schedule'
 import type { RunSummary } from '../engine/summary'
 import type { FailureEvent } from '../engine/state'
 import type { ScenarioFile } from '../app/scenarioFile'
+import type { WellDefinition, WellSamples } from '../engine/well'
 
 /** What to run. `segments` replaces the preset's time steps (used by tests and later by the UI). */
 export interface RunSpec {
@@ -201,6 +202,8 @@ export type EngineRequest =
   | { id: number; kind: 'branches' }
   | { id: number; kind: 'runChecks' }
   | { id: number; kind: 'well'; branchId: string; step: number; column: number }
+  /** The planned well sampled from the record at one step (M4.1). */
+  | { id: number; kind: 'sampleWell'; branchId: string; step: number; well: WellDefinition }
   | { id: number; kind: 'series'; branchId: string }
   /** The slope failures of a branch over the whole run, oldest first (M2.4). */
   | { id: number; kind: 'events'; branchId: string }
@@ -223,6 +226,7 @@ export type EngineResponse =
   | { id: number; kind: 'branchList'; branches: BranchInfo[]; liveBytes: number }
   | { id: number; kind: 'checks'; results: CheckResult[]; allPass: boolean; ms: number }
   | { id: number; kind: 'wellColumn'; well: WellColumn; ms: number }
+  | { id: number; kind: 'wellSamples'; samples: WellSamples; ms: number }
   | { id: number; kind: 'seriesData'; series: SeriesData; ms: number }
   | { id: number; kind: 'eventList'; branchId: string; events: FailureEvent[]; ms: number }
   | { id: number; kind: 'hashList'; hashes: Record<string, string>; summaries: Record<string, RunSummary>; ms: number }
@@ -243,6 +247,7 @@ export function transferListOf(resp: EngineResponse): ArrayBuffer[] {
     add(resp.diff)
   } else if (resp.kind === 'runDone' || resp.kind === 'scenarioOpened') add(resp.info)
   else if (resp.kind === 'wellColumn') add(resp.well)
+  else if (resp.kind === 'wellSamples') add(resp.samples)
   else if (resp.kind === 'seriesData') add(resp.series)
   return out
 }

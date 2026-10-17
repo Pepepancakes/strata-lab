@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { store, useAppState } from '../../app/store'
 import type { StateView } from '../../worker/protocol'
 import { COVER_INFO, SALT_INFO, WELD_INFO, WhatItMeans } from '../WhatItMeans'
 import type { ViewDefinition } from '../types'
 import { COVER_LINE, columnAtFraction, drawSection, SECTION_CSS_HEIGHT, WELD_LINE } from './draw'
+import type { SectionWellPath } from './wellPath'
 import { COVER_SHADE, legendFor, MODES, ramp, viewHasMode, viewHasSalt, weldedColumns } from './colors'
 
 const hex = (c: number[]) => `rgb(${c[0]},${c[1]},${c[2]})`
@@ -45,15 +46,23 @@ function SectionView() {
   // Salt thickness mode exists only for runs with salt; on a run without it the section shows grain size.
   const mode = s.mode === 'salt' && !salty ? 'grain' : s.mode
 
+  // The planned well of the active branch, as the section draws it; it follows the time slider and the branch switch.
+  const wellPath = useMemo((): SectionWellPath | null => {
+    const run = s.wellRuns.find((r) => r.branchId === s.activeId)
+    if (!run || !s.info || run.samples.n < 2) return null
+    const sm = run.samples
+    return { xKm: sm.xKm, tvdssFt: sm.tvdssFt, n: sm.n, widthM: s.info.nx * s.info.dx, reachedTd: sm.stopped === null }
+  }, [s.wellRuns, s.activeId, s.info])
+
   useEffect(() => {
     const cv = ref.current
     if (!cv || !s.view || !s.extent || !viewHasMode(s.view, mode)) return
     const t0 = performance.now()
-    drawSection(cv, s.view, { mode, wellCol: s.wellCol, extent: s.extent, runLengthMa: s.runLengthMa, events: s.events, selectedEvent: s.selectedEvent })
+    drawSection(cv, s.view, { mode, wellCol: s.wellCol, extent: s.extent, runLengthMa: s.runLengthMa, events: s.events, selectedEvent: s.selectedEvent, wellPath })
     store.recordDraw(performance.now() - t0)
     cv.dataset.drawnMode = mode
     cv.dataset.drawnStep = String(s.view.step)
-  }, [s.view, mode, s.wellCol, s.extent, s.runLengthMa, s.events, s.selectedEvent, widthTick])
+  }, [s.view, mode, s.wellCol, s.extent, s.runLengthMa, s.events, s.selectedEvent, wellPath, widthTick])
 
   useEffect(() => {
     const cv = ref.current

@@ -9,6 +9,7 @@
 import type { ColorMode, Extent } from '../../app/store'
 import { M_PER_FT, mToFt } from '../../units'
 import { MTD, SALT } from '../../engine/record'
+import { drawWellPath, type SectionWellPath } from './wellPath'
 import type { FailureEvent } from '../../engine/state'
 import type { StateView } from '../../worker/protocol'
 import { BASEMENT, COVER_SHADE, cellValue, NEUTRAL_SEDIMENT, pack, ramp, SALT_COLOUR, SALT_RAMP_MAX_M, saltColumnThickness, shade, SKY, SUBSTRATE, viewHasSalt, WATER, weldedColumns } from './colors'
@@ -21,7 +22,10 @@ export interface SectionDrawOptions {
   /** Slope failures of the run (all of them; only those up to the view's step are drawn). */
   events?: readonly FailureEvent[]
   selectedEvent?: number | null
+  /** The planned well (M4.3): its path in the plane of the section. Drawn over every colour mode. */
+  wellPath?: SectionWellPath | null
 }
+
 
 /**
  * Which cells show the MTD texture: cells the record tags MTD, plus every cell in the deposit of a
@@ -233,8 +237,10 @@ export function drawSection(cv: HTMLCanvasElement, v: StateView, o: SectionDrawO
   }
   // failure events: headwall marks and the picked event's source and deposit
   if (o.events) drawEvents(ctx, v, o, bnd, X, row, dpr)
+  // planned well (M4.3): replaces the plain pseudo-well line while a well is planned
+  if (o.wellPath && o.wellPath.n > 1) drawWellPath(ctx, o.wellPath, SL, W, row, dpr)
   // pseudo-well
-  if (o.wellCol >= 0 && o.wellCol < nx) {
+  if (!(o.wellPath && o.wellPath.n > 1) && o.wellCol >= 0 && o.wellCol < nx) {
     ctx.strokeStyle = '#111'
     ctx.lineWidth = 2 * dpr
     ctx.beginPath()

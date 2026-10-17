@@ -109,7 +109,7 @@ describe('docs/physics-references.md matches the registry', () => {
  const NOT_A_BOX = ['dtRec']
  // Text written in the app's own source (buttons, headings, panel rows, status lines, check names).
  const APP_STRINGS = [
- 'Scenario preset', 'Run length', 'Time steps:', 'All other parameters', 'Branch from here', 'compare with active',
+ 'Scenario preset', 'Run length', 'Time steps:', 'Find a parameter', 'Find a parameter (e.g. salt, viscosity)', 'Clear search', 'Sediment supply', 'Sea level', 'Subsidence', 'Salt', 'Slope failure (MTDs)', 'Transport and turbidity currents', 'Compaction and pore pressure', 'Temperature', 'Grid and numerical settings', 'Salt layer on', 'Cover resists bending', 'No parameter matches', 'changed from preset', 'Welds and heat', 'Flow and cover', 'Starting salt', 'Branch from here', 'compare with active',
  'Delete', 'Main run', 'Play', 'Pause', 'Back', 'Forward', 'Start', 'Present', 'Run checks', 'Save', 'Open', 'New', 'Reset',
  'Save first', 'Replace', 'Cancel', 'Engine worker:', 'ALL PASS', 'Pseudo-well', 'Mass balance', 'Speed', 'Physics checks',
  'Sea level through time', 'Subsidence rate through time', 'All sediment', 'Sand only', 'Quartz cement', 'Run time',
@@ -119,6 +119,7 @@ describe('docs/physics-references.md matches the registry', () => {
  ' porosity at 2 km vs Sclater & Christie (1980)', 'Drained ',
  'Infinite-slope FS', 'FS crosses 1 at', 'Bingham plug thickness', 'Mass balance through a slope failure',
  'Salt channel-flow decay', 'Cover bending: fastest-growing wavelength', 'Mass balance, salt only',
+ 'Planned well', 'Plan a well here', 'Remove well', 'Surface location', 'Well shape', 'Total depth', 'Air gap', 'Kickoff depth', 'Build rate', 'Hold angle', 'Direction', 'Fracture-gradient method', 'Compare branches', 'Export plot (PNG)', 'Export stations (CSV)',
  'supplied', 'stored', 'exported', 'imbalance', 'frames per second', 'steps per frame',
  ]
 
