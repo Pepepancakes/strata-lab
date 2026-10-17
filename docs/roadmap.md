@@ -225,7 +225,7 @@ Results against the done-when:
 M3 can go to main with passive diapirs left for M3b. Nothing merges without him (D6, D17.6).
 Limits: no canopies, columns fixed in x, no dissolution, no faults over salt, viscous-cover approximation, runs start at 66 Ma at the earliest (D17.4).
 
-## S3 — Spike 003: diapirs that reach the seafloor  *(built 2026-10-16; code on the branch `strata-lab/s3-passive-diapir`, `spikes/003-passive-diapir/`; not on main)*
+## S3 — Spike 003: diapirs that reach the seafloor  *(built 2026-10-16; `spikes/003-passive-diapir/`, on main since 2026-10-17 with the salt evidence round)*
 Question (D18): can a salt crest reach the seafloor and stay there while sediment piles up around it, with salt and sediment conserved,
 benchmarked against a hand calculation?
 - Built: exposed salt with sediment bypass (sediment landing on a column with no roof goes to the lower neighbours), roof thinning, power-law
@@ -308,6 +308,9 @@ Decisions (D20): speed/accuracy settings go in one **Grid and numerical settings
 - John says he can find a parameter without Ctrl+F.
 
 ## Salt evidence round  *(John, 2026-10-16: "go all"; before the M3b scope is set)*
+**Status (2026-10-17): done and on main** (John: "merge salt evidence"). Spikes 003 (S3b, S3c, S3d) and 004 (S4, S4b),
+the SALT-1 QC tests (`tests/saltQc.test.ts`) and the reviews SALT-R1 to SALT-R3 (`docs/reviews/salt-evidence-review.md`,
+`salt-evidence-recheck.md`, `salt-r3-check.md`) are the evidence behind D22 to D24. No engine file changed.
 The salt literature review (section 12) recommends settling whether S3's fast burial of exposed crests
 is geology or a limit of the thin-sheet method before M3b is scoped.
 - SALT-1: permanent QC tests from the literature checklist (flux scales with h cubed, the no-flow null
