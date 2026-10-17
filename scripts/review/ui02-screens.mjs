@@ -59,8 +59,7 @@ try {
   const setSelect = (label, value) => ev(`(() => { const s = document.querySelector('select[aria-label="${label}"]'); Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value').set.call(s, '${value}'); s.dispatchEvent(new Event('change', { bubbles: true })); return true })()`)
   const settle = async () => { await sleep(600); await ev(`[...document.querySelectorAll('[data-testid=replace-warning] button')].find((b) => b.textContent.trim() === 'Replace')?.click()`); await sleep(400); await until(appReady, 'the app to finish running'); await sleep(800) }
   // top and bottom in page coordinates of the first element matching the selector
-  const box = (sel) => `(() => { const e = document.querySelector('${sel}'); if (!e) return null; const r = e.getBoundingClientRect(); return { top: Math.round(r.top + scrollY), bottom: Math.round(r.bottom + scrollY), left: Math.round(r.left), right: Math.round(r.right) } })()`
-  const layout = () => ev(`(() => { const b = (sel) => { const e = document.querySelector(sel); if (!e) return null; const r = e.getBoundingClientRect(); return { top: Math.round(r.top + scrollY), bottom: Math.round(r.bottom + scrollY) } }; return { section: b('#section-canvas'), list: b('[data-testid=crest-table]'), listScroll: b('.crest-scroll'), card: b('[data-testid=crest-card]'), pseudoWell: b('.view:has(h2)') && null, innerH: innerHeight, innerW: innerWidth, scrollW: document.documentElement.scrollWidth, scrollY: Math.round(scrollY) } })()`)
+  const layout = () => ev(`(() => { const b = (sel) => { const e = document.querySelector(sel); if (!e) return null; const r = e.getBoundingClientRect(); return { top: Math.round(r.top + scrollY), bottom: Math.round(r.bottom + scrollY) } }; return { section: b('#section-canvas'), list: b('[data-testid=crest-table]'), listScroll: b('.crest-scroll'), card: b('[data-testid=crest-card]'), innerH: innerHeight, innerW: innerWidth, scrollW: document.documentElement.scrollWidth, scrollY: Math.round(scrollY) } })()`)
   const metrics = (w, h, dpr) => send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: dpr, mobile: false })
 
   await send('Runtime.enable'); await send('Page.enable'); await send('Network.enable')
@@ -78,7 +77,6 @@ try {
     const emptyCard = await ev(`document.querySelector('[data-testid=crest-card]')?.innerText ?? null`)
     const rows = await ev(`document.querySelectorAll('[data-crest-row]').length`)
     const rowsVisible = await ev(`(() => { const sc = document.querySelector('.crest-scroll'); const r = sc.getBoundingClientRect(); return [...document.querySelectorAll('[data-crest-row]')].filter((t) => { const q = t.getBoundingClientRect(); return q.top >= r.top && q.bottom <= r.bottom + 1 }).length })()`)
-    const wellBefore = await ev(`document.querySelector('canvas[aria-label*="Pseudo-well"], [data-testid=pseudo-well]') ? 1 : 0`)
     const hasRow = await ev(`!!document.querySelector('[data-crest-row="${CREST}"]')`)
     if (!hasRow) throw new Error(`crest ${CREST} is not in the list (${rows} rows)`)
     // click the row (the id button), like John
