@@ -787,6 +787,18 @@ of the salt and starts again below its base, because salt has no pore fluid; a n
 A well through a welded column shows the weld, its age and the salt that is left.
 Tap the (i) buttons for what each mark means.
 
+**Salt crests (M3b.2).** Below the pseudo-well, the **Salt crests** table has one row for each crest
+of the salt top that came within 1,640 ft of the seafloor. F is how fast the salt top rose at the crest and A is how
+fast the seafloor beside it built up, both in ft/Myr over the last 1 Myr the crest was near the seafloor.
+F minus A above zero is *tabular* (the salt outpaced its flanks), below zero *tapered*; within 82 ft/Myr of
+zero the label is *unresolved* (a tuned noise floor). Hooks and wedges are not resolved at the grid size, so the label
+comes from the rates only. Click a column head to sort. Click a row to move the time slider to the crest's last age.
+On the section, a marker stands on the seafloor at each crest active at the time shown: a triangle up with T
+(tabular), a triangle down with P (tapered), a diamond with ? (unresolved). Hover or tab to a marker for its numbers.
+**Export crests (CSV)** saves the table and **Export crest records (CSV)** the record behind each crest; the `#` lines at the
+top give units, windows, thresholds and versions. The log is kept for the main run only: with a branch active the
+table says so. At the end of a run most crests are already buried, so the markers show when you move back in time.
+
 ### 14.5 What the Gulf-style preset gives
 These are numbers from one run on the development machine (Node 26, Windows); they are the model's
 output, not data. Another machine can move single structures a little (section 15). At the end of
