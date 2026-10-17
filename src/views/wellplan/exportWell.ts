@@ -12,6 +12,7 @@ import { WELL_AIR, WELL_MTD, WELL_SALT, WELL_SEDIMENT, WELL_WATER, type WellDefi
 import type { FractureMethod } from '../../engine/wellPressureParams'
 import type { WellPressures } from '../../engine/wellPressure'
 import { cToF } from '../../units'
+import { isCapped, VISCOSITY_LINE } from '../well/audit'
 
 export interface ExportRun {
   branchId: string
@@ -33,11 +34,13 @@ export interface ExportContext {
   fgMethod: FractureMethod
   appVersion: string
   engineVersion: number
+  /** One-line notes that travel with the numbers (bundling, Gulf calibration, cap at the overburden; AUD-1). */
+  notes?: readonly string[]
 }
 
 export const CSV_COLUMNS = [
   'md_ft', 'tvd_rkb_ft', 'tvdss_ft', 'x_km', 'material', 'porosity', 'pore_pressure_psi', 'pore_pressure_ppg',
-  'hydrostatic_ppg', 'overburden_ppg', 'fracture_gradient_ppg', 'window_ppg', 'temperature_f', 'branch',
+  'hydrostatic_ppg', 'overburden_ppg', 'fracture_gradient_ppg', 'window_ppg', 'temperature_f', 'capped_at_overburden', 'branch',
 ] as const
 
 const MATERIAL: Record<number, string> = {
@@ -52,6 +55,12 @@ export const FG_METHOD_NAME: Record<FractureMethod, string> = {
 /** A number as text with a fixed number of decimals; empty when the value is not defined. */
 function num(v: number, decimals: number): string {
   return Number.isFinite(v) ? v.toFixed(decimals) : ''
+}
+
+/** 1 / 0 for a station in sediment, empty where there is no pore pressure to cap (water, air, salt). */
+function cappedCell(s: WellSamples, i: number): string {
+  if (s.kind[i] !== WELL_SEDIMENT && s.kind[i] !== WELL_MTD) return ''
+  return isCapped(s.uOverL[i]) ? '1' : '0'
 }
 
 /** A text cell, quoted when it holds a comma, a quote or a line break. */
@@ -74,6 +83,8 @@ export function titleLines(ctx: ExportContext, runs: readonly Pick<ExportRun, 'l
     `Branches: ${runs.map((r, i) => r.label + (i === 0 && runs.length > 1 ? ' (active)' : '')).join(', ')}`,
     `Well: ${describeWell(ctx.well)}`,
     `Fracture-gradient method: ${FG_METHOD_NAME[ctx.fgMethod]}   |   Depths ft TVDSS, mud weights ppg EMW from the rig floor`,
+    ...(ctx.notes ?? []).map((n) => `Note: ${n}`),
+    `Limits: ${VISCOSITY_LINE}`,
   ]
 }
 
@@ -103,6 +114,9 @@ export function csvHeaderLines(ctx: ExportContext, runs: readonly ExportRun[]): 
     `# engine_version: ${ctx.engineVersion}`,
     `# scenario_hash: ${runs.map((r) => `${r.label}=${r.stateHash || 'n/a'}`).join('; ')} (state hash of each branch at the end of its run, as in the scenario file)`,
     `# branches: ${runs.length}, rows: ${rows}`,
+    '# capped_at_overburden: 1 where the pore pressure is held at the overburden (u / L >= 1 - 1e-9, no leak-off in the model); 0 elsewhere; empty in water, air and salt',
+    ...(ctx.notes ?? []).map((n) => `# note: ${n}`),
+    `# limits: ${VISCOSITY_LINE}`,
   ]
 }
 
@@ -119,7 +133,7 @@ export function wellCsv(ctx: ExportContext, runs: readonly ExportRun[]): string 
         num(s.mdFt[i], 2), num(s.tvdFt[i], 2), num(s.tvdssFt[i], 2), num(s.xKm[i], 4),
         MATERIAL[s.kind[i]] ?? '', num(s.porosity[i], 4),
         num(p.porePsi[i], 3), num(p.poreEmw[i], 6), num(p.hydroEmw[i], 6), num(p.overburdenEmw[i], 6),
-        num(p.fgEmw[i], 6), num(p.widthPpg[i], 6), num(cToF(s.tempC[i]), 2), name,
+        num(p.fgEmw[i], 6), num(p.widthPpg[i], 6), num(cToF(s.tempC[i]), 2), cappedCell(s, i), name,
       ].join(','))
     }
   }

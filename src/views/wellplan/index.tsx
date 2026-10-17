@@ -13,10 +13,12 @@ import { mToFt } from '../../units'
 import { APP_VERSION, ENGINE_VERSION } from '../../version'
 import type { ViewDefinition } from '../types'
 import { WhatItMeans } from '../WhatItMeans'
+import { CAP_MARKER_TEXT, isCapped, NO_WINDOW_WORDS } from '../well/audit'
+import { AuditNotes, exportNotes } from '../well/notes'
 import { downloadBlob, plotPng, type LegendItem } from './exportPng'
 import { exportFileName, titleLines, wellCsv, type ExportContext, type ExportRun } from './exportWell'
 import {
-  linePath, makePlotRun, plotRange, readoutAt, saltIntervals, stationAtTvdss, windowBands,
+  cappedStations, linePath, makePlotRun, plotRange, readoutAt, saltIntervals, stationAtTvdss, windowBands,
   type PlotRun, type Readout,
 } from './plot'
 
@@ -255,6 +257,11 @@ function PressurePlot({ runs, compare, fgName }: { runs: PlotRun[]; compare: boo
               <path d={linePath(r.lines.overburden, s.tvdssFt, p.n, x, y)} fill="none" stroke={colour(i, 'overburden')} strokeWidth={lw} strokeDasharray={compare ? '1.5 3' : undefined} />
               <path d={linePath(r.lines.fg, s.tvdssFt, p.n, x, y)} fill="none" stroke={colour(i, 'fg')} strokeWidth={lw} strokeDasharray="7 3 2 3" />
               <path d={linePath(r.lines.pore, s.tvdssFt, p.n, x, y)} fill="none" stroke={colour(i, 'pore')} strokeWidth={lw + 0.4} />
+              {cappedStations(r).map((k) => (
+                <circle key={k} data-testid="plot-capped" cx={x(r.lines.pore[k])} cy={y(s.tvdssFt[k])} r={3} fill="#ffd400" stroke="#111" strokeWidth={1}>
+                  <title>{CAP_MARKER_TEXT}</title>
+                </circle>
+              ))}
             </g>
           )
         })}
@@ -346,10 +353,18 @@ function Key({ runs, compare, names, hasTight, hasNoWindow, hasSalt, hasWater, h
   )
 }
 
+/** Number of stations on the well whose pore pressure is capped at the overburden (all of them, not just the drawn markers). */
+function cappedCount(run: PlotRun): number {
+  let n = 0
+  for (let i = 0; i < run.samples.n; i++) if (isCapped(run.samples.uOverL[i]) && Number.isFinite(run.lines.pore[i])) n++
+  return n
+}
+
 function Flags({ run }: { run: PlotRun }) {
   const sum = run.pressures.summary
   const salt = saltIntervals(run.samples)
   const stop = run.samples.stopped
+  const nCapped = cappedCount(run)
   const fmt = (a: { topTvdssFt: number; bottomTvdssFt: number; topMdFt: number; bottomMdFt: number }) =>
     `${fmtFt(a.topTvdssFt)} to ${fmtFt(a.bottomTvdssFt)} ft TVDSS (MD ${fmtFt(a.topMdFt)} to ${fmtFt(a.bottomMdFt)} ft)`
   return (
@@ -371,9 +386,14 @@ function Flags({ run }: { run: PlotRun }) {
       ))}
       {sum.noWindow.map((t, i) => (
         <p key={`n${i}`} className="small" data-testid="flag-nowindow">
-          No window {fmt(t)}; the pore pressure is {(-t.minWidthPpg).toFixed(2)} ppg above the fracture gradient at the worst point. <WhatItMeans what="no window">{INFO.noWindow}</WhatItMeans>
+          No window {fmt(t)}; the pore pressure is {(-t.minWidthPpg).toFixed(2)} ppg above the fracture gradient at the worst point. <WhatItMeans what="no window">{INFO.noWindow}</WhatItMeans> {NO_WINDOW_WORDS}
         </p>
       ))}
+      {nCapped > 0 ? (
+        <p className="small" data-testid="flag-capped">
+          {nCapped} of {run.samples.n} stations on this well are capped at the overburden (yellow dots on the pore line). {CAP_MARKER_TEXT}
+        </p>
+      ) : null}
       {salt.map((a, i) => (
         <p key={`s${i}`} className="small" data-testid="flag-salt">
           Salt {fmt(a)}. No window is counted here: the fracture gradient is the overburden, and the hole needs a mud weight close to the overburden to stay open (practice, no source yet). <WhatItMeans what="salt on the plot">{INFO.salt}</WhatItMeans>
@@ -438,6 +458,7 @@ function ExportBar({ runs, compare, names, plotBox, flags }: { runs: PlotRun[]; 
   const context = (): ExportContext => ({
     scenario: getPreset(s.presetId).label, presetId: s.presetId, timeMa: s.view!.ageMa, well: plan, fgMethod: s.wellPressure.fgMethod,
     appVersion: APP_VERSION, engineVersion: ENGINE_VERSION,
+    notes: [...exportNotes(s), ...(runs.some((r) => cappedCount(r) > 0) ? [CAP_MARKER_TEXT] : [])],
   })
   const run = async (what: 'png' | 'csv'): Promise<void> => {
     setWorking(true)
@@ -545,6 +566,7 @@ function WellPlanView() {
                 hasStop={runs.some((r) => r.samples.stopped)}
               />
               <Flags run={primary} />
+              <AuditNotes s={s} />
               {compare ? <CompareTable runs={runs} names={names} /> : null}
               {compare ? runs.slice(1).map((r, i) => (r.samples.stopped ? <p key={r.branchId} className="small">On {names[i + 1]} the well stops at MD {fmtFt(r.samples.stopped.mdFt)} ft.</p> : null)) : null}
             </div>

@@ -400,6 +400,8 @@ export class TimeMachine {
       nPre: rec.nPre,
       weldAge: eng.weldAge.slice(),
       weldThick: era.P.weldThick,
+      clamps: eng.diag.clamps,
+      maxUOverL: this.maxOverpressureRatio(),
     }
     for (const f of fields) {
       if (f === 'thick') {
@@ -413,6 +415,26 @@ export class TimeMachine {
     }
     if (withHash) view.hash = stateHash(rec)
     return view
+  }
+
+  /** Largest u / L over the record now, not clamped to 1 (a value of 1 means the cell is capped at the overburden). Same load rule as overpressureRatio(); display only. */
+  private maxOverpressureRatio(): number {
+    const rec = this.eng.rec
+    const nx = rec.nx
+    let max = 0
+    for (let j = 0; j < nx; j++) {
+      let above = 0
+      for (let l = rec.nLayers - 1; l >= 0; l--) {
+        const i = l * nx + j
+        if (rec.material[i] === SALT) continue
+        const s = rec.sand[i] + rec.mud[i]
+        if (s <= EMPTY) continue
+        const L = buoyantLoad(above, s)
+        above += s
+        if (L > 0 && rec.u[i] / L > max) max = rec.u[i] / L
+      }
+    }
+    return max
   }
 
   /**

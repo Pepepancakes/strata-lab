@@ -39,7 +39,7 @@
 //    as in the pseudo-well; hydrostatic and overburden vary smoothly with depth inside it, so a vertical
 //    well at a column centre equals the pseudo-well exactly at every cell middle.
 
-import { cellBulk } from './compaction'
+import { buoyantLoad, cellBulk } from './compaction'
 import { G, RHO_S, RHO_SALT, RHO_W } from './constants'
 import type { EngineParams } from './engineParams'
 import { MTD, SALT } from './record'
@@ -199,6 +199,8 @@ export interface WellSamples extends WellStations {
   sandFrac: Float64Array
   porosity: Float64Array
   tempC: Float64Array
+  /** u / L of the nearest cell (share of the buoyant load carried by excess pressure); NaN in salt, water and air. 1 = pore pressure capped at the overburden (F-3). */
+  uOverL: Float64Array
   /** Hydrostatic, pore (NaN in salt and air) and overburden pressure, Pa. */
   hydroPa: Float64Array
   porePa: Float64Array
@@ -230,6 +232,8 @@ interface ColumnCells {
   porosity: Float64Array
   tempC: Float64Array
   uPa: Float64Array
+  /** Excess pressure as a share of the buoyant load the cell carries (u / L, F-3); 1 = capped at the overburden. NaN in salt. */
+  uOverL: Float64Array
   ageMa: Float64Array
 }
 
@@ -254,10 +258,11 @@ function buildColumn(eng: EngineState, P: EngineParams, sl: number, j: number): 
   const c: ColumnCells = {
     count, top: new Float64Array(count), bot: new Float64Array(count), layer: new Int32Array(count), kind: new Uint8Array(count),
     loadTop: new Float64Array(count), rho: new Float64Array(count), sandFrac: new Float64Array(count), porosity: new Float64Array(count),
-    tempC: new Float64Array(count), uPa: new Float64Array(count), ageMa: new Float64Array(count),
+    tempC: new Float64Array(count), uPa: new Float64Array(count), uOverL: new Float64Array(count), ageMa: new Float64Array(count),
   }
   let load = RHO_W * G * Math.max(0, sl - rec.H[j])
   let k = 0
+  let aboveSolid = 0 // solids above, salt not counted (the compaction solver's own rule), for u / L
   for (let l = n - 1; l >= 0; l--) {
     const i = l * nx + j
     const solid = rec.sand[i] + rec.mud[i]
@@ -275,6 +280,12 @@ function buildColumn(eng: EngineState, P: EngineParams, sl: number, j: number): 
     c.porosity[k] = phi
     c.tempC[k] = temp[l]
     c.uPa[k] = rec.u[i]
+    if (isSalt) c.uOverL[k] = NaN
+    else {
+      const L = buoyantLoad(aboveSolid, solid)
+      c.uOverL[k] = L > 0 ? rec.u[i] / L : 0
+      aboveSolid += solid
+    }
     c.ageMa[k] = rec.stepAgeMa[l]
     load += rho * G * thick[l]
     k++
@@ -343,7 +354,7 @@ export function sampleWell(eng: EngineState, P: EngineParams, sl: number, well: 
   const layer = new Int32Array(n).fill(-1)
   const col = new Int32Array(n)
   const nan = (): Float64Array => new Float64Array(n).fill(NaN)
-  const ageMa = nan(), sandFrac = nan(), porosity = nan(), tempC = nan()
+  const ageMa = nan(), sandFrac = nan(), porosity = nan(), tempC = nan(), uOverL = nan()
   const depthRkbFt = nan(), hydroPa = nan(), porePa = nan(), overburdenPa = nan(), hydroEmw = nan(), poreEmw = nan(), overburdenEmw = nan()
   let stopped: WellSamples['stopped'] = null
   let m = 0
@@ -412,6 +423,7 @@ export function sampleWell(eng: EngineState, P: EngineParams, sl: number, well: 
     sandFrac[i] = cellProp((c, k) => c.sandFrac[k])
     porosity[i] = cellProp((c, k) => c.porosity[k])
     tempC[i] = cellProp((c, k) => c.tempC[k])
+    uOverL[i] = nearC.uOverL[nearK] // a ratio of the nearest cell, not interpolated: a cap is a property of one cell
     // stress: weight of what is above, in each column, interpolated by distance
     const sv = (c: ColumnCells, k: number): number => c.loadTop[k] + c.rho[k] * G * (c.top[k] - e)
     const sv0 = in0 ? sv(c0, k0) : 0
@@ -447,7 +459,7 @@ export function sampleWell(eng: EngineState, P: EngineParams, sl: number, well: 
     waterDepthFt: mToFt(waterDepthM),
     mudlineTvdssFt: mToFt(sl - hHead),
     groundFt,
-    kind: sub(kind), layer: sub(layer), column: sub(col), ageMa: sub(ageMa), sandFrac: sub(sandFrac), porosity: sub(porosity), tempC: sub(tempC),
+    kind: sub(kind), layer: sub(layer), column: sub(col), ageMa: sub(ageMa), sandFrac: sub(sandFrac), porosity: sub(porosity), tempC: sub(tempC), uOverL: sub(uOverL),
     depthRkbFt: sub(depthRkbFt), hydroPa: sub(hydroPa), porePa: sub(porePa), overburdenPa: sub(overburdenPa),
     hydroEmw: sub(hydroEmw), poreEmw: sub(poreEmw), overburdenEmw: sub(overburdenEmw),
   }

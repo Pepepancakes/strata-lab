@@ -299,8 +299,18 @@ What coarse steps can and cannot show:
   glacial cycles to show even with fine steps.
 - To keep long runs fast, the preset runs use **bundled deep compaction**: old layers are
   consolidated once every 10 or 20 steps, with the summed time. This is a numerical saving, not
-  physics. It was measured against the full solve (about 0.25 % of the thickness on the Miocene
-  preset and 0.8 % on the Cenozoic one; see `docs/physics-references.md`). The layer record still holds every layer.
+  physics. On prescribed deposition (three columns, no transport) it matched the full solve to about
+  0.25 % of the thickness on the Miocene preset and 0.8 % on the Cenozoic one; see
+  `docs/physics-references.md`. **On the coupled presets the pressures are less exact.** The audit
+  (AUDIT-1, `scripts/review/audit-01/bundle.log`) ran each preset bundled and with `bundleEvery = 1`.
+  Miocene: the largest excess pressure is 11.2 MPa bundled against 8.4 MPa (25 % of the bundled value) and the mean 0.49
+  against 0.29 MPa (40 %); at about 10,000 ft
+  below the sea floor the pore pressure reads 10.02 against 9.36 ppg (column 80) and 10.39 against
+  9.63 ppg (column 100). Gulf-style: about 1 ppg at column 250 (9.93 against 8.95 ppg). The pseudo-well
+  and planned-well plots show a yellow note with the largest difference found on that preset
+  (`scripts/gen-bundle-table.mjs` measures it; it is also written into the PNG and CSV exports). To read
+  pressures with full accuracy, set **bundleEvery** to 1 under Controls (the run is then several times
+  slower). The layer record still holds every layer.
 - Use the long presets to see where sand and mud go over millions of years, not to read
   precise pressures at a fixed depth.
 
@@ -350,7 +360,10 @@ same datum as the planned well (air gap 80 ft by default, or the air gap of the 
 has four tracks:
 1. **Pressure, ppg EMW**: pore pressure (red), overburden (black) and hydrostatic (blue dashed),
    on a 6 to 20 ppg scale. Where red moves right of blue, the well is overpressured. If it
-   approaches black, the pore fluid is carrying nearly all the load.
+   approaches black, the pore fluid is carrying nearly all the load. A **yellow dot** on the red
+   line marks a cell where the model has *capped* the pore pressure at the overburden (the water
+   carries the whole load). The model has no leak-off, so a capped cell is a warning, not a
+   prediction; the sentence under the plot counts them.
 2. **Porosity**, 0 to 0.7.
 3. **Temperature, °F**. A purple line marks where **Temperature where cementation starts** is
    crossed, and the depth where it happens is labelled. If cement is off the label says
@@ -421,6 +434,17 @@ default: K = Poisson's ratio / (1 - Poisson's ratio), 0.67 at a ratio of 0.40. *
 (1967)** uses a stress ratio, 0.60 here. Each uses one number for every depth, and both numbers
 are tuned, not read from the papers' depth charts, so the two lines lie close together and
 neither is a calibrated field curve.
+
+**Limits of the pressures** (also printed under the plot): one vertical column at a time (1D
+drainage, no sideways flow, no leak-off); disequilibrium compaction is the only source of
+overpressure; the mud permeability is tuned, not measured; the shale pressure is used for sands too
+(no centroid effect); pore pressure is capped at the overburden; and the pore water is taken at 68 F
+(20 C) viscosity, which is thicker than water at depth, so the real overpressure would be lower.
+On the Gulf-style preset the densities are not calibrated to the Gulf (North Sea compaction
+coefficients), so the overburden and the fracture gradient read low; the **Physics checks** panel
+compares the pseudo-well overburden with the Traugott (1997) deep-water Gulf regional trend and
+shows the gap. Where the window is zero or negative (red), look for yellow dots: in this model the
+pore pressure has usually just hit the cap.
 
 **Limits of the planned well** (read before trusting a plot):
 - The well is in the plane of the section (2D). There are no S-shaped or sideways wells.
