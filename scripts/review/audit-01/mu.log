@@ -1,0 +1,6 @@
+# Check 5: sensitivity of the overpressure to the pore-water viscosity. The solver uses k/mu with mu fixed at 1e-3 Pa s (20 C).
+# Water at 60-120 C has mu about 0.47-0.23e-3 Pa s, i.e. k/mu 2-4x larger. kMudMult scales mud k the same way, so kMudMult 3 stands for mu/3.
+  last3 kMudMult x1: maxU 302 psi, meanH -609.7 m, events 0
+  last3 kMudMult x3: maxU 201 psi, meanH -612.2 m, events 0
+  mtd kMudMult x1: maxU 1104 psi, meanH -276.0 m, events 24
+  mtd kMudMult x3: maxU 785 psi, meanH -305.5 m, events 0
