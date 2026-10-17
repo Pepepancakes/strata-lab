@@ -68,7 +68,20 @@ is the last 10 Myr, cut on a whole step.
 The line **Time steps:** under it says exactly what steps are used, for example "5 kyr steps back
 to 3 Ma (600 steps)". Read section 5 before trusting a coarse-step run for fine detail.
 
-### 3.2 Main controls
+### 3.2 How the Controls panel is laid out
+Below **Scenario** is the **Controls** heading, a line saying whether you are editing the main run or a branch, then:
+
+- **Find a parameter** (the box says *Find a parameter (e.g. salt, viscosity)*): a search box that stays at the top of the controls column. Type part of a control's name (for example *salt* or *viscosity*), of a heading inside a group, or of a group's title. The groups with a match open and the others hide; inside a group only the matching controls stay, unless the group's title matched, which keeps the whole group. *salt* shows the whole **Salt** group and also **Salt substeps per record step** under **Grid and numerical settings**. The × button (**Clear search**) empties the box and puts the groups back as you left them. When nothing matches the panel says *No parameter matches "text"*.
+- **Ten groups**, in this order: **Sediment supply**, **Sea level**, **Subsidence**, **Salt**, **Slope failure (MTDs)**, **Transport and turbidity currents**, **Compaction and pore pressure**, **Temperature**, **Quartz cement**, **Grid and numerical settings**. Each group header shows its title, *on* or *off* for the groups that have a switch, *N changed* when some of its controls differ from the preset, and how many controls it holds. The first three start open. Open or close a group by clicking its header; the browser remembers which are open (separately from the scenario autosave, so it never goes into a scenario file).
+- **Switches.** Salt, Slope failure (MTDs), Temperature and Quartz cement each have a check box at the top of their group: **Salt layer on**, **Slope failure (MTDs) on**, **Temperature on** and **Quartz cement on**. They are start-only, so ticking one runs the main run again from the start, and a branch cannot change them. The other controls of a switched-off group stay visible and editable, with the line *Off: these settings have no effect until it is switched on.* Quartz cement only runs together with temperature: if cement is on and temperature is off, the group says *Needs Temperature on to have any effect.* Inside Salt, **Cover resists bending (1) / not (0) (salt on)** is a check box too, *Cover resists bending*.
+- **Controls the current choice ignores are hidden.** The sine's amplitude and period appear only when **Sea-level source** is *Sine (teaching)*; the decay time only when **Subsidence history** is *thermal*; the piecewise factors only when it is *history*. A short grey line says when they will appear. Their values are kept, and a search still finds them.
+- **Changed from the preset.** A control whose value differs from the chosen preset (a main-run change, or a branch's edit) gets a small dot (*changed from preset*) before its name and, under the box, *preset* followed by the preset's value in the units you read. The group header counts them (*N changed*). The Scenario controls are not marked.
+
+Pairs of boxes are **sand** and **mud**, in that order. The ⓘ button on each control gives its source, and the tag says *cited*, *tuned* or *to verify*. In the tables below, "start" means the control only sets the start of the run, so a branch cannot change it.
+
+### 3.3 The groups, in panel order
+
+**Sediment supply** and **Sea level** (open at the start)
 | Control | Default | Allowed | Source |
 |---|---|---|---|
 | **Sediment supply** (ft²/yr) | 215.3 (20 m²/yr) | 0 to 2153 | tuned. Solid volume per foot of margin; an order of magnitude for a large-river margin, no source yet |
@@ -77,10 +90,17 @@ to 3 Ma (600 steps)". Read section 5 before trusting a coarse-step run for fine 
 | **Sea-level amplitude (sine only)** (ft) | 131.2 (40 m) | 0 to 492 | tuned. Used only with the sine |
 | **Sea-level period (sine only)** (kyr) | 100 | 10 to 1000 | tuned. Used only with the sine |
 | **Sea-level offset** (ft) | 0 | -656 to 656 | tuned. Shifts either source up or down; a what-if knob |
+
+**Subsidence** (open at the start)
+| Control | Default | Allowed | Source |
+|---|---|---|---|
 | **Subsidence, landward edge** (ft/Myr) | 131.2 (40 m/Myr) | 0 to 1640 | tuned. The 40 to 150 m/Myr range was chosen by eye |
 | **Subsidence, basinward edge** (ft/Myr) | 492.1 (150 m/Myr) | 0 to 1640 | tuned. Rate varies linearly between the two edges |
+| **Subsidence history** | constant | | start. cited: McKenzie (1978). Choices *constant*, *thermal*, *history* (changing subsidence, M1.4c; off by default) |
+| **Thermal subsidence decay time** (Myr) | 62.8 | | cited: McKenzie (1978). Used only for *thermal* |
+| **Subsidence history (piecewise factors)** (Ma, -) | empty | | start. tuned. See below |
 
-What they do physically:
+What these three groups do physically:
 - *Supply and sand share* set how much solid is delivered and how much of it is sand. More supply
   makes the shelf edge advance faster and buries mud faster (more overpressure). More sand makes
   more sand available to bypass to the basin floor at lowstand.
@@ -89,10 +109,81 @@ What they do physically:
   whole record.
 - *Subsidence* creates room. Where it is faster, more sediment piles up and burial is deeper.
 
-### 3.3 Under "All other parameters (N)"
-Click the arrow to open the list. Pairs of boxes are **sand** and **mud**, in that order.
+**Subsidence history (piecewise factors)** has no boxes in the app yet. It is a list the engine
+accepts but the controls have no editor for, so the *history* choice of **Subsidence history**
+has nothing to work with. Use *constant* or *thermal*.
 
-**Transport** (all tuned; the form is cited where noted)
+**Salt** (M3.1 to M3.3; off by default, so the default run is unchanged). Section 14.2 explains each control.
+
+*Starting salt*
+| Control | Default | Source |
+|---|---|---|
+| Salt layer on (1) / off (0) | 0 | start. tuned (switch). Shown as the check box *Salt layer on* at the top of the group. A mobile salt layer between the basement and the sediment |
+| Initial salt thickness (ft) | 4921 (1500 m) | start. tuned. Synthetic |
+| Salt pinch-out: no salt landward of (km) | 25 | start. tuned |
+| Salt pinch-out: full thickness basinward of (km) | 45 | start. tuned |
+| Salt basin limit: full thickness landward of | 2000 | start. tuned; idea after Hudec et al. (2013), to verify. The basinward end of the salt basin; the Gulf-style preset uses 200 km |
+| Salt basin limit: no salt basinward of | 2500 | start. tuned. The Gulf-style preset uses 240 km. Salt can flow past it, but none starts there |
+
+*Flow and cover*
+| Control | Default | Source |
+|---|---|---|
+| Salt viscosity (Pa s) | 1e17 | tuned. Hudec & Jackson (2007) range about 1e17 to 1e19, to verify; the default is the fast end so flow shows in 3 Myr |
+| Thickness of the older cover (salt on) (ft) | 656 (200 m) | start. tuned (allowed 164 to 9,843). The pre-run cover over the salt; the Gulf-style preset uses a thicker one |
+| Unevenness of the older cover (salt on) | 0 | start. tuned. Seeded random thickness variation of the older cover |
+| Seed of the cover unevenness | 1 | start. tuned |
+| Cover resists bending (1) / not (0) (salt on) | 1 | tuned (check box). 1: the sediment above the salt is a viscous plate, so a preferred diapir width emerges. 0: thin-sheet flow only (M3.1), where the narrowest bumps grow fastest |
+| Cover effective viscosity as a plate (salt on) (Pa s) | 1e19 | tuned. No published value for a whole cover is in the references (to verify). Widths scale as its 1/6 power |
+
+*Welds and heat*
+| Control | Default | Source |
+|---|---|---|
+| Weld: salt thinner than (ft) | 32.8 (10 m) | tuned (allowed 0 to 656). Hudec & Jackson (2007). A column counts as welded once its salt, which was thicker, falls below this. A label and an age only |
+| Salt thermal conductivity at 0 deg C (W/m/K) | 6.0 | to verify (Clauser & Huenges 1995). Halite is about 5 to 6.5 near the surface, 2 to 4 times the sediment |
+| Salt conductivity falls with temperature: a (1/K) | 0.0030 | to verify (Clauser & Huenges 1995). Coefficients as remembered for crystalline rock, not checked for halite |
+| Salt conductivity falls with temperature: b (W/m/K^2) | 0.0042 | to verify (Clauser & Huenges 1995). See a |
+
+With salt on, the sediment loads the salt and squeezes it basinward; the cover above rides up and down on the salt. Salt volume is conserved and has its own line in the mass balance. The cover resists bending (M3.2), so the width of the structures is set by the cover viscosity and thickness, not by the cell size: check by halving the cell size. Welds (M3.3): salt can never go below zero thickness. When a long step would ask a cell for more salt than it holds, the outflow is cut to what the cell has, so nothing is clipped and salt stays conserved. A column whose salt falls below Weld: salt thinner than is welded, and its first weld age is kept (it rewinds with the run). Salt conducts heat well, so everything below salt is cooler in the Temperature colour mode and the pseudo-well, and the weight of salt counts in the overburden.
+
+**Slope failure (MTDs)** (M2.1 and M2.2; drawn by the Factor of safety colour mode, section 4, and in the section, the event list and the pseudo-well, sections 4, 8 and 10)
+
+*Stability*
+| Control | Default (sand / mud) | Source |
+|---|---|---|
+| **Friction angle phi' (effective stress)** (deg) | 33 / 25 | to verify (Hampton et al. 1996). Muds about 20 to 30°, sands about 30 to 38° |
+| **Cohesion c' (effective stress)** (psi) | 0 / 0 | to verify (Hampton et al. 1996). Normally consolidated marine clay is near 0 |
+| **Stability search depth below the seafloor** (ft) | 984 (300 m) | tuned. How deep the factor-of-safety search goes |
+
+The factor of safety is the strength holding a slab of sediment in place divided by the pull of
+gravity along the slope. Below 1 the slab would slide. The engine works it out from the
+seafloor slope and the model's own pore pressure, so overpressure lowers it directly.
+
+*Failure and run-out*, and the switch and the triggers below
+| Control | Default | Source |
+|---|---|---|
+| Slope failure on (1) / off (0) | 0 | start. tuned (switch). Shown as the check box *Slope failure (MTDs)* at the top of the group. Off keeps the run identical to M1 |
+| Most columns in one failure | 10 | tuned. How far a failure spreads sideways |
+| Debris-flow yield strength (psi) | 0.73 (5 kPa) | tuned. Imran et al. (2001) model, to verify |
+| Debris-flow viscosity (Pa s) | 1000 | tuned. Sets the speed, not where the flow stops |
+| Debris-flow bulk density (kg/m^3) | 1800 | tuned |
+| Porosity of mud in a fresh debris deposit | 0.55 | tuned |
+
+*Triggers*
+| Control | Default | Source |
+|---|---|---|
+| Shallowest slip surface considered (ft) | 32.8 (10 m) | tuned (allowed 0 to 328). Thinner slides than this are skin slides, not MTDs; 0 searches every cell |
+| Gentlest slope checked for failure (deg) | 0.5 | tuned (allowed 0 to 5). A speed cut and a stated limit: failures on slopes under this are not modelled |
+| Sea-level fall that makes an event a lowstand event (ft) | 65.6 (20 m) | tuned (allowed 0.3 to 328). Only the trigger tag |
+| Accumulation rate that counts as rapid loading (m/yr) | 0.001 | tuned (allowed 0.00001 to 0.1). Only the trigger tag |
+| Slope term that counts as oversteepening | 0.1 | tuned (allowed 0.001 to 5). Only the trigger tag |
+| Pressure term that counts as overpressure | 0.1 | tuned (allowed 0.001 to 5). Only the trigger tag |
+| Run-out below which a repeat failure is not tried again (km) | 0.5 | tuned (allowed 0 to 10). Skips re-failing a column that moved nothing |
+
+With the switch on, any column whose factor of safety falls below 1 fails: the sediment above the slip surface runs out as a debris flow and stops where the yield strength holds it, as a mass-transport deposit (MTD). Sand and mud are conserved separately; debris that runs off the basinward edge counts as exported.
+
+Why did it fail? (M2.3, rule changed in M2.7.) Every failure carries one trigger tag, worked out from the weakest column's change over the last 4 steps (20 kyr at 5 kyr steps). Nothing is imposed; the factor of safety falls for physical reasons and the tag says which one did most of it. Each of three terms (steeper sea floor, rising pore pressure, falling sea level) is divided by its own tuned threshold, and the term with the largest ratio wins if that ratio is at least 1: *oversteepening*, *rapid loading* (the pressure term, when the column gained sediment faster than the rapid-loading rate), *overpressure* (the pressure term, when loading was slow) or *lowstand*. If no ratio reaches 1 the tag is *mixed*. The tag does not change the physics; it is a label on the cause, and the list shows all three terms behind it (section 13.4). Failures that move almost nothing are flagged *stalled*, and failures cut by the search depth limit are flagged *window-limited* (section 13.4). The preset *Overpressured slope (MTD-prone)* turns failure on with mud permeability x0.1 and supply 30 m²/yr (both tuned) so there are events to look at. Limits: slopes under 0.5° and slip surfaces shallower than 10 m are not searched.
+
+**Transport and turbidity currents** (all tuned; the form is cited where noted)
 | Control | Default (sand / mud) | Note |
 |---|---|---|
 | **Subaerial diffusivity** (m²/yr) | 50,000 / 100,000 | Fluvial spreading on land. Gives about a 0.3 m/km coastal plain. Two-lithology form: Rivenæs (1992) |
@@ -105,9 +196,6 @@ Click the arrow to open the list. Pairs of boxes are **sand** and **mud**, in th
 | **Turbidite deposition length at reference gradient** (km) | 20 / 400 | How far sand and mud travel before settling |
 | **Reference gradient for turbidite length** (m/m) | 0.005 | |
 | **Turbidite gradient exponent** | 2 | How strongly slope changes that length |
-| **Columns** | 150 | start. Grid size |
-| **Column width** (km) | 1 | start. Grid spacing |
-| **Transport substeps per record step** | 5 | start. Numerical |
 
 The turbidite controls are a **transport-length rule, not flow physics**: no flow is simulated. The
 slope and coastal-plain diffusivities were tuned by eye, not calibrated to data.
@@ -121,98 +209,40 @@ slope and coastal-plain diffusivities were tuned by eye, not calibrated to data.
 | **Permeability slope vs porosity** | 7 / 8 | tuned. log10 k = intercept + slope × porosity |
 | **Mud permeability multiplier** | 1 | tuned. Scales mud permeability: the quickest way to see more or less overpressure |
 | **Unloading stiffness (share of loading compressibility)** | 0.05 | start. tuned |
-| **Benchmark mode (constant properties)** | none | start. Switch for the Gibson benchmark. Leave it alone |
-| **Deep compaction: full solve every N steps (1 = off)** (steps) | 1 | start. tuned. Speed-up for long runs (section 5) |
-| **Deep compaction: age of the always-updated window** (kyr) | 500 | start. tuned. Used only when the line above is more than 1 |
 
-**Changing subsidence** (M1.4c; off by default)
-| Control | Default | Source |
-|---|---|---|
-| **Subsidence history** | constant | start. cited: McKenzie (1978). Choices *constant*, *thermal*, *history* |
-| **Thermal subsidence decay time** (Myr) | 62.8 | cited: McKenzie (1978). Used only for *thermal* |
-| **Subsidence history (piecewise factors)** (Ma, -) | empty | start. tuned. See below |
-
-**Temperature and quartz cement** (M1.4c; off by default)
+**Temperature** (M1.4c; off by default)
 | Control | Default (sand / mud) | Source |
 |---|---|---|
-| **Temperature on (1) / off (0)** | 0 | start. tuned (on/off switch) |
-| **Temperature and cement: update every N steps** (steps) | 5 | start. tuned. Speed-up |
+| **Temperature on (1) / off (0)** | 0 | start. tuned (on/off switch). Shown as the check box *Temperature on* at the top of the group |
 | **Basal heat flow** (mW/m²) | 40 | cited: Jones (2003), to verify. The Gulf of America spans from under 20 to about 100 mW/m² |
 | **Grain thermal conductivity** (W/m/K) | 7.7 / 2.5 | to verify (Clauser & Huenges 1995). Mud value is tuned |
 | **Pore-water thermal conductivity** (W/m/K) | 0.6 | to verify (Woodside & Messmer 1961) |
 | **Deep-water seafloor temperature** (deg F) | 39.2 (4 °C) | to verify. Not checked against a source |
 | **Shelf / land surface temperature** (deg F) | 68 (20 °C) | tuned |
 | **Seafloor temperature e-folding depth** (ft) | 984 | tuned. Smooth stand-in for the thermocline |
-| **Quartz cement on (1) / off (0)** | 0 | start. tuned (switch). Needs temperature on |
+
+**Quartz cement** (M1.4c; off by default; only runs when Temperature is on)
+| Control | Default | Source |
+|---|---|---|
+| **Quartz cement on (1) / off (0)** | 0 | start. tuned (switch). Shown as the check box *Quartz cement on* at the top of the group. Needs temperature on |
 | **Quartz precipitation rate prefactor** (mol/m^2/s) | 1.98e-18 | cited: Walderhaug (1994) |
 | **Quartz precipitation temperature coefficient** (1/deg C) | 0.022 | cited: Walderhaug (1994). Walderhaug (1996) varied it from 0.018 to 0.023 |
 | **Temperature where cementation starts** (deg F) | 158 (70 °C) | cited: Walderhaug (1996). Below it the rate is zero |
 | **Sand grain diameter (cement surface area)** (mm) | 0.2 | tuned. Synthetic |
 | **Share of grain surface that is clean quartz** | 0.7 | tuned. Synthetic |
 
-**Slope stability** (M2.1; drawn by the Factor of safety colour mode, section 4)
-| Control | Default (sand / mud) | Source |
-|---|---|---|
-| **Friction angle phi' (effective stress)** (deg) | 33 / 25 | to verify (Hampton et al. 1996). Muds about 20 to 30°, sands about 30 to 38° |
-| **Cohesion c' (effective stress)** (psi) | 0 / 0 | to verify (Hampton et al. 1996). Normally consolidated marine clay is near 0 |
-| **Stability search depth below the seafloor** (ft) | 984 (300 m) | tuned. How deep the factor-of-safety search goes |
-
-The factor of safety is the strength holding a slab of sediment in place divided by the pull of
-gravity along the slope. Below 1 the slab would slide. The engine works it out from the
-seafloor slope and the model's own pore pressure, so overpressure lowers it directly.
-
-Slope failure and debris-flow run-out (M2.2; drawn in the section, the event list and the pseudo-well, sections 4, 8 and 10)
-
+**Grid and numerical settings.** Not geology: these trade speed for accuracy. Change them only to check that a result does not depend on them.
 | Control | Default | Source |
 |---|---|---|
-| Slope failure on (1) / off (0) | 0 | start. tuned (switch). Shown as the check box *Slope failure (MTDs)* at the top of the controls. Off keeps the run identical to M1 |
-| Most columns in one failure | 10 | tuned. How far a failure spreads sideways |
-| Most failures per step (rechecks of the scar) | 5 | tuned |
-| Debris-flow yield strength (psi) | 0.73 (5 kPa) | tuned. Imran et al. (2001) model, to verify |
-| Debris-flow viscosity (Pa s) | 1000 | tuned. Sets the speed, not where the flow stops |
-| Debris-flow bulk density (kg/m^3) | 1800 | tuned |
-| Porosity of mud in a fresh debris deposit | 0.55 | tuned |
-| Shallowest slip surface considered (ft) | 32.8 (10 m) | tuned (allowed 0 to 328). Thinner slides than this are skin slides, not MTDs; 0 searches every cell |
-| Gentlest slope checked for failure (deg) | 0.5 | tuned (allowed 0 to 5). A speed cut and a stated limit: failures on slopes under this are not modelled |
-| Sea-level fall that makes an event a lowstand event (ft) | 65.6 (20 m) | tuned (allowed 0.3 to 328). Only the trigger tag |
-| Accumulation rate that counts as rapid loading (m/yr) | 0.001 | tuned (allowed 0.00001 to 0.1). Only the trigger tag |
-| Slope term that counts as oversteepening | 0.1 | tuned (allowed 0.001 to 5). Only the trigger tag |
-| Pressure term that counts as overpressure | 0.1 | tuned (allowed 0.001 to 5). Only the trigger tag |
-| Run-out below which a repeat failure is not tried again (km) | 0.5 | tuned (allowed 0 to 10). Skips re-failing a column that moved nothing |
-
-With the switch on, any column whose factor of safety falls below 1 fails: the sediment above the slip surface runs out as a debris flow and stops where the yield strength holds it, as a mass-transport deposit (MTD). Sand and mud are conserved separately; debris that runs off the basinward edge counts as exported.
-
-Why did it fail? (M2.3, rule changed in M2.7.) Every failure carries one trigger tag, worked out from the weakest column's change over the last 4 steps (20 kyr at 5 kyr steps). Nothing is imposed; the factor of safety falls for physical reasons and the tag says which one did most of it. Each of three terms (steeper sea floor, rising pore pressure, falling sea level) is divided by its own tuned threshold, and the term with the largest ratio wins if that ratio is at least 1: *oversteepening*, *rapid loading* (the pressure term, when the column gained sediment faster than the rapid-loading rate), *overpressure* (the pressure term, when loading was slow) or *lowstand*. If no ratio reaches 1 the tag is *mixed*. The tag does not change the physics; it is a label on the cause, and the list shows all three terms behind it (section 13.4). Failures that move almost nothing are flagged *stalled*, and failures cut by the search depth limit are flagged *window-limited* (section 13.4). The preset *Overpressured slope (MTD-prone)* turns failure on with mud permeability x0.1 and supply 30 m²/yr (both tuned) so there are events to look at. Limits: slopes under 0.5° and slip surfaces shallower than 10 m are not searched.
-
-Salt (M3.1 to M3.3; off by default, so the default run is unchanged)
-
-| Control | Default | Source |
-|---|---|---|
-| Salt layer on (1) / off (0) | 0 | start. tuned (switch). A mobile salt layer between the basement and the sediment |
-| Initial salt thickness (ft) | 4921 (1500 m) | start. tuned. Synthetic |
-| Salt pinch-out: no salt landward of (km) | 25 | start. tuned |
-| Salt pinch-out: full thickness basinward of (km) | 45 | start. tuned |
-| Salt basin limit: full thickness landward of | 2000 | start. tuned; idea after Hudec et al. (2013), to verify. The basinward end of the salt basin; the Gulf-style preset uses 200 km |
-| Salt basin limit: no salt basinward of | 2500 | start. tuned. The Gulf-style preset uses 240 km. Salt can flow past it, but none starts there |
-| Salt viscosity (Pa s) | 1e17 | tuned. Hudec & Jackson (2007) range about 1e17 to 1e19, to verify; the default is the fast end so flow shows in 3 Myr |
-| Salt substeps per record step | 5 | start. tuned. Numerical |
-| Cover resists bending (1) / not (0) (salt on) | 1 | tuned (switch). 1: the sediment above the salt is a viscous plate, so a preferred diapir width emerges. 0: thin-sheet flow only (M3.1), where the narrowest bumps grow fastest |
-| Cover effective viscosity as a plate (salt on) (Pa s) | 1e19 | tuned. No published value for a whole cover is in the references (to verify). Widths scale as its 1/6 power |
-| Unevenness of the older cover (salt on) | 0 | start. tuned. Seeded random thickness variation of the older cover |
-| Seed of the cover unevenness | 1 | start. tuned |
-| Thickness of the older cover (salt on) (ft) | 656 (200 m) | start. tuned (allowed 164 to 9,843). The pre-run cover over the salt; the Gulf-style preset uses a thicker one |
-| Weld: salt thinner than (ft) | 32.8 (10 m) | tuned (allowed 0 to 656). Hudec & Jackson (2007). A column counts as welded once its salt, which was thicker, falls below this. A label and an age only |
-| Salt thermal conductivity at 0 deg C (W/m/K) | 6.0 | to verify (Clauser & Huenges 1995). Halite is about 5 to 6.5 near the surface, 2 to 4 times the sediment |
-| Salt conductivity falls with temperature: a (1/K) | 0.0030 | to verify (Clauser & Huenges 1995). Coefficients as remembered for crystalline rock, not checked for halite |
-| Salt conductivity falls with temperature: b (W/m/K^2) | 0.0042 | to verify (Clauser & Huenges 1995). See a |
-
-With salt on, the sediment loads the salt and squeezes it basinward; the cover above rides up and down on the salt. Salt volume is conserved and has its own line in the mass balance. The cover resists bending (M3.2), so the width of the structures is set by the cover viscosity and thickness, not by the cell size: check by halving the cell size. Welds (M3.3): salt can never go below zero thickness. When a long step would ask a cell for more salt than it holds, the outflow is cut to what the cell has, so nothing is clipped and salt stays conserved. A column whose salt falls below Weld: salt thinner than is welded, and its first weld age is kept (it rewinds with the run). Salt conducts heat well, so everything below salt is cooler in the Temperature colour mode and the pseudo-well, and the weight of salt counts in the overburden.
-
-Two things to know about the edit boxes:
-- **Subsidence history (piecewise factors)** has no boxes in the app yet. It is a list the
-  engine accepts but the controls have no editor for, so the *history* choice of **Subsidence
-  history** has nothing to work with. Use *constant* or *thermal*.
-- **Benchmark mode (constant properties)** is for the Gibson test. Do not set it.
+| **Columns** | 150 | start. Grid size |
+| **Column width** (km) | 1 | start. Grid spacing |
+| **Transport substeps per record step** | 5 | start. Numerical |
+| **Salt substeps per record step** | 5 | start. tuned. Numerical |
+| **Deep compaction: full solve every N steps (1 = off)** (steps) | 1 | start. tuned. Speed-up for long runs (section 5) |
+| **Deep compaction: age of the always-updated window** (kyr) | 500 | start. tuned. Used only when the line above is more than 1 |
+| **Temperature and cement: update every N steps** (steps) | 5 | start. tuned. Speed-up |
+| **Most failures per step (rechecks of the scar)** | 5 | tuned |
+| **Benchmark mode (constant properties)** | none | start. Switch for the Gibson benchmark. Leave it alone: it is for the Gibson test |
 
 ## 4. Reading the section
 The big picture is the section: distance in km along the bottom, depth in ft on the left. A note
@@ -348,12 +378,12 @@ still tuned. It is a start-only control, so change it on the main run.
   check the subsidence arithmetic against its closed form, not the size of the pressure effect,
   so judge that by running both and comparing branches or runs.
 
-**Burial temperature.** Set **Temperature on (1) / off (0)** to 1. The model computes steady
+**Burial temperature.** Tick the **Temperature on** check box at the top of the **Temperature** group. The model computes steady
 conduction: temperature = seafloor temperature + heat flow × Σ(thickness / conductivity), where
 the bulk conductivity mixes grain and water. On its own it changes nothing in porosity or
 pressure. It exists to drive cement. It also feeds the Temperature colour mode and the temperature track.
 
-**Quartz cement.** Set **Quartz cement on (1) / off (0)** to 1 (temperature must also be on).
+**Quartz cement.** Tick the **Quartz cement on** check box at the top of the **Quartz cement** group (temperature must also be on).
 Above about 158 °F (70 °C) quartz precipitates in sands at Walderhaug's rate, which grows by a
 factor of about 4.6 for every 30 °C (54 °F) of heating. What it does:
 - It fills pore space in sand, so sand porosity falls and sand permeability follows it down.
@@ -446,7 +476,7 @@ A mass-transport deposit (MTD) is what a slope failure leaves behind: a slab of 
 slides, breaks up, runs down the slope as a debris flow and stops as a chaotic body. The app does
 not draw MTDs on request. It checks every slope column at every step and lets the sediment fail
 when the physics says so. Slope failure is **off** by default, so the default run is unchanged.
-Turn it on with the check box *Slope failure (MTDs)* at the top of the controls (it restarts the
+Turn it on with the check box *Slope failure (MTDs)* at the top of the **Slope failure (MTDs)** group (it restarts the
 run, and a branch cannot change it) or choose the preset *Overpressured slope (MTD-prone)*.
 
 ### 13.1 What the factor of safety (FS) means
@@ -565,7 +595,7 @@ look right for an overpressured slope is your call. Nothing here is calibrated t
 ## 14. Salt
 
 Salt is off by default, so the default run and every other earlier preset look exactly as before. Turn
-it on with **Salt layer on (1) / off (0)** (section 3.3) or pick the *Gulf-style: wedge over salt (66 Ma)*
+it on with the **Salt layer on** check box (section 3.3) or pick the *Gulf-style: wedge over salt (66 Ma)*
 preset.
 
 ### 14.1 What the model does
@@ -591,9 +621,9 @@ preset.
   and, because it conducts heat well, makes the sediment below it cooler (section 8).
 
 ### 14.2 The controls
-They sit under **All other parameters (N)**; the full table with defaults and sources is in section
+They sit in the **Salt** group (three sections: Starting salt, Flow and cover, Welds and heat); the full table with defaults and sources is in section
 3.3. Depths and thicknesses show in ft, distances along the section in km.
-- **Salt layer on (1) / off (0)**: the switch. Set at the start of a run.
+- **Salt layer on**: the check box at the top of the **Salt** group. Set at the start of a run.
 - **Initial salt thickness**: how thick the salt is basinward of the pinch-out (default 4,921 ft; the Gulf-style
   preset uses 13,123 ft). Set at the start.
 - **Salt pinch-out: no salt landward of** and **Salt pinch-out: full thickness basinward of**: the salt
@@ -748,7 +778,7 @@ the 4 km start thickness and the 300 m cover are tuned and have no field behind 
 - **Default overpressure is mild** (maximum about 14 % of the load, at 20 m²/yr supply). To see
   strong overpressure lower **Mud permeability multiplier** or raise **Sediment supply**.
 - **Salt is a draft, and not checked against a field.** Salt flows under the sediment load when
-  **Salt layer on (1) / off (0)** is 1 and the cover resists bending, so a preferred width appears; that
+  **Salt layer on** is ticked and the cover resists bending, so a preferred width appears; that
   width depends on a tuned cover viscosity. The limits are in section 14.6. The Gulf-style preset is tuned to targets, for you to judge.
 - **Supply and subsidence are tuned**, not taken from a published Gulf of America rate.
 - **Temperature is steady conduction.** It ignores the cooling effect of fast burial, so deep
