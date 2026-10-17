@@ -275,3 +275,37 @@ b9d410d6, f2e2fd2c). `git diff main -- src/engine` is three new files and no edi
 - Checks: `node scripts/verify-well-export-built.mjs` after `npm run build` (25 checks: PNG magic bytes and size at 100 and 150 %, CSV parses back, fracture
   gradient against the Eaton formula to 3.5e-8 relative, compare CSV has one block per branch, 0 console errors, 0 external requests).
 - Labels: the planned-well labels are listed in `tests/docs.test.ts` (`APP_STRINGS`), so the guide and the app source are checked against each other.
+
+## M3b part 1 crest log (2026-10-17)
+Chain: `strata-lab/m3b-01-crest-log` -> `m3b-02-crest-view` -> `m3b-03-docs`. NOT on main; waiting for review (M3b.4) and John's check. Picks are D23 in
+`docs/decisions.md`; definitions, sources and tuned values are in `docs/physics-references.md` ("M3b.1 Crest log"); the user text is `docs/user-guide.md` 14.7.
+It is a read-only analysis: `ENGINE_VERSION` is still 1, the record, presets and fixtures are unchanged, and `git diff main -- src/engine` adds only the
+analysis file and the side output that copies three arrays after each step.
+- **Module contract.** `src/engine/crestLog.ts` (`crestParams`, `buildCrestLog`, `labelOf`, `slope`, `CrestLog`, `CrestEpisode`; `CrestHistory` with `createCrestHistory` and `pushCrestFrame` is the side output),
+  request `crestLog` in `src/worker/protocol.ts` / `timeMachine.ts`. Views: `src/views/crests` (`model.ts` rows, sort and markers; `exportCrests.ts` the two CSVs;
+  `Markers.tsx`; `index.tsx` the table, registered in the well region at order 0.75). Tests: `tests/crestLog.test.ts` (hand-made records),
+  `tests/crestLogGulf.test.ts`, `tests/crestView.test.ts`.
+- **Trap: the label comes from the rates only.** `tabular`, `tapered` and `unresolved` are set by the sign of F - A and a 25 m/Myr floor. The grid is 1,000 m wide, so
+  hooks and wedges (fold zones of 50 to 1,000 m, GR12 p. 8) cannot be seen. Do not describe a label as a halokinetic sequence type found in the strata.
+- **Trap: single-crest numbers are noise-sensitive (D16.4).** Which crests exist, how many are tabular, and the F - A of one crest move with 1 ulp of maths noise and
+  differ between Windows node 26 and Linux WSL node 22. Quote medians over noise runs and over both platforms and name the platform. Gulf, 7 runs per platform, near
+  window: median F - A -70.6 m/Myr (Windows) and -102.8 m/Myr (Linux); 1 tabular, 125 tapered, 58 unresolved over 14 runs. Never test a count near zero (the tabular
+  count is about 0 to 1 per run, so no test asserts it).
+- **Trap: the noise floor is tuned.** 25 m/Myr (82 ft/Myr) leaves about 30 % of Gulf crests unresolved. John may prefer 10 m/Myr (open question from M3b.1/M3b.2); changing
+  it is a one-line change of `NOISE_FLOOR_M_PER_MYR`, but redo the noise-run measurement and the numbers quoted in the docs.
+- **Trap: the near window and the burial window are different numbers.** The table shows the near window; the CSV has both. Burial is more negative because it includes
+  the one or two records after the cover passes 500 m. Do not compare a table number with a burial CSV column.
+- **Trap: at the end of a run every Gulf crest is buried**, so the section has no markers until the time slider moves back. That is correct, not a bug. Whether the app
+  should open at the first crest's time is an open question.
+- **Trap: the log is for the main run only.** A branch request throws (M3b.1), the store clears the log and the table says so. A per-branch log needs the history before the
+  fork to be shared.
+- **Trap: x is the crest's position at its LAST record.** That is also where the neighbour salt is measured. The CSV has both `x_first_km` and `x_last_km`. A crest followed
+  across several columns moves; do not use `x_first_km` to place a marker.
+- **Trap: salt is read from the salt layer only.** Salt that has flowed up into higher layers (a canopy) is not followed. The Gulf preset has none, but a future canopy
+  solver would make the log blind to it.
+- **Trap: there is no dissolution term.** VJ92a p. 347 write net rise as F - D; the engine has no D, so F is the whole rise. "At the seafloor" is cover under 2 m
+  (spike 003 `roofMin`), not an engine rule, and no Gulf crest reaches it (median time at the seafloor 0). Do not add salt to keep a crest exposed: burial is expected geology (John, 2026-10-16).
+- **Trap: the merged-candidate count (44 to 100 per Gulf run) is a footnote under the table** and in the CSV header, not a list of crests.
+- **Trap: canvas size at display scaling.** The marker buttons use the canvas's own mapping, and the canvas backing store follows scaling (1123x360 at 100 %, 924x450 at 125 %,
+  725x540 at 150 %, Gulf, Chrome on Windows). Checked in the built file at all three, 12 crest rows, no horizontal overflow, 0 console errors. Recheck after any layout change.
+- Labels: `Salt crests`, `Export crests (CSV)` and `Export crest records (CSV)` are listed in `tests/docs.test.ts` (`APP_STRINGS`), so the guide and the app source are checked against each other.

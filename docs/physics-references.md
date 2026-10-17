@@ -369,6 +369,26 @@ Source code: `src/engine/crestLog.ts` (pure analysis, no physics), history captu
 - **Label.** `tabular` when A < F, `tapered` when A > F (GR12 p. 20), `unresolved` when |F - A| is under 25 m/Myr (82 ft/Myr, **tuned**: the 90th percentile of how far F - A of the same crest moves under 1 ulp maths noise, 24.5 m/Myr near and 24.6 burial, 6 noise runs per platform; maximum 86 and 78). The episode label is the near-window label. Hooks and wedges (fold zones of 50 to 1,000 m, GR12 p. 8) are not resolved at dx 1,000 m, so the label comes from rates only.
 - **Neighbour salt, flow length.** At the last record: mean salt thickness at 10 km either side; flow length L = distance to the nearest column with salt under `weldThick` on either side (the smaller), over the mean salt thickness over +-10 km. "At the seafloor" = cover under 2 m (spike 003 `roofMin`; the engine has no exposed-salt rule).
 - **Gulf preset (Windows node 26 / Linux WSL node 22; 7 runs each: plain and six 1 ulp noise salts).** 10 to 15 episodes per run (13 plain on both), every one ended by burial. Median over all episodes of all runs, near window: F -21.8 m/Myr (-72 ft/Myr) on both platforms; A 109.5 (Windows) and 115.5 (Linux) m/Myr, about 360 to 380 ft/Myr; F - A -70.6 (Windows) and -102.8 (Linux) m/Myr, -232 and -337 ft/Myr. Burial window: F -24.7 / -20.8, A 74.7 / 74.7, F - A -103.9 / -104.0 m/Myr. Labels (near, floor 25; all 14 runs): 1 tabular, 125 tapered, 58 unresolved; (burial) 0, 158, 26. Median neighbour salt 4,049 m (13,285 ft) on both; median L/h 17.8 (Windows) and 18.0 (Linux); median near time 1.2 Myr; none at the seafloor (median 0). Reading: the flank seafloor builds about 75 to 115 m/Myr while the salt top does not rise, so the crests are buried, with 4 km of salt next to them, as SALT-R2 found in the spike. Cost of the log on the Gulf preset: 10 to 28 ms on both platforms.
+- **Sources and status of each definition and number (M3b.3).**
+
+  | Item | Value | Status | Source |
+  |---|---|---|---|
+  | Rise against accumulation as the burial test | crest stays up while net rise F - D is at least A; buried when it is below | cited | VJ92a p. 347 (also HJ07 p. 11). The log has no dissolution term D (the engine has none), so F is the whole net rise |
+  | Tabular (A < F) and tapered (A > F) | label from the rates | cited | GR12 p. 20 |
+  | Hooks and wedges, fold zones of 50 to 1,000 m | not resolved at dx 1,000 m, so never read from the grid | cited | GR12 p. 8 (dx 1,000 m is the section's own grid) |
+  | Crest prominence | 100 m (328 ft) | tuned | copied from spike 003; not measured |
+  | NEAR, cover that counts as near the seafloor | 500 m (1,640 ft) | tuned | the card's "within 500 m"; same as spike 003 |
+  | Burial gap | 3 steps in a row over NEAR | tuned | spike 003 |
+  | Tracking reach | 3 columns either side per step | tuned | spike 003 |
+  | Merge distance | 2 columns | tuned | no source; set in M3b.1 |
+  | Flank columns for A | columns 3 to 5 either side (3 to 5 km at dx 1,000 m) | tuned | columns 1 and 2 are left out because the crest's own mound bends the seafloor there; no source |
+  | Neighbour distance for salt beside the crest | 10,000 m (32,808 ft) | tuned | no source; set in M3b.1 (shorter than the 13 to 14 km structure spacing) |
+  | Window length | 1 Myr | tuned | after SALT-R1 S3-2 and SALT-R2 3.4; the records are 5 kyr apart so it holds about 200 |
+  | Noise floor for the label | 25 m/Myr (82 ft/Myr) | tuned | measured: 90th percentile of the change in F - A of the same crest under 1 ulp maths noise (24.5 m/Myr near, 24.6 burial, 6 noise runs per platform; maximum 86 and 78) |
+  | At the seafloor | cover under 2 m | tuned | spike 003 `roofMin`; the engine has no exposed-salt rule |
+  | Weld thickness used to end an episode and measure flow length | the engine's `weldThick` | tuned | the registry value, not a new number |
+
+  Every value above is in `crestParams` in `src/engine/crestLog.ts` and is written in the header lines of the CSV, so a file says which thresholds made it. A tuned value is a choice, not a measured quantity; only the noise floor was set from a measurement (Gulf preset, Windows node 26 and Linux WSL node 22). The label rule and the burial test are the only cited rules.
 - **Not claimed.** That a tabular or tapered label says anything about hooks, wedges or growth strata; that the thresholds (100 m, 500 m, 3 steps, 3 columns, 25 m/Myr) are measured; that the single-crest numbers are stable (quote medians, D16.4); anything about salt that moved up into a canopy.
 
 ## Set-up parameters and what the registry adds (M1.8)

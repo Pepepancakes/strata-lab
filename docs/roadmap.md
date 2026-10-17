@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-17):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. M3 salt (M3.1 to M3.12) was merged to main on 2026-10-16 with John's approval. The salt literature review (LIT cards) is done and approved. UI-1 (controls panel in named groups, D20) and M4 well-planning outputs (D21) were merged to main on 2026-10-17 after John's checks. Now: the salt evidence round. SALT-R1 found the S3b exposed crests come from a spike bypass bug, so S3c fixes it and SALT-R2 re-checks before John sets the M3b scope.
+**Status (2026-10-17):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. M3 salt (M3.1 to M3.12) was merged to main on 2026-10-16 with John's approval. The salt literature review (LIT cards) is done and approved. UI-1 (controls panel in named groups, D20) and M4 well-planning outputs (D21) were merged to main on 2026-10-17 after John's checks. Now: the salt evidence round is closed (SALT-R2) and M3b part 1 (the crest log, D23) is built on branches and waits for review and John's check. Earlier in the round: SALT-R1 found the S3b exposed crests come from a spike bypass bug, so S3c fixed it and SALT-R2 re-checked before John set the M3b scope.
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -257,7 +257,8 @@ A read-only analysis of the record, with no engine physics change. For each salt
 rise rate (F), the local accumulation rate (A), F - A, their ratio, the neighbouring salt thickness and
 flow length over salt thickness, plus a tabular or tapered sequence label from the rates (GR12 p. 20;
 hooks and wedges are not resolved at dx 1,000 m). Shown in the views and exported as CSV. Chain:
-M3b.1 crest log (engine side, test-first; built on branch strata-lab/m3b-01-crest-log, not on main) -> M3b.2 views and export -> M3b.3 docs -> M3b.4 salt review.
+M3b.1 crest log (engine side, test-first; built on branch strata-lab/m3b-01-crest-log, not on main) -> M3b.2 views and export (built on strata-lab/m3b-02-crest-view) -> M3b.3 docs (built on strata-lab/m3b-03-docs) -> M3b.4 salt review.
+**Status (2026-10-17): M3b part 1 is built on branches (M3b.1 to M3b.3), not on main, and waits for the M3b.4 review and John's check. It is not done.**
 - Option C (a salt feed) is decided by John after S4b, a single Stokes rerun (N-3) from a start section
   cut from the fixed spike. B is a later sensitivity test, D is long-term, E is out, and F stays open.
 

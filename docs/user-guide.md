@@ -787,17 +787,8 @@ of the salt and starts again below its base, because salt has no pore fluid; a n
 A well through a welded column shows the weld, its age and the salt that is left.
 Tap the (i) buttons for what each mark means.
 
-**Salt crests (M3b.2).** Below the pseudo-well, the **Salt crests** table has one row for each crest
-of the salt top that came within 1,640 ft of the seafloor. F is how fast the salt top rose at the crest and A is how
-fast the seafloor beside it built up, both in ft/Myr over the last 1 Myr the crest was near the seafloor.
-F minus A above zero is *tabular* (the salt outpaced its flanks), below zero *tapered*; within 82 ft/Myr of
-zero the label is *unresolved* (a tuned noise floor). Hooks and wedges are not resolved at the grid size, so the label
-comes from the rates only. Click a column head to sort. Click a row to move the time slider to the crest's last age.
-On the section, a marker stands on the seafloor at each crest active at the time shown: a triangle up with T
-(tabular), a triangle down with P (tapered), a diamond with ? (unresolved). Hover or tab to a marker for its numbers.
-**Export crests (CSV)** saves the table and **Export crest records (CSV)** the record behind each crest; the `#` lines at the
-top give units, windows, thresholds and versions. The log is kept for the main run only: with a branch active the
-table says so. At the end of a run most crests are already buried, so the markers show when you move back in time.
+**Salt crests (M3b.2).** Below the pseudo-well, the **Salt crests** table lists each salt crest that came within
+1,640 ft of the seafloor, and markers on the section show them. Section 14.7 explains how to read them.
 
 ### 14.5 What the Gulf-style preset gives
 These are numbers from one run on the development machine (Node 26, Windows); they are the model's
@@ -858,6 +849,90 @@ the 4 km start thickness and the 300 m cover are tuned and have no field behind 
   column as fast as sediment loads it, so a crest that is exposed is buried again within a few million years unless salt is
   fed in by hand. That is spike S3; milestone M3b is meant to deal with it (roadmap).
 - The structure width of about 13 to 14 km comes from the tuned cover viscosity. It is a model result, not a measurement, and no published minibasin width was used (Pilcher et al. 2011 gives none).
+
+### 14.7 Salt crest log (M3b)
+The crest log answers one question about each salt high: while it was near the seafloor, did the salt keep
+rising faster than the sediment piled up beside it, or did the sediment win? It only reads a finished run. It
+changes no physics, so the section, the pseudo-well and every other view are the same with or without it.
+It is kept for the main run only: with a branch active the table says so and there are no markers.
+
+**What a crest is here.** A crest is a high of the top of the salt, at least 328 ft (100 m) higher than the
+salt around it, with the sediment over it less than 1,640 ft (500 m) thick. The log follows it from one time
+step to the next, to the neighbouring column (up to 3 columns away) that still has salt and the thinnest
+cover. It ends when the cover has stayed thicker than 1,640 ft for 3 steps in a row (*buried*), when no column in
+reach has salt thicker than the weld threshold (*welded*), or when the run ends. Two crests that come within
+2 columns of each other are counted as one. The 328 ft, 1,640 ft, 3 steps and 3 columns are tuned choices, not
+measurements (docs/physics-references.md, M3b.1).
+
+**F, A, F - A and A/F in plain words.**
+- **F** is how fast the top of the salt rose at the crest, in ft/Myr. Up is positive, so a negative F means the
+  salt top sank.
+- **A** is how fast the seafloor beside the crest built up, in ft/Myr: the mean seafloor 3 to 5 km either side
+  (columns 3 to 5 at 1,000 m wide; the two nearest columns are left out because the crest's own mound bends the
+  seafloor there). Sediment piling up at the flank is a positive A.
+- **F - A** is the difference. Above zero, the crest gains height on its flanks; below zero, the flanks gain on it.
+- **A/F** is the sediment rate divided by the salt rate. It is shown only when F is above zero (for a sinking salt
+  top the ratio means nothing, and the cell is empty). Near 1, the crest and its flanks keep pace; well above 1,
+  the sediment is winning.
+- Both rates are least-squares slopes over a window of 1 Myr. They are not a single before-and-after pair.
+
+**The two windows.** The table shows the *near* window: the last 1 Myr of the time the crest was within 1,640 ft of
+the seafloor. This is the rate while the crest was still near the surface. The CSV also has the *burial* window:
+the last 1 Myr up to the last record, which includes the one or two records after the cover passed 1,640 ft, when
+the new fill is pushing the salt top down. The burial numbers are usually more negative. A window with fewer than
+2 records gives no rate, and its cells are empty.
+
+**Tabular and tapered.** The label follows Giles and Rowan (2012), who describe two kinds of sequence next to a
+rising salt body (GR12 p. 20). When the sediment builds up slower than the salt rises (A below F) the sequence is
+*tabular*. When it builds up faster (A above F) the sequence is *tapered*. If F and A differ by less than
+82 ft/Myr (25 m/Myr) the label is *unresolved*: that difference is what 1 ulp of maths noise moves the same crest
+by, so it cannot be told from noise (a tuned floor). One thing to keep in mind: GR12 name the kinds from the
+shape of the strata (hook and wedge sequences, fold zones of 50 to 1,000 m wide, p. 8). The grid here is 1,000 m wide,
+so it **cannot show hooks and wedges**. The label comes from the two rates only, and says nothing about
+the strata themselves.
+
+**The table.** Columns: *Crest* (its number), *x* (km, where the crest was at its last record), *First* and
+*Last* (Ma), *At seafloor* (Myr with the cover under 2 m; 0 for every Gulf crest), *F*, *A*, *F - A* and *A/F* (near
+window), *Label*, *Salt beside* (ft, the mean salt thickness 10 km either side at the last record), *L/h* (the
+distance to the nearest column without salt, divided by that mean salt thickness: how many salt thicknesses of
+flow the crest has behind it) and *How it ended*. Click a column head to sort; empty cells sort last. Click a row
+to move the time slider to the crest's last record. Rows are grey when the crest is not active at the time shown.
+Under the table a note gives the number of candidate highs that were merged into an older crest, when there are any.
+
+**The markers.** On the section a marker stands on the seafloor at each crest active at the time shown. The shape
+carries the label, not the colour: a triangle up with T is tabular, a triangle down with P is tapered, a diamond
+with ? is unresolved. Hover over a marker, or tab to it, to see its numbers. A key sits under the section. At the
+end of a run every crest is already buried, so there are no markers until you move back in time.
+
+**The CSV files.** **Export crests (CSV)** writes one row per crest; **Export crest records (CSV)** writes
+one row per record of each crest, which is the series the fits are made from. Lines that start with `#` give units,
+windows, thresholds and versions. Empty cells mean the number does not exist. The table file has:
+- `crest_id`, `x_first_km`, `x_last_km`, `first_age_ma`, `last_age_ma`, `end_reason`, `end_age_ma`,
+  `time_at_seafloor_myr`, `time_near_myr`
+- near window: `F_near_ft_per_myr`, `A_near_ft_per_myr`, `F_minus_A_near_ft_per_myr`, `A_over_F_near`, `label`
+- burial window: `F_burial_ft_per_myr`, `A_burial_ft_per_myr`, `F_minus_A_burial_ft_per_myr`, `label_burial`
+- `neighbour_salt_ft`, `flow_length_ft`, `mean_salt_ft`, `L_over_h`
+
+The records file has `crest_id`, `record_step`, `age_ma`, `time_myr`, `x_km`, `salt_top_depth_ft`,
+`salt_thickness_ft`, `cover_ft`, `seafloor_depth_ft` and `flank_seafloor_depth_ft`. The table, the markers and both
+files read the same rows, so the numbers agree.
+
+**Worked example, Gulf-style preset (plain run, Windows, Node 26).** The run gives 13 crests. Crest 5 is at
+km 187.5. It first appears at 65.9 Ma, is near the seafloor for 7.9 Myr and is last near it at 57.8 Ma, then buried.
+In the near window its salt top rose at F = 182 ft/Myr (55 m/Myr) while the seafloor beside it built up at
+A = 371 ft/Myr (113 m/Myr). So F - A = -189 ft/Myr (-58 m/Myr), A/F = 2.0 and the label is *tapered*: the
+flanks gained on the crest at about twice its rise rate, and the difference is well past the 82 ft/Myr floor. The
+burial window gives F - A = -174 ft/Myr, also tapered. There was about 16,540 ft (5,040 m) of salt beside it and
+L/h = 10, so the salt was not short of supply; this agrees with SALT-R2, which reads the burial of crests as
+more likely a limit of the thin-sheet flow than a lack of salt (medium confidence).
+- **Do not read a single crest as a result.** Crest 11 (km 203.5) has F - A = -15 ft/Myr, inside the floor, so it is
+  *unresolved*. Which crests are tabular, tapered or unresolved moves with 1 ulp of maths noise, and the numbers
+  differ between machines.
+- **Quote the middle of all crests.** Over all crests of 7 runs on each platform (the plain run and six with 1 ulp
+  noise), the median near-window F - A is -232 ft/Myr (-71 m/Myr) on Windows Node 26 and -337 ft/Myr (-103 m/Myr)
+  on Linux Node 22. The median A is 360 to 380 ft/Myr on both. Across all 14 runs 125 crests are tapered, 58
+  unresolved and only 1 tabular, so the Gulf-style preset shows crests buried by their flanks, not crests that keep
+  up. That is expected geology for a buried diapir; the log reports it and does not try to change it.
 
 ## 15. Known limits
 - **Same results on the same machine, not on every machine.** On one browser the same inputs give
