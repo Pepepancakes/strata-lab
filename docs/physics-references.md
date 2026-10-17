@@ -136,10 +136,42 @@ citation come from `curveCreditAtAge(age)` and change with age.
   varies; Traugott 1997 uses 8.5 ppg in his conversion, which `src/views/well/audit.ts` uses for the regional trend).
 - `RHO_S` = 2650 kg/m^3: quartz grain density. **Cited generic value, to verify** for the real mineral mix (clay
   minerals are 2.6 to 2.8).
-- `MU` = 1.0e-3 Pa s: **pore water at 68 F (20 C)**, fixed. Water at 140 to 250 F is two to four times thinner, so the
-  real k/mu is larger and the real overpressure lower; sensitivity in the audit (check 5: a kMudMult of 3 stands for a
-  third of the viscosity). **Tuned in effect** (the mud permeability is tuned with it). A heat-dependent viscosity is
-  AUD-2. The pressure panel and the well window say "68 F (20 C) viscosity".
+- `MU` = 1.0e-3 Pa s: **pore water at 68 F (20 C)**, used when the heat model is OFF (`thermal` = 0), and as the
+  reference in k/mu when it is on. Water at 140 to 250 F is two to four times thinner, so the real k/mu is larger and
+  the real overpressure lower; sensitivity in the audit (check 5: a kMudMult of 3 stands for a third of the viscosity).
+  **Tuned in effect** (the mud permeability is tuned with it). With the heat model off the pressure panel and the well
+  window say "68 F (20 C) viscosity"; with it on, "viscosity follows temperature (IAPWS 2008)" (next section).
+
+## Pore-water viscosity follows temperature (AUD-2; F-2 of the physics audit; D26.2)
+- **Source:** IAPWS R12-08, *Release on the IAPWS Formulation 2008 for the Viscosity of Ordinary Water Substance*
+  (Huber et al. 2009, J. Phys. Chem. Ref. Data 38, 101). **Function:** `waterViscosity(tC)` in `src/engine/viscosity.ts`, a
+  Vogel form mu = A exp(B / (T - C)) with A = 2.5647e-5 Pa s, B = 548.24 K, C = 143.85 K, **fitted by us** to eq. 10 of
+  the release evaluated along liquid water at 0.1 MPa / saturation from 0 to 200 C (14 temperatures; log-space least
+  squares, C scanned). The fit constants are therefore **fitted to a cited source**, not published values.
+- **Accuracy:** within 0.8 % of R12-08 over 0 to 200 C (the 14 fit points); the test claims 1 %. The IAPWS values are
+  computed in the test by eq. 10 written from the release; that code is first checked against the release's own
+  verification values (its Table 4, 298.15 K / 998 kg/m3 gives 889.735 uPa s, 373.15 K / 1000 gives 307.884, 433.15 K /
+  1000 gives 217.685) to 1e-6. Spot values: 10 C 1.306, 20 C 1.002 (ISO value 1.0016), 50 C 0.547, 100 C 0.282,
+  150 C 0.182, 200 C 0.135 mPa s. Above 200 C it is an extrapolation (not checked; a cell hotter than that is deep in the
+  section, where the pore pressure is capped anyway). Below 0 C the 0 C value (1.79 mPa s) is used.
+- **Left out (stated, not measured here):** the pressure dependence (R12-08 is a function of density; at 20 C about +1 % (approximate, from memory of the literature, NOT computed here: to verify)
+  per 10 MPa, falling to about zero near 50 C), and salinity (sea water at 35 g/kg is about 5 % more viscous than fresh
+  water at 20 C; brines and the Gulf's deep salinities more). Both are small next to the factor 3 to 6 that temperature
+  changes mu between the sea floor and 150 C. They push the real mu up, so the pressures here are, if anything, a little low.
+- **Which temperature, and when:** the cell's `eng.temp`, the temperature at the cell middle from the last thermal update
+  (every `thermalEvery` steps and at the last step; steady conduction of the state at that time). A layer deposited
+  since the last update is given the sea-floor temperature at its deposit (`step()`), so a cold new layer is neither 0 C nor
+  borrowed from below. The temperature is therefore up to `thermalEvery` steps old in the layers buried since.
+- **Face average:** the cell's mobility is k/mu(T) = (k / MU) * (MU / mu(T)), implemented as k * (MU / mu(T)) in place of k,
+  and the flux between two cells is the existing series (harmonic) sum of half-cell resistances, so it is the harmonic mean
+  of k/mu weighted by thickness. Chosen because Darcy flow through two layers in series adds resistances h/(k/mu). A
+  "mean temperature" face would be a different number: for cells at 20 and 150 C it differs by more than 5 %
+  (tests/viscosity.test.ts).
+- **Tests (tests/viscosity.test.ts):** 14 temperatures against the IAPWS values (1 %); a 60-layer column at constant T
+  gives bit-identical u to the same solver with mu fixed (k scaled by MU/mu(T)) at 4, 60 and 150 C; a two-cell column
+  with 20 C and 150 C solved by hand (2 x 2 system) matches to 1e-9; heat off ignores `eng.temp`.
+- **Heat off:** `thermal` = 0 takes the old branch (kk = k): bit-identical, every preset hash unchanged (no preset has the
+  heat model on). Saved heat-on runs replay differently, so `ENGINE_VERSION` is 2.
 
 ## M1.4c burial physics (changing subsidence, temperature, quartz cement)
 

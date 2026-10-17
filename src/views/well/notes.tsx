@@ -4,12 +4,17 @@
 
 import { presetParams } from '../../engine/presets'
 import type { AppState } from '../../app/store'
-import { bundlingNote, GULF_NOT_CALIBRATED, LIMITS_PARAGRAPH, runIsEdited, showsGulfNote } from './audit'
+import { bundlingNote, GULF_NOT_CALIBRATED, limitsParagraph, runIsEdited, showsGulfNote, thermalIsOn } from './audit'
 
 /** The bundleEvery the current run uses: the preset's value unless the user changed it under Controls. */
 export function currentBundleEvery(s: Pick<AppState, 'presetId' | 'overrides'>): number {
   const o = s.overrides.bundleEvery
   return typeof o === 'number' ? o : presetParams(s.presetId).bundleEvery
+}
+
+/** True when the current run has the heat model on (preset value unless overridden). */
+export function currentThermalOn(s: Pick<AppState, 'presetId' | 'overrides'>): boolean {
+  return thermalIsOn(presetParams(s.presetId).thermal, s.overrides)
 }
 
 /** The one-line notes that must travel with the numbers (plot, PNG, CSV). Empty entries are left out. */
@@ -29,7 +34,7 @@ export function AuditNotes({ s }: { s: Pick<AppState, 'presetId' | 'overrides' |
         <p key={i} className="small" role="note" data-testid={n === GULF_NOT_CALIBRATED ? 'gulf-note' : 'bundling-note'}
           style={{ background: '#fff4d6', border: '1px solid #b07a00', borderRadius: 4, padding: '6px 8px', color: '#4a3300' }}>{n}</p>
       ))}
-      <p className="small muted" data-testid="pressure-limits">{LIMITS_PARAGRAPH}</p>
+      <p className="small muted" data-testid="pressure-limits">{limitsParagraph(currentThermalOn(s))}</p>
     </div>
   )
 }

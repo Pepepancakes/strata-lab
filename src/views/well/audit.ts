@@ -54,11 +54,28 @@ export function bundlingNote(a: BundlingNoteInput): string | null {
 // ---- F-2 and F-9: limits of the pressure panel ----------------------------------------------------
 
 export const VISCOSITY_LINE = 'Pore water at 68 F (20 C) viscosity (1 mPa s); the real water is thinner at depth, so the real overpressure would be lower.'
+export const VISCOSITY_LINE_HEAT = 'Pore-water viscosity follows temperature (IAPWS 2008); no pressure or salinity effect.'
 
-export const LIMITS_PARAGRAPH =
+/** AUD-2: the viscosity line for a run with the heat model on (thermal = 1) or off. */
+export function viscosityLine(thermalOn: boolean): string {
+  return thermalOn ? VISCOSITY_LINE_HEAT : VISCOSITY_LINE
+}
+
+const LIMITS_HEAD =
   'Limits of these pressures: one vertical column at a time (1D drainage, no sideways flow and no leak-off), disequilibrium compaction as the only source of overpressure, ' +
-  'a mud permeability that is tuned (not measured), the shale pressure used for sands too (no centroid effect, Traugott 1997), and pore pressure capped at the overburden. ' +
-  VISCOSITY_LINE
+  'a mud permeability that is tuned (not measured), the shale pressure used for sands too (no centroid effect, Traugott 1997), and pore pressure capped at the overburden. '
+
+export function limitsParagraph(thermalOn: boolean): string {
+  return LIMITS_HEAD + viscosityLine(thermalOn)
+}
+
+export const LIMITS_PARAGRAPH = limitsParagraph(false)
+
+/** True when the run has the heat model on: the override if set, else the preset's value. */
+export function thermalIsOn(presetThermal: number, overrides: Record<string, unknown>): boolean {
+  const o = overrides.thermal
+  return (typeof o === 'number' ? o : presetThermal) === 1
+}
 
 // ---- F-4a: Gulf overburden ------------------------------------------------------------------------
 

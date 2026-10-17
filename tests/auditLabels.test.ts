@@ -10,7 +10,7 @@ import type { RunSpec, StateView, WellColumn } from '../src/worker/protocol'
 import { BUNDLE_TABLE, BUNDLE_TABLE_PROVENANCE } from '../src/views/well/bundleTable'
 import {
   bundlingNote, CAP_TOL, TRAUGOTT_REF_BELOW_SEAFLOOR_FT, isCapped, LIMITS_PARAGRAPH, runIsEdited, showsGulfNote, traugottCheck, traugottOverburdenPpg,
-  traugottSedimentDensityPpg, VISCOSITY_LINE,
+  traugottSedimentDensityPpg, VISCOSITY_LINE, limitsParagraph, thermalIsOn, viscosityLine,
 } from '../src/views/well/audit'
 import { currentBundleEvery, exportNotes } from '../src/views/well/notes'
 import { wellProfile } from '../src/views/well/profile'
@@ -263,5 +263,20 @@ describe('capped stations on the planned well', () => {
     const lines2 = titleLines(ctx, [run])
     expect(lines2.some((l) => l.startsWith('Note: Bundled deep compaction'))).toBe(true)
     expect(lines2.some((l) => l.includes('68 F (20 C)'))).toBe(true)
+  })
+})
+
+describe('AUD-2 viscosity label follows the heat model', () => {
+  it('says 68 F only with the heat model off, and names IAPWS 2008 with it on', () => {
+    expect(viscosityLine(false)).toContain('68 F (20 C)')
+    expect(viscosityLine(true)).toContain('follows temperature (IAPWS 2008)')
+    expect(viscosityLine(true)).not.toContain('68 F')
+    expect(limitsParagraph(true)).not.toContain('68 F')
+    expect(limitsParagraph(false)).toBe(LIMITS_PARAGRAPH)
+  })
+  it('reads the heat switch from the override first, then the preset', () => {
+    expect(thermalIsOn(0, {})).toBe(false)
+    expect(thermalIsOn(0, { thermal: 1 })).toBe(true)
+    expect(thermalIsOn(1, { thermal: 0 })).toBe(false)
   })
 })

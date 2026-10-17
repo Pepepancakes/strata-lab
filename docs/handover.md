@@ -276,6 +276,17 @@ b9d410d6, f2e2fd2c). `git diff main -- src/engine` is three new files and no edi
   gradient against the Eaton formula to 3.5e-8 relative, compare CSV has one block per branch, 0 console errors, 0 external requests).
 - Labels: the planned-well labels are listed in `tests/docs.test.ts` (`APP_STRINGS`), so the guide and the app source are checked against each other.
 
+## AUD-2 pore-water viscosity (2026-10-17)
+Branch `strata-lab/aud-02-viscosity` (stacked after `aud-01-labels-checks`). Details: `docs/physics-references.md` ("Pore-water viscosity follows temperature").
+- `ENGINE_VERSION` is now **2**: with `thermal` = 1, compaction uses mu(T) per cell, so saved heat-on runs replay differently. Heat-off runs and
+  every preset (none has the heat model on) are unchanged; the goldens and fixtures did not move.
+- **Trap: with the heat model on, sea-floor mud is MORE viscous than the old fixed 20 C value** (mu 1.5 to 1.8 mPa s at 0 to 5 C), so shallow cold
+  sediment drains more slowly than a heat-off run, while deep sediment drains faster. On the MTD preset with heat on this gives more slope failures,
+  not fewer (numbers in the AUD-2 handoff). Do not compare a heat-on run to a heat-off run and read the difference as "heat".
+- **Trap: `eng.temp` is a cache of the last thermal update** (every `thermalEvery` steps). `step()` writes the sea-floor temperature into the new layer
+  so compaction never reads an unset 0. Anything that adds a layer by another route must do the same when `thermal` = 1.
+- `scripts/review/aud-02/viscosity-runs.mjs <case...>` prints max u, max u/L, slides and pore pressure at 10,000 ft for the presets run with `thermal` = 1.
+
 ## M3b part 1 crest log (2026-10-17)
 Chain: `strata-lab/m3b-01-crest-log` -> `m3b-02-crest-view` -> `m3b-03-docs`. NOT on main; waiting for review (M3b.4) and John's check. Picks are D23 in
 `docs/decisions.md`; definitions, sources and tuned values are in `docs/physics-references.md` ("M3b.1 Crest log"); the user text is `docs/user-guide.md` 14.7.

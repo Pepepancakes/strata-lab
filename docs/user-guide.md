@@ -438,8 +438,12 @@ neither is a calibrated field curve.
 **Limits of the pressures** (also printed under the plot): one vertical column at a time (1D
 drainage, no sideways flow, no leak-off); disequilibrium compaction is the only source of
 overpressure; the mud permeability is tuned, not measured; the shale pressure is used for sands too
-(no centroid effect); pore pressure is capped at the overburden; and the pore water is taken at 68 F
+(no centroid effect); pore pressure is capped at the overburden; and, with the heat model off, the pore water is taken at 68 F
 (20 C) viscosity, which is thicker than water at depth, so the real overpressure would be lower.
+With the heat model on (Temperature on under Controls) the water viscosity follows each cell's
+temperature (IAPWS 2008 water, no pressure or salinity effect): thinner at depth, so overpressure is
+lower there, but thicker than the 68 F value in cold sea-floor mud, so shallow slope mud drains
+more slowly than with the heat model off.
 On the Gulf-style preset the densities are not calibrated to the Gulf (North Sea compaction
 coefficients), so the overburden and the fracture gradient read low; the **Physics checks** panel
 compares the pseudo-well overburden with the Traugott (1997) deep-water Gulf regional trend and

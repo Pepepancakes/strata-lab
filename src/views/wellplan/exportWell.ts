@@ -12,7 +12,7 @@ import { WELL_AIR, WELL_MTD, WELL_SALT, WELL_SEDIMENT, WELL_WATER, type WellDefi
 import type { FractureMethod } from '../../engine/wellPressureParams'
 import type { WellPressures } from '../../engine/wellPressure'
 import { cToF } from '../../units'
-import { isCapped, VISCOSITY_LINE } from '../well/audit'
+import { isCapped, viscosityLine } from '../well/audit'
 
 export interface ExportRun {
   branchId: string
@@ -36,6 +36,8 @@ export interface ExportContext {
   engineVersion: number
   /** One-line notes that travel with the numbers (bundling, Gulf calibration, cap at the overburden; AUD-1). */
   notes?: readonly string[]
+  /** True when the run has the heat model on (AUD-2): the viscosity line then says it follows temperature. */
+  thermal?: boolean
 }
 
 export const CSV_COLUMNS = [
@@ -84,7 +86,7 @@ export function titleLines(ctx: ExportContext, runs: readonly Pick<ExportRun, 'l
     `Well: ${describeWell(ctx.well)}`,
     `Fracture-gradient method: ${FG_METHOD_NAME[ctx.fgMethod]}   |   Depths ft TVDSS, mud weights ppg EMW from the rig floor`,
     ...(ctx.notes ?? []).map((n) => `Note: ${n}`),
-    `Limits: ${VISCOSITY_LINE}`,
+    `Limits: ${viscosityLine(ctx.thermal === true)}`,
   ]
 }
 
@@ -116,7 +118,7 @@ export function csvHeaderLines(ctx: ExportContext, runs: readonly ExportRun[]): 
     `# branches: ${runs.length}, rows: ${rows}`,
     '# capped_at_overburden: 1 where the pore pressure is held at the overburden (u / L >= 1 - 1e-9, no leak-off in the model); 0 elsewhere; empty in water, air and salt',
     ...(ctx.notes ?? []).map((n) => `# note: ${n}`),
-    `# limits: ${VISCOSITY_LINE}`,
+    `# limits: ${viscosityLine(ctx.thermal === true)}`,
   ]
 }
 

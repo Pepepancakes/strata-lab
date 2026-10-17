@@ -14,7 +14,7 @@ import { APP_VERSION, ENGINE_VERSION } from '../../version'
 import type { ViewDefinition } from '../types'
 import { WhatItMeans } from '../WhatItMeans'
 import { CAP_MARKER_TEXT, isCapped, NO_WINDOW_WORDS } from '../well/audit'
-import { AuditNotes, exportNotes } from '../well/notes'
+import { AuditNotes, currentThermalOn, exportNotes } from '../well/notes'
 import { downloadBlob, plotPng, type LegendItem } from './exportPng'
 import { exportFileName, titleLines, wellCsv, type ExportContext, type ExportRun } from './exportWell'
 import {
@@ -458,6 +458,7 @@ function ExportBar({ runs, compare, names, plotBox, flags }: { runs: PlotRun[]; 
   const context = (): ExportContext => ({
     scenario: getPreset(s.presetId).label, presetId: s.presetId, timeMa: s.view!.ageMa, well: plan, fgMethod: s.wellPressure.fgMethod,
     appVersion: APP_VERSION, engineVersion: ENGINE_VERSION,
+    thermal: currentThermalOn(s),
     notes: [...exportNotes(s), ...(runs.some((r) => cappedCount(r) > 0) ? [CAP_MARKER_TEXT] : [])],
   })
   const run = async (what: 'png' | 'csv'): Promise<void> => {
