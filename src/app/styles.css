@@ -45,3 +45,17 @@ label.toggle { display: inline-flex; align-items: center; gap: 4px; min-height: 
 /* A tall side column (event list, checks) must not stretch the section's row and push the
    pseudo-well down the page: the last row is a filler that absorbs the extra height. */
 @media (min-width: 1101px) { .shell { grid-template-rows: auto auto auto 1fr; grid-template-areas: "h h h" "c s r" "c w r" "c . r"; } }
+/* UI-1: controls in named groups, search, switches, changed-from-preset marker */
+.ctlsearch { position: sticky; top: 0; z-index: 2; display: flex; gap: 4px; padding: 4px 0; margin-bottom: 4px; background: #14181d; }
+.ctlsearch input { flex: 1; min-width: 0; background: #0f1317; color: #dde3ea; border: 1px solid #3a4658; border-radius: 4px; padding: 0 6px; }
+details.group { border: 1px solid #2a323c; border-radius: 4px; margin-bottom: 6px; padding: 0 6px; }
+details.group[open] { padding-bottom: 4px; }
+details.group > summary { display: flex; align-items: center; gap: 6px; min-height: 30px; cursor: pointer; flex-wrap: wrap; }
+.gtitle { font-weight: 600; } .gcount { margin-left: auto; }
+.badge { font-size: 10px; padding: 0 6px; border-radius: 8px; border: 1px solid; }
+.badge-on { color: #7fd69a; border-color: #3f7f55; } .badge-off { color: #9aa7b5; border-color: #4a5666; } .badge-changed { color: #8fc1f2; border-color: #3b6ea8; }
+.gsection h3 { margin: 8px 0 4px; font-size: 12px; color: #9aa7b5; font-weight: 600; }
+.gnote { margin: 2px 0 6px; }
+.changed-dot { display: inline-block; width: 8px; height: 8px; margin-right: 5px; border-radius: 50%; background: #5c8fc8; vertical-align: middle; }
+/* Wide layout: the controls column scrolls on its own so the section, pseudo-well and right column stay on screen. */
+@media (min-width: 1101px) { .controls { position: sticky; top: 6px; max-height: calc(100vh - 12px); overflow-y: auto; } }
