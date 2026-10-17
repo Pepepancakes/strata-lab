@@ -240,7 +240,12 @@ if (run('s3b')) {
     if (tr.every((c) => c.done)) break
   }
   for (const c of tr) {
-    const s = c.s, last = s[s.length - 1]
+    const s = c.s
+    if (s.length === 0) {
+      console.log(`  crest id ${c.id} (start column ${c.col0}): no near record on this platform (ended '${c.why}' at ${f(c.tEnd, 1)} Myr, column ${c.j}); the Windows run gave the values below. Platform sensitivity (D16.4).`)
+      continue
+    }
+    const last = s[s.length - 1]
     const pre = s.filter((q) => q.t >= last.t - 1.0 - 1e-9)
     const Fp = slope(pre.map((q) => [q.t, q.zt])), Ap = slope(pre.map((q) => [q.t, q.Hf]))
     const first = pre[0]
