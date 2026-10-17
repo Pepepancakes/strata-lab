@@ -21,15 +21,17 @@ from about 26.8 to 54 Myr and then buried? Everything here is offline node, neve
 |---|---|---|---|
 | 1 Poiseuille flux | 0.005208 | 0.005215 (0.13 %) | 1 % |
 | 2a Rayleigh-Taylor initial growth rate (linear theory, no-slip top and bottom) | 0.01094 | 1.4 % high at 96x104, 3.5 % at 64x70 | 5 % |
-| 2b van Keken et al. (1997) case 1a, time of first v_rms peak | 208.99 | 212.27 (1.6 %) | 5 % |
-| 2b v_rms at that peak | 0.0031 | 0.00310 | 5 % |
+| 2b van Keken et al. (1997) case 1a, time of first v_rms peak (secondary value, see caveat) | 208.99 | 212.27 (1.6 %) | 5 % |
+| 2b v_rms at that peak (secondary value) | 0.0031 | 0.00310 | 5 % |
 | 3 area per material through the overturn | conserved | 0.003 % of the box | 0.1 % |
 | 3 sedimentation area gain | area between old and new surface | 0.19906 vs 0.19934 | 1 % |
 | 4 free-surface relaxation time (4 pi eta / (rho g lambda)) | 30.16 kyr | 30.13 kyr (0.1 %) | 10 % |
 | bit-identical rerun | | yes | |
 
-Caveat: the van Keken numbers 208.99 and 0.0031 were taken from the Underworld example notebook table (a secondary source),
-not from the 1997 paper, which I could not retrieve. Please check against the paper if the benchmark is to be cited.
+Caveat (SALT-R1 S4-1): cite the benchmark as "van Keken et al. (1997) case 1a, values as tabulated in the Underworld and ASPECT example
+documentation (secondary)". The numbers 208.99 and 0.0031 were taken from the Underworld example notebook; the SALT-R1 reviewer found the
+same pair in the Underworld documentation (example 1_06) and the ASPECT cookbook (first peak within 1 % of the paper). None of the three
+is the 1997 paper, which neither of us could retrieve. The values are therefore secondary until someone checks the paper.
 With free-slip top and bottom the first peak moves to t = 120, so the reference needs no-slip top and bottom, as used here.
 
 ## Starting state
@@ -38,6 +40,15 @@ Both solvers start from the same section. 24.8 Myr, window columns 226-315 of th
 over the crest zone, 463 m of cover at the crest at tNear in the thin-sheet run vs 471-480 m in the Stokes start (the markers resolve the
 interface to a cell). The Stokes run sees the thin-sheet seafloor (median filtered over 11 columns, plus the mean basement drop) as
 the sediment level. Sediment is never removed, and sediment density is Athy compaction with the engine's 35/65 sand/mud mix.
+
+Two things about this start section (SALT-R1, S4 section and S3-4):
+- It inherits a hole. The thin-sheet run it was cut from had the S3b bypass bug (fixed in S3c, see spike 003 README). Crest 13 (column 230,
+  exposed from 13.3 Myr) lies inside the window (columns 226 to 315) and sits in a seafloor hole of order 100 m at 20 Myr. The 11-column
+  median filter removes a one-column hole from the sediment level; the unfiltered runs carry it. Both give the same burial verdict at the
+  x1 crest, so the verdict does not depend on it. S4 was not rerun on a fixed start section.
+- The thin-sheet comparison case ("exposed 26.8 to 54 Myr at x1", crest 21, column 270/271, `s4-case.json`) is a Windows-only realisation
+  of the spike (Windows, node 26). On Linux (WSL, node 22) crest 21 is never exposed; it is buried from 24.8 Myr on (D16.4, noise-sensitive
+  single crest). The S4 answer does not change, because on Linux the thin sheet keeps that crest buried too.
 
 ## Results
 
@@ -123,8 +134,10 @@ What this does and does not tell us:
 
 ## Answer
 
-Is the thin-sheet exposed crest (26.8 to 54 Myr in the Gulf case) geology or a thin-sheet artefact? Most likely an artefact of the thin
-sheet, at medium to high confidence for "not exposed for 27 Myr" and low to medium confidence for the actual cover history.
+Is the thin-sheet exposed crest (26.8 to 54 Myr in the Gulf case, Windows run) geology or a thin-sheet artefact? Most likely an artefact, at
+medium to high confidence for "not exposed for 27 Myr" and low to medium confidence for the actual cover history. SALT-R1 identified the
+mechanism: the exposed-salt bypass rule of spike 003 kept a seafloor hole open (fixed in S3c). The Stokes crest is buried throughout, with a
+cover of order 100 to 700 m that is not converged.
 
 Evidence for: 12 Stokes runs (A and B, filtered and unfiltered level, cover viscosity x1, x10, x0.1) hold the crest under at least 110 m of
 cover through the whole 26.8 to 54 Myr window (one filtered A run touches 36 m in the zone only at 60 Myr); the burial peak near 40 Myr
@@ -135,9 +148,11 @@ Evidence against certainty: Newtonian viscous cover only (GL24 stress that cover
 behave differently); one starting section; resolution scatter of 100 to 250 m between A and B at some times; the cover history (when the
 peak occurs, how deep it gets) is not converged, so only "buried, not exposed" is supported; plane strain; no dissolution.
 
-The Stokes crest is also not keeping pace with the seafloor in the Gulf case: it sits 110 to 670 m deep and falls behind the seafloor
-(relief against the flank is negative, down to about -490 to -640 m near the peak). So the answer to the card's question is neither
-of the two alternatives: not "buried within a few Myr after a long exposure", and not "keeps pace for tens of Myr".
+The Stokes crest is also not keeping pace with the seafloor in the Gulf case: it sits about 110 to 670 m deep and falls behind the seafloor.
+The relief against the flank at the peak is a range across the two grids (about -490 to -640 m, with an A/B scatter of 100 to 350 m); only
+its sign is supported, not the numbers. So the answer to the card's question is neither
+of the two alternatives: not "buried within a few Myr after a long exposure", and not "keeps pace for tens of Myr". It is buried throughout,
+with a cover of order 100 to 700 m that is not converged.
 
 ### What it means for M3b options C and D (recommendation only, John decides)
 
@@ -160,8 +175,7 @@ one start section; resolution scatter of 100 to 250 m.
 
 ## Open questions for John
 
-1. The van Keken reference values (time 208.99, v_rms 0.0031) are from the Underworld example notebook, a secondary source; I tried a
-   second search for the 1997 paper and a primary table and did not find one that I could read. Check against the paper before citing.
+1. The van Keken reference values (time 208.99, v_rms 0.0031) are secondary: the Underworld example notebook, confirmed against the Underworld documentation and the ASPECT cookbook by SALT-R1, but not the 1997 paper, which I could not read. Check against the paper before citing.
 2. Is a brittle or plastic cover (GL24 mention it) a case you want checked? It would change the conclusion if the cover can open over
    the crest.
 3. A second window or a second Gulf crest would test whether this is general (one start section here).

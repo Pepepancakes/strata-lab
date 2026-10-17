@@ -258,35 +258,41 @@ async function s3bChecks() {
   console.log('\n== 12. pit census (SALT-R1 S3-1): an exposed column is not a hole in the seafloor ==');
   {
     // At each mark, every exposed column (salt, cover < roofMin) is compared with the seafloor of its nearest
-    // NON-exposed neighbour on each side. Pit depth = lower of the two neighbours minus this column. Allowed: one
-    // record step of deposition = the median thickness (bulk) of the newest layer over the non-exposed columns at
-    // that mark (10 to 20 m in the Gulf run; printed). A column that is a topographic high has a negative depth.
+    // NON-exposed neighbour on each side. Pit depth = the lower of the two neighbours minus this column (negative =
+    // the column stands above both). Allowed: ONE RECORD STEP OF DEPOSITION = the larger bulk
+    // thickness of the newest layer on either neighbour (bypassed sediment can go to either side, so a neighbour can
+    // legitimately stand that much above a column that was level with it when the step began). Typically 10 to 20 m
+    // for a normal column, more for a receiver of bypass. Plus how far the exposed column itself fell during the
+    // step (seafloor at the start of the step minus subsidence minus the seafloor now, when positive): thin-sheet flow can drain salt out of a column faster than the neighbours rise.
     const P = gulfParams({ exposed: 1 }), st = S.createState(P);
     const marks = [10, 20, 27, 30, 40, 50, 54, 66], dtMyr = P.dtRec / 1e6;
     const ex = (j) => st.hs[j] > 0 && st.cover[j] < P.roofMin;
     const nbr = (j, s) => { let q = j + s; while (q >= 0 && q < st.nx && ex(q)) q += s; return q >= 0 && q < st.nx ? q : -1; };
     let mi = 0, allOk = true, totalExposed = 0;
-    while (S.step(st, P)) {
+    const Hprev = new Float64Array(st.nx);
+    const subs = (j) => (P.subsShelf + (P.subsBasin - P.subsShelf) * (j + 0.5) / st.nx) * 1e-6 * P.dtRec;   // subsidence in one record step
+    while (true) {
+      Hprev.set(st.H);
+      if (!S.step(st, P)) break;
       const t = st.k * dtMyr;
       if (mi >= marks.length || Math.abs(t - marks[mi]) > dtMyr / 2) continue;
       mi++;
-      const dep = [];
-      for (let j = 0; j < st.nx; j++) { if (ex(j)) continue; const i = st.k * st.nx + j; const b = S.bulkSM(st, P, st.sand[i], st.mud[i], i); if (b > 0) dep.push(b); }
-      dep.sort((a, b) => a - b);
-      const tol = dep[dep.length >> 1];
-      let n = 0, deepest = -Infinity, nBad = 0;
+      let n = 0, deepest = -Infinity, nBad = 0, worstOver = -Infinity;
+      const depAt = (q) => { const i = st.k * st.nx + q; return S.bulkSM(st, P, st.sand[i], st.mud[i], i); };
       for (let j = 0; j < st.nx; j++) {
         if (!ex(j)) continue;
         n++;
         const l = nbr(j, -1), r = nbr(j, 1);
-        const lo = Math.min(l >= 0 ? st.H[l] : Infinity, r >= 0 ? st.H[r] : Infinity);
+        const hl = l >= 0 ? st.H[l] : Infinity, hr = r >= 0 ? st.H[r] : Infinity;
+        const lo = Math.min(hl, hr);                    // the pit is measured to the lower neighbour
         const d = lo - st.H[j];
-        deepest = Math.max(deepest, d);
-        if (d > tol) nBad++;
+        const allowed = Math.max(l >= 0 ? depAt(l) : 0, r >= 0 ? depAt(r) : 0) + Math.max(0, Hprev[j] - subs(j) - st.H[j]);   // one record step of deposition on the thicker-filled neighbour + how far this column fell in the step (salt flowing out)
+        deepest = Math.max(deepest, d); worstOver = Math.max(worstOver, d - allowed);
+        if (d > allowed) nBad++;
       }
       totalExposed += n;
       allOk = allOk && nBad === 0;
-      console.log(`${t.toFixed(0).padStart(3)} Myr: exposed columns ${n}, allowed ${tol.toFixed(1)} m, deepest pit ${n ? deepest.toFixed(0) : '-'} m, columns deeper than allowed ${nBad}`);
+      console.log(`${t.toFixed(0).padStart(3)} Myr: exposed columns ${n}, deepest pit ${n ? deepest.toFixed(0) : '-'} m, worst (pit minus allowance) ${n ? worstOver.toFixed(1) : '-'} m, columns over the allowance ${nBad}`);
     }
     console.log(`census: ${totalExposed} exposed column-marks over ${mi} marks (printed, not asserted: after the fix exposure is rare and platform-dependent, D16.4)`);
     ok(mi === marks.length, `census reached all ${marks.length} marks`);

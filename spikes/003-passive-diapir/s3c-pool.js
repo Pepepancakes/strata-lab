@@ -12,7 +12,7 @@ const med = (a) => { a = fin(a); if (!a.length) return NaN; const n = a.length; 
 const rng = (a) => { a = fin(a); return a.length ? `${a[0].toFixed(0)} to ${a[a.length - 1].toFixed(0)}` : '-'; };
 
 function summary(rows) {
-  const ex = rows.filter((x) => x.exposedEver === 'true' || x.exposedEver === true), buried = rows.filter((x) => x.endWhy === 'buried');
+  const ex = rows.filter((x) => x.exposedEver === 'true' || x.exposedEver === true), buried = ex.filter((x) => x.endWhy === 'buried');   // exposed crests that were then buried (same set as s3b.js aggregate)
   const exM = ex.map((x) => x.exposedMyr);
   return {
     crests: rows.length, exposedEver: ex.length, buried: buried.length,
