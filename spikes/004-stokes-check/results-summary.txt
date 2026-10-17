@@ -1,0 +1,39 @@
+GULF: cover over the tracked crest (m) | shallowest salt in the crest zone 262-285 km (m) | exposed salt length in the window (km)
+run | grid | cfl | steps | min | 24.8 Myr | 26.8 Myr | 30 Myr | 40 Myr | 50 Myr | 54.3 Myr | 60 Myr | 66 Myr
+gulf-A | 180x38 |  | 1358 | 15 | 479.5 | 461.8 | 7.5 | 232.6 | 232.6 | 0 | 340.9 | 332.9 | 0 | 617.2 | 562.6 | 0 | 311.4 | 311.4 | 0 | 254.7 | 251.3 | 0 | 171.8 | 120.7 | 0 | 191.9 | 191.9 | 0  last t 65.8 {"tExposedMyr":null,"tBuriedMyr":null,"zoneTExposedMyr":null,"zoneTBuriedMyr":null} salt area 0.96%
+gulf-A-cfl1 | 180x38 |  | 685 | 8 | 479.5 | 461.8 | 7.5 | 242.1 | 242.1 | 0 | 350.9 | 350.9 | 0 | 565.5 | 612.3 | 0 | 372.9 | 354.4 | 0 | 213.2 | 248.7 | 0 | 182.2 | 171.9 | 0 | 270.6 | 249.9 | 0  last t 65.8 {"tExposedMyr":null,"tBuriedMyr":null,"zoneTExposedMyr":null,"zoneTBuriedMyr":null} salt area 0.80%
+gulf-B | 270x57 |  | 1004 | 48 | 471.2 | 460.3 | 7.33 | 227.5 | 225 | 0 | 319.6 | 319.6 | 0 | 666.7 | 617.2 | 0 | 350.2 | 350.2 | 0 | 252.2 | 255 | 0 | 236.4 | 246.7 | 0 | 245.9 | 243.1 | 0  last t 65.8 {"tExposedMyr":null,"tBuriedMyr":null,"zoneTExposedMyr":null,"zoneTBuriedMyr":null} salt area 0.90%
+gulf-A-cov10 | 180x38 |  | 1448 | 16 | 479.5 | 461.8 | 7.5 | 187.5 | 204.8 | 0 | 310.5 | 305.5 | 0 | 356.2 | 423.2 | 0 | 349.2 | 349.2 | 0 | 380.1 | 356.7 | 0 | 344.9 | 112.2 | 0 | 349.2 | 271.9 | 0.5  last t 65.8 {"tExposedMyr":null,"tBuriedMyr":null,"zoneTExposedMyr":60.8,"zoneTBuriedMyr":64.3} salt area 1.30%
+gulf-B-cov10 | 270x57 |  | 925 | 45 | 471.2 | 460.3 | 7.33 | 238 | 216.4 | 0 | 305.6 | 301.3 | 0 | 419.9 | 467.2 | 0 | 566.8 | 471.2 | 0 | 570.1 | 438.2 | 0 | 608.9 | 155.4 | 0 | 503 | 48.2 | 0.33  last t 65.8 {"tExposedMyr":null,"tBuriedMyr":null,"zoneTExposedMyr":61.3,"zoneTBuriedMyr":null} salt area 1.20%
+gulf-A-cov0.1 | 180x38 |  | 1758 | 19 | 479.5 | 461.8 | 7.5 | 540.6 | 512.6 | 0 | 586.4 | 586.4 | 0 | 342.7 | 331.6 | 0 | 115.2 | 115.2 | 0 | 133.1 | 133.1 | 0.5 | 61.7 | 61.7 | 0 | 243.2 | 135.1 | 0  last t 65.8 {"tExposedMyr":60.3,"tBuriedMyr":61.3,"zoneTExposedMyr":60.3,"zoneTBuriedMyr":61.3} salt area -0.20%
+gulf-B-cov0.1 | 270x57 |  | 1134 | 53 | 471.2 | 460.3 | 7.33 | 508 | 501.7 | 0 | 603.8 | 603.8 | 0 | 391.9 | 391.9 | 0 | 205.1 | 203.8 | 0 | 185.6 | 185.6 | 0 | 295.7 | 263.7 | 0 | 300.8 | 288.9 | 0  last t 65.8 {"tExposedMyr":null,"tBuriedMyr":null,"zoneTExposedMyr":null,"zoneTBuriedMyr":null} salt area 0.11%
+gulf-A zone min cover over the run: min 109.8 max 633.8 | max exposed km in zone 0 | exposed km whole window: at start 7.5 after 2 Myr 0 max after 2 Myr 0 times exposed>0 after 2 Myr: 
+gulf-B zone min cover over the run: min 184.2 max 666.5 | max exposed km in zone 0 | exposed km whole window: at start 7.33 after 2 Myr 0 max after 2 Myr 0 times exposed>0 after 2 Myr: 
+
+GL24-LIKE: crest above flank (m, + means salt above the flank seafloor) and cover over crest (m)
+gl24-A 200x52 steps 1831 min 51 salt area -2.20%
+  0.5 Myr: relief -134.6, cover 155.1, crest@57.25 km
+  1 Myr: relief 25.7, cover 0.9, crest@61.25 km
+  2 Myr: relief 67.5, cover 0, crest@55.75 km
+  3 Myr: relief 69.2, cover 0, crest@47.75 km
+  5 Myr: relief 99.9, cover 0, crest@63.25 km
+  10 Myr: relief 136.1, cover 0, crest@69.25 km
+  20 Myr: relief 97.9, cover 0, crest@48.25 km
+  30 Myr: relief 98.1, cover 0, crest@55.75 km
+  40 Myr: relief 157.7, cover 0, crest@23.25 km
+  50 Myr: relief 81.5, cover 0, crest@9.75 km
+  snapshots (salt thickness min / max, m): 0: 1775 / 2187 (n 200/200); 5: 3 / 3535 (n 200/200); 10: 2 / 4560 (n 197/200); 15: 0 / 5596 (n 195/200); 20: 0 / 6597 (n 198/200); 25: 1358 / 7657 (n 200/200); 30: 1175 / 8610 (n 200/200); 35: 535 / 9655 (n 200/200); 40: 415 / 10789 (n 200/200); 45: 3417 / 11865 (n 200/200); 50: 3910 / 12637 (n 200/200)
+gl24-B 250x65 steps 745 min 46 salt area -0.49%
+  0.5 Myr: relief -185.7, cover 193.8, crest@43.8 km
+  1 Myr: relief -66.1, cover 100.1, crest@43.8 km
+  2 Myr: relief 105.4, cover 0, crest@29 km
+  3 Myr: relief 29.9, cover 0, crest@29 km
+  5 Myr: relief 68.2, cover 0, crest@37.8 km
+  10 Myr: relief 67.3, cover 0, crest@33.4 km
+  20 Myr: relief 81.4, cover 0, crest@44.2 km
+  30 Myr: relief 90.7, cover 0, crest@44.2 km
+  40 Myr: relief 71.3, cover 0, crest@66.2 km
+  50 Myr: relief 113.4, cover 0, crest@93 km
+  snapshots (salt thickness min / max, m): 0: 1777 / 2190 (n 250/250); 5: 40 / 3471 (n 250/250); 10: 4 / 4510 (n 247/250); 15: 291 / 5523 (n 250/250); 20: 175 / 6548 (n 249/250); 25: 812 / 7542 (n 250/250); 30: 965 / 8535 (n 250/250); 35: 808 / 9547 (n 250/250); 40: 1449 / 10626 (n 250/250); 45: 4355 / 11722 (n 250/250); 50: 3109 / 12643 (n 250/250)
+
+Thin sheet GL24-like (crest depth below seafloor, m): 0: 200.1 thinnestSalt 1800.1; 10: 265.1 thinnestSalt 43.9; 20: 265.1 thinnestSalt 20.7; 30: 265.1 thinnestSalt 13.4; 40: 265.1 thinnestSalt 10.2; 50: 265.1 thinnestSalt 8.1
