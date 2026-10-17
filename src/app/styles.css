@@ -59,3 +59,7 @@ details.group > summary { display: flex; align-items: center; gap: 6px; min-heig
 .changed-dot { display: inline-block; width: 8px; height: 8px; margin-right: 5px; border-radius: 50%; background: #5c8fc8; vertical-align: middle; }
 /* Wide layout: the controls column scrolls on its own so the section, pseudo-well and right column stay on screen. */
 @media (min-width: 1101px) { .controls { position: sticky; top: 6px; max-height: calc(100vh - 12px); overflow-y: auto; } }
+/* M3b.2: the crest table is wide, so its view takes a whole row of the pseudo-well region */
+.well > .view:has(.crest-panel) { flex: 1 1 100%; }
+table.crest-table th, table.crest-table td { white-space: nowrap; } table.crest-table td.cause { text-align: left; }
+table.crest-table th button { cursor: pointer; }

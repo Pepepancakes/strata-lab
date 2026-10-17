@@ -12,6 +12,7 @@ import type { ParamValue } from '../engine/params'
 import { getPreset, presetParams, type PresetId } from '../engine/presets'
 import type { Segment } from '../engine/schedule'
 import type { FailureEvent } from '../engine/state'
+import type { CrestLog } from '../engine/crestLog'
 import { validateBranchEdits } from '../worker/edits'
 import { EngineClient } from '../worker/client'
 import type {
@@ -106,6 +107,10 @@ export interface AppState {
   events: FailureEvent[]
   /** Id of the event picked in the event list, or null. */
   selectedEvent: number | null
+  /** The crest log of the main run (M3b), or null: not fetched yet, or a branch is active (the log is kept for the main run only). */
+  crestLog: CrestLog | null
+  /** Id of the crest picked in the crest table (its marker is highlighted), or null. */
+  selectedCrest: number | null
   extent: Extent | null
   playing: boolean
   fps: number
@@ -165,6 +170,8 @@ const initial = (): AppState => ({
   diff: null,
   well: null,
   series: null,
+  crestLog: null,
+  selectedCrest: null,
   events: [],
   selectedEvent: null,
   extent: null,
@@ -312,6 +319,8 @@ export class AppStore {
       diff: null,
       well: null,
       series: null,
+      crestLog: null,
+      selectedCrest: null,
       wellCol: s0.wellCol >= 0 && s0.wellCol < r.info.nx ? s0.wellCol : Math.min(r.info.nx - 1, Math.round(r.info.nx * 0.46)),
       perf: { ...this.state.perf, runMs: ms },
     })
@@ -601,7 +610,7 @@ export class AppStore {
       activeId: r.info.rootId,
       compareId: null,
       step: r.info.nSteps,
-      extent: null, view: null, viewB: null, diff: null, well: null, series: null,
+      extent: null, view: null, viewB: null, diff: null, well: null, series: null, crestLog: null, selectedCrest: null,
       wellCol: file.well ? columnOfKm(file.well.xKm, r.info.nx, r.info.dx) : s0.wellCol >= 0 && s0.wellCol < r.info.nx ? s0.wellCol : Math.min(r.info.nx - 1, Math.round(r.info.nx * 0.46)),
       notice: cmp.message,
       perf: { ...s0.perf, runMs: r.ms },
@@ -665,6 +674,21 @@ export class AppStore {
     const nx = this.state.info?.nx ?? 0
     const col = ev.depositTo >= ev.depositFrom && ev.layer >= 0 ? Math.round((ev.depositFrom + ev.depositTo) / 2) : Math.round((ev.sourceFrom + ev.sourceTo) / 2)
     this.set({ selectedEvent: ev.id, step: Math.min(this.state.info?.nSteps ?? ev.step + 1, ev.step + 1), wellCol: Math.max(0, Math.min(nx - 1, col)) })
+    this.refresh(false)
+  }
+
+  /**
+   * Pick a crest in the crest table or on its marker: go to the view that shows it at its last record
+   * (record step k is seen at view step k + 1) and highlight its marker. null clears the pick.
+   */
+  selectCrest(id: number | null): void {
+    const e = id === null ? undefined : this.state.crestLog?.episodes.find((x) => x.id === id)
+    if (!e) {
+      this.set({ selectedCrest: null })
+      return
+    }
+    const last = e.track.step[e.track.step.length - 1] + 1
+    this.set({ selectedCrest: e.id, step: Math.max(0, Math.min(this.state.info?.nSteps ?? last, last)) })
     this.refresh(false)
   }
 
@@ -757,6 +781,16 @@ export class AppStore {
             const keep = this.state.selectedEvent
             this.set({ events: ev.events, selectedEvent: ev.events.some((e) => e.id === keep) ? keep : null })
           }
+        }
+        if (want.series) {
+          // the crest log is kept for the main run only; on a branch it is cleared
+          if (s.activeId === s.info.rootId) {
+            const cl = await this.ask({ kind: 'crestLog', branchId: s.activeId })
+            if (cl && cl.kind === 'crestLogData') {
+              const keep = this.state.selectedCrest
+              this.set({ crestLog: cl.log, selectedCrest: cl.log.episodes.some((x) => x.id === keep) ? keep : null })
+            }
+          } else this.set({ crestLog: null, selectedCrest: null })
         }
         if (want.view) await this.fetchView(s)
       }
