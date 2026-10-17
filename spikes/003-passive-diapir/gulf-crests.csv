@@ -1,3 +1,4 @@
+# Platform: Windows, node v26.7.0 (D16.4: single-crest outcomes are noise-sensitive; pool platforms and quote medians).
 # Rates in m/Myr, least squares over a 1 Myr window of 0.1 Myr records.
 # F_near, A_near, FmA_near ("rate while near"): the last 1 Myr of records with bulk cover under NEAR (500 m) only.
 # F_pre, A_pre, FmA_pre ("rate at burial"): the last 1 Myr up to the end of the near phase, which includes the 1 to 2 records after the cover passes NEAR (the burial squeeze).

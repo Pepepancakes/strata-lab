@@ -255,23 +255,26 @@ async function s3bChecks() {
     ok(Math.pow === powBefore && nDiff > 0 && maxRel <= 4.5e-16, `1 ulp helper: restores Math.pow, changes ${nDiff} of 50 results by at most ${maxRel.toExponential(1)} (relative, under 2 ulp)`);
   }
 
-  console.log('\n== 12. pit census (SALT-R1 S3-1): an exposed column is not a hole in the seafloor ==');
+  console.log('\n== 12. pit census (SALT-R1 S3-1, SALT-R2 N-1): an exposed column is not a hole in the seafloor ==');
   {
-    // At every record step each exposed column (salt, cover < roofMin) is compared with the seafloor of its nearest
+    // At EVERY record step each exposed column (salt, cover < roofMin) is compared with the seafloor of its nearest
     // NON-exposed neighbour on each side. Pit depth = the lower of the two neighbours minus this column (negative =
     // the column stands above both). Allowed: ONE RECORD STEP OF DEPOSITION = the larger bulk thickness of the newest
     // layer on either neighbour (bypassed sediment can go to either side, so a neighbour can legitimately stand that
     // much above a column that was level with it when the step began; 10 to 20 m for a normal column, more for a
     // receiver of bypass). A single record can show a small notch beyond that (a neighbour also rises by salt flow
-    // into it), so the assertion is on HOLES: a column over the allowance at a mark AND at the record before it.
-    // The S3b bug made holes that lasted tens of Myr.
+    // into it), so the assertions are on persistence and depth: no column stays over its allowance for more than
+    // MAXRUN successive records, and no pit is deeper than MAXPIT. The S3b bug made holes that lasted 410 records
+    // (41 Myr) and were 1,573 m deep. Measured after the fix (SALT-R2): longest run 5 records (Windows, node 26) and
+    // 8 records (Linux, node 22); deepest pit 61 m and 51 m. The marks are only printed.
+    const MAXRUN = 10, MAXPIT = 100;
     const P = gulfParams({ exposed: 1 }), st = S.createState(P);
     const marks = [10, 20, 27, 30, 40, 50, 54, 66], dtMyr = P.dtRec / 1e6;
     const ex = (j) => st.hs[j] > 0 && st.cover[j] < P.roofMin;
     const nbr = (j, s) => { let q = j + s; while (q >= 0 && q < st.nx && ex(q)) q += s; return q >= 0 && q < st.nx ? q : -1; };
     const depAt = (q) => { const i = st.k * st.nx + q; return S.bulkSM(st, P, st.sand[i], st.mud[i], i); };
     const census = () => {
-      const over = new Set(); let n = 0, deepest = -Infinity, worstOver = -Infinity;
+      const over = new Set(); let n = 0, deepest = -Infinity, worstOver = -Infinity, below = 0, above = 0, mixed = 0;
       for (let j = 0; j < st.nx; j++) {
         if (!ex(j)) continue;
         n++;
@@ -280,24 +283,32 @@ async function s3bChecks() {
         const allowed = Math.max(l >= 0 ? depAt(l) : 0, r >= 0 ? depAt(r) : 0);
         deepest = Math.max(deepest, d); worstOver = Math.max(worstOver, d - allowed);
         if (d > allowed) over.add(j);
+        if (l >= 0 && r >= 0 && st.H[j] < st.H[l] && st.H[j] < st.H[r]) below++;        // seafloor lower than both neighbours (H is height, as in the pit depth above)
+        else if (l >= 0 && r >= 0 && st.H[j] > st.H[l] && st.H[j] > st.H[r]) above++;   // seafloor higher than both
+        else mixed++;                                                                    // on a slope (or level, or at an edge)
       }
-      return { over, n, deepest, worstOver };
+      return { over, n, deepest, worstOver, below, above, mixed };
     };
-    let mi = 0, nHoles = 0, totalExposed = 0, prev = new Set();
+    let mi = 0, totalExposed = 0, maxRun = 0, maxPit = -Infinity, nBelow = 0, nAbove = 0, nMixed = 0, colRecords = 0;
+    let run = new Map();   // column -> successive records over the allowance
     while (S.step(st, P)) {
       const t = st.k * dtMyr, c = census();
-      const atMark = mi < marks.length && Math.abs(t - marks[mi]) <= dtMyr / 2;
-      if (atMark) {
-        mi++;
-        const holes = [...c.over].filter((j) => prev.has(j)).length;
-        nHoles += holes; totalExposed += c.n;
-        console.log(`${t.toFixed(0).padStart(3)} Myr: exposed columns ${c.n}, deepest pit ${c.n ? c.deepest.toFixed(0) : '-'} m, worst (pit minus allowance) ${c.n ? c.worstOver.toFixed(1) : '-'} m, over the allowance now ${c.over.size}, holes (also over the record before) ${holes}`);
+      const next = new Map();
+      for (const j of c.over) { const r = (run.get(j) || 0) + 1; next.set(j, r); maxRun = Math.max(maxRun, r); }
+      run = next;
+      if (c.n) maxPit = Math.max(maxPit, c.deepest);
+      colRecords += c.n; nBelow += c.below; nAbove += c.above; nMixed += c.mixed;
+      if (mi < marks.length && Math.abs(t - marks[mi]) <= dtMyr / 2) {
+        mi++; totalExposed += c.n;
+        console.log(`${t.toFixed(0).padStart(3)} Myr: exposed columns ${c.n}, deepest pit ${c.n ? c.deepest.toFixed(0) : '-'} m, worst (pit minus allowance) ${c.n ? c.worstOver.toFixed(1) : '-'} m, over the allowance now ${c.over.size}`);
       }
-      prev = c.over;
     }
-    console.log(`census: ${totalExposed} exposed column-marks over ${mi} marks (printed, not asserted: after the fix exposure is rare and platform-dependent, D16.4)`);
+    console.log(`marks: ${totalExposed} exposed column-marks over ${mi} marks (printed, not asserted: platform-dependent, D16.4)`);
+    console.log(`every record: ${colRecords} exposed column-records; longest run over the allowance ${maxRun} records (${(maxRun * dtMyr).toFixed(1)} Myr); deepest pit ${maxPit.toFixed(0)} m (${(maxPit * 3.28084).toFixed(0)} ft)`);
+    console.log(`exposed column-records by position (SALT-R2 N-2): below both neighbours ${nBelow}, mixed (slope) ${nMixed}, above both ${nAbove}`);
     ok(mi === marks.length, `census reached all ${marks.length} marks`);
-    ok(nHoles === 0, 'no exposed column stays below both nearest non-exposed neighbours by more than one record step of deposition (checked at two successive records)');
+    ok(maxRun <= MAXRUN, `no exposed column stays over its one-record allowance for more than ${MAXRUN} successive records (longest ${maxRun})`);
+    ok(maxPit <= MAXPIT, `no exposed column is more than ${MAXPIT} m (${Math.round(MAXPIT * 3.28084)} ft) below its lower non-exposed neighbour (deepest ${maxPit.toFixed(0)} m)`);
   }
 
   console.log('\n== 13. bypass rule by hand (S3c): high sheds by slope, hole keeps, level top splits equally ==');

@@ -154,7 +154,9 @@ const COLS = ['id', 'col0', 'km0', 'kmEnd', 'tNear', 'tExp', 'tEnd', 'endWhy', '
   'roofOnset', 'roofOnsetFlag', 'roofExp', 'roofExpFlag'];
 function toCsv(rows, extra) {
   const f = (v) => (typeof v === 'number' ? (Number.isFinite(v) ? String(+v.toPrecision(6)) : '') : String(v));
-  const note = ['# Rates in m/Myr, least squares over a 1 Myr window of 0.1 Myr records.',
+  const plat = process.platform === 'win32' ? 'Windows' : process.platform === 'linux' ? 'Linux' : process.platform;
+  const note = [`# Platform: ${plat}, node ${process.version} (D16.4: single-crest outcomes are noise-sensitive; pool platforms and quote medians).`,
+    '# Rates in m/Myr, least squares over a 1 Myr window of 0.1 Myr records.',
     '# F_near, A_near, FmA_near ("rate while near"): the last 1 Myr of records with bulk cover under NEAR (500 m) only.',
     '# F_pre, A_pre, FmA_pre ("rate at burial"): the last 1 Myr up to the end of the near phase, which includes the 1 to 2 records after the cover passes NEAR (the burial squeeze).',
     '# F = rise of the salt top, A = rise of the flank seafloor (columns 3 to 5 each side); F - A < 0 means the flank gains on the crest.'];

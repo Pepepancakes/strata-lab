@@ -94,7 +94,7 @@ if (require.main === module) {
       for (const x of r.rows) all.push(Object.assign({ run: i + 1, supply: c.supply, saltThick: c.saltThick, saltVisc: c.saltVisc, coverThick: c.coverThick }, x));
     });
     console.log('sweep pooled', JSON.stringify(aggregate(all)));
-    fs.writeFileSync(path.join(scratch, 'sweep-crests.csv'), ['run,supply,saltThick,saltVisc,coverThick,' + require('./crestlog.js').COLS.join(',')].concat(
+    fs.writeFileSync(path.join(scratch, 'sweep-crests.csv'), [`# Platform: ${process.platform === 'win32' ? 'Windows' : process.platform === 'linux' ? 'Linux' : process.platform}, node ${process.version}`, 'run,supply,saltThick,saltVisc,coverThick,' + require('./crestlog.js').COLS.join(',')].concat(
       all.map((x) => ['run', 'supply', 'saltThick', 'saltVisc', 'coverThick'].map((k) => x[k]).concat(require('./crestlog.js').COLS.map((c) => (typeof x[c] === 'number' ? (Number.isFinite(x[c]) ? +x[c].toPrecision(6) : '') : x[c]))).join(','))).join('\n'));
   } else if (mode === 'ulp') {
     const all = [];
