@@ -3,14 +3,18 @@
 // Every number comes from the layer record through the worker (sampleWell) and wellPressures(); nothing is computed
 // from geology here.
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { MAX_WELL_COMPARE, store, useAppState, type WellRun } from '../../app/store'
 import { DEFAULT_AIR_GAP_FT, validateWell, verticalWell, type WellDefinition } from '../../engine/well'
 import { wellPressures, WINDOW_NO_WINDOW, WINDOW_TIGHT } from '../../engine/wellPressure'
 import type { FractureMethod } from '../../engine/wellPressureParams'
+import { getPreset } from '../../engine/presets'
 import { mToFt } from '../../units'
+import { APP_VERSION, ENGINE_VERSION } from '../../version'
 import type { ViewDefinition } from '../types'
 import { WhatItMeans } from '../WhatItMeans'
+import { downloadBlob, plotPng, type LegendItem } from './exportPng'
+import { exportFileName, titleLines, wellCsv, type ExportContext, type ExportRun } from './exportWell'
 import {
   linePath, makePlotRun, plotRange, readoutAt, saltIntervals, stationAtTvdss, windowBands,
   type PlotRun, type Readout,
@@ -402,6 +406,69 @@ function CompareTable({ runs, names }: { runs: PlotRun[]; names: string[] }) {
   )
 }
 
+// ---- export (M4.4) -------------------------------------------------------------------------------
+
+/** What the PNG legend shows: the same items as the key under the plot. */
+function legendItems(runs: PlotRun[], compare: boolean, names: string[], flags: { tight: boolean; noWindow: boolean; salt: boolean; water: boolean; stop: boolean }): LegendItem[] {
+  const grey = '#444'
+  const out: LegendItem[] = []
+  if (compare) runs.forEach((_, i) => out.push({ label: names[i] + (i === 0 ? ' (active)' : ''), colour: BRANCH_COLOURS[i % BRANCH_COLOURS.length] }))
+  out.push({ label: 'hydrostatic', colour: LINE.hydro, dash: '4 3' })
+  out.push({ label: 'pore pressure', colour: compare ? grey : LINE.pore })
+  out.push({ label: 'overburden', colour: compare ? grey : LINE.overburden, dash: compare ? '1.5 3' : undefined })
+  out.push({ label: 'fracture gradient', colour: compare ? grey : LINE.fg, dash: '7 3 2 3' })
+  out.push({ label: 'mud-weight window', colour: SHADE.ok, box: true })
+  if (flags.tight) out.push({ label: 'tight', colour: SHADE.tight, box: true })
+  if (flags.noWindow) out.push({ label: 'no window', colour: SHADE.noWindow, box: true })
+  if (flags.salt) out.push({ label: 'salt', colour: SHADE.salt, box: true })
+  if (flags.water) out.push({ label: 'sea water', colour: SHADE.water, box: true })
+  if (flags.stop) out.push({ label: 'well stops', colour: '#333', dash: '2 2' })
+  return out
+}
+
+function ExportBar({ runs, compare, names, plotBox, flags }: { runs: PlotRun[]; compare: boolean; names: string[]; plotBox: React.RefObject<HTMLDivElement | null>; flags: Parameters<typeof legendItems>[3] }) {
+  const s = useAppState()
+  const [working, setWorking] = useState(false)
+  const [done, setDone] = useState<string | null>(null)
+  const plan = s.wellPlan
+  if (!plan || !s.view) return null
+  const context = (): ExportContext => ({
+    scenario: getPreset(s.presetId).label, presetId: s.presetId, timeMa: s.view!.ageMa, well: plan, fgMethod: s.wellPressure.fgMethod,
+    appVersion: APP_VERSION, engineVersion: ENGINE_VERSION,
+  })
+  const run = async (what: 'png' | 'csv'): Promise<void> => {
+    setWorking(true)
+    setDone(null)
+    try {
+      const ctx = context()
+      if (what === 'png') {
+        const svg = plotBox.current?.querySelector('svg[data-testid="pressure-plot"]') as SVGSVGElement | null
+        if (!svg) throw new Error('There is no plot to save yet.')
+        const blob = await plotPng(svg, titleLines(ctx, runs), legendItems(runs, compare, names, flags))
+        downloadBlob(exportFileName(ctx, 'png'), blob)
+        setDone(`Saved ${exportFileName(ctx, 'png')} (${Math.round(blob.size / 1024)} KB).`)
+      } else {
+        const hashes = (await store.branchHashes()) ?? {}
+        const rows: ExportRun[] = runs.map((r) => ({ branchId: r.branchId, label: r.label, samples: r.samples, pressures: r.pressures, stateHash: hashes[r.branchId] ?? '' }))
+        const blob = new Blob([wellCsv(ctx, rows)], { type: 'text/csv;charset=utf-8' })
+        downloadBlob(exportFileName(ctx, 'csv'), blob)
+        setDone(`Saved ${exportFileName(ctx, 'csv')} (${rows.reduce((a, r) => a + r.samples.n, 0).toLocaleString('en-US')} stations).`)
+      }
+    } catch (e) {
+      store.fail(`Export failed: ${e instanceof Error ? e.message : String(e)}`)
+    } finally {
+      setWorking(false)
+    }
+  }
+  return (
+    <div className="row" data-testid="well-export" style={{ gap: 8, margin: '6px 0', flexWrap: 'wrap', alignItems: 'center' }}>
+      <button disabled={working || !!s.busy} style={{ minHeight: 44 }} onClick={() => void run('png')}>Export plot (PNG)</button>
+      <button disabled={working || !!s.busy} style={{ minHeight: 44 }} onClick={() => void run('csv')}>Export stations (CSV)</button>
+      <span className="small muted" role="status" data-testid="export-status">{done ?? 'Saves what the plot shows, at this time, for the branches drawn.'}</span>
+    </div>
+  )
+}
+
 // ---- the view -----------------------------------------------------------------------------------
 
 function WellPlanView() {
@@ -409,6 +476,7 @@ function WellPlanView() {
   const plan = s.wellPlan
   const [liveProblems, setLiveProblems] = useState<string[]>([])
   const busy = !!s.busy
+  const plotBox = useRef<HTMLDivElement>(null)
 
   const names = useMemo(() => s.wellRuns.map((r) => branchName(s, r.branchId)), [s.wellRuns, s.branches]) // eslint-disable-line react-hooks/exhaustive-deps
   const runs: PlotRun[] = useMemo(
@@ -461,8 +529,12 @@ function WellPlanView() {
             </fieldset>
           ) : null}
           {primary && liveProblems.length === 0 ? (
-            <div>
+            <div ref={plotBox}>
               <PressurePlot runs={runs} compare={compare} fgName={fgName} />
+              <ExportBar
+                runs={runs} compare={compare} names={names} plotBox={plotBox}
+                flags={{ tight: anyState(WINDOW_TIGHT), noWindow: anyState(WINDOW_NO_WINDOW), salt: saltIntervals(primary.samples).length > 0, water: primary.samples.mudlineTvdssFt > 0, stop: runs.some((r) => r.samples.stopped) }}
+              />
               <Key
                 runs={runs} compare={compare} names={names}
                 hasTight={anyState(WINDOW_TIGHT)} hasNoWindow={anyState(WINDOW_NO_WINDOW)}

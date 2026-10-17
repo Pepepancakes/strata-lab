@@ -389,6 +389,15 @@ the values and the measured depth. Each line, shade and flag has an (i) that exp
 other branches under **Compare branches** to draw the same well on up to three branches on the
 same axes, with a legend of branch names and a table of the narrowest window on each.
 
+**Exporting the well (M4.4).** Under the plot, **Export plot (PNG)** saves the picture with a
+title (scenario, branches, time in Ma, the well, the fracture-gradient method) and a legend.
+**Export stations (CSV)** saves one row per station: measured depth, true vertical depth from the
+rig floor and below sea level, position, material, porosity, pore pressure (psi and ppg),
+hydrostatic, overburden, fracture gradient, window width, temperature (deg F) and branch. The lines at the
+top start with `#` and give the units, the method, the app and engine versions and the state hash of
+each branch. With branches ticked under Compare branches, the file holds one block per branch.
+Both files are made in the browser and nothing leaves your machine.
+
 ## 9. Burial temperature, quartz cement and changing subsidence
 These three arrive with M1.4c. All are **off** by default so the default run is identical to
 the spike.

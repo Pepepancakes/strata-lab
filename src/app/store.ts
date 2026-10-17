@@ -479,6 +479,12 @@ export class AppStore {
     })
   }
 
+  /** The final state hash of every branch (what a scenario file stores); null if the worker could not answer. Used by the well export header. */
+  async branchHashes(): Promise<Record<string, string> | null> {
+    const r = await this.ask({ kind: 'hashes' })
+    return r && r.kind === 'hashList' ? r.hashes : null
+  }
+
   /** Write a scenario file (all branches, with each branch's final state hash) and hand it to John. Returns true when done. */
   async saveFile(): Promise<boolean> {
     const s = this.state
