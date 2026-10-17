@@ -341,6 +341,27 @@ docs in M4.5. Numbers:
 - Fracture gradient matches a hand calculation.
 - John says the plot reads like a pre-drill pressure prediction.
 
+## Audit fixes and crest layout  *(John, 2026-10-17: "go crest layout", "go with your picks"; D25, D26)*
+The physics audit of M1 to M3 (AUDIT-1) found four HIGH items that move M4's pressure numbers (F-1 to F-4), and John's
+M3b check found the crest table too far down the page. Cards (branches `strata-lab/<code>-<slug>`):
+- UI-2 crest list beside the section, row click moves the pseudo-well, M3b.4 items N-1 to N-8 (D25).
+- AUD-1 labels and checks, no physics change: F-1 docs and the bundled-versus-full difference on the well plot; "water
+  at 68 F" label; the overburden cap counted and marked (F-3); Gulf densities labelled uncalibrated with a check against
+  the Traugott (1997) regional overburden (F-4a). Brings the audit report onto main.
+- AUD-2 water viscosity follows temperature when the heat model is on (F-2).
+- AUD-3 Gulf shale compaction coefficients for the Gulf preset (F-4b; Hart et al. 1995), merged with UI-2 so the guide's
+  Gulf and crest numbers are re-measured once.
+- AUD-4 salt re-check of the Gulf preset after AUD-3 (salt reviewer).
+- AUD-5 "full accuracy" switch for deep compaction, after measuring its cost (F-1b).
+- AUD-6 integrity review of the batch, then John's check list. Nothing reaches main before John's check.
+
+**Done when:**
+- Every HIGH finding is either fixed with a test against a hand calculation or a published value, or shown on screen.
+- The Gulf preset's overburden check names its source and its gap in ppg; the D18 Gulf targets still hold, or John
+  decides what replaces them.
+- The crest list and the section are on screen together at 1920 x 1080 (100, 125, 150 %) and 2560 x 1440 (125, 150 %).
+- John says the well plot and the crest list read right, or names what is wrong.
+
 ## M5 — Growth faults
 Listric normal faults that start and grow under loading over mobile shale or salt, with
 hanging-wall rollover and thicker growth strata. Columns must be able to move sideways, which is

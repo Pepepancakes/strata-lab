@@ -239,3 +239,32 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      E out, F (brittle cover) open.
   4. SALT-R3's wording items N-5, N-7 and N-8 are fixed on local branch `strata-lab/salt-r3-wording` (spike READMEs,
      docs only), which goes to main with the spike branches. N-9 (S4b run output not committed) is accepted for a spike.
+
+- **D25. Crest panel beside the section (John, 2026-10-17: "go crest layout").**
+  1. John's check of M3b part 1: the Salt crests table sat below the pseudo-well and the planned well, 1,240 to 1,580 px
+     down the page on the Gulf preset (section bottom about 630 px), so a click on a row could not be seen on the
+     section. On a 1080p screen at 125 % the window is about 760 px tall.
+  2. Fix (card UI-2): a compact crest list (Crest, label, F - A, Last Ma; about 10 rows, scrolling inside) at the top of
+     the right-hand column, shown only when the run has salt, with a selected-crest card under it (position, F, A, A/F,
+     salt beside, L/h, how it ended, the two CSV exports). Clicking a row also moves the pseudo-well to the crest's
+     column (the M3b.4 reviewer's recommendation; the slope-failure list already does this).
+  3. The M3b.4 review's eight non-blocking items (N-1 to N-8) ride on the same card. The 25 m/Myr noise floor stays,
+     the merged-candidate footnote stays, and a per-branch crest log stays later (the M3b.4 recommendations).
+
+- **D26. Physics audit (AUDIT-1) HIGH findings: the recommended picks (John, 2026-10-17: "go with your picks").**
+  The audit is `docs/reviews/physics-audit-m1-m3.md` (it comes onto main with the first card of the batch).
+  1. F-1, bundled deep compaction moves deep pore pressure by 0.7 to 1 ppg on the long presets: correct the docs with
+     the coupled-preset numbers, show the measured bundled-versus-full difference on the well plot, and add a
+     "full accuracy" switch (no bundling) once its run-time cost is measured. Re-solving one column unbundled is later.
+  2. F-2, pore-water viscosity fixed at 20 C (68 F): viscosity follows the model temperature when the heat model is on,
+     from a cited formula with a test against published values; the pressure panel says "water at 68 F" when it is
+     off. Whatever the change does to pressures and to slope failures is reported, not tuned away.
+  3. F-3, pore pressure silently capped at the overburden: show it now (a count in the physics checks; capped cells
+     marked on the pseudo-well and the planned well). A leak-off limit below the overburden (Hauser 2020) is later and
+     needs its own literature check.
+  4. F-4, Gulf preset overburden 1.5 to 2 ppg light: label the Gulf preset's densities as uncalibrated, add a check
+     against the deepwater Gulf regional overburden trend (Traugott 1997), and give the Gulf preset Gulf shale
+     compaction coefficients (Hart, Flemings and Deshpande 1995, Eugene Island 330). The Gulf salt and crest numbers
+     will move, so a salt review follows.
+  5. Order: labels and checks (no physics change), then viscosity, then the Gulf coefficients and a salt re-check, then
+     the full-accuracy switch, then one integrity review of the batch. Card code reaches main only after John's check.
