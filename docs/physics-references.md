@@ -355,7 +355,7 @@ Source code: `src/engine/wellPressure.ts` (`wellPressures`), parameters in `src/
 | depth (TVDSS) | in | S, psi | P, psi | S, ppg | P, ppg | Eaton FG, ppg | M&K FG, ppg | window (Eaton), ppg |
 |---|---|---|---|---|---|---|---|---|
 | 6,500 ft | mud 1 | 3,523.614 | 3,389.364 | 10.3049 | 9.9123 | 10.1741 | 10.1479 | 0.2617 (tight) |
-| 9,000 ft | salt | 5,761.380 | 4,000.657 (hydrostatic) | 12.2102 | 8.4787 | 12.2102 (= S) | 12.2102 (= S) | 3.7315 |
+| 9,000 ft | salt | 5,761.380 | 4,000.657 (hydrostatic) | 12.2102 | 8.4787 | 12.2102 (= S) | 12.2102 (= S) | none (no window in salt, M4.7) |
 | 12,000 ft | mud 2 | 8,606.292 | 7,834.210 | 13.7098 | 12.4799 | 13.2998 | 13.2178 | 0.8200 |
 
   A deviated well (build-and-hold, KOP 5,000 ft, 3 deg per 100 ft, hold 30 deg) gives the same numbers at the station with TVDSS 12,000 ft, although its MD is about 13,080 ft: depth in every formula is TVD below RKB.

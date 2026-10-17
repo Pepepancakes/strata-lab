@@ -261,7 +261,7 @@ b9d410d6, f2e2fd2c). `git diff main -- src/engine` is three new files and no edi
     `downloadBlob`; `store.branchHashes()`. File names `strata-<preset>-well-stations-<Ma>Ma.csv` and `strata-<preset>-well-pressure-<Ma>Ma.png`.
 - **Trap: depth in every pressure formula is TVD below RKB**, not measured depth. A deviated well and a vertical well read the same at the same TVD (tested).
   Keep ft TVDSS on the axis and ppg from the rig floor; sea water at 3,000 ft reads 8.332 ppg, not 8.554 (air gap 80 ft).
-- **Trap: salt has no pore pressure.** `porePa` is NaN in salt samples. The window's lower limit there is hydrostatic (a labelled choice) and the fracture
+- **Trap: salt has no pore pressure.** `porePa` is NaN in salt samples. No window is counted in salt (M4.7), and the fracture
   gradient is the overburden (D21; no source, to verify). Anything that plots or exports `porePa` must handle NaN (the CSV leaves the field empty).
 - **Trap: do not blend across a salt flank or an MTD edge.** Numbers are interpolated between the two columns only when both hold the same material at that
   elevation; otherwise the nearest column is used (`sampleWell`). Overburden is always interpolated.

@@ -22,7 +22,7 @@
 //   P  as EMW, ppg           9.912306                   8.478674             12.479887
 //   Eaton FG, ppg           10.174052                  12.210209 (= S)      13.299838
 //   M&K FG, ppg             10.147878                  12.210209 (= S)      13.217843
-//   window (Eaton), ppg      0.261747 (tight)           3.731535             0.819951
+//   window (Eaton), ppg      0.261747 (tight)           none (salt, M4.7)    0.819951
 //   (digits from the same arithmetic done separately in Python; the code is asked to match to 1e-9 relative)
 import { beforeAll, describe, expect, it } from 'vitest'
 import { G, RHO_SALT, RHO_W } from '../src/engine/constants'

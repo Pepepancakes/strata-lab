@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-16):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. M3 salt (M3.1 to M3.12) was merged to main on 2026-10-16 with John's approval. The salt literature review (LIT cards) is done and approved. Now: UI-1, the controls panel in named groups (D20); the salt evidence round (SALT-1, S3b, S4, SALT-R1) that sets the M3b scope; and M4 well-planning outputs, built and waiting for John's check (D21).
+**Status (2026-10-17):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. M3 salt (M3.1 to M3.12) was merged to main on 2026-10-16 with John's approval. The salt literature review (LIT cards) is done and approved. UI-1 (controls panel in named groups, D20) and M4 well-planning outputs (D21) were merged to main on 2026-10-17 after John's checks. Now: the salt evidence round. SALT-R1 found the S3b exposed crests come from a spike bypass bug, so S3c fixes it and SALT-R2 re-checks before John sets the M3b scope.
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -301,7 +301,7 @@ is geology or a limit of the thin-sheet method before M3b is scoped.
 - The same well across branches, to compare scenarios.
 - PNG and CSV export.
 
-**Status (2026-10-16): built, not on main; waits for John's check of the second done-when item.** Cards
+**Status (2026-10-17): done and on main.** Review M4.6 asked for changes, M4.7 fixed them (land rig floor = ground + air gap; no window in salt), re-review M4.8 said APPROVE, and John checked the built file (controls groups and planned well, including the pressure plot): all pass, 2026-10-17. Merged together with UI-1 (controls panel in named groups, D20). Cards
 M4.1 to M4.4 on the chain `m4-01-well-path` -> `m4-02-well-pressures` -> `m4-03-well-view` -> `m4-04-well-export`,
 docs in M4.5. Numbers:
 - Path: build-and-hold hand check (KOP 5,000 ft, 3 deg/100 ft, hold 30 deg) gives R = 1,909.86 ft, TVD gain 954.93 ft and displacement 255.87 ft; the test matches to 1e-9 relative.
@@ -341,3 +341,6 @@ A 3D version on the GPU (WebGPU). Opens with a spike on speed.
 - Fracture gradient: stress ratio rising with depth below the mudline (Traugott 1997 deep-water
   practice; M4.6 Finding 3). Product choice for John; feed from the pore-pressure literature review.
 - Browser and Node records differ in the last bits (M4.6 Finding 5, informational).
+- Narrowest-window flag on a land wellhead always names the first station below the ground
+  (Gulf: 0.51 ppg about 10 ft down; M4.8 N4). A depth floor for the flag (for example below the
+  surface casing) is a product choice for John.
