@@ -83,3 +83,38 @@ if (mode === 'pool') {
   console.log('POOLED'.padEnd(10), `crests ${all.length} exposed ${ex.length} buried ${bu.length}`, `exposedMyr med ${f(med(ex.map((r) => +r.exposedMyr)), 1)} max ${f(Math.max(...ex.map((r) => +r.exposedMyr)), 1)} over3Myr ${ex.filter((r) => +r.exposedMyr > 3).length}`,
     `F_near ${f(med(bu.map((r) => +r.F_near)))} A_near ${f(med(bu.map((r) => +r.A_near)))} FmA_near ${f(med(bu.map((r) => +r.FmA_near)))} burial FmA ${f(med(bu.map((r) => +r.FmA_pre)))}`)
 }
+
+// Hand-check of two crests of the Windows S3c Gulf CSV with my own follower (same rule as the card: lowest cover
+// within 3 columns, salt >= 100 m), my own least squares. Usage: rates id:col0:tNear id:col0:tNear ...
+if (mode === 'rates') {
+  const spike = path.join(repo, 'spikes', '003-passive-diapir')
+  const S = require(path.join(spike, 'engine.js'))
+  const { gulfParams } = require(path.join(spike, 'gulf.js'))
+  const P = gulfParams({ exposed: 1 })
+  const st = S.createState(P)
+  const dtMyr = P.dtRec / 1e6
+  const targets = process.argv.slice(3).map((a) => { const [id, col, tn] = a.split(':'); return { id, j: +col, tNear: +tn, s: [], over: 0, done: false, started: false } })
+  const fm = (arr, j) => { const v = []; for (let d = 3; d <= 5; d++) for (const c of [j - d, j + d]) if (c >= 0 && c < arr.length) v.push(arr[c]); return v.reduce((a, b) => a + b, 0) / v.length }
+  const lsq = (pts) => { const n = pts.length, mt = pts.reduce((a, p) => a + p[0], 0) / n, my = pts.reduce((a, p) => a + p[1], 0) / n; let sxy = 0, sxx = 0; for (const [t, y] of pts) { sxy += (t - mt) * (y - my); sxx += (t - mt) ** 2 } return sxy / sxx }
+  while (S.step(st, P)) {
+    const t = st.k * dtMyr
+    for (const T of targets) {
+      if (T.done || t < T.tNear - 1e-9) continue
+      if (!T.started) { T.started = true } else {
+        let best = -1, bc = Infinity
+        for (let q = Math.max(0, T.j - 3); q <= Math.min(st.nx - 1, T.j + 3); q++) if (st.hs[q] >= 100 && st.cover[q] < bc) { bc = st.cover[q]; best = q }
+        if (best < 0) { T.done = true; continue }
+        T.j = best
+        if (st.cover[best] >= 500) { T.over++; if (T.over >= 3) { T.done = true; continue } } else T.over = 0
+      }
+      T.s.push({ t, zt: st.b[T.j] + st.hs[T.j], Hf: fm(st.H, T.j), cover: st.cover[T.j], j: T.j })
+    }
+  }
+  for (const T of targets) {
+    const near = T.s.filter((q) => q.cover < 500), tl = near[near.length - 1].t, w = near.filter((q) => q.t >= tl - 1 - 1e-9)
+    const F = lsq(w.map((q) => [q.t, q.zt])), A = lsq(w.map((q) => [q.t, q.Hf]))
+    const win = T.s.filter((q) => q.t >= T.s[T.s.length - 1].t - 1 - 1e-9)
+    const Fp = lsq(win.map((q) => [q.t, q.zt])), Ap = lsq(win.map((q) => [q.t, q.Hf]))
+    console.log(`crest ${T.id}: last near record t=${tl.toFixed(1)} Myr, ${w.length} records, col ${w[w.length - 1].j}; F_near ${F.toFixed(1)} A_near ${A.toFixed(1)} F-A ${(F - A).toFixed(1)} | window incl. burial records (${win.length} rec, to ${T.s[T.s.length - 1].t.toFixed(1)}): F ${Fp.toFixed(1)} A ${Ap.toFixed(1)} F-A ${(Fp - Ap).toFixed(1)}; exposed records ${T.s.filter((q) => q.cover < 2).length * dtMyr} Myr`)
+  }
+}
