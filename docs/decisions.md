@@ -204,3 +204,25 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      curves move to the same datum. Mud-weight window = pore pressure to fracture gradient, with no
      wellbore-stability (collapse) limit in M4. The well is saved in the scenario file; old files open
      unchanged.
+
+- **D22. Fix the S3 bypass rule and rerun S3b before choosing the M3b scope (John, 2026-10-17; the SALT-R1 recommendation).**
+  SALT-R1 found that the S3b "exposed for 27 Myr" crests were holes in the seafloor kept open by the
+  spike 003 bypass rule. The rule is fixed in the spike only (S3c): shed only from a topographic high,
+  tested on the seafloor at the start of the record step, split between lower neighbours by slope. S3b
+  is rerun on both platforms. Nothing is ported to `src/engine`, which has no exposed-salt bypass.
+
+- **D23. After SALT-R2: a docs fix, one Stokes rerun, and M3b starts with option A (John, 2026-10-17: "go with your picks").**
+  1. SALT-R2 found the S3c physics fix sound and asked for changes to documentation only (D-1, D-2,
+     N-1, N-2, N-4). One fix card (S3d) does them. The orchestrator checks it, and the salt reviewer
+     confirms it in the same short check as S4b (SALT-R3); no further review round.
+  2. SALT-R2 N-3: one S4 Stokes run (case A, cover viscosity x1) from a start section cut from the fixed
+     spike at about 24.9 Myr (S4b). John decides option C (a salt source layer) after it; nothing is
+     built for C before then. C is a question about how salt reaches a crest, not a way to add salt to
+     keep a crest exposed: burial of a diapir is expected geology (John, 2026-10-16).
+  3. M3b part 1 is option A: a read-only per-crest rise-to-accumulation output (F, A, F - A, ratio,
+     neighbouring salt thickness, flow length over salt thickness) with a tabular or tapered label from
+     the rates (Giles and Rowan 2012 p. 20). No engine physics change; record and fixtures unchanged.
+     B is a later sensitivity test, D is long-term, E is out, F stays open.
+  4. John is away for part of 2026-10-17 and asked that work keep moving: implementation choices are made
+     by the orchestrator and recorded as DECISION lines on the cards. Geology and product questions still
+     go to John (by Telegram). Card code reaches main only after John's check.

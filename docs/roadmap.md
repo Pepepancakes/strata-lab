@@ -243,10 +243,33 @@ benchmarked against a hand calculation?
 ## M3b — Passive diapirs and thinner welds  *(after M3 and S3; scope to be set from the salt evidence round and John's answers; M4 no longer waits for it, D21)*
 Build S3's approach into the engine, as maintained code and test-first, so that the Gulf preset shows crests that reach and stay at the seafloor
 and welds that thin closer to zero than the 100 m label of D18.
-- Scope is NOT fixed yet. It depends on John's answers to the S3 questions (feed or a salt source that keeps up; dissolution).
 - Salt, sand and mud stay conserved separately; salt stays off by default; the M1/M2 fixtures stay unchanged.
 
-**Done when (proposed, to be confirmed when the scope is set):**
+**Salt evidence round result (2026-10-17).** SALT-R1 found that the S3b "exposed for 27 Myr" crests were
+seafloor holes kept open by the spike's bypass rule. S3c fixed the rule, and SALT-R2 found the fix sound
+(REQUEST CHANGES only for out-of-date README text). In the fixed spike, exposed crests last a median of
+4.8 Myr (16.2 Myr at most; pooled over 14 runs on Windows and Linux). They are buried because the salt
+top falls about 33 m/Myr (108 ft/Myr) relative to the flank, with about 4,500 m (14,760 ft) of salt
+still next to them. SALT-R2 reads this as more likely a thin-sheet limit, medium confidence.
+
+**Scope, part 1 (D23, John 2026-10-17: "go with your picks"): option A, the rise-to-accumulation output.**
+A read-only analysis of the record, with no engine physics change. For each salt crest it gives the
+rise rate (F), the local accumulation rate (A), F - A, their ratio, the neighbouring salt thickness and
+flow length over salt thickness, plus a tabular or tapered sequence label from the rates (GR12 p. 20;
+hooks and wedges are not resolved at dx 1,000 m). Shown in the views and exported as CSV. Chain:
+M3b.1 crest log (engine side, test-first) -> M3b.2 views and export -> M3b.3 docs -> M3b.4 salt review.
+- Option C (a salt feed) is decided by John after S4b, a single Stokes rerun (N-3) from a start section
+  cut from the fixed spike. B is a later sensitivity test, D is long-term, E is out, and F stays open.
+
+**Done when, part 1 (A):**
+- F, A and F - A for a crest match a hand calculation on a small record (test).
+- The record, presets and fixture hashes are unchanged (`git diff main -- src/engine` touches only the
+  new analysis files; the M1-M3 fixtures pass unchanged).
+- The Gulf preset's crest table, section markers and CSV agree with each other, in ft/Myr and ft.
+- Checked in the built file at 100 %, 125 % and 150 % display scaling.
+- John says the crest table reads right, or names what is wrong.
+
+**Done when, later parts (proposed, after C is decided):**
 - The exposed-crest rule matches a hand calculation (as S3 result 1).
 - Salt, sand and mud are conserved.
 - The Gulf preset shows at least two crests at the seafloor at the end of the run, not edge artifacts, and the wedge still progrades.
