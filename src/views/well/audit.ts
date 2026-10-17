@@ -45,7 +45,7 @@ export function bundlingNote(a: BundlingNoteInput): string | null {
   if (!(a.bundleEvery > 1)) return null
   const entry = BUNDLE_TABLE[a.presetId]
   if (!a.edited && entry && entry.bundleEvery === a.bundleEvery) {
-    return `Bundled deep compaction (speed-up): pore pressure below about 5,000 ft may be off by up to ${entry.maxPpg.toFixed(1)} ppg on this preset (measured, AUDIT-1).`
+    return `Bundled deep compaction (speed-up): pore pressure below about 5,000 ft may be off by up to ${entry.maxPpg.toFixed(1)} ppg on this preset (99 % of cells within ${(Math.ceil(entry.p99Ppg * 10 - 1e-9) / 10).toFixed(1)} ppg; measured, AUDIT-1). Set bundleEvery = 1 for full accuracy.`
   }
   return 'Bundled deep compaction (speed-up, bundleEvery = ' + a.bundleEvery + '): pore pressure below about 5,000 ft may be off from the full solve; ' +
     'the difference was not measured for an edited or custom run. For full accuracy set bundleEvery = 1 under Controls (slower).'
@@ -91,6 +91,13 @@ export function traugottOverburdenPpg(waterDepthFt: number, depthBelowSeaSurface
   return (TRAUGOTT_WATER_PPG * Math.min(waterDepthFt, depthBelowSeaSurfaceFt) + traugottSedimentDensityPpg(sed) * sed) / depthBelowSeaSurfaceFt
 }
 
+/**
+ * The check reads the sediment cell nearest this depth below the sea floor (the audit's 11,922 ft cell at column 150 and
+ * its 8,006 ft cell at column 250 are the nearest it found in its table), or the deepest cell if the column is thinner.
+ * The 12,000 ft is a choice that keeps the check inside the range the Gulf trend is quoted for (about 12,000 ft TVD); not physics.
+ */
+export const TRAUGOTT_REF_BELOW_SEAFLOOR_FT = 12000
+
 export interface TraugottCheck {
   modelPpg: number
   trendPpg: number
@@ -100,10 +107,10 @@ export interface TraugottCheck {
   waterDepthFt: number
 }
 
-export function traugottCheck(deepest: { depthBelowSeaFt: number; waterDepthFt: number; overburdenPpg: number } | null): TraugottCheck | null {
-  if (!deepest || !(deepest.depthBelowSeaFt > deepest.waterDepthFt)) return null
-  const trendPpg = traugottOverburdenPpg(deepest.waterDepthFt, deepest.depthBelowSeaFt)
-  return { modelPpg: deepest.overburdenPpg, trendPpg, gapPpg: trendPpg - deepest.overburdenPpg, depthBelowSeaFt: deepest.depthBelowSeaFt, waterDepthFt: deepest.waterDepthFt }
+export function traugottCheck(cell: { depthBelowSeaFt: number; waterDepthFt: number; overburdenPpg: number } | null): TraugottCheck | null {
+  if (!cell || !(cell.depthBelowSeaFt > cell.waterDepthFt)) return null
+  const trendPpg = traugottOverburdenPpg(cell.waterDepthFt, cell.depthBelowSeaFt)
+  return { modelPpg: cell.overburdenPpg, trendPpg, gapPpg: trendPpg - cell.overburdenPpg, depthBelowSeaFt: cell.depthBelowSeaFt, waterDepthFt: cell.waterDepthFt }
 }
 
 export const TRAUGOTT_SOURCE =

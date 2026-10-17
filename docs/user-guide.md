@@ -308,7 +308,7 @@ What coarse steps can and cannot show:
   below the sea floor the pore pressure reads 10.02 against 9.36 ppg (column 80) and 10.39 against
   9.63 ppg (column 100). Gulf-style: about 1 ppg at column 250 (9.93 against 8.95 ppg). The pseudo-well
   and planned-well plots show a yellow note with the largest difference found on that preset
-  (`scripts/gen-bundle-table.mjs` measures it; it is also written into the PNG and CSV exports). To read
+  (`scripts/gen-bundle-table.mjs` measures it, with the 99th percentile; it is also written into the PNG and CSV exports). To read
   pressures with full accuracy, set **bundleEvery** to 1 under Controls (the run is then several times
   slower). The layer record still holds every layer.
 - Use the long presets to see where sand and mud go over millions of years, not to read

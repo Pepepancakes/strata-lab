@@ -47,7 +47,8 @@ for (const id of ids) {
   const a = run(id, N)
   const b = run(id, 1)
   const rec = b.eng.rec, nx = rec.nx
-  let worst = 0, worstCol = -1, cells = 0
+  let worst = 0, worstCol = -1, worstDepthFt = 0, cells = 0
+  const all = []
   for (let j = 0; j < nx; j++) {
     const wd = Math.max(0, b.seaEnd - rec.H[j])
     let depth = wd
@@ -61,10 +62,13 @@ for (const id of ids) {
       if ((mid - wd) / FT < DEPTH_FROM_FT) continue
       cells++
       const d = Math.abs(U.densityToPpg(a.eng.rec.u[i] / (K.G * mid)) - U.densityToPpg(rec.u[i] / (K.G * mid)))
-      if (d > worst) { worst = d; worstCol = j }
+      all.push(d)
+      if (d > worst) { worst = d; worstCol = j; worstDepthFt = (mid - wd) / FT }
     }
   }
-  entries[id] = { bundleEvery: N, maxPpg: Math.ceil(worst * 10 - 1e-9) / 10, rawPpg: Number(worst.toFixed(3)), column: worstCol, cells }
+  all.sort((p, q) => p - q)
+  const p99 = all.length ? all[Math.min(all.length - 1, Math.floor(0.99 * all.length))] : 0
+  entries[id] = { bundleEvery: N, maxPpg: Math.ceil(worst * 10 - 1e-9) / 10, rawPpg: Number(worst.toFixed(3)), p99Ppg: Number(p99.toFixed(3)), column: worstCol, depthBelowSeafloorFt: Math.round(worstDepthFt), cells }
   console.log(`${id}: bundled x${N} vs full, worst ${worst.toFixed(3)} ppg at col ${worstCol} over ${cells} cells (${((Date.now() - t0) / 1000).toFixed(0)} s)`)
 }
 
@@ -84,6 +88,9 @@ const lines = [
   '  /** The same before rounding, and where it was found (column index), for the record. */',
   '  rawPpg: number',
   '  column: number',
+  '  /** 99th percentile of the same differences over all cells, and the depth below the sea floor of the largest one, ft. */',
+  '  p99Ppg: number',
+  '  depthBelowSeafloorFt: number',
   '  cells: number',
   '}',
   '',

@@ -9,7 +9,7 @@ import { TimeMachine } from '../src/worker/timeMachine'
 import type { RunSpec, StateView, WellColumn } from '../src/worker/protocol'
 import { BUNDLE_TABLE, BUNDLE_TABLE_PROVENANCE } from '../src/views/well/bundleTable'
 import {
-  bundlingNote, CAP_TOL, isCapped, LIMITS_PARAGRAPH, runIsEdited, showsGulfNote, traugottCheck, traugottOverburdenPpg,
+  bundlingNote, CAP_TOL, TRAUGOTT_REF_BELOW_SEAFLOOR_FT, isCapped, LIMITS_PARAGRAPH, runIsEdited, showsGulfNote, traugottCheck, traugottOverburdenPpg,
   traugottSedimentDensityPpg, VISCOSITY_LINE,
 } from '../src/views/well/audit'
 import { currentBundleEvery, exportNotes } from '../src/views/well/notes'
@@ -70,7 +70,8 @@ describe('F-1 bundling note', () => {
     expect(note).toContain('Bundled deep compaction (speed-up)')
     expect(note).toContain('below about 5,000 ft')
     expect(note).toContain(`up to ${BUNDLE_TABLE.gulf.maxPpg.toFixed(1)} ppg`)
-    expect(note).toContain('(measured, AUDIT-1)')
+    expect(note).toContain('measured, AUDIT-1')
+    expect(note).toContain('99 % of cells within')
   })
 
   it('says "not measured" and names bundleEvery = 1 for an edited or custom run', () => {
@@ -182,10 +183,12 @@ describe('u / L diagnostics', () => {
     expect(prof.cappedCells).toBe(prof.points.filter((p) => p.capped).length)
   })
 
-  it('the deepest sediment cell overburden is the weight above its middle, in ppg from the sea surface', () => {
+  it('the trend cell is the sediment cell nearest 12,000 ft below the sea floor, or the deepest when the column is thinner', () => {
     const prof = wellProfile(well)
-    const d = prof.deepestSediment!
+    const d = prof.trendCell!
     const deepest = prof.points[prof.points.length - 1]
+    // this short column is much thinner than 12,000 ft, so the deepest cell is the nearest one
+    expect(deepest.tvdssFt - d.waterDepthFt).toBeLessThan(TRAUGOTT_REF_BELOW_SEAFLOOR_FT)
     expect(d.depthBelowSeaFt).toBeCloseTo(deepest.tvdssFt, 6)
     // the profile's own overburden EMW is taken from the rig floor; with the air gap removed it is the same stress
     expect(d.overburdenPpg).toBeGreaterThan(8.5)

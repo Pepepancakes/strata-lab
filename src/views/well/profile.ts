@@ -20,7 +20,7 @@ import type { FailureEvent } from '../../engine/state'
 import { eventsAtCell } from '../events/format'
 import { DEFAULT_AIR_GAP_FT } from '../../engine/well'
 import { cToF, densityToPpg, ftToM, mToFt } from '../../units'
-import { isCapped } from './audit'
+import { isCapped, TRAUGOTT_REF_BELOW_SEAFLOOR_FT } from './audit'
 import type { WellColumn } from '../../worker/protocol'
 
 /** Cells shallower than this below the datum are left out of the ppg curves (EMW blows up at zero depth), m. */
@@ -71,8 +71,12 @@ export interface WellProfile {
   /** Largest u / L among the cells of this column (0 if none) and how many cells are capped at the overburden (F-3). */
   maxUOverL: number
   cappedCells: number
-  /** Total weight above the cell middle as sea-surface-referenced ppg of the deepest sediment cell: see overburdenAtDeepestSediment(). */
-  deepestSediment: { depthBelowSeaFt: number; waterDepthFt: number; overburdenPpg: number } | null
+  /**
+   * The sediment cell that the regional-trend check reads (F-4a): the one whose middle is nearest TRAUGOTT_REF_BELOW_SEAFLOOR_FT
+   * below the sea floor, or the deepest sediment cell if the column is thinner. Its depth below the SEA SURFACE, the water
+   * depth, and the weight above its middle as ppg from the sea surface (no air gap). Null without sediment.
+   */
+  trendCell: { depthBelowSeaFt: number; waterDepthFt: number; overburdenPpg: number } | null
 }
 
 export function wellProfile(w: WellColumn, events: readonly FailureEvent[] = [], airGapM: number = ftToM(DEFAULT_AIR_GAP_FT)): WellProfile {
@@ -163,16 +167,21 @@ export function wellProfile(w: WellColumn, events: readonly FailureEvent[] = [],
     if (p.uOverL !== null && p.uOverL > maxUOverL) maxUOverL = p.uOverL
     if (p.capped) cappedCells++
   }
-  // the deepest sediment cell (points run top to bottom): its weight above, in ppg from the sea surface (no air gap), for the regional-trend check
-  let deepest: WellProfile['deepestSediment'] = null
-  for (let k = points.length - 1; k >= 0; k--) {
-    const l = points[k].layer
-    if (points[k].salt) continue
-    const depthM = datum - 0.5 * (zb[l] + zt[l])
-    if (depthM > 0) deepest = { depthBelowSeaFt: mToFt(depthM), waterDepthFt: mToFt(waterDepth), overburdenPpg: densityToPpg(sv[l] / (G * depthM)) }
-    break
+  // the cell for the regional-trend check: sediment cell nearest the reference depth below the sea floor (points run top to bottom)
+  let trend: WellProfile['trendCell'] = null
+  let best = Infinity
+  for (const p of points) {
+    if (p.salt) continue
+    const depthM = datum - 0.5 * (zb[p.layer] + zt[p.layer])
+    const belowFloor = mToFt(depthM - waterDepth)
+    if (!(depthM > 0) || !(belowFloor > 0)) continue
+    const d = Math.abs(belowFloor - TRAUGOTT_REF_BELOW_SEAFLOOR_FT)
+    if (d < best) {
+      best = d
+      trend = { depthBelowSeaFt: mToFt(depthM), waterDepthFt: mToFt(waterDepth), overburdenPpg: densityToPpg(sv[p.layer] / (G * depthM)) }
+    }
   }
-  return { points, topFt, bottomFt, cemOnsetFt: cementationOnsetDepthFt(points, cToF(w.cemTonsetC)), cemOnsetF: cToF(w.cemTonsetC), saltIntervals, weld, saltDensityPpg: densityToPpg(RHO_SALT), mtdIntervals, maxUOverL, cappedCells, deepestSediment: deepest }
+  return { points, topFt, bottomFt, cemOnsetFt: cementationOnsetDepthFt(points, cToF(w.cemTonsetC)), cemOnsetF: cToF(w.cemTonsetC), saltIntervals, weld, saltDensityPpg: densityToPpg(RHO_SALT), mtdIntervals, maxUOverL, cappedCells, trendCell: trend }
 }
 
 function cellDensity(w: WellColumn, l: number): number {

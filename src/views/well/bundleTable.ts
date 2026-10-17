@@ -13,6 +13,9 @@ export interface BundleEntry {
   /** The same before rounding, and where it was found (column index), for the record. */
   rawPpg: number
   column: number
+  /** 99th percentile of the same differences over all cells, and the depth below the sea floor of the largest one, ft. */
+  p99Ppg: number
+  depthBelowSeafloorFt: number
   cells: number
 }
 
@@ -21,21 +24,27 @@ export const BUNDLE_TABLE: Readonly<Record<string, BundleEntry>> = {
     bundleEvery: 10,
     maxPpg: 2,
     rawPpg: 1.921,
+    p99Ppg: 1.085,
     column: 114,
+    depthBelowSeafloorFt: 8971,
     cells: 44441
   },
   cenozoic: {
     bundleEvery: 20,
     maxPpg: 3.6,
     rawPpg: 3.534,
+    p99Ppg: 2.141,
     column: 79,
+    depthBelowSeafloorFt: 16531,
     cells: 193810
   },
   gulf: {
     bundleEvery: 20,
     maxPpg: 13.1,
     rawPpg: 13.007,
+    p99Ppg: 7.022,
     column: 46,
+    depthBelowSeafloorFt: 7471,
     cells: 213250
   }
 }
