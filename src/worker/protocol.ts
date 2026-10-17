@@ -8,6 +8,7 @@
 //             hold geology of their own: everything in them is read from the layer record.
 // All numbers in views are SI (m, Pa). Conversion to ft / ppg / km belongs to src/units.ts.
 
+import type { CrestLog } from '../engine/crestLog'
 import type { EngineParams } from '../engine/engineParams'
 import type { ParamValue } from '../engine/params'
 import type { PresetId } from '../engine/presets'
@@ -205,6 +206,8 @@ export type EngineRequest =
   /** The planned well sampled from the record at one step (M4.1). */
   | { id: number; kind: 'sampleWell'; branchId: string; step: number; well: WellDefinition }
   | { id: number; kind: 'series'; branchId: string }
+  /** Per-crest rise-to-accumulation log of the main run (M3b.1). */
+  | { id: number; kind: 'crestLog'; branchId: string }
   /** The slope failures of a branch over the whole run, oldest first (M2.4). */
   | { id: number; kind: 'events'; branchId: string }
   /** stateHash of every branch at its last step, by branch id (for saving a scenario file). */
@@ -228,6 +231,7 @@ export type EngineResponse =
   | { id: number; kind: 'wellColumn'; well: WellColumn; ms: number }
   | { id: number; kind: 'wellSamples'; samples: WellSamples; ms: number }
   | { id: number; kind: 'seriesData'; series: SeriesData; ms: number }
+  | { id: number; kind: 'crestLogData'; log: CrestLog; ms: number }
   | { id: number; kind: 'eventList'; branchId: string; events: FailureEvent[]; ms: number }
   | { id: number; kind: 'hashList'; hashes: Record<string, string>; summaries: Record<string, RunSummary>; ms: number }
   | { id: number; kind: 'scenarioOpened'; info: RunInfo; branches: BranchInfo[]; idMap: Record<string, string>; hashes: Record<string, string>; summaries: Record<string, RunSummary>; ms: number }
