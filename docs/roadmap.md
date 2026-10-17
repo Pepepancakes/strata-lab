@@ -338,3 +338,6 @@ A 3D version on the GPU (WebGPU). Opens with a spike on speed.
   installable desktop app. The likely triggers are big bundled data, saving straight to folders,
   3D needs (M6), or sharing with others. M1 keeps `src/` free of single-file-only assumptions,
   so this is a build change rather than a rewrite.
+- Fracture gradient: stress ratio rising with depth below the mudline (Traugott 1997 deep-water
+  practice; M4.6 Finding 3). Product choice for John; feed from the pore-pressure literature review.
+- Browser and Node records differ in the last bits (M4.6 Finding 5, informational).

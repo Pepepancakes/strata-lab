@@ -18,7 +18,7 @@
 //                 solid thickness and the engine's porosity state (bulk = s / (1 - phi_s) + m / (1 - phi_m); salt bulk = solid, 2160 kg/m^3).
 //   hydrostatic   rho_w g (datum - z); pore = hydrostatic + the record's excess pressure u; none in salt.
 //   EMW (ppg)     P / (g D) with D the depth below the rig floor (datum + air gap), 1 ppg = 0.45359237 kg / 0.003785411784 m^3.
-//   fracture      Pf = K (S - P) + P, K = nu / (1 - nu) (Eaton) or Ki (Matthews & Kelly); salt: Pf = S, lower limit hydrostatic.
+//   fracture      Pf = K (S - P) + P, K = nu / (1 - nu) (Eaton) or Ki (Matthews & Kelly); salt: Pf = S, no window.
 //   window        FG - pore (ppg).
 //   between columns: the documented rule (physics-references.md M4.1): overburden interpolated by distance; numbers interpolated only
 //                 when both columns hold the same material at that elevation, otherwise the nearest column; material from the nearest.
@@ -94,16 +94,16 @@ function parseWellLine(line) {
   // "# well: vertical well, surface 69.5 km, TD 20,000 ft TVDSS, air gap 80 ft"
   // "# well: build-and-hold well (kickoff 5,000 ft TVDSS, build 3 deg/100 ft, hold 30 deg, toward the basin), surface 69.5 km, TD 20,000 ft TVDSS, air gap 80 ft"
   const num = (re) => { const m = line.match(re); if (!m) throw new Error(`cannot read ${re} from ${line}`); return Number(m[1].replace(/,/g, '')) }
-  const w = { xKm: num(/surface ([\d.,]+) km/), tdFt: num(/TD ([\d.,]+) ft TVDSS/), airGapFt: num(/air gap ([\d.,]+) ft/), kopFt: 0, bur: 0, hold: 0, dir: 1 }
+  const w = { xKm: num(/surface ([\d.,]+) km/), tdFt: num(/TD ([\d.,]+) ft TVDSS/), airGapFt: num(/air gap ([\d.,]+) ft/), groundFt: 0, kopFt: 0, bur: 0, hold: 0, dir: 1 }
   if (/build-and-hold/.test(line)) {
     w.kopFt = num(/kickoff ([\d.,]+) ft TVDSS/); w.bur = num(/build ([\d.,]+) deg\/100 ft/); w.hold = num(/hold ([\d.,]+) deg/)
     w.dir = /toward the land/.test(line) ? -1 : 1
   }
   return w
 }
-/** Survey by minimum curvature: inclination rises at BUR from the KOP (MD from RKB) to the hold angle, then stays. */
+/** Survey by minimum curvature: inclination rises at BUR from the KOP (MD from RKB) to the hold angle, then stays. M4.7: on land the rig floor is groundFt + air gap above the sea, so the KOP (TVDSS) is that much deeper in MD. */
 function surveyPath(w, step = 10) {
-  const kopMd = w.kopFt + w.airGapFt
+  const kopMd = w.kopFt + w.airGapFt + w.groundFt
   const inc = (md) => (w.hold <= 0 ? 0 : Math.min(w.hold, Math.max(0, (md - kopMd) * w.bur / 100))) * Math.PI / 180
   const rf = (dl) => (dl < 1e-12 ? 1 : (2 / dl) * Math.tan(dl / 2))
   const at = (mdTarget) => {
@@ -192,12 +192,13 @@ function handStation(run, cols, w, head, st, xM) {
     const u = sed0 && sed1 ? (same ? c0.u + t * (c1.u - c0.u) : near0 ? c0.u : c1.u) : sed0 ? c0.u : c1.u
     P = hydro + u
   }
-  const pLower = salt ? hydro : P
+  const pLower = P
   const pfE = salt ? S : (NU / (1 - NU)) * (S - P) + P
   const pfMk = salt ? S : KI * (S - P) + P
   return {
     material: nearC.kind, phi: prop((c) => c.phi), hydroPpg: ppg(hydro, D), porePpg: salt ? NaN : ppg(P, D), porePsi: salt ? NaN : psi(P), obPpg: ppg(S, D),
-    fgEatonPpg: ppg(pfE, D), fgMkPpg: ppg(pfMk, D), windowEatonPpg: ppg(pfE, D) - ppg(pLower, D), windowMkPpg: ppg(pfMk, D) - ppg(pLower, D),
+    // M4.7: no window in salt (there is no pore pressure to start from)
+    fgEatonPpg: ppg(pfE, D), fgMkPpg: ppg(pfMk, D), windowEatonPpg: salt || !(S > 0) ? NaN : ppg(pfE, D) - ppg(pLower, D), windowMkPpg: salt || !(S > 0) ? NaN : ppg(pfMk, D) - ppg(pLower, D),
     obPsi: psi(S), hydroPsi: psi(hydro), vesPsi: salt ? NaN : psi(S - P),
   }
 }
@@ -232,7 +233,8 @@ function reviewFile(path) {
   const xm0 = (w.xKm * 1000) / dx - 0.5
   const hj0 = Math.max(0, Math.min(nx - 1, Math.floor(xm0))), hj1 = Math.min(nx - 1, hj0 + 1), ht = xm0 <= 0 ? 0 : xm0 >= nx - 1 ? 0 : xm0 - hj0
   const hHead = rec.H[hj0] + ht * (rec.H[hj1] - rec.H[hj0])
-  const head = { datum: Math.max(sl, hHead), waterDepthFt: Math.max(0, sl - hHead) / FT }
+  const head = { datum: Math.max(sl, hHead), waterDepthFt: Math.max(0, sl - hHead) / FT, groundFt: Math.max(0, hHead - sl) / FT }
+  w.groundFt = head.groundFt // M4.7: ONE rig floor, the air gap above the ground on land
   const path_ = surveyPath(w)
   const worst = { tvd: 0, tvdss: 0, x: 0, phi: 0, porePsi: 0, pore: 0, hydro: 0, ob: 0, fg: 0, win: 0 }
   let material = 0, n = 0, stopRow = null, lastMd = -1, mdStepOk = true, airGapOk = true
@@ -243,13 +245,13 @@ function reviewFile(path) {
     if (lastMd >= 0 && !(Math.abs(md - lastMd - 10) < 1e-6 || r === rows[rows.length - 1])) mdStepOk = false
     lastMd = md
     const gm = path_(md)
-    const tvdss = gm.tvdRkb - w.airGapFt
+    const tvdss = gm.tvdRkb - w.airGapFt - w.groundFt
     const xKm = w.xKm + (w.dir * gm.dispFt * FT) / 1000
     const d = (a, b) => Math.abs(a - b)
     worst.tvd = Math.max(worst.tvd, d(gm.tvdRkb, Number(r.tvd_rkb_ft)))
     worst.tvdss = Math.max(worst.tvdss, d(tvdss, Number(r.tvdss_ft)))
     worst.x = Math.max(worst.x, d(xKm, Number(r.x_km)))
-    if (d(Number(r.tvd_rkb_ft) - Number(r.tvdss_ft), w.airGapFt) > 0.011) airGapOk = false
+    if (d(Number(r.tvd_rkb_ft) - Number(r.tvdss_ft), w.airGapFt + w.groundFt) > 0.011) airGapOk = false
     const h = handStation(run, cols, w, head, { tvdssFt: tvdss }, xKm * 1000) // my own station position; the app's rows are matched by MD
     if (h.stop) { stopRow = { md, expected: h.stop }; break }
     if (h.material !== r.material) { material++; if (examples.length < 8) examples.push({ md, key: 'material', mine: h.material, theirs: r.material }) }
@@ -272,7 +274,7 @@ function reviewFile(path) {
   const physOk = worst.phi <= TOL.phi && worst.porePsi <= TOL.psi && worst.pore <= TOL.ppg && worst.hydro <= TOL.ppg && worst.ob <= TOL.ppg && worst.fg <= TOL.ppg && worst.win <= TOL.ppg
   const mdTd = rows[rows.length - 1].md_ft
   const fmt = (v) => (v === Infinity ? 'INF' : v.toExponential(2))
-  check(`${name}: ${rows.length} rows, MD step 10 ft to TD ${mdTd} ft, tvd_rkb - tvdss = air gap ${w.airGapFt} ft, method line "${(methodLine || '').slice(28, 60)}"`, mdStepOk && airGapOk && (method === 'mk') === /Matthews/.test(methodLine || ''), '')
+  check(`${name}: ${rows.length} rows, MD step 10 ft to TD ${mdTd} ft, tvd_rkb - tvdss = air gap ${w.airGapFt} ft + ground ${w.groundFt.toFixed(1)} ft, method line "${(methodLine || '').slice(28, 60)}"`, mdStepOk && airGapOk && (method === 'mk') === /Matthews/.test(methodLine || ''), '')
   check(`${name}: geometry (min curvature, 10 ft surveys) vs CSV: worst |dTVD| ${worst.tvd.toFixed(4)} ft, |dTVDSS| ${worst.tvdss.toFixed(4)} ft, |dx| ${(worst.x * 1000).toFixed(3)} m (tol ${TOL.ft} ft, ${TOL.km * 1000} m)`, geomOk)
   check(`${name}: material agrees at every station (${material} differ of ${n})`, material === 0)
   check(`${name}: porosity ${fmt(worst.phi)}, pore psi ${fmt(worst.porePsi)}, pore ppg ${fmt(worst.pore)}, hydro ppg ${fmt(worst.hydro)}, overburden ppg ${fmt(worst.ob)}, FG(${method}) ppg ${fmt(worst.fg)}, window ppg ${fmt(worst.win)} (tol ${TOL.ppg} ppg, ${TOL.psi} psi, ${TOL.phi})`, physOk)
@@ -286,7 +288,7 @@ function reviewFile(path) {
     firstRock: rock.slice(0, 12).map((r) => ({ tvdss: +r.tvdss.toFixed(1), pore: +r.pore.toFixed(3), fg: +r.fg.toFixed(3), ob: +r.ob.toFixed(3), win: +r.win.toFixed(3) })),
     deepest: rock.slice(-1).map((r) => ({ tvdss: +r.tvdss.toFixed(1), material: r.material, pore: +r.pore.toFixed(3), fg: +r.fg.toFixed(3), ob: +r.ob.toFixed(3), win: +r.win.toFixed(3), vesPsi: +r.vesPsi.toFixed(0) }))[0],
     salt: saltRows.length ? { topTvdss: saltRows[0].tvdss, baseTvdss: saltRows[saltRows.length - 1].tvdss, n: saltRows.length, fgEqualsOb: saltRows.every((r) => Math.abs(r.fg - r.ob) < 1e-12) } : null,
-    narrowest: rock.length ? rock.reduce((a, r) => (r.win < a.win ? r : a)) : null,
+    narrowest: rock.filter((r) => Number.isFinite(r.win)).length ? rock.filter((r) => Number.isFinite(r.win)).reduce((a, r) => (r.win < a.win ? r : a)) : null,
   }
   if (saltRows.length) {
     const base = saltRows[saltRows.length - 1]
@@ -295,8 +297,8 @@ function reviewFile(path) {
     const above = near.slice(0, near.indexOf(saltRows[0])).filter((r) => r.material !== 'salt' && r.material !== 'sea water').slice(-5)
     summary.belowSalt = below.slice(0, 5).map((r) => ({ tvdss: +r.tvdss.toFixed(1), material: r.material, pore: +r.pore.toFixed(3), hydro: +r.hydro.toFixed(3), ob: +r.ob.toFixed(3), fg: +r.fg.toFixed(3), win: +r.win.toFixed(3), vesPsi: +r.vesPsi.toFixed(0), porePsi: +r.porePsi.toFixed(0) }))
     summary.aboveSalt = above.map((r) => ({ tvdss: +r.tvdss.toFixed(1), pore: +r.pore.toFixed(3), ob: +r.ob.toFixed(3), fg: +r.fg.toFixed(3), win: +r.win.toFixed(3), vesPsi: +r.vesPsi.toFixed(0) }))
-    const saltWinMin = Math.min(...saltRows.map((r) => r.win))
-    summary.saltWindow = { min: +saltWinMin.toFixed(3), max: +Math.max(...saltRows.map((r) => r.win)).toFixed(3) }
+    const saltWins = saltRows.map((r) => r.win).filter(Number.isFinite)
+    summary.saltWindow = saltWins.length ? { min: Math.min(...saltWins), max: Math.max(...saltWins) } : 'none (no window in salt)'
   }
   if (sea.length) summary.seaWaterLastRow = { tvdss: sea[sea.length - 1].tvdss, ppg: +sea[sea.length - 1].hydro.toFixed(4) }
   results.files[name] = summary
@@ -325,14 +327,14 @@ function selfCheck(path) {
     else worstHydro = Math.max(worstHydro, Math.abs(c - hydroConst))
     if (r.material === 'sea water') { if (r.fracture_gradient_ppg !== '' || r.window_ppg !== '' || Math.abs(pore - hy) > 1e-6 || Math.abs(ob - hy) > 1e-6) seaBad++; continue }
     const fg = Number(r.fracture_gradient_ppg), win = Number(r.window_ppg)
-    if (r.material === 'salt') { if (r.pore_pressure_ppg !== '' || Math.abs(fg - ob) > 1e-6 || Math.abs(win - (fg - hy)) > 2e-6) saltBad++; n++; continue }
+    if (r.material === 'salt') { if (r.pore_pressure_ppg !== '' || Math.abs(fg - ob) > 1e-6 || r.window_ppg !== '') saltBad++; n++; continue }
     worstFg = Math.max(worstFg, Math.abs(fg - (K * (ob - pore) + pore)))
     worstWin = Math.max(worstWin, Math.abs(win - (fg - pore)))
     worstPsi = Math.max(worstPsi, Math.abs(Number(r.pore_pressure_psi) - pore * psiPerFtPpg * D))
     n++
   }
-  check(`${name} (browser CSV, record-independent): FG = K(S - P) + P with K ${K.toFixed(4)} to ${worstFg.toExponential(1)} ppg; window = FG - pore to ${worstWin.toExponential(1)}; psi = ppg x 0.051966 x D to ${worstPsi.toExponential(1)} psi; hydrostatic datum constant to ${worstHydro.toExponential(1)} ft (${(-hydroConst).toFixed(1)} ft above sea level = air gap ${w.airGapFt} + ground); salt rows wrong ${saltBad}; sea rows wrong ${seaBad}; TVD monotonic ${mono}; ${n} rock rows`,
-    worstFg < 3e-6 && worstWin < 3e-6 && worstPsi < 0.01 && worstHydro < 0.05 && saltBad === 0 && seaBad === 0 && mono && n > 0)
+  check(`${name} (browser CSV, record-independent): FG = K(S - P) + P with K ${K.toFixed(4)} to ${worstFg.toExponential(1)} ppg; window = FG - pore to ${worstWin.toExponential(1)}; psi = ppg x 0.051966 x D to ${worstPsi.toExponential(1)} psi; hydrostatic datum constant to ${worstHydro.toExponential(1)} ft (rig floor ${hydroConst.toFixed(1)} ft above the pressure datum = air gap ${w.airGapFt}; M4.7); salt rows wrong ${saltBad}; sea rows wrong ${seaBad}; TVD monotonic ${mono}; ${n} rock rows`,
+    worstFg < 3e-6 && worstWin < 3e-6 && worstPsi < 0.01 && worstHydro < 0.05 && Math.abs(hydroConst - w.airGapFt) < 0.05 && saltBad === 0 && seaBad === 0 && mono && n > 0)
 }
 
 const dir = arg

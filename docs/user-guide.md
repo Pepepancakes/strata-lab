@@ -376,7 +376,7 @@ total depth, and follows the time slider and the active branch.
 - **Well shape**: Vertical, or Build and hold (a straight hole, a curve, then a straight tilted
   hold, all in the plane of the section).
 - **Total depth**: ft TVDSS, the true vertical depth below the sea surface.
-- **Air gap**: ft from the sea surface up to the rig floor (80 ft, tuned). Mud weights are measured from the rig floor.
+- **Air gap**: ft from the sea surface (or, for a wellhead on land, from the ground) up to the rig floor (80 ft, tuned). Mud weights are measured from the rig floor.
 - **Kickoff depth**: where the hole starts to curve (build and hold only).
 - **Build rate**: degrees of inclination gained per 100 ft drilled.
 - **Hold angle**: the tilt from vertical where the curve stops.
@@ -406,7 +406,8 @@ depth; each line, shade and flag has an (i) that explains it.
 - **Tight** (amber): the band is narrower than 0.5 ppg (a labelling threshold, not physics).
 - **No window** (red): the pore pressure has reached the fracture gradient, so no mud weight fits.
   In a real well a casing string would have to be set above this depth.
-- **Salt** (pink) and **sea water** (blue shade, with the dashed sea floor). Neither has a window.
+- **Salt** (pink) and **sea water** (blue shade, with the dashed sea floor). Neither has a window; in
+  salt the hole needs a mud weight close to the overburden (practice, no source yet).
 - A well that leaves the section, or reaches the base of the record, stops there and is flagged.
 
 Under the plot a line gives the narrowest window, with its depth and measured depth. Tick other
@@ -427,8 +428,17 @@ neither is a calibrated field curve.
   limit**, so the true lower limit can be higher than the pore pressure.
 - The pore pressure is the model's, from a synthetic run. It is not a pre-drill prediction for a
   real prospect until it is calibrated to data.
-- In salt the fracture gradient is the overburden and the lower limit is hydrostatic. This is
-  common practice but has no source in this project, and may not hold near a salt flank or a weld.
+- In salt the fracture gradient is the overburden and **no window is counted** (the pore pressure of
+  salt is not modelled, so there is no lower limit). The salt interval needs a mud weight close to the
+  overburden to hold the hole open: practice, no source yet. This is common practice but has no source
+  in this project, and may not hold near a salt flank or a weld.
+- **Sub-salt pore pressure: not claimed** (the salt's weight in sub-salt compaction and salt-sealed
+  pressure are not modelled).
+- The stress ratio is constant with depth here; deep-water practice has it rising with depth below
+  the mud line (Traugott 1997). Not modelled.
+- **Wellhead on land.** The rig floor is the air gap above the ground, MD 0 is the rig floor, the
+  first stations are air down to the ground, and the panel says how high the ground is above sea
+  level. Total depth and kickoff stay TVDSS.
 - Between two columns, numbers are interpolated only where both hold the same rock; across a salt
   flank or a slope-failure deposit edge the nearest column is used.
 - Pressure depends on true vertical depth (TVDSS) only, so a deviated well and a vertical well

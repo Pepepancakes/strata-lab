@@ -28,7 +28,7 @@ import { beforeAll, describe, expect, it } from 'vitest'
 import { G, RHO_SALT, RHO_W } from '../src/engine/constants'
 import { getReference } from '../src/engine/references'
 import {
-  eatonK, fracturePressurePa, wellPressures, WINDOW_NO_WINDOW, WINDOW_OK, WINDOW_TIGHT, type PressureInput,
+  eatonK, fracturePressurePa, wellPressures, WINDOW_NO_WINDOW, WINDOW_NONE, WINDOW_OK, WINDOW_TIGHT, type PressureInput,
 } from '../src/engine/wellPressure'
 import {
   defaultWellPressureParams, validateWellPressureParams, WELL_PRESSURE_PARAMS, type WellPressureParams,
@@ -88,7 +88,7 @@ describe('hand calculation: 5,000 ft of water, mud, 2,000 ft of salt, mud', () =
   const r = wellPressures(x)
   const rows = [
     { i: 0, sPsi: 3523.614243, pPsi: 3389.363679, sEmw: 10.30492571, pEmw: 9.912305522, eaton: 10.174052314, mk: 10.147877635, width: 0.261746792 },
-    { i: 1, sPsi: 5761.380334, pPsi: 4000.657402, sEmw: 12.210209047, pEmw: 8.478673576, eaton: 12.210209047, mk: 12.210209047, width: 3.731535471 },
+    { i: 1, sPsi: 5761.380334, pPsi: 4000.657402, sEmw: 12.210209047, pEmw: 8.478673576, eaton: 12.210209047, mk: 12.210209047, width: NaN }, // salt: no window (M4.7)
     { i: 2, sPsi: 8606.292265, pPsi: 7834.209869, sEmw: 13.709813854, pEmw: 12.47988747, eaton: 13.299838392, mk: 13.2178433, width: 0.819950922 },
   ]
   it('overburden, pore pressure, fracture gradient (both methods) and the window match the table to 1e-9', () => {
@@ -97,16 +97,17 @@ describe('hand calculation: 5,000 ft of water, mud, 2,000 ft of salt, mud', () =
       expect(rel(r.overburdenEmw[t.i], t.sEmw), 'S ppg').toBeLessThan(1e-9)
       expect(rel(r.fgEatonEmw[t.i], t.eaton), 'Eaton').toBeLessThan(1e-9)
       expect(rel(r.fgMatthewsKellyEmw[t.i], t.mk), 'M&K').toBeLessThan(1e-9)
-      expect(rel(r.widthPpg[t.i], t.width), 'window').toBeLessThan(1e-9)
+      if (Number.isFinite(t.width)) expect(rel(r.widthPpg[t.i], t.width), 'window').toBeLessThan(1e-9)
+      else expect(Number.isNaN(r.widthPpg[t.i]), 'no window in salt').toBe(true)
       expect(rel(r.hydroPsi[t.i], paToPsi(x.hydroPa[t.i])), 'hydro psi').toBeLessThan(1e-12)
     }
     expect(rel(r.porePsi[0], rows[0].pPsi)).toBeLessThan(1e-9)
     expect(rel(r.porePsi[2], rows[2].pPsi)).toBeLessThan(1e-9)
     expect(rel(r.poreEmw[0], rows[0].pEmw)).toBeLessThan(1e-9)
     expect(rel(r.poreEmw[2], rows[2].pEmw)).toBeLessThan(1e-9)
-    // salt: no pore pressure of its own; the window starts at hydrostatic
+    // salt: no pore pressure of its own and no window (M4.7)
     expect(Number.isNaN(r.porePsi[1])).toBe(true)
-    expect(rel(r.lowerEmw[1], rows[1].pEmw)).toBeLessThan(1e-9)
+    expect(Number.isNaN(r.lowerEmw[1]) && Number.isNaN(r.upperEmw[1]) && Number.isNaN(r.widthPpg[1])).toBe(true)
   })
 
   it('in salt the fracture gradient is the overburden, for both methods', () => {
@@ -123,8 +124,8 @@ describe('hand calculation: 5,000 ft of water, mud, 2,000 ft of salt, mud', () =
     expect(rel(mk.widthPpg[2], rows[2].mk - rows[2].pEmw)).toBeLessThan(1e-9)
   })
 
-  it('states: the first window is tight (0.26 ppg), the others are ok; summary names the narrowest', () => {
-    expect(Array.from(r.state)).toEqual([WINDOW_TIGHT, WINDOW_OK, WINDOW_OK])
+  it('states: the first window is tight (0.26 ppg), salt has none, the last is ok; summary names the narrowest', () => {
+    expect(Array.from(r.state)).toEqual([WINDOW_TIGHT, WINDOW_NONE, WINDOW_OK])
     expect(r.summary.narrowest).toMatchObject({ station: 0, tvdssFt: 6500, mdFt: 6580 })
     expect(r.summary.tight).toHaveLength(1)
     expect(r.summary.noWindow).toHaveLength(0)
@@ -291,7 +292,8 @@ describe('pressures on a sampled record', () => {
       if (s.kind[i] === WELL_SALT) {
         salt++
         expect(r.fgEmw[i]).toBe(r.overburdenEmw[i])
-        expect(r.widthPpg[i]).toBeGreaterThan(0)
+        expect(Number.isNaN(r.widthPpg[i])).toBe(true) // no window in salt (M4.7)
+        expect(r.state[i]).toBe(WINDOW_NONE)
       } else if (s.kind[i] === WELL_WATER) {
         water++
         expect(Number.isNaN(r.fgEmw[i])).toBe(true)
@@ -306,6 +308,7 @@ describe('pressures on a sampled record', () => {
     expect(sed).toBeGreaterThan(50)
     expect(water).toBeGreaterThan(50)
     expect(r.summary.narrowest).not.toBeNull()
+    expect(s.kind[r.summary.narrowest!.station]).toBe(WELL_SEDIMENT) // the narrowest window is outside the salt (M4.7)
     expect(Math.min(...Array.from(r.widthPpg).filter((v) => !Number.isNaN(v)))).toBe(r.summary.narrowest!.widthPpg)
   })
 

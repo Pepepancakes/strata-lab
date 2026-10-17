@@ -30,12 +30,12 @@ const INFO = {
   window: 'Mud-weight window (green): the band between the pore pressure and the fracture gradient. A mud weight inside the band holds the hole open without a kick or a loss. No wellbore-collapse limit is used here, so the true lower limit can be higher than the pore pressure.',
   tight: 'Tight window (amber): the band between pore pressure and fracture gradient is narrower than the tight limit (0.5 ppg, a labelling threshold, not physics). Drilling here is hard to keep between kick and loss.',
   noWindow: 'No window (red): the pore pressure has reached the fracture gradient, so no mud weight can hold the hole without either a kick or a loss. In a real well this is where a casing string would have to be set above it.',
-  salt: 'Salt (pink): rock salt has no pore water, so there is no pore pressure to plot and the pore line stops. The model uses the hydrostatic pressure as the bottom of the window and the overburden as the fracture gradient, which is how salt is usually treated (an assumption to verify).',
+  salt: 'Salt (pink): rock salt has no pore water, so there is no pore pressure to plot, the pore line stops and no mud-weight window is counted. The fracture gradient is the overburden (how salt is usually treated; an assumption to verify). To hold the hole open in salt the mud weight has to be close to the overburden: practice, no source yet.',
   water: 'Sea water (blue shade): the water above the sea floor. There is no rock to fracture here, so every pressure equals the weight of sea water. The dashed line is the sea floor.',
   stopped: 'The well stops before its total depth: it either left the side of the section or reached the base of the record (the bottom of the model). The plot ends there.',
   compare: 'Branch compare: the same well drawn on up to three branches at this time, on the same axes. Each branch has its own colour. The mud-weight window is shaded for the active branch only.',
-  fgMethod: 'How the fracture gradient is worked out. Eaton (1969) and Matthews & Kelly (1967) both give the pore pressure plus a share of the grain-carried load. They differ in the share (Eaton 0.67 from a Poisson\u2019s ratio of 0.40, Matthews & Kelly 0.60); both numbers are tuned constants for now. In salt both give the overburden.',
-  airGap: 'Air gap: the height of the rig floor above the sea surface. Mud weights are measured from the rig floor, depths are measured from the sea surface (TVDSS). The default of 80 ft is a tuned typical value for a floating rig.',
+  fgMethod: 'How the fracture gradient is worked out. Eaton (1969) and Matthews & Kelly (1967) both give the pore pressure plus a share of the grain-carried load. They differ in the share (Eaton 0.67 from a Poisson\u2019s ratio of 0.40, Matthews & Kelly 0.60); both numbers are tuned constants for now. In salt both give the overburden. The share is constant with depth here, while deep-water practice has the stress ratio rising with depth below the mud line (Traugott 1997).',
+  airGap: 'Air gap: the height of the rig floor above the sea surface (offshore) or above the ground (a wellhead on land). Mud weights are measured from the rig floor, depths are measured from the sea surface (TVDSS). The default of 80 ft is a tuned typical value for a floating rig.',
   location: 'The surface location of the well, in km from the landward edge of the section. Click the section to move it. A click puts it in the middle of that column.',
 }
 
@@ -354,6 +354,9 @@ function Flags({ run }: { run: PlotRun }) {
     `${fmtFt(a.topTvdssFt)} to ${fmtFt(a.bottomTvdssFt)} ft TVDSS (MD ${fmtFt(a.topMdFt)} to ${fmtFt(a.bottomMdFt)} ft)`
   return (
     <div data-testid="well-flags">
+      {run.samples.groundFt > 0 ? (
+        <p className="small" data-testid="flag-ground">Wellhead on land, ground {fmtFt(run.samples.groundFt)} ft above sea level. MD 0 is the rig floor, the air gap above the ground.</p>
+      ) : null}
       {sum.narrowest ? (
         <p className="small">
           Narrowest window: {sum.narrowest.widthPpg.toFixed(2)} ppg at {fmtFt(sum.narrowest.tvdssFt)} ft TVDSS (MD {fmtFt(sum.narrowest.mdFt)} ft).
@@ -373,7 +376,7 @@ function Flags({ run }: { run: PlotRun }) {
       ))}
       {salt.map((a, i) => (
         <p key={`s${i}`} className="small" data-testid="flag-salt">
-          Salt {fmt(a)}. Here the fracture gradient is the overburden and the window starts at the hydrostatic pressure. <WhatItMeans what="salt on the plot">{INFO.salt}</WhatItMeans>
+          Salt {fmt(a)}. No window is counted here: the fracture gradient is the overburden, and the hole needs a mud weight close to the overburden to stay open (practice, no source yet). <WhatItMeans what="salt on the plot">{INFO.salt}</WhatItMeans>
         </p>
       ))}
       {stop ? (

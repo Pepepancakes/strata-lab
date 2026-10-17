@@ -18,9 +18,7 @@
 //    the commonly quoted form (to verify against the papers).
 //    In SALT the fracture gradient is the overburden: salt is impermeable, flows until the stress is
 //    nearly equal in all directions, and has no pore pressure to add. Industry practice; no source is in
-//    this project (to verify). The pore pressure of salt is not modelled (NaN in the samples); for the
-//    window the lower limit in salt is the hydrostatic pressure (what the surrounding formation water would
-//    hold), a labelled choice, not a measurement.
+//    this project (to verify). The pore pressure of salt is not modelled (NaN in the samples).
 //
 // 3. WINDOW. lower = pore pressure EMW + lower margin; upper = fracture-gradient EMW - upper margin
 //    (margins default to 0). width = upper - lower. A station is
@@ -28,7 +26,9 @@
 //      'tight'     0 < width < threshold,
 //      'noWindow'  width <= 0: the pore pressure has reached the fracture gradient (with the margins).
 //    No wellbore-stability (collapse) limit is used (D21): the lower limit is pore pressure only.
-//    Water and air stations have no window.
+//    Water, air and SALT stations have no window (M4.7): salt has no pore pressure, so there is no lower limit
+//    to count from, and the hole in salt is held by a mud weight close to the overburden (practice, no source
+//    yet). Salt stations are left out of the narrowest window and of the tight / no-window runs.
 // Hand calculation: tests/wellPressure.test.ts.
 
 import { ftToM, paToPsi } from '../units'
@@ -126,8 +126,8 @@ export function wellPressures(s: PressureInput, params: WellPressureParams = def
       continue
     }
     const salt = kind === WELL_SALT
-    // pore pressure of the window's lower limit: sediment pore pressure; in salt the hydrostatic pressure
-    const p = salt ? hy : s.porePa[i]
+    // sediment pore pressure; salt has none (NaN)
+    const p = s.porePa[i]
     if (!salt) {
       porePsi[i] = paToPsi(p)
       poreEmw[i] = emwPpg(p, depthM)
@@ -139,6 +139,8 @@ export function wellPressures(s: PressureInput, params: WellPressureParams = def
     const eaton = params.fgMethod === 'eaton'
     fracturePsi[i] = paToPsi(eaton ? pfEaton : pfMk)
     fgEmw[i] = eaton ? fgEatonEmw[i] : fgMatthewsKellyEmw[i]
+    if (salt) continue // M4.7: no window in salt (state stays WINDOW_NONE, limits and width stay NaN)
+    if (!(sv > 0)) continue // M4.7: the ground surface of a wellhead on land carries no load, so 0 / 0 is no window, not "no window"
     lowerEmw[i] = emwPpg(p, depthM) + params.lowerMarginPpg
     upperEmw[i] = fgEmw[i] - params.upperMarginPpg
     widthPpg[i] = upperEmw[i] - lowerEmw[i]

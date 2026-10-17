@@ -5,7 +5,7 @@ import { G, RHO_W } from '../src/engine/constants'
 import {
   DEFAULT_AIR_GAP_FT, sampleWell, verticalWell, WELL_AIR, WELL_SALT, WELL_SEDIMENT, WELL_WATER, type WellDefinition, type WellSamples,
 } from '../src/engine/well'
-import { cToF, ftToM, KGM3_PER_PPG } from '../src/units'
+import { cToF, ftToM, KGM3_PER_PPG, mToFt, paToPsi } from '../src/units'
 import { TimeMachine } from '../src/worker/timeMachine'
 import { transferListOf, type WellColumn } from '../src/worker/protocol'
 import { wellProfile } from '../src/views/well/profile'
@@ -161,6 +161,63 @@ describe('sampling the record along a well', () => {
   it('at step 0 (substrate only) the same call works', () => {
     const s = sample(verticalWell(61.5, 3000), 0)
     expect(s.n).toBeGreaterThan(0)
+  })
+
+  // M4.7 (M4.6 Finding 1): a wellhead on land has ONE rig floor, the ground plus the air gap. Same record, but the sea is put
+  // 60 m below the ground at the wellhead (sea level is an argument of sampleWell), so the column's surface is above the sea.
+  describe('wellhead on land: one rig floor', () => {
+    const GROUND_ABOVE_SEA_M = 60
+    const groundFt = mToFt(GROUND_ABOVE_SEA_M)
+    const xKm = (COL + 0.5) * 3
+    const land = (w: WellDefinition): WellSamples => {
+      sample(verticalWell(xKm, 1000)) // moves the time machine to the final step
+      const eng = (tm as unknown as { eng: Parameters<typeof sampleWell>[0] }).eng
+      const hidden = tm as unknown as { get: (id: string) => unknown; eraAt: (b: unknown, s: number) => { P: Parameters<typeof sampleWell>[1] } }
+      const P = hidden.eraAt(hidden.get(tm.root), nSteps - 1).P
+      return sampleWell(eng, P, eng.rec.H[COL] - GROUND_ABOVE_SEA_M, w)
+    }
+    const PSI_PER_PPG_FT = 0.051965 // 1 ppg over 1 ft at the engine's g (docs/physics-references.md, M4.2)
+
+    it('MD 0 is the rig floor: the air gap above the ground, and the first stations are air down to the ground', () => {
+      const s = land(verticalWell(xKm, 5000))
+      expect(s.mdFt[0]).toBe(0)
+      expect(s.tvdFt[0]).toBe(0)
+      expect(s.tvdssFt[0]).toBeCloseTo(-(DEFAULT_AIR_GAP_FT + groundFt), 9)
+      expect(s.waterDepthFt).toBe(0)
+      let air = 0
+      for (let i = 0; i < s.n; i++) {
+        if (s.tvdFt[i] < DEFAULT_AIR_GAP_FT - 1e-9) {
+          air++
+          expect(s.kind[i], `station ${i} above the ground`).toBe(WELL_AIR)
+          expect(Number.isNaN(s.porePa[i])).toBe(true)
+          expect(Number.isNaN(s.depthRkbFt[i])).toBe(true)
+        } else if (s.tvdFt[i] > DEFAULT_AIR_GAP_FT + 1) expect(s.kind[i]).not.toBe(WELL_AIR)
+      }
+      expect(air).toBeGreaterThanOrEqual(8) // 80 ft of air at 10 ft spacing
+    })
+
+    it('tvd_rkb equals the depth the EMW uses, and psi = ppg x 0.051965 x tvd_rkb at every station (within 0.05 psi)', () => {
+      const s = land(verticalWell(xKm, 5000))
+      let checked = 0
+      for (let i = 0; i < s.n; i++) {
+        if (s.kind[i] === WELL_AIR) continue
+        expect(Math.abs(s.depthRkbFt[i] - s.tvdFt[i]), `station ${i} depth`).toBeLessThan(1e-6)
+        if (Number.isNaN(s.poreEmw[i])) continue
+        checked++
+        expect(Math.abs(paToPsi(s.porePa[i]) - s.poreEmw[i] * PSI_PER_PPG_FT * s.tvdFt[i]), `station ${i} psi`).toBeLessThan(0.05)
+        expect(Math.abs(paToPsi(s.overburdenPa[i]) - s.overburdenEmw[i] * PSI_PER_PPG_FT * s.tvdFt[i]), `station ${i} overburden`).toBeLessThan(0.05)
+      }
+      expect(checked).toBeGreaterThan(100)
+    })
+
+    it('a J well: kickoff and total depth are TVDSS, so they sit the ground height deeper below the rig floor', () => {
+      const s = land({ xKm, airGapFt: 80, kickoffFt: 2000, buildRateDegPer100Ft: 3, holdInclinationDeg: 30, direction: 'basinward', totalDepthFt: 4000 })
+      expect(s.tvdssFt[s.n - 1]).toBeCloseTo(4000, 6) // TD is TVDSS
+      const firstTilt = Array.from(s.incDeg).findIndex((v) => v > 0)
+      const kopTvd = s.tvdFt[firstTilt - 1] // last vertical station, at most one station spacing above the kickoff
+      expect(kopTvd).toBeLessThanOrEqual(2000 + 80 + groundFt + 1e-9)
+      expect(kopTvd).toBeGreaterThan(2000 + 80 + groundFt - 10)
+    })
   })
 
   it('pure function: the engine-level call equals the time machine call', () => {

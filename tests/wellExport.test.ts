@@ -102,14 +102,15 @@ describe('well CSV export', () => {
     // hand table of tests/wellPressure.test.ts, 1e-9 there; the file keeps six decimals of ppg, so 1e-6 here
     const hand = [
       { row: 1, pPsi: 3389.363679, pPpg: 9.912305522, sPpg: 10.30492571, fg: 10.174052314, width: 0.261746792 },
-      { row: 2, pPsi: NaN, pPpg: NaN, sPpg: 12.210209047, fg: 12.210209047, width: 3.731535471 },
+      { row: 2, pPsi: NaN, pPpg: NaN, sPpg: 12.210209047, fg: 12.210209047, width: NaN }, // salt: fracture gradient = overburden, no window (M4.7)
       { row: 3, pPsi: 7834.209869, pPpg: 12.47988747, sPpg: 13.709813854, fg: 13.299838392, width: 0.819950922 },
     ]
     for (const h of hand) {
       const r = csv.rows[h.row]
       expect(rel(Number(r.fracture_gradient_ppg), h.fg), `FG row ${h.row}`).toBeLessThan(1e-6)
       expect(rel(Number(r.overburden_ppg), h.sPpg), `S row ${h.row}`).toBeLessThan(1e-6)
-      expect(rel(Number(r.window_ppg), h.width), `window row ${h.row}`).toBeLessThan(1e-6)
+      if (Number.isFinite(h.width)) expect(rel(Number(r.window_ppg), h.width), `window row ${h.row}`).toBeLessThan(1e-6)
+      else expect(r.window_ppg, `window row ${h.row} (salt)`).toBe('')
       if (Number.isFinite(h.pPsi)) {
         expect(rel(Number(r.pore_pressure_psi), h.pPsi), `pore psi row ${h.row}`).toBeLessThan(1e-6)
         expect(rel(Number(r.pore_pressure_ppg), h.pPpg), `pore ppg row ${h.row}`).toBeLessThan(1e-6)

@@ -17,8 +17,11 @@
 //
 // 2. DATUM. Depths the planner reads are TVDSS (below mean sea level). The rig floor (RKB) is the
 //    air gap above the sea surface (default 80 ft, TUNED, editable). Mud weights are equivalent mud
-//    weights (EMW) referenced to RKB: EMW = P / (g * depth below RKB). Where the ground is above the sea
-//    the datum is the ground, as in the pseudo-well, and RKB sits the air gap above it.
+//    weights (EMW) referenced to RKB: EMW = P / (g * depth below RKB). ONE rig floor: where the wellhead is
+//    on land the rig floor is the air gap above the GROUND, i.e. groundFt + airGapFt above the sea
+//    (groundFt = height of the ground above the sea at the wellhead, M4.7). MD 0 is the rig floor, the
+//    first stations are air down to the ground, tvd_rkb is exactly the depth the EMW uses, and kickoff and
+//    total depth stay TVDSS. Offshore groundFt = 0 and nothing changes.
 //
 // 3. SAMPLING. At each station the record is read in the (up to) two columns either side of the
 //    station, at the SAME elevation, and linearly interpolated by distance between column centres:
@@ -112,8 +115,8 @@ export interface WellStations {
 }
 
 /** Geometry helper: TVD (from RKB), horizontal displacement (toward the lean) and inclination at a measured depth, ft / ft / deg. */
-function pathAt(w: WellDefinition, md: number): { tvd: number; disp: number; inc: number } {
-  const kopMd = w.kickoffFt + w.airGapFt
+function pathAt(w: WellDefinition, md: number, groundFt: number): { tvd: number; disp: number; inc: number } {
+  const kopMd = w.kickoffFt + w.airGapFt + groundFt
   const hold = w.holdInclinationDeg
   if (hold <= 0 || w.buildRateDegPer100Ft <= 0 || md <= kopMd) return { tvd: md, disp: 0, inc: 0 }
   const bur = w.buildRateDegPer100Ft
@@ -130,9 +133,9 @@ function pathAt(w: WellDefinition, md: number): { tvd: number; disp: number; inc
 }
 
 /** Measured depth (from RKB) at which the well reaches its total depth. */
-export function totalMeasuredDepthFt(w: WellDefinition): number {
-  const target = w.totalDepthFt + w.airGapFt
-  const kopMd = w.kickoffFt + w.airGapFt
+export function totalMeasuredDepthFt(w: WellDefinition, groundFt = 0): number {
+  const target = w.totalDepthFt + w.airGapFt + groundFt
+  const kopMd = w.kickoffFt + w.airGapFt + groundFt
   if (w.holdInclinationDeg <= 0 || w.buildRateDegPer100Ft <= 0 || target <= kopMd) return target
   const r = 18000 / (Math.PI * w.buildRateDegPer100Ft)
   const h = (w.holdInclinationDeg * Math.PI) / 180
@@ -142,9 +145,12 @@ export function totalMeasuredDepthFt(w: WellDefinition): number {
   return kopMd + buildLen + (target - kopMd - gainEndBuild) / Math.cos(h)
 }
 
-/** The stations of a well (the definition must pass validateWell). */
-export function wellStations(w: WellDefinition): WellStations {
-  const mdTd = totalMeasuredDepthFt(w)
+/**
+ * The stations of a well (the definition must pass validateWell). `groundFt` is the height of the ground above the sea at a
+ * wellhead on land (0 offshore): the rig floor is then groundFt + airGapFt above the sea surface; kickoff and total depth stay TVDSS.
+ */
+export function wellStations(w: WellDefinition, groundFt = 0): WellStations {
+  const mdTd = totalMeasuredDepthFt(w, groundFt)
   const nGrid = Math.floor(mdTd / STATION_SPACING_FT - 1e-9) + 1 // MD = 0, 10, ... below TD
   const n = nGrid + 1 // plus one at TD
   const out: WellStations = {
@@ -153,10 +159,10 @@ export function wellStations(w: WellDefinition): WellStations {
   const sign = w.direction === 'basinward' ? 1 : -1
   for (let i = 0; i < n; i++) {
     const md = i < nGrid ? i * STATION_SPACING_FT : mdTd
-    const g = pathAt(w, md)
+    const g = pathAt(w, md, groundFt)
     out.mdFt[i] = md
     out.tvdFt[i] = g.tvd
-    out.tvdssFt[i] = g.tvd - w.airGapFt
+    out.tvdssFt[i] = g.tvd - w.airGapFt - groundFt
     out.xKm[i] = w.xKm + (sign * g.disp * M_PER_FT) / 1000
     out.incDeg[i] = g.inc
   }
@@ -178,9 +184,10 @@ export interface WellSamples extends WellStations {
   /** Why the well stops before total depth, and at which station (the first station NOT sampled); null = reached TD. */
   stopped: { reason: WellStopReason; mdFt: number } | null
   seaLevelM: number
-  /** Water depth at the wellhead, ft (0 on land) and the sea floor at the wellhead, ft TVDSS. */
+  /** Water depth at the wellhead, ft (0 on land), the sea floor at the wellhead, ft TVDSS, and the ground's height above the sea at the wellhead, ft (0 offshore; the rig floor is this plus the air gap above the sea). */
   waterDepthFt: number
   mudlineTvdssFt: number
+  groundFt: number
   /** WELL_AIR ... WELL_MTD */
   kind: Uint8Array
   /** Layer of the record at the nearest column (-1 in air and water). */
@@ -301,7 +308,6 @@ export function sampleWell(eng: EngineState, P: EngineParams, sl: number, well: 
   const rec = eng.rec
   const nx = rec.nx
   const dx = rec.dx
-  const st = wellStations(well)
   const cols = new Map<number, ColumnCells>()
   const column = (j: number): ColumnCells => {
     let c = cols.get(j)
@@ -327,6 +333,10 @@ export function sampleWell(eng: EngineState, P: EngineParams, sl: number, well: 
   const datum = Math.max(sl, hHead) // pressure datum: the sea surface, or the ground where it is above the sea
   const waterDepthM = Math.max(0, sl - hHead)
   const rkbElev = datum + airGapM // elevation of the rig floor, m (same frame as sea level and rec.H)
+  // Wellhead on land: the rig floor is the air gap above the GROUND, so the stations (TVDSS) are shifted by the ground's height above the sea.
+  const groundM = Math.max(0, hHead - sl)
+  const groundFt = mToFt(groundM)
+  const st = wellStations(well, groundFt)
 
   const n = st.n
   const kind = new Uint8Array(n)
@@ -346,7 +356,7 @@ export function sampleWell(eng: EngineState, P: EngineParams, sl: number, well: 
     }
     const e = sl - ftToM(st.tvdssFt[i]) // elevation above datum, m
     if (e > rkbElev + 1e-9) {
-      // above the real rig floor (only where the ground is above the sea): not drilled, so air
+      // above the real rig floor (rounding only; the stations now start at the rig floor): not drilled, so air
       m = i + 1
       kind[i] = WELL_AIR
       col[i] = locate(xM).j0
@@ -436,6 +446,7 @@ export function sampleWell(eng: EngineState, P: EngineParams, sl: number, well: 
     seaLevelM: sl,
     waterDepthFt: mToFt(waterDepthM),
     mudlineTvdssFt: mToFt(sl - hHead),
+    groundFt,
     kind: sub(kind), layer: sub(layer), column: sub(col), ageMa: sub(ageMa), sandFrac: sub(sandFrac), porosity: sub(porosity), tempC: sub(tempC),
     depthRkbFt: sub(depthRkbFt), hydroPa: sub(hydroPa), porePa: sub(porePa), overburdenPa: sub(overburdenPa),
     hydroEmw: sub(hydroEmw), poreEmw: sub(poreEmw), overburdenEmw: sub(overburdenEmw),

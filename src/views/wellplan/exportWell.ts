@@ -98,7 +98,7 @@ export function csvHeaderLines(ctx: ExportContext, runs: readonly ExportRun[]): 
     `# fracture_gradient_method: ${FG_METHOD_NAME[ctx.fgMethod]} (in salt the fracture gradient is the overburden)`,
     '# units: depths in ft (md_ft and tvd_rkb_ft from the rig floor RKB, tvdss_ft below mean sea level), x_km from the landward edge of the section,',
     '# units: pressures in psi, mud weights in ppg EMW from the rig floor, porosity as a fraction, temperature in deg F',
-    '# window_ppg: fracture gradient minus pore pressure (hydrostatic in salt); negative = no window; empty in sea water',
+    '# window_ppg: fracture gradient minus pore pressure; negative = no window; empty in sea water and in salt (no window there)',
     `# app_version: ${ctx.appVersion}`,
     `# engine_version: ${ctx.engineVersion}`,
     `# scenario_hash: ${runs.map((r) => `${r.label}=${r.stateHash || 'n/a'}`).join('; ')} (state hash of each branch at the end of its run, as in the scenario file)`,
