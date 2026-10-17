@@ -1,0 +1,29 @@
+# Check 3b: what a fresh debris deposit carries, and how it consolidates
+mtdSmax = 2.6116e+6 Pa -> mud porosity 0.5500 (target mtdPhiMud 0.55), sand porosity at that stress 0.4569 (phi0 sand 0.49)
+
+event 1 step 185 cols 51-51 scar 92.5 m, deposit cols 54-63 runout 11.4 km, cause rapid loading, released sand 29700 mud 12855 exported 0
+  MTD-tagged cells in the deposit layer: 3 of 10
+  at deposit col 56 layer 186: solids 8.44 m, bulk 18.79 m, porosity 0.551, smax 1.333e+6 Pa, u 4.899e+4 Pa, cached load 6.726e+4 Pa, u/L 0.728, material 2
+  scar col 51 layer 186: solids 42.56 m, u 2.435e+5 Pa, load 3.392e+5 Pa, u/L 0.718
+  scar col 51 layer 185: solids 23.96 m, u 4.175e+5 Pa, load 8.694e+5 Pa, u/L 0.480
+  scar col 51 layer 184: solids 17.91 m, u 5.802e+5 Pa, load 1.203e+6 Pa, u/L 0.482
+  20 steps (100 kyr) later col 56 layer 186: solids 7.22 m, bulk 16.08 m, porosity 0.551, smax 1.333e+6 Pa, u 7.478e+4 Pa, cached load 7.140e+5 Pa, u/L 0.105, material 2
+
+event 2 step 361 cols 65-65 scar 61.7 m, deposit cols 67-72 runout 6.6 km, cause rapid loading, released sand 16849 mud 10698 exported 0
+  MTD-tagged cells in the deposit layer: 1 of 6
+  at deposit col 71 layer 362: solids 11.59 m, bulk 26.04 m, porosity 0.555, smax 1.372e+6 Pa, u 7.508e+4 Pa, cached load 9.241e+4 Pa, u/L 0.812, material 2
+  scar col 65 layer 362: solids 27.55 m, u 1.432e+5 Pa, load 2.196e+5 Pa, u/L 0.652
+  scar col 65 layer 361: solids 17.38 m, u 2.437e+5 Pa, load 5.777e+5 Pa, u/L 0.422
+  scar col 65 layer 360: solids 7.92 m, u 3.847e+5 Pa, load 7.793e+5 Pa, u/L 0.494
+  20 steps (100 kyr) later col 71 layer 362: solids 11.22 m, bulk 25.14 m, porosity 0.554, smax 1.372e+6 Pa, u 4.269e+5 Pa, cached load 1.019e+6 Pa, u/L 0.419, material 2
+
+event 3 step 392 cols 68-68 scar 72.8 m, deposit cols 69-75 runout 6.9 km, cause rapid loading, released sand 20174 mud 12414 exported 0
+  MTD-tagged cells in the deposit layer: 2 of 7
+  at deposit col 75 layer 393: solids 9.30 m, bulk 19.46 m, porosity 0.522, smax 2.035e+6 Pa, u 6.477e+4 Pa, cached load 7.416e+4 Pa, u/L 0.873, material 2
+  scar col 68 layer 393: solids 32.59 m, u 1.763e+5 Pa, load 2.597e+5 Pa, u/L 0.679
+  scar col 68 layer 392: solids 16.18 m, u 2.706e+5 Pa, load 6.485e+5 Pa, u/L 0.417
+  scar col 68 layer 391: solids 0.00 m, u 2.919e+5 Pa, load 7.775e+5 Pa, u/L 0.375
+  20 steps (100 kyr) later col 75 layer 393: solids 6.47 m, bulk 13.50 m, porosity 0.520, smax 2.035e+6 Pa, u 6.967e+4 Pa, cached load 5.572e+5 Pa, u/L 0.125, material 2
+
+end: events 24, stalled 2, windowLimited 3, failUnresolved 4, clamps 4
+mtd balance: sand err -2.33e-10 worst 2.19e-16; mud err 0.00e+0 worst 1.64e-16

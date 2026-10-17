@@ -1,0 +1,9 @@
+# Check 3c/5: bundled deep compaction vs the full solve on the COUPLED presets (the documented 0.25 % / 0.4 % figures come from prescribed deposition on 3 columns)
+miocene bundled x10 vs unbundled (2423 ms vs 21251 ms): sand rel 2.01e-14, mud rel 1.72e-5, meanH -1816.5 vs -1831.7 (rel 8.30e-3), max|dH| 236.1 m, maxU 1.119e+7 vs 8.353e+6 (rel 2.54e-1), meanU 4.859e+5 vs 2.896e+5 (rel 4.04e-1), u/L p90 0.100 vs 0.059, events 0 vs 0, max|dSalt| 0.0 m; summary differs in: [mean surface height]
+  col 60 at about 10,000 ft below seafloor (or the base): bundled 8710 ft TVDSS pore 8.99 ppg (u/L 0.052) | unbundled 8713 ft TVDSS pore 8.75 ppg (u/L 0.024)
+  col 80 at about 10,000 ft below seafloor (or the base): bundled 10195 ft TVDSS pore 10.02 ppg (u/L 0.172) | unbundled 10202 ft TVDSS pore 9.36 ppg (u/L 0.093)
+  col 100 at about 10,000 ft below seafloor (or the base): bundled 10111 ft TVDSS pore 10.39 ppg (u/L 0.212) | unbundled 10125 ft TVDSS pore 9.63 ppg (u/L 0.124)
+gulf bundled x20 vs unbundled (6880 ms vs 64583 ms): sand rel 2.94e-15, mud rel 9.19e-5, meanH -599.4 vs -769.2 (rel 2.21e-1), max|dH| 727.5 m, maxU 1.036e+8 vs 1.104e+8 (rel 6.22e-2), meanU 1.128e+7 vs 1.032e+7 (rel 8.49e-2), u/L p90 0.698 vs 0.686, events 0 vs 0, max|dSalt| 3724.6 m; summary differs in: [mean surface height]
+  col 150 at about 10,000 ft below seafloor (or the base): bundled 10120 ft TVDSS pore 12.68 ppg (u/L 0.531) | unbundled 10094 ft TVDSS pore 12.59 ppg (u/L 0.511)
+  col 250 at about 10,000 ft below seafloor (or the base): bundled 11453 ft TVDSS pore 9.93 ppg (u/L 0.231) | unbundled 10657 ft TVDSS pore 8.95 ppg (u/L 0.079)
+  col 320 at about 10,000 ft below seafloor (or the base): bundled 11568 ft TVDSS pore 8.65 ppg (u/L 0.017) | unbundled 13329 ft TVDSS pore 8.70 ppg (u/L 0.026)
