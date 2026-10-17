@@ -787,8 +787,9 @@ of the salt and starts again below its base, because salt has no pore fluid; a n
 A well through a welded column shows the weld, its age and the salt that is left.
 Tap the (i) buttons for what each mark means.
 
-**Salt crests (M3b.2).** Below the pseudo-well, the **Salt crests** table lists each salt crest that came within
-1,640 ft of the seafloor, and markers on the section show them. Section 14.7 explains how to read them.
+**Salt crests (M3b.2, UI-2).** At the top of the right-hand column, beside the section, the **Salt crests** list
+shows each salt crest that came within 1,640 ft of the seafloor, and markers on the section show them. Click a row
+to see the crest on the section at once. Section 14.7 explains how to read them.
 
 ### 14.5 What the Gulf-style preset gives
 These are numbers from one run on the development machine (Node 26, Windows); they are the model's
@@ -875,6 +876,9 @@ measurements (docs/physics-references.md, M3b.1).
   top the ratio means nothing, and the cell is empty). Near 1, the crest and its flanks keep pace; well above 1,
   the sediment is winning.
 - Both rates are least-squares slopes over a window of 1 Myr. They are not a single before-and-after pair.
+- The model has no dissolution. A crest that stays at the seafloor would in nature lose some salt to dissolution,
+  which the model does not have, so F is the whole net rise (the burial rule of VJ92a p. 347 uses F minus the
+  dissolution rate).
 
 **The two windows.** The table shows the *near* window: the last 1 Myr of the time the crest was within 1,640 ft of
 the seafloor. This is the rate while the crest was still near the surface. The CSV also has the *burial* window:
@@ -886,18 +890,29 @@ the new fill is pushing the salt top down. The burial numbers are usually more n
 rising salt body (GR12 p. 20). When the sediment builds up slower than the salt rises (A below F) the sequence is
 *tabular*. When it builds up faster (A above F) the sequence is *tapered*. If F and A differ by less than
 82 ft/Myr (25 m/Myr) the label is *unresolved*: that difference is what 1 ulp of maths noise moves the same crest
-by, so it cannot be told from noise (a tuned floor). One thing to keep in mind: GR12 name the kinds from the
+by, so it cannot be told from noise (a tuned floor). F and A are absolute rates, the rise of the salt top and of the
+seafloor in elevation. GR12 (p. 19) define rise relative to the minibasin subsidence plus differential compaction.
+If the flank subsides by the same rate as the crest, both rates shift by that rate and F - A does not change, so the
+label rule carries over; if the salt top sinks differently from the flank, it does not. One thing to keep in mind: GR12 name the kinds from the
 shape of the strata (hook and wedge sequences, fold zones of 50 to 1,000 m wide, p. 8). The grid here is 1,000 m wide,
 so it **cannot show hooks and wedges**. The label comes from the two rates only, and says nothing about
 the strata themselves.
 
-**The table.** Columns: *Crest* (its number), *x* (km, where the crest was at its last record), *First* and
-*Last* (Ma), *At seafloor* (Myr with the cover under 2 m; 0 for every Gulf crest), *F*, *A*, *F - A* and *A/F* (near
+**The list and the card.** The list at the top of the right-hand column has four columns: *Crest* (its number),
+*Label* (a shape and a word), *F - A* (ft/Myr, near window) and *Last record* (Ma). It shows about ten rows and
+scrolls inside; the column heads stay in view and sort the list (empty cells sort last). Rows are grey when the
+crest is not active at the time shown. Click a row, or a marker on the section, to select the crest: the time slider
+moves to the crest's last record, its marker gets a ring and the **pseudo-well moves to the crest's column**. A
+planned well is not moved; the card says so. Click the row again to clear the selection (the pseudo-well stays).
+Under the list, the card of the selected crest gives: *Position* (km, at the last record), *Followed from / to*
+(Ma), *Time at the seafloor* (Myr with the cover under 2 m; 0 for every Gulf crest), *F*, *A* and *A/F* (near
 window), *Label*, *Salt beside* (ft, the mean salt thickness 10 km either side at the last record), *L/h* (the
 distance to the nearest column without salt, divided by that mean salt thickness: how many salt thicknesses of
-flow the crest has behind it) and *How it ended*. Click a column head to sort; empty cells sort last. Click a row
-to move the time slider to the crest's last record. Rows are grey when the crest is not active at the time shown.
-Under the table a note gives the number of candidate highs that were merged into an older crest, when there are any.
+flow the crest has behind it) and *How it ended*. With nothing selected the card says how to select. The two
+export buttons are on the card. *Last record* is the age of the last record the log followed. It can be one or two
+records after the cover passed 1,640 ft, so it can be younger than the burial age that *How it ended* gives (a
+crest can read "Last record 57.30 Ma, buried at 57.40 Ma"). A note under the card gives the number of candidate
+highs that were merged into an older crest, when there are any.
 
 **The markers.** On the section a marker stands on the seafloor at each crest active at the time shown. The shape
 carries the label, not the colour: a triangle up with T is tabular, a triangle down with P is tapered, a diamond

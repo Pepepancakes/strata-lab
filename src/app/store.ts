@@ -679,7 +679,8 @@ export class AppStore {
 
   /**
    * Pick a crest in the crest table or on its marker: go to the view that shows it at its last record
-   * (record step k is seen at view step k + 1) and highlight its marker. null clears the pick.
+   * (record step k is seen at view step k + 1), highlight its marker and move the pseudo-well to its
+   * column. null clears the pick.
    */
   selectCrest(id: number | null): void {
     const e = id === null ? undefined : this.state.crestLog?.episodes.find((x) => x.id === id)
@@ -687,8 +688,13 @@ export class AppStore {
       this.set({ selectedCrest: null })
       return
     }
-    const last = e.track.step[e.track.step.length - 1] + 1
-    this.set({ selectedCrest: e.id, step: Math.max(0, Math.min(this.state.info?.nSteps ?? last, last)) })
+    const n = e.track.step.length
+    const last = e.track.step[n - 1] + 1
+    // UI-2 (D25): the pseudo-well moves to the crest's column at its last record. The planned well
+    // (state.wellPlan) is NOT touched: only the pseudo-well column changes, unlike a click on the section.
+    const nx = this.state.info?.nx ?? 0
+    const col = Math.max(0, Math.min(nx - 1, e.track.col[n - 1]))
+    this.set({ selectedCrest: e.id, step: Math.max(0, Math.min(this.state.info?.nSteps ?? last, last)), wellCol: col })
     this.refresh(false)
   }
 

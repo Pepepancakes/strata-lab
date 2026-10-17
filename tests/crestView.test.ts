@@ -6,7 +6,9 @@ import { describe, expect, it } from 'vitest'
 import { buildCrestLog, createCrestHistory, crestParams, emptyCrestLog, pushCrestFrame, type CrestLog } from '../src/engine/crestLog'
 import { M_PER_FT, mToFt } from '../src/units'
 import { crestCsv, crestRecordsCsv, CREST_COLUMNS, RECORD_COLUMNS } from '../src/views/crests/exportCrests'
-import { crestRows, endText, LABEL_SHAPE, LABEL_TEXT, markersAt, rowTip, sortRows, type CrestRow } from '../src/views/crests/model'
+import { cardFields, CREST_LIST_COLUMNS, crestRows, endText, LABEL_SHAPE, LABEL_TEXT, listCells, markersAt, rowTip, sortRows, type CrestRow } from '../src/views/crests/model'
+import { AppStore } from '../src/app/store'
+import { allViews, viewsForRegion } from '../src/views/registry'
 import { parseWellCsv } from '../src/views/wellplan/exportWell'
 
 const NX = 30
@@ -170,5 +172,72 @@ describe('CSV export', () => {
     const p = parseWellCsv(crestCsv(ctx, emptyCrestLog(100)))
     expect(p.rows).toEqual([])
     expect(p.columns.length).toBe(CREST_COLUMNS.length)
+  })
+})
+
+describe('crest list and selected-crest card (UI-2, D25)', () => {
+  const row = crestRows(log)[0]
+  it('the list has four columns, in the units John reads, and keeps the testid', () => {
+    expect(CREST_LIST_COLUMNS.map((c) => c.head)).toEqual(['Crest', 'Label', 'F \u2212 A', 'Last record'])
+    expect(CREST_LIST_COLUMNS.map((c) => c.unit)).toEqual(['', '', 'ft/Myr', 'Ma'])
+    expect(listCells(row)).toEqual(['1', 'tabular', '+197', '58.00']) // 60 / 0.3048 = 196.85
+  })
+  it('the card gives position, ages, rates, label, salt beside, L/h and how it ended', () => {
+    const f = Object.fromEntries(cardFields(row))
+    expect(f['Position (last record)']).toBe('10.5 km')
+    expect(f['Followed from / to']).toBe('59.90 / 58.00 Ma')
+    expect(f['Time at the seafloor']).toBe('0.00 Myr')
+    expect(f['F (salt top rise)']).toBe('+328 ft/Myr')
+    expect(f['A (seafloor beside it)']).toBe('+131 ft/Myr')
+    expect(f['A/F']).toBe('0.40')
+    expect(f['Label']).toBe('tabular')
+    expect(f['Salt beside']).toBe('3,281 ft')
+    expect(f['How it ended']).toBe('still near the surface at the end of the run')
+    expect(Object.keys(f)).toContain('L/h')
+  })
+  it('the crest view is in the right-hand column before Branches and the slope-failure list', () => {
+    const right = viewsForRegion(allViews, 'right').map((v) => v.id)
+    expect(right[0]).toBe('crests')
+    expect(right.indexOf('crests')).toBeLessThan(right.indexOf('branches'))
+    expect(viewsForRegion(allViews, 'well').map((v) => v.id)).not.toContain('crests')
+  })
+  it('the CSV header says what the floor does to the label (N-8)', () => {
+    expect(parsed0().header.join('\n')).toContain('within the noise floor = unresolved')
+  })
+})
+
+function parsed0() {
+  return parseWellCsv(crestCsv(ctx, log))
+}
+
+describe('store: selecting a crest moves the pseudo-well, not the planned well', () => {
+  function storeWith(plan: unknown): AppStore {
+    const s = new AppStore()
+    ;(s as unknown as { state: Record<string, unknown> }).state = {
+      ...s.getState(), crestLog: log, info: { nx: NX, nSteps: N, dx: DX }, step: 3, wellCol: 22, wellPlan: plan,
+    }
+    ;(s as unknown as { refresh: () => void }).refresh = () => {}
+    return s
+  }
+  it('sets the step, the selected crest and wellCol to the crest column at its last record', () => {
+    const s = storeWith(null)
+    s.selectCrest(1)
+    expect(s.getState().selectedCrest).toBe(1)
+    expect(s.getState().step).toBe(N) // last record step 19, seen at view step 20
+    expect(s.getState().wellCol).toBe(10)
+  })
+  it('leaves a planned well exactly as it was', () => {
+    const plan = { xKm: 22.5, marker: 'planned' }
+    const s = storeWith(plan)
+    s.selectCrest(1)
+    expect(s.getState().wellCol).toBe(10)
+    expect(s.getState().wellPlan).toBe(plan) // same object, not moved
+  })
+  it('clearing the pick keeps the pseudo-well where it is', () => {
+    const s = storeWith(null)
+    s.selectCrest(1)
+    s.selectCrest(null)
+    expect(s.getState().selectedCrest).toBeNull()
+    expect(s.getState().wellCol).toBe(10)
   })
 })
