@@ -177,3 +177,14 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
   4. **Still not Gulf-like:** 200/240 km is tuned, not a Gulf position; the outer 160 km of the section has
      no salt at the start; no canopies; the 4 km start has no source (tuned).
   5. Nothing merges to main without John (D6, D17.6).
+
+- **D20. Controls panel in named groups (John, 2026-10-16: "go with your picks").** John had to use
+  Ctrl+F to find the salt controls: 72 of the 81 parameters sat in one flat list under "All other
+  parameters", in code order. The panel is regrouped by process (roadmap UI-1). No physics, default or
+  record changes.
+  1. **Speed and accuracy settings** (columns, column width, substeps, update intervals, deep-compaction
+     bundling, benchmark mode) go in one **Grid and numerical settings** group at the bottom, not a
+     numerical fold inside each process group (option A). The geology groups then hold only physical
+     quantities.
+  2. **A "changed from preset" marker** (a dot on the value, the preset value under it, and a count in
+     the group header) is part of the same card, not later.

@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-16):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. Now: M3 salt is built and fixed through M3.11 (chain `strata-lab/m3-01-salt-flow` to `m3-11-docs-d18`), NOT on main; it waits for John's judgement of the Gulf-style preset (D17, D18, D19). Next after M3: M3b passive diapirs, then M4.
+**Status (2026-10-16):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. M3 salt (M3.1 to M3.12) was merged to main on 2026-10-16 with John's approval. Now: the salt literature review (LIT cards) and UI-1, the controls panel in named groups (D20). Next: M3b passive diapirs, then M4.
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -251,6 +251,35 @@ and welds that thin closer to zero than the 100 m label of D18.
 - Salt, sand and mud are conserved.
 - The Gulf preset shows at least two crests at the seafloor at the end of the run, not edge artifacts, and the wedge still progrades.
 - John says the picture reads as passive diapirs, or names what is wrong.
+
+## UI-1 — Controls panel in named groups  *(John, 2026-10-16: "go with your picks"; D20)*
+John found the 72 parameters under "All other parameters" hard to find (he used Ctrl+F to find salt).
+The panel is reorganised; no physics, default or record changes.
+1. Named, foldable groups in this order: Sediment supply, Sea level, Subsidence, Salt, Slope failure
+   (MTDs), Transport and turbidity currents, Compaction and pore pressure, Temperature, Quartz cement,
+   Grid and numerical settings. Each header shows its count. The groups that hold the old top eight
+   (Sediment supply, Sea level, Subsidence) open by default; the open/closed state is remembered.
+2. Process switches (salt, slope failure, temperature, quartz cement) become check boxes at the top of
+   their group, and the group header shows an on/off badge.
+3. A search box above the groups filters by parameter label, sub-heading or group name.
+4. Sub-headings inside the larger groups (Salt: Starting salt / Flow and cover / Welds and heat).
+5. Controls that do nothing in the current mode are hidden (sine-only sea level while the published
+   curve is picked; thermal decay time and history factors unless that subsidence mode is picked).
+6. A "changed from preset" marker on each edited value (with the preset value under it) and a count in
+   the group header.
+7. The controls column scrolls on its own, so the section and pseudo-well stay on screen.
+8. A test that every parameter sits in exactly one group.
+
+Decisions (D20): speed/accuracy settings go in one **Grid and numerical settings** group at the bottom
+(option A); the changed-from-preset marker is in this card.
+
+**Done when:**
+- Every editable parameter appears in exactly one group (test), and searching "salt" shows only the
+  salt controls with the Salt group open.
+- Engine files and fixture hashes are unchanged (`git diff main -- src/engine` is empty).
+- The user guide describes the groups, and the docs test passes.
+- Checked in the built file at 100 %, 125 % and 150 % display scaling.
+- John says he can find a parameter without Ctrl+F.
 
 ## M4 — Well-planning outputs
 - A planned well (vertical or deviated) through the section.
