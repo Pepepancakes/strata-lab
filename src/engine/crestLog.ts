@@ -33,10 +33,11 @@
 //               sequence, faster (A > F) TAPERED. When |F - A| is under NOISE_FLOOR the label is
 //               "unresolved". Hooks and wedges (fold zones of 50 to 1,000 m, GR12 p. 8) are not resolved at
 //               dx = 1,000 m: the label comes from rates only, never from stratal geometry.
-//   NOISE_FLOOR 25 m/Myr, TUNED. Set from the Gulf preset: with 1 ulp maths noise (7 runs, Windows) the F - A of
-//               the same crest moves by 22 m/Myr (90th percentile; maximum 59) in the near window and 25 m/Myr
-//               (maximum 58) in the burial window, so a difference under about 25 m/Myr is not told apart
-//               from noise. See docs/physics-references.md, M3b.1.
+//   NOISE_FLOOR 25 m/Myr, TUNED. Set from the Gulf preset: with 1 ulp maths noise (6 noise runs on each of Windows
+//               and Linux, matched to the plain run of the same platform) the F - A of the same crest moves by
+//               24.5 m/Myr (90th percentile; maximum 86) in the near window and 24.6 m/Myr (maximum 78) in the
+//               burial window, so a difference under about 25 m/Myr is not told apart from noise.
+//               See docs/physics-references.md, M3b.1.
 //   neighbour salt   mean salt thickness at +-10 km (columns round(10,000 / dx)) of the crest at its last record.
 //   L/h         flow length over salt thickness at the last record: L = distance from the crest to the
 //               nearest salt-free column (thickness under weldThick) on either side, the smaller of the two;

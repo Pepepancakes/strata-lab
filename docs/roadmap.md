@@ -257,7 +257,7 @@ A read-only analysis of the record, with no engine physics change. For each salt
 rise rate (F), the local accumulation rate (A), F - A, their ratio, the neighbouring salt thickness and
 flow length over salt thickness, plus a tabular or tapered sequence label from the rates (GR12 p. 20;
 hooks and wedges are not resolved at dx 1,000 m). Shown in the views and exported as CSV. Chain:
-M3b.1 crest log (engine side, test-first) -> M3b.2 views and export -> M3b.3 docs -> M3b.4 salt review.
+M3b.1 crest log (engine side, test-first; built on branch strata-lab/m3b-01-crest-log, not on main) -> M3b.2 views and export -> M3b.3 docs -> M3b.4 salt review.
 - Option C (a salt feed) is decided by John after S4b, a single Stokes rerun (N-3) from a start section
   cut from the fixed spike. B is a later sensitivity test, D is long-term, E is out, and F stays open.
 
