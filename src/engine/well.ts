@@ -196,6 +196,8 @@ export interface WellSamples extends WellStations {
   hydroPa: Float64Array
   porePa: Float64Array
   overburdenPa: Float64Array
+  /** Depth below the rig floor that the EMW values use, ft (NaN in air). Lets M4.2 turn a pressure into a gradient without re-deriving the datum. */
+  depthRkbFt: Float64Array
   /** The same as EMW, ppg, referenced to RKB (NaN where the pressure is NaN). */
   hydroEmw: Float64Array
   poreEmw: Float64Array
@@ -332,7 +334,7 @@ export function sampleWell(eng: EngineState, P: EngineParams, sl: number, well: 
   const col = new Int32Array(n)
   const nan = (): Float64Array => new Float64Array(n).fill(NaN)
   const ageMa = nan(), sandFrac = nan(), porosity = nan(), tempC = nan()
-  const hydroPa = nan(), porePa = nan(), overburdenPa = nan(), hydroEmw = nan(), poreEmw = nan(), overburdenEmw = nan()
+  const depthRkbFt = nan(), hydroPa = nan(), porePa = nan(), overburdenPa = nan(), hydroEmw = nan(), poreEmw = nan(), overburdenEmw = nan()
   let stopped: WellSamples['stopped'] = null
   let m = 0
   const outsideSection = (xM: number): boolean => xM < 0 || xM > nx * dx
@@ -376,6 +378,7 @@ export function sampleWell(eng: EngineState, P: EngineParams, sl: number, well: 
         porePa[i] = p
         overburdenPa[i] = p
         const d = sl - e + airGapM
+        depthRkbFt[i] = mToFt(d)
         hydroEmw[i] = poreEmw[i] = overburdenEmw[i] = emwPpg(p, d)
       }
       continue
@@ -418,6 +421,7 @@ export function sampleWell(eng: EngineState, P: EngineParams, sl: number, well: 
       porePa[i] = hydro + ex
     }
     if (pDepth > 0) {
+      depthRkbFt[i] = mToFt(pDepth)
       hydroEmw[i] = emwPpg(hydro, pDepth)
       poreEmw[i] = Number.isNaN(porePa[i]) ? NaN : emwPpg(porePa[i], pDepth)
       overburdenEmw[i] = emwPpg(overburdenPa[i], pDepth)
@@ -433,7 +437,7 @@ export function sampleWell(eng: EngineState, P: EngineParams, sl: number, well: 
     waterDepthFt: mToFt(waterDepthM),
     mudlineTvdssFt: mToFt(sl - hHead),
     kind: sub(kind), layer: sub(layer), column: sub(col), ageMa: sub(ageMa), sandFrac: sub(sandFrac), porosity: sub(porosity), tempC: sub(tempC),
-    hydroPa: sub(hydroPa), porePa: sub(porePa), overburdenPa: sub(overburdenPa),
+    depthRkbFt: sub(depthRkbFt), hydroPa: sub(hydroPa), porePa: sub(porePa), overburdenPa: sub(overburdenPa),
     hydroEmw: sub(hydroEmw), poreEmw: sub(poreEmw), overburdenEmw: sub(overburdenEmw),
   }
 }

@@ -335,6 +335,31 @@ Source code: `src/engine/well.ts` (pure, in the engine folder because it reads t
 - **Sampling.** The record is read in the two columns either side of each station at the same elevation and interpolated by distance between column centres. Numbers (sand fraction, porosity, temperature, excess pore pressure) are interpolated only when both columns hold the same material at that elevation; across a salt flank or an MTD edge the nearest column is used, because a blended "half salt" rock does not exist. Material, layer and age come from the nearest column (a tie goes to the landward one). Overburden is interpolated (a stress field is continuous). Pore pressure = hydrostatic + excess pressure of the sediment (none in salt, as in the pseudo-well). A column that has no rock at that elevation (above its surface or below its basement) is left out of the interpolation; if neither column has rock the station is water or air (above both surfaces) or the base of the record (below either basement), where the well stops, flagged. A well that leaves the section stops, flagged. Cell properties are constant over a cell; hydrostatic and overburden vary smoothly inside it, so at a cell middle a vertical well equals the pseudo-well to 1e-9.
 - **Not claimed.** The air gap value; that linear interpolation between columns is right near a salt flank (it is a display choice, labelled); fracture gradient and the mud-weight window are M4.2.
 
+## M4 well pressures (M4.2, D21)
+Source code: `src/engine/wellPressure.ts` (`wellPressures`), parameters in `src/engine/wellPressureParams.ts`. Tests: `tests/wellPressure.test.ts` (hand calculation in its header). They read a `WellSamples` and change no engine state, so no `stateHash` moves.
+- **Units.** psi and equivalent mud weight (EMW, ppg) referenced to RKB: EMW = P / (g D), D = depth below RKB, g = 9.81 m/s^2 (the engine's, as in the samples). 1 ppg = 119.8264 kg/m^3, so 1 ppg over 1 ft is 0.051965 psi at this g (0.051948 at standard gravity; the field rule 0.052). Conversions are in `src/units.ts`.
+- **Fracture gradient.** Pf = K (S - P) + P and FG = Pf / D, with S the total vertical stress (the overburden, which contains the weight of the water column), P the pore pressure. Eaton (1969): K = nu / (1 - nu). Matthews & Kelly (1967): K = Ki. Both equations are written from the commonly quoted form; **neither paper was read here (to verify)**. Both are used with ONE constant per well, because the depth curves of the papers (Eaton's Poisson's ratio against depth, Matthews & Kelly's Ki against the depth where the matrix stress would be normal) are not tabulated: no points are invented. With a constant K the two have the same form, so they differ only through the number chosen. Default method Eaton (D21).
+- **In salt** the fracture gradient is the overburden (D21). Reason: salt is impermeable and flows until the stress is nearly equal in all directions, and it has no pore pressure to add. Industry practice; **no source is in this project (to verify)**. The pore pressure of salt is not modelled (NaN in the samples); the lower limit of the window in salt is the hydrostatic pressure, a labelled choice.
+- **Deep water.** S includes sea water from the sea surface down (`overburdenPa` in the samples already does), and EMW is taken from RKB. The same rock under 5,000 ft of water therefore has a much lower fracture gradient in ppg than on land (hand calculation in the test: 9.98 ppg against 14.49 ppg for mud 1,500 ft below the sea floor with 300 psi excess pressure).
+- **Window.** lower = pore pressure EMW + lower margin; upper = fracture-gradient EMW - upper margin; width = upper - lower. Tight: 0 < width < 0.5 ppg. No window: width <= 0 (pore pressure has reached the fracture gradient, with the margins). No wellbore-stability (collapse) limit (D21). Water and air stations have no window. Outputs: the narrowest window (ppg, TVDSS, MD), the runs of tight stations and the runs of no-window stations.
+- **Parameters** (all in the `WELL_PRESSURE_PARAMS` registry; not engine parameters, they never touch a run):
+  - `fgMethod`: eaton (default) or matthews-kelly. Cited (Eaton 1969; Matthews & Kelly 1967), papers not read.
+  - `poissonRatio` 0.40, range 0.20 to 0.49. **Tuned**: a mid-range pick for compacted Gulf mud; K = 0.667.
+  - `matthewsKellyKi` 0.60, range 0.30 to 1.0. **Tuned**; to verify against the paper's chart.
+  - `lowerMarginPpg` 0 and `upperMarginPpg` 0, range 0 to 2 ppg. **Tuned** safety margins.
+  - `tightWindowPpg` 0.5, range 0.1 to 2 ppg. **Tuned** labelling threshold (a common rule of thumb; no source, to verify).
+  - The air gap (80 ft, tuned) belongs to the well definition (M4.1).
+- **Hand calculation** (5,000 ft of water, 3,000 ft of mud of 2,000 kg/m^3 with 500 psi excess pressure, 2,000 ft of salt of 2,160 kg/m^3, mud of 2,200 kg/m^3 with 2,500 psi excess pressure; nu 0.40, Ki 0.60), matched to 1e-9 relative by the test:
+
+| depth (TVDSS) | in | S, psi | P, psi | S, ppg | P, ppg | Eaton FG, ppg | M&K FG, ppg | window (Eaton), ppg |
+|---|---|---|---|---|---|---|---|---|
+| 6,500 ft | mud 1 | 3,523.614 | 3,389.364 | 10.3049 | 9.9123 | 10.1741 | 10.1479 | 0.2617 (tight) |
+| 9,000 ft | salt | 5,761.380 | 4,000.657 (hydrostatic) | 12.2102 | 8.4787 | 12.2102 (= S) | 12.2102 (= S) | 3.7315 |
+| 12,000 ft | mud 2 | 8,606.292 | 7,834.210 | 13.7098 | 12.4799 | 13.2998 | 13.2178 | 0.8200 |
+
+  A deviated well (build-and-hold, KOP 5,000 ft, 3 deg per 100 ft, hold 30 deg) gives the same numbers at the station with TVDSS 12,000 ft, although its MD is about 13,080 ft: depth in every formula is TVD below RKB.
+- **Not claimed.** That nu = 0.40 or Ki = 0.60 suits any real basin; that a constant K reproduces Eaton's or Matthews & Kelly's depth curves; that the fracture gradient in salt equals the overburden everywhere (halite near a salt flank or a weld may not); that the model's excess pore pressure is a real pre-drill prediction (it is the output of a synthetic run).
+
 ## Set-up parameters and what the registry adds (M1.8)
 These are numerical or set-up choices, not measured quantities, so they are all **tuned** and the
 app labels them so: columns (`nx`, default 150), column width (`dx`, 1 km), run length
