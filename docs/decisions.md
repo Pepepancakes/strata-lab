@@ -226,3 +226,16 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
   4. John is away for part of 2026-10-17 and asked that work keep moving: implementation choices are made
      by the orchestrator and recorded as DECISION lines on the cards. Geology and product questions still
      go to John (by Telegram). Card code reaches main only after John's check.
+
+- **D24. Option C (a salt feed from below) is not built for the Gulf slab (John, 2026-10-17: "go with your recommendations").**
+  1. SALT-R3 (salt reviewer, `docs/reviews/salt-r3-check.md` on branch `strata-lab/salt-r3-check`, VERDICT APPROVE)
+     recommended not building C, at medium confidence. The S4b Stokes rerun from the fixed spike 003 start section has
+     the full 4 km salt layer as its source and still never exposes the crest (at least 138 m, 453 ft, of cover up to
+     the thin-sheet burial), so a feed is not what is missing. A feed would also move the thin sheet further from
+     Stokes and would be a tuned number with no published calibration. Burial of a diapir is expected geology (D23.2).
+  2. S3 answer recorded: the thin sheet's exposed-then-falling crest is a thin-sheet model limit (medium-to-high
+     confidence that Stokes does not hold the crest at the surface; low confidence on the exact cover sizes and rates).
+  3. Reopen C only for a thick-source down-building case like GL24. B stays a later sensitivity test, D long-term,
+     E out, F (brittle cover) open.
+  4. SALT-R3's wording items N-5, N-7 and N-8 are fixed on local branch `strata-lab/salt-r3-wording` (spike READMEs,
+     docs only), which goes to main with the spike branches. N-9 (S4b run output not committed) is accepted for a spike.

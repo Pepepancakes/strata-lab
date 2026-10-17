@@ -258,8 +258,9 @@ rise rate (F), the local accumulation rate (A), F - A, their ratio, the neighbou
 flow length over salt thickness, plus a tabular or tapered sequence label from the rates (GR12 p. 20;
 hooks and wedges are not resolved at dx 1,000 m). Shown in the views and exported as CSV. Chain:
 M3b.1 crest log (engine side, test-first) -> M3b.2 views and export -> M3b.3 docs -> M3b.4 salt review.
-- Option C (a salt feed) is decided by John after S4b, a single Stokes rerun (N-3) from a start section
-  cut from the fixed spike. B is a later sensitivity test, D is long-term, E is out, and F stays open.
+- Option C (a salt feed): not built for the Gulf slab (D24, John 2026-10-17). S4b (Stokes rerun from the fixed
+  spike) buried the crest too, so a feed is not the missing piece (SALT-R3, medium confidence). Reopen only for a
+  GL24-like thick-source down-building case. B is a later sensitivity test, D is long-term, E is out, and F stays open.
 
 **Done when, part 1 (A):**
 - F, A and F - A for a crest match a hand calculation on a small record (test).
