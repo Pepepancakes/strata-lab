@@ -35,8 +35,11 @@ function median(a) { const s = a.slice().sort((p, q) => p - q); return s[s.lengt
 
 // ----- case definitions: each returns the model options, the sediment level function and the crest tracker settings
 function gulfCase(res, coverFactor) {
-  const start = require('./start-gulf.json'), fr = require(path.join(SCR, 'forcing-gulf.json'));
+  // S4B=1: the S4b rerun. Start section, forcing and thin-sheet comparison crest come from the FIXED spike 003 (dump_s4b.js, s4b-case.json).
+  const S4B = !!process.env.S4B;
+  const start = S4B ? require(process.env.S4B_CASE || './s4b-case.json').start : require('./start-gulf.json'), fr = require(path.join(SCR, S4B ? 'forcing-s4b.json' : 'forcing-gulf.json'));
   const C = require('../003-passive-diapir/s4-case.json').decisiveCase;
+  if (S4B) { const B = require(process.env.S4B_CASE || './s4b-case.json'); C.thinSheetResult = { tNearMyr: B.crest.tNearMyr, tExposedMyr: B.crest.tExposedMyr, tBuriedMyr: B.crest.tEndMyr }; C.aggradationHistory = { series: B.thinSeries.filter((q, i) => i % 5 === 0) }; }
   const colIdx0 = 15, colIdx1 = 104;                           // window columns 226 .. 315 of the 211 .. 331 dump
   const dxD = start.dxM, cols = start.columns.slice(colIdx0, colIdx1 + 1);
   const x0 = cols[0].xM - dxD / 2, W = cols.length * dxD;
