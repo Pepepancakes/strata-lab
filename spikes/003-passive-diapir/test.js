@@ -160,5 +160,103 @@ console.log('\n== 6. power-law salt: mobility formula ==');
   }
 }
 
-console.log(fails ? `\n${fails} FAILED` : '\nALL PASS');
-process.exit(fails ? 1 : 0);
+// ---- 7. S3b: start salt equals main's initialSaltThickness -----------------------------------------------------
+// Async part: main's function is TypeScript, so it is loaded through vite (a dev dependency of the repo), the same way
+// scripts/review/*.mjs do. The spike's own function is a JS port; this check keeps it from drifting.
+async function s3bChecks() {
+  const path = require('path');
+  const { gulfParams } = require('./gulf.js');
+  const { runCase, aggregate } = require('./s3b.js');
+  const { trackCrests, summarise } = require('./crestlog.js');
+  const Q = require('./qc.js');
+  const { withUlpNoise, AMP } = require('./ulp.js');
+
+  console.log('\n== 7. start salt against main (M3.10) ==');
+  const { createServer } = await import('vite');
+  const root = path.join(__dirname, '..', '..');
+  const server = await createServer({ root, configFile: false, appType: 'custom', logLevel: 'error', server: { middlewareMode: true, hmr: false, watch: null, fs: { strict: false } }, optimizeDeps: { noDiscovery: true, include: [] } });
+  try {
+    const main = await server.ssrLoadModule('/src/engine/salt.ts');
+    const cmp = (P, label) => {
+      const mainP = { saltThick: P.saltThick, saltPinchStart: P.saltPinch[0], saltPinchEnd: P.saltPinch[1], saltLimitStart: P.saltLimit[0], saltLimitEnd: P.saltLimit[1] };
+      const st = S.createState(P);
+      let worst = 0, nonzero = 0;
+      for (let j = 0; j < P.nx; j++) { const h = main.initialSaltThickness(mainP, (j + 0.5) * P.dx); worst = Math.max(worst, Math.abs(h - st.hs[j])); if (h > 0) nonzero++; }
+      ok(worst <= 1e-9, `${label}: spike starting salt equals main's initialSaltThickness at all ${P.nx} columns (${nonzero} with salt), worst difference ${worst.toExponential(1)} m`);
+    };
+    cmp(gulfParams({ exposed: 1 }), 'Gulf preset (pinch 10/100 km, limit 200/240 km)');
+    cmp(Object.assign(S.defaultParams(), { nx: 150, saltOn: true }), 'spike defaults (pinch 25/45 km, default limit beyond the section)');
+    cmp(gulfParams({ saltLimit: [150000, 170000], saltThick: 3000 }), 'Gulf with another limit (150/170 km) and 3000 m');
+    const g = gulfParams({ exposed: 1 }), sg = S.createState(g);
+    ok(sg.hs[300] === 0 && sg.hs[150] > 3000, `Gulf start: no salt at 300 km (${sg.hs[300]} m), ${sg.hs[150].toFixed(0)} m at 150 km`);
+  } finally { await server.close(); }
+
+  console.log('\n== 8. crest log: hand calculation ==');
+  {
+    // synthetic strip: crest column 20 stands 100 m above a flat flank at t = 0, rises F = 100 m/Myr; the flank rises A = 300 m/Myr.
+    // Relief = 100 + (F - A) t = 0 at t = 0.5 Myr (exposed until the flank is 2 m above it), cover = (A - F) t - 100 reaches 500 m at t = 3.0 Myr.
+    const nx = 40, F = 100, A = 300, P = { dtRec: 1e5, weldThick: 100, roofMin: 2, dx: 1000, saltThick: 4000 };
+    const st = { nx, k: 0, b: new Float64Array(nx).fill(-5000), hs: new Float64Array(nx).fill(3000), H: new Float64Array(nx), cover: new Float64Array(nx) };
+    const hs0 = Float64Array.from(st.hs);
+    const setT = () => {
+      const t = st.k * 0.1, Hf = -1800 + A * t;
+      st.hs[20] = 3300 + F * t;                                      // crest salt top = -1700 + F t; flank surface = -1800 + A t
+      for (let j = 0; j < nx; j++) { const zt = st.b[j] + st.hs[j]; st.H[j] = j === 20 ? Math.max(Hf, zt) : Hf; st.cover[j] = st.H[j] - zt; }
+    };
+    // flat salt (3000 m) has its top at -2000 m, so the flank surface -1800 + A t sits 200 m + A t above it: cover 200 m at t = 0
+    setT();
+    const eps = trackCrests(st, P, hs0, () => { if (st.k >= 60) return false; st.k++; setT(); return true; });
+    const rows = eps.map((e) => summarise(e, P, hs0, 0.1));
+    const r = rows.find((x) => x.exposedEver);
+    ok(!!r && rows.length === 1, `one crest found and logged (${rows.length})`);
+    ok(Math.abs(r.F_ep - F) < 1e-6 && Math.abs(r.A_ep - A) < 1e-6 && Math.abs(r.FmA_ep - (F - A)) < 1e-6, `F ${r.F_ep.toFixed(6)} A ${r.A_ep.toFixed(6)} F-A ${r.FmA_ep.toFixed(6)} m/Myr against 100 / 300 / -200`);
+    ok(r.D === 0, 'dissolution D is 0 (the spike has none)');
+    ok(Math.abs(r.exposedMyr - 0.5) <= 0.1 + 1e-9, `exposed ${r.exposedMyr.toFixed(2)} Myr against the hand value 0.49 (to one 0.1 Myr step)`);
+    ok(r.endWhy === 'buried' && Math.abs(r.tEnd - 3.0) <= 0.1 + 1e-9, `buried at ${r.tEnd.toFixed(2)} Myr (hand value 3.0 +- one step), ${r.endWhy}`);
+    ok(r.nbClass === 'thick' && Math.abs(r.nb5 - 3000) < 1e-9, `neighbours at burial: ${r.nb1.toFixed(0)} / ${r.nb5.toFixed(0)} / ${r.nb10.toFixed(0)} m (flat 3000 m), class ${r.nbClass}`);
+  }
+
+  console.log('\n== 9. equal-density null (QC 5b, GL24 Fig. 5a) ==');
+  {
+    const n0 = Q.nullCase(2160), n1 = Q.nullCase(2600);
+    console.log(`flat seafloor, 200 m salt-top relief, 2 Myr: cover density 2160 (= salt) max salt change ${n0.maxChange.toExponential(2)} m; cover 2600: ${n1.maxChange.toFixed(1)} m`);
+    ok(n0.maxChange < 1e-9, 'equal densities: no flux (salt thickness unchanged to 1e-9 m)');
+    ok(n1.maxChange > 10, 'control: with a density contrast of 440 kg/m3 the same geometry moves salt (more than 10 m)');
+  }
+
+  console.log('\n== 10. GL24-like down-building with a thick source (QC 15) ==');
+  {
+    const cases = [['base: salt 1e18, cover plate 1e20, 200 m/Myr', {}, 200], ['salt 1e19', { saltVisc: 1e19 }, 200], ['no cover bending', { coverVisc: 0 }, 200], ['100 m/Myr', { level: { L0: -2600, rate: 1e-4 } }, 100], ['400 m/Myr', { level: { L0: -2600, rate: 4e-4 } }, 400]];
+    console.log('case | crest depth 20-50 Myr (m) min..max | rise m/Myr against surface | source drained (Myr) | max salt (m)');
+    let base;
+    for (const [label, over, rate] of cases) {
+      const g = Q.gl24Case(Object.assign({ bump: -200 }, over)), sm = Q.gl24Summary(g, rate);
+      const mb = S.massBalance(g.c.st, g.c.P);
+      console.log(`${label} | ${sm.depthMin.toFixed(0)}..${sm.depthMax.toFixed(0)} | ${sm.rise.toFixed(0)} / ${rate} | ${sm.drainedMyr} | ${sm.hsMax.toFixed(0)}; balance salt ${mb.saltRelError.toExponential(1)} sand ${mb.sandRelError.toExponential(1)} mud ${mb.mudRelError.toExponential(1)}`);
+      ok(Math.abs(mb.saltRelError) < 1e-12 && Math.abs(mb.sandRelError) < 1e-9 && Math.abs(mb.mudRelError) < 1e-9 && mb.saltClip === 0, `  conservation: ${label}`);
+      if (!base) base = { g, sm };
+    }
+    ok(Math.abs(base.sm.rise - 200) / 200 < 0.1 && base.sm.depthMax - base.sm.depthMin < 50, `base case: the crest rises with the surface (${base.sm.rise.toFixed(0)} against 200 m/Myr) at a steady depth ${base.sm.depthMin.toFixed(0)} to ${base.sm.depthMax.toFixed(0)} m for 20 to 50 Myr`);
+    const a = Q.gl24Case({ bump: -200, tMyr: 4 }), b = Q.gl24Case({ bump: -200, tMyr: 4 });
+    ok(hash(a.c.st) === hash(b.c.st), 'GL24-like run is deterministic');
+  }
+
+  console.log('\n== 11. Gulf run on the M3.10 start with the crest log ==');
+  {
+    const r = runCase({});
+    const mb = r.mb, ag = aggregate(r.rows);
+    console.log(`crests ${ag.crests}, exposed ${ag.exposed} (interior ${ag.interior}, toe ${ag.toe}), buried ${ag.buried}; exposed Myr ${ag.exposedMyr} (median ${ag.exposedMyrMedian.toFixed(1)}); F-A at burial ${ag.FmA_pre}; neighbours thick/mid/depleted ${ag.nbThick}/${ag.nbMid}/${ag.nbDepleted}; salt at +-10 km ${ag.nb10} m`);
+    ok(Math.abs(mb.saltRelError) < 1e-12 && Math.abs(mb.sandRelError) < 1e-9 && Math.abs(mb.mudRelError) < 1e-9 && mb.saltClip === 0, `Gulf balance: salt ${mb.saltRelError.toExponential(1)} sand ${mb.sandRelError.toExponential(1)} mud ${mb.mudRelError.toExponential(1)} clip ${mb.saltClip}`);
+    ok(ag.exposed >= 1 && r.rows.every((x) => x.D === 0), 'crests were logged, every row has D = 0');
+    const powBefore = Math.pow;
+    const noisy = withUlpNoise(AMP, 3, () => Array.from({ length: 50 }, (_, i) => Math.pow(1.1 + i, 0.37)));
+    const plain = Array.from({ length: 50 }, (_, i) => Math.pow(1.1 + i, 0.37));
+    const nDiff = noisy.filter((v, i) => v !== plain[i]).length, maxRel = Math.max(...noisy.map((v, i) => Math.abs(v / plain[i] - 1)));
+    ok(Math.pow === powBefore && nDiff > 0 && maxRel <= 4.5e-16, `1 ulp helper: restores Math.pow, changes ${nDiff} of 50 results by at most ${maxRel.toExponential(1)} (relative, under 2 ulp)`);
+  }
+}
+
+s3bChecks().then(() => {
+  console.log(fails ? `\n${fails} FAILED` : '\nALL PASS');
+  process.exit(fails ? 1 : 0);
+}).catch((e) => { console.error(e); process.exit(1); });

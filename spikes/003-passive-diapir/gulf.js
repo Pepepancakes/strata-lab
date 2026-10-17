@@ -9,7 +9,7 @@ function gulfParams(over) {
   Object.assign(P, {
     nx: 400, dx: 1000, duration: 66e6, dtRec: 100000, nSub: 5,
     supply: 28, subsShelf: 90, subsBasin: 80, tcMax: 0.1, slAmp: 0, slShift: 0,
-    saltOn: true, saltThick: 4000, saltPinch: [10000, 100000], saltVisc: 1e18,
+    saltOn: true, saltThick: 4000, saltPinch: [10000, 100000], saltLimit: [200000, 240000], saltVisc: 1e18,
     coverThick: 300, coverNoise: 0.5, seed: 2, coverVisc: 1e19, weldThick: 100,
     coverBend: 1, limiter: 1, nSaltSub: 5,
   });

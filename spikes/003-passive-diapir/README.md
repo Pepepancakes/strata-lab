@@ -71,3 +71,19 @@ up (power-law weakening, or a deeper source layer), which this spike only suppli
 - Should exposed salt dissolve (rate-limited loss to seawater)? Not modelled; it would break salt conservation unless booked as a sink.
 - Bypass shares sediment equally to the two lower sides. Real sediment would follow the slope; a gradient-weighted split is a small change.
 - Roof thinning is a tuned rule (`shed`), not physics; it is off by default and labelled as such.
+
+## S3b: per-crest log on the M3.10 start (card t_575d9327)
+
+What changed
+- engine.js: the starting salt now uses initialSaltThickness(P, x), the same arithmetic as src/engine/salt.ts (pinch-out smoothstep, then the M3.10 basinward limit smoothstep, P.saltLimit). Default limit [2e6, 2.5e6] lies beyond any section, so older runs are unchanged. gulf.js sets saltLimit [200 km, 240 km]. test.js section 7 checks the spike against main's function (loaded through vite) at every column, worst difference 0.
+- engine.js: P.rhoSalt overrides the salt density (default 2160) for the density tests.
+- crestlog.js: finds crests (salt-top maxima, prominence 100 m (tuned), cover under 500 m), follows them until buried (cover over 500 m for 3 steps) and records F (crest rise), A (flank rise), dips, neighbour salt at +-1/5/10 km, L/h, roof-thickness ratios. D (dissolution) is 0: the spike has none. Hand-calculation test in test.js section 8.
+- s3b.js: `gulf`, `sweep`, `ulp` modes. ulp.js: plain-JS copy of the 1 ulp noise helper. qc.js: equal-density null and GL24-like run. s4case.js writes s4-case.json for S4.
+
+Results (all from `node test.js`, ALL PASS, 43 checks, about 40 s)
+- Equal-density null: max salt change 9e-13 m. Control (cover 2600 vs salt 2160 + 440 contrast): 77 m.
+- Gulf start: 17 crests, 10 exposed (9 interior, 1 toe), 8 buried. Exposed 1 to 48 Myr (median 24). At burial F-A is -382 to -57 m/Myr (crest loses against the flank), neighbouring salt is thick (2900 to 4300 m at +-10 km, all 8 classed thick). Burial is by flank aggradation, not by source depletion.
+- Six 1 ulp runs: 13 to 16 crests, 7 to 10 exposed, 6 to 9 buried; exposed duration medians 22 to 25 Myr. Count of exposed crests varies by up to 3, so single-crest outcomes are noise-sensitive, medians are not.
+- 16-run sweep (supply, salt, viscosity, cover; 150 km strip, my choice, S3's strip was not recorded): 36 crests, 25 exposed, 22 buried, 21 with F-A < 0; 15 thick / 4 mid / 3 depleted neighbours.
+- GL24-like (2 km source, level seafloor rising 200 m/Myr): the thin sheet keeps the crest 265 m below the surface and rising at 204 m/Myr for 20 to 50 Myr, so it keeps pace. With 1e19 salt, or 400 m/Myr, it does not (rise 33 and 6 m/Myr). The source drains by 3 Myr (peak salt 12.5 km), so the "thick source" is a one-off pulse, a thin-sheet limit; S4 should compare against s4-case.json.
+- Mass balance everywhere: salt under 1e-13, sand and mud under 1e-13, zero clips.

@@ -93,6 +93,7 @@
       ctrl: null,          // controlled test mode, see ctrlDeposit()
       saltThick: 1500,     // initial salt thickness basinward of the pinch-out, m (start of run only)
       saltPinch: [25000, 45000], // salt edge: zero landward of x0, full thickness basinward of x1
+      saltLimit: [2e6, 2.5e6],   // M3.10 basinward limit: full thickness landward of [0], none basinward of [1] (defaults lie beyond any section)
       saltVisc: 1e17,      // dynamic viscosity, Pa s (published range ~1e17-1e19; tuned to the fast end so flow shows in 3 Myr)
       nSaltSub: 5,         // salt substeps per record step
     };
@@ -124,6 +125,20 @@
     return PROFILE[PROFILE.length - 1][1];
   }
 
+  /** Start salt thickness at distance x (m): pinch-out smoothstep, then the M3.10 basinward limit (same arithmetic as initialSaltThickness in src/engine/salt.ts). */
+  function initialSaltThickness(P, x) {
+    const [x0, x1] = P.saltPinch, [l0, l1] = P.saltLimit;
+    let f = Math.max(0, Math.min(1, (x - x0) / (x1 - x0)));
+    f = f * f * (3 - 2 * f);
+    let h = P.saltThick * f;
+    if (x > l0) {
+      let g = Math.max(0, Math.min(1, (x - l0) / (l1 - l0)));
+      g = g * g * (3 - 2 * g);
+      h *= 1 - g;
+    }
+    return h;
+  }
+
   function createState(P) {
     const nx = P.nx, nSteps = Math.round(P.duration / P.dtRec), NL = nSteps + 1;
     const st = {
@@ -153,10 +168,8 @@
       for (let j = 0; j < nx; j++) noise[j] *= P.coverNoise / mx;
     }
     for (let j = 0; j < nx; j++) {
-      const x = (j + 0.5) * P.dx, [x0, x1] = P.saltPinch;
-      let f2 = P.saltOn ? Math.max(0, Math.min(1, (x - x0) / (x1 - x0))) : 0;
-      f2 = f2 * f2 * (3 - 2 * f2);
-      st.hs[j] = P.saltThick * f2; st.initSalt += st.hs[j] * P.dx;
+      const x = (j + 0.5) * P.dx;
+      st.hs[j] = P.saltOn ? initialSaltThickness(P, x) : 0; st.initSalt += st.hs[j] * P.dx;
       const cj = subBulk * (1 + noise[j]), sj = cj / (1 + e);
       st.b[j] = initialSurface(x) - cj - st.hs[j];
       st.sand[j] = f * sj; st.mud[j] = (1 - f) * sj; st.smax[j] = subSmax;
@@ -434,11 +447,11 @@
   // Where there is no cover (exposed salt) W and Sb are 0, so the pressure on the salt top is the
   // water load alone (rho_w g water depth) - the formula needs no special case.
   function saltPotentialOf(st, P, SL, h) {
-    const S = st.scratch;
+    const S = st.scratch, rs = P.rhoSalt || RHO_SALT;   // P.rhoSalt: salt density override for the density-contrast tests (default 2160)
     for (let j = 0; j < st.nx; j++) {
       const zr = st.b[j] + h[j], wd = SL - (zr + S.Sb[j]);
-      S.Phi[j] = S.W[j] + (wd > 0 ? RHO_W * G * wd : 0) + RHO_SALT * G * zr;
-      S.aw[j] = (wd > 0 ? RHO_SALT - RHO_W : RHO_SALT) * G;
+      S.Phi[j] = S.W[j] + (wd > 0 ? RHO_W * G * wd : 0) + rs * G * zr;
+      S.aw[j] = (wd > 0 ? rs - RHO_W : rs) * G;
     }
   }
   function saltPotential(st, P, SL) { saltPotentialOf(st, P, SL, st.hs); }
@@ -908,7 +921,7 @@
     return { dPhi, dPhiHand, phiErr: dPhi / dPhiHand - 1, qNum, qHand, qErr: qNum / qHand - 1 };
   }
 
-  return { sedimentLoads, saltPotential, saltStep, recomputeH, makeScratch, bareSaltState, coverStiffness, bendState, solveBanded, faceMobility, bypassFresh, shedCover, bulkSM, ctrlLevel, layerBulk2: layerBulk,
+  return { initialSaltThickness, sedimentLoads, saltPotential, saltStep, recomputeH, makeScratch, bareSaltState, coverStiffness, bendState, solveBanded, faceMobility, bypassFresh, shedCover, bulkSM, ctrlLevel, layerBulk2: layerBulk,
     saltRelaxation, saltLoadStep, saltBalance, defaultParams, clone, createState, step, snapshot, restore, massBalance, seaLevel,
     porosity, voidRatio, layerBulk, gibsonAnalytic, gibsonNumeric, drainedColumn,
     consts: { RHO_SALT, G, RHO_W, RHO_S, MU, YR, DRHO_G, SAND, MUD, EMPTY } };
