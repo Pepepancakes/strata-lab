@@ -87,3 +87,7 @@ Results (all from `node test.js`, ALL PASS, 43 checks, about 40 s)
 - 16-run sweep (supply, salt, viscosity, cover; 150 km strip, my choice, S3's strip was not recorded): 36 crests, 25 exposed, 22 buried, 21 with F-A < 0; 15 thick / 4 mid / 3 depleted neighbours.
 - GL24-like (2 km source, level seafloor rising 200 m/Myr): the thin sheet keeps the crest 265 m below the surface and rising at 204 m/Myr for 20 to 50 Myr, so it keeps pace. With 1e19 salt, or 400 m/Myr, it does not (rise 33 and 6 m/Myr). The source drains by 3 Myr (peak salt 12.5 km), so the "thick source" is a one-off pulse, a thin-sheet limit; S4 should compare against s4-case.json.
 - Mass balance everywhere: salt under 1e-13, sand and mud under 1e-13, zero clips.
+
+## S3c: bypass rule fixed (SALT-R1 S3-1, S3-2)
+
+The S3b exposed-salt bypass rule shed sediment from any exposed column to lower neighbours, tested on the seafloor after the substep own deposit. That made seafloor holes that lasted tens of Myr, and the S3b "exposed for 27 Myr" crests were such holes. S3c sheds only from a topographic high, tested on the seafloor at the start of the record step (st.H0), split by slope. Test 12 is a pit census (the old code fails it at 7 of 8 marks, Windows); test 13 checks the rule by hand. The crest log now has F_near/A_near (rate while near) beside the burial-window rates (S3-2). s3c-pool.js pools crest CSVs; gulf-crests.csv is the Windows S3c Gulf run. Nothing is ported to src/engine.
