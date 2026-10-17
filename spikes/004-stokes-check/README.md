@@ -222,6 +222,8 @@ Windows (node 26), crest id 26, thin sheet against Stokes. Cover over the crest:
 | 60.9 | 501 (1,645) | 152 (500) |
 | 66 | not run | 262 (859) |
 
+The Stokes F and A below are at a moving point (the follower wanders 264 to 291 km), not at the thin sheet's fixed column (275 km), so the two columns compare two different positions.
+
 | measure (Windows, node 26) | thin sheet | Stokes |
 |---|---|---|
 | time with cover under 2 m (the spike's roofMin) | 6.2 Myr | 0 records of 83 |
@@ -252,8 +254,8 @@ to it, +5 m/Myr (Windows) and +17 m/Myr (Linux). The one 30 m/Myr fall Stokes do
 the flank aggrading at 35 to 38 m/Myr past a salt top that rises only 2 to 7 m/Myr; the thin sheet rises 36 and 25 m/Myr in the same window, so the two
 models disagree about that period too. Both models do bury the crest, but by different paths: the thin sheet exposes it, then loses it by a steady
 fall to 500 m; Stokes never exposes it, buries it deepest near 40 Myr (612 m Windows, 616 m Linux, 2,000 ft) and then lets it shoal again to 100 to
-260 m. So the thin sheet's exposed episode (2 to 6 Myr) is a thin-sheet feature that Stokes does not reproduce, and the burial itself (100 m or more of cover on
-the Windows crest for the whole run) is supported by Stokes. Confidence: medium to high for "Stokes does not hold the crest at the
+260 m. So the thin sheet's exposed episode (2 to 6 Myr) is a thin-sheet feature that Stokes does not reproduce, and Stokes also buries the crest, but by 100 to 260 m late in the run, not
+the thin sheet's 500 m (at 60.9 Myr: 501 m against 152 m), and the Stokes cover is thinning then. Confidence: medium to high for "Stokes does not hold the crest at the
 surface" (two platforms, two start sections, the same verdict as the 12 S4 runs on the older start section); low for the cover history and the rates
 (one run per platform, resolution scatter of 100 to 250 m between A and B in S4, a crest tracker that wanders
 between 264 and 291 km as the Stokes salt top is broad and flat).
