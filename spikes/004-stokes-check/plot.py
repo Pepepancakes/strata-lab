@@ -11,7 +11,7 @@ def load(n):
 fig, ax = plt.subplots(2, 2, figsize=(14, 9))
 # Gulf: cover over the crest and relief
 g = load('gulf-B') or load('gulf-A')
-for k, (names, title) in enumerate([(['gulf-A', 'gulf-B'], 'Gulf, resolution'), (['gulf-B-cov0.1', 'gulf-B', 'gulf-B-cov10'], 'Gulf, cover viscosity (B)')]):
+for k, (names, title) in enumerate([(['gulf-A', 'gulf-B', 'gulf-A-unf', 'gulf-B-unf'], 'Gulf, resolution; -unf = unfiltered level'), (['gulf-B-cov0.1', 'gulf-B', 'gulf-B-cov10', 'gulf-B-cov0.1-unf', 'gulf-B-unf', 'gulf-B-cov10-unf'], 'Gulf, cover viscosity (B)')]):
     a = ax[0][k]
     for n in names:
         o = load(n)

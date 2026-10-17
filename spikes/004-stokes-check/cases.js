@@ -46,7 +46,7 @@ function gulfCase(res, coverFactor) {
   const lev = fr.frames.map((f) => {
     const drop = b0 - f.b.slice(colIdx0, colIdx1 + 1).reduce((s, v) => s + v, 0) / cols.length;
     const out = [];
-    for (let i = colIdx0; i <= colIdx1; i++) { const w = []; for (let q = Math.max(0, i - 5); q <= Math.min(f.H.length - 1, i + 5); q++) w.push(f.H[q]); out.push(median(w) + drop); }
+    for (let i = colIdx0; i <= colIdx1; i++) { const w = []; for (let q = Math.max(0, i - 5); q <= Math.min(f.H.length - 1, i + 5); q++) w.push(f.H[q]); out.push((process.env.S4_UNFILT ? f.H[i] : median(w)) + drop); }   // S4_UNFILT=1: level is the raw thin-sheet seafloor (no median filter)
     return { t: f.tMyr, z: out, drop };
   });
   let zmax = -1e9, zmin = 1e9;
