@@ -23,6 +23,7 @@
 // parameters, in the straight run and after a restore alike, so both agree.
 
 import { buoyantLoad, cellBulk, setPor } from '../engine/compaction'
+import { buildCrestLog, createCrestHistory, crestParams, emptyCrestLog, pushCrestFrame, type CrestHistory, type CrestLog } from '../engine/crestLog'
 import { EMPTY, SAND, MUD } from '../engine/constants'
 import { computeStability, infiniteSlopeFS, seafloorSlope } from '../engine/stability'
 import { stateHash } from '../engine/determinism'
@@ -118,6 +119,9 @@ export class TimeMachine {
   private nextBranch = 1
   private cursor: Cursor = { valid: false, step: 0, era: null, cacheEra: null }
   private rootId = ''
+  /** Salt history of the main run (crestLog.ts): filled step by step while the main run advances, read-only afterwards. Null when salt is off. */
+  private crestHist: CrestHistory | null = null
+  private capturing = false
 
   /** Start a new run. Everything from an earlier run is dropped. */
   run(spec: RunSpec, seed: number, onProgress?: ProgressFn): RunInfo {
@@ -138,7 +142,13 @@ export class TimeMachine {
     this.rootId = root.id
     this.cursor = { valid: true, step: 0, era: null, cacheEra: era }
     root.keyframes.push(packKeyframe(this.eng))
-    this.advance(root, this.schedule.nSteps, onProgress)
+    this.crestHist = P.saltOn === 1 ? createCrestHistory(P.nx, P.dx, this.schedule.nSteps) : null
+    this.capturing = this.crestHist !== null
+    try {
+      this.advance(root, this.schedule.nSteps, onProgress)
+    } finally {
+      this.capturing = false
+    }
 
     const sch = this.schedule
     const seaLevelM = new Float64Array(sch.nSteps)
@@ -211,11 +221,30 @@ export class TimeMachine {
       engineStep(this.eng, era.P, this.schedule, era.sea)
       cur.step++
       cur.era = era
+      if (this.capturing && this.crestHist) this.captureCrest(cur.step - 1)
       if (save && cur.step > b.forkStep && this.wantKeyframe(cur.step)) {
         b.keyframes.push(packKeyframe(this.eng, b.keyframes[b.keyframes.length - 1]))
       }
       if (onProgress && (cur.step % every === 0 || cur.step === target)) onProgress(b.id, cur.step, this.schedule.nSteps)
     }
+  }
+
+  /** Copy the salt state at the end of step k into the crest history (reads the record, writes nothing back). */
+  private captureCrest(k: number): void {
+    const rec = this.eng.rec
+    pushCrestFrame(this.crestHist!, this.schedule.tEndYr[k], this.schedule.stepAgeMa[k], rec.mud.subarray(0, rec.nx), rec.b, rec.H)
+  }
+
+  /**
+   * The crest log (crestLog.ts) of the MAIN run, from the salt history captured while it ran. Branches do not
+   * keep one: their history before the fork is the parent's and the log would need a second copy per branch.
+   * A run without salt gives an empty log.
+   */
+  crestLog(branchId: string): CrestLog {
+    this.get(branchId)
+    if (branchId !== this.rootId) throw new Error('The crest log is kept for the main run only.')
+    if (!this.crestHist) return emptyCrestLog(this.P0.weldThick)
+    return buildCrestLog(this.crestHist, crestParams(this.P0.weldThick))
   }
 
   /** Recompute porosity and permeability caches for another era's parameters (smax unchanged). */

@@ -97,6 +97,11 @@ export class EngineHost {
         const t0 = now()
         return { id, kind: 'seriesData', series: this.tm.series(req.branchId), ms: now() - t0 }
       }
+      case 'crestLog': {
+        this.needRun()
+        const t0 = now()
+        return { id, kind: 'crestLogData', log: this.tm.crestLog(req.branchId), ms: now() - t0 }
+      }
       case 'events': {
         this.needRun()
         const t0 = now()

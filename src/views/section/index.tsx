@@ -6,6 +6,7 @@ import type { ViewDefinition } from '../types'
 import { COVER_LINE, columnAtFraction, drawSection, SECTION_CSS_HEIGHT, WELD_LINE } from './draw'
 import type { SectionWellPath } from './wellPath'
 import { COVER_SHADE, legendFor, MODES, ramp, viewHasMode, viewHasSalt, weldedColumns } from './colors'
+import { CrestKey, CrestMarkers } from '../crests/Markers'
 
 const hex = (c: number[]) => `rgb(${c[0]},${c[1]},${c[2]})`
 
@@ -45,6 +46,7 @@ function SectionView() {
   const salty = !!s.view && viewHasSalt(s.view)
   // Salt thickness mode exists only for runs with salt; on a run without it the section shows grain size.
   const mode = s.mode === 'salt' && !salty ? 'grain' : s.mode
+  const showCrests = salty && !!s.crestLog && s.crestLog.saltOn && s.crestLog.episodes.length > 0
 
   // The planned well of the active branch, as the section draws it; it follows the time slider and the branch switch.
   const wellPath = useMemo((): SectionWellPath | null => {
@@ -90,7 +92,11 @@ function SectionView() {
           ))}
         </div>
       </div>
-      <canvas ref={ref} id="section-canvas" style={{ width: '100%', height: SECTION_CSS_HEIGHT, display: 'block', cursor: 'crosshair', background: '#fff' }} onClick={onClick} aria-label="Stratigraphic section. Click to move the pseudo-well." />
+      <div style={{ position: 'relative' }}>
+        <canvas ref={ref} id="section-canvas" style={{ width: '100%', height: SECTION_CSS_HEIGHT, display: 'block', cursor: 'crosshair', background: '#fff' }} onClick={onClick} aria-label="Stratigraphic section. Click to move the pseudo-well." />
+        {showCrests && s.crestLog && s.view && s.extent ? <CrestMarkers log={s.crestLog} view={s.view} extent={s.extent} selected={s.selectedCrest} /> : null}
+      </div>
+      {showCrests ? <CrestKey /> : null}
       {s.info ? <Legend mode={mode} startAgeMa={s.info.startAgeMa} /> : null}
       {salty && s.view ? <SaltLegend view={s.view} /> : null}
       {s.viewB && s.diff ? (
