@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { buildScenarioFile, compareHashes, parseScenario, serializeScenario, type ScenarioFile } from '../src/app/scenarioFile'
 import { AppStore, type ClientLike } from '../src/app/store'
 import type { WellDefinition } from '../src/engine/well'
+import { defaultWellPressureParams } from '../src/engine/wellPressureParams'
 import { EngineHost } from '../src/worker/handler'
 import type { EngineResponse } from '../src/worker/protocol'
 import { replayScenario } from '../src/worker/scenarioReplay'
@@ -88,5 +89,45 @@ describe('the well in the app store', () => {
     expect(store.getState().wellPlan!.totalDepthFt).toBe(22000)
     expect(await store.openText(FIXTURE)).toBe(true)
     expect(store.getState().wellPlan).toBeNull()
+  }, 60000)
+})
+
+describe('the pressure settings in the scenario file', () => {
+  const PRESSURE = { ...defaultWellPressureParams(), fgMethod: 'matthews-kelly' as const, upperMarginPpg: 0.3 }
+
+  it('round-trip with the well, and an old file or a well-only file opens with the defaults', () => {
+    const again = parsed(serializeScenario({ ...parsed(FIXTURE), well: WELL, wellPressure: PRESSURE }))
+    expect(again.wellPressure).toEqual(PRESSURE)
+    expect('wellPressure' in parsed(FIXTURE)).toBe(false)
+    expect(parsed(serializeScenario({ ...parsed(FIXTURE), well: WELL })).wellPressure).toBeUndefined()
+    const r = replayScenario(new TimeMachine(), again)
+    expect(r.hashes).toEqual(replayScenario(new TimeMachine(), parsed(FIXTURE)).hashes) // not an engine input
+  })
+
+  it('a damaged value is refused', () => {
+    const f = JSON.parse(serializeScenario({ ...parsed(FIXTURE), well: WELL, wellPressure: PRESSURE })) as Record<string, unknown>
+    expect(parseScenario(JSON.stringify({ ...f, wellPressure: { ...PRESSURE, fgMethod: 'guess' } })).ok).toBe(false)
+    expect(parseScenario(JSON.stringify({ ...f, wellPressure: { ...PRESSURE, poissonRatio: 5 } })).ok).toBe(false)
+  })
+
+  it('the store saves, restores and resets them', async () => {
+    const host = new EngineHost()
+    let n = 0
+    const client: ClientLike = {
+      request: (req, onProgress) => {
+        host.setEmitter((r: EngineResponse) => {
+          if (r.kind === 'progress') onProgress?.(r)
+        })
+        return Promise.resolve(host.handle({ ...req, id: ++n }))
+      },
+    }
+    const downloads: string[] = []
+    const store = new AppStore({ client, storage: null, download: (_name, text) => void downloads.push(text), now: () => new Date('2026-10-16T12:00:00Z') })
+    expect(await store.openText(serializeScenario({ ...parsed(FIXTURE), well: WELL, wellPressure: PRESSURE }))).toBe(true)
+    expect(store.getState().wellPressure).toEqual(PRESSURE)
+    expect(await store.saveFile()).toBe(true)
+    expect(parsed(downloads[0]).wellPressure).toEqual(PRESSURE)
+    expect(await store.openText(FIXTURE)).toBe(true)
+    expect(store.getState().wellPressure).toEqual(defaultWellPressureParams())
   }, 60000)
 })

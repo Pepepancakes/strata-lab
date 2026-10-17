@@ -364,6 +364,31 @@ The temperature in this panel and in the Temperature colour mode is **steady con
 assumes the heat has had time to reach its balance. Real, fast-buried basins are colder at depth
 than this, so deep temperatures read too warm.
 
+### The planned well (M4.3)
+The **Planned well** panel draws a well you design, with its pressures. It is a view: it never
+changes a run, and it is saved in the scenario file (files without a well open as before).
+Press **Plan a well here** to start a vertical well at the column you last clicked, and click the
+section to move it. The path is drawn on the section in every colour mode, with a marker at the
+total depth, and follows the time slider and the active branch.
+- **Surface location**: km from the landward edge of the section.
+- **Well shape**: Vertical, or Build and hold (a straight hole, a curve, then a straight tilted
+  hold, all in the plane of the section).
+- **Total depth**: ft TVDSS, the true vertical depth below the sea surface.
+- **Air gap**: ft from the sea surface up to the rig floor (80 ft, tuned). Mud weights are measured from the rig floor.
+- **Kickoff depth**: where the hole starts to curve (build and hold only).
+- **Build rate**: degrees of inclination gained per 100 ft drilled.
+- **Hold angle**: the tilt from vertical where the curve stops.
+- **Direction**: toward the basin or toward the land.
+- **Fracture-gradient method**: Eaton (1969) or Matthews & Kelly (1967).
+- **Remove well** deletes the well from the scenario.
+
+The plot has mud weight (ppg) across and depth (ft TVDSS) down: pore pressure, hydrostatic,
+overburden and fracture gradient, with the mud-weight window shaded green, amber where it is tight
+and red where there is no window. Salt is pink. Hover the plot, or use the arrow keys, to read
+the values and the measured depth. Each line, shade and flag has an (i) that explains it. Tick
+other branches under **Compare branches** to draw the same well on up to three branches on the
+same axes, with a legend of branch names and a table of the narrowest window on each.
+
 ## 9. Burial temperature, quartz cement and changing subsidence
 These three arrive with M1.4c. All are **off** by default so the default run is identical to
 the spike.
