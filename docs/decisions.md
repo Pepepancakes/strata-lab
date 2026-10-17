@@ -204,3 +204,9 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      curves move to the same datum. Mud-weight window = pore pressure to fracture gradient, with no
      wellbore-stability (collapse) limit in M4. The well is saved in the scenario file; old files open
      unchanged.
+
+- **D22. Fix the S3 bypass rule and rerun S3b before choosing the M3b scope (John, 2026-10-17; the SALT-R1 recommendation).**
+  SALT-R1 found that the S3b "exposed for 27 Myr" crests were holes in the seafloor kept open by the
+  spike 003 bypass rule. The rule is fixed in the spike only (S3c): shed only from a topographic high,
+  tested on the seafloor at the start of the record step, split between lower neighbours by slope. S3b
+  is rerun on both platforms. Nothing is ported to `src/engine`, which has no exposed-salt bypass.
