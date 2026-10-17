@@ -13,6 +13,7 @@ from about 26.8 to 54 Myr and then buried? Everything here is offline node, neve
   and writes `start-gulf.json` (the shared starting state: basement, salt, seafloor, cover per column). It also writes a forcing file
   (seafloor and basement every 0.1 Myr) to the scratch folder, not committed.
 - `cases.js`  the two cases. `node cases.js gulf A|B [coverViscosityFactor]`, `node cases.js gl24 A|B`. Env: S4_SCRATCH, S4_CFL, S4_ETAW, S4_TEND, S4_MAXMIN, S4_TAG, S4_UNFILT (1 = raw thin-sheet seafloor as the sediment level, no median filter; `runall-unf.js` launches the six unfiltered Gulf runs).
+- S4b (fixed-spike rerun): `dump_s4b.js`, `analyse_s4b.js`, `s4b-case*.json`, `s4b-results-*.md`, see the S4b section below.
 - `table.js` (the thin-sheet-against-Stokes table, output in `table-gulf.md`), `summary.js`, `cmp.js`, `ser.js`, `plot.py` (needs matplotlib, `uv run --with matplotlib python plot.py`), `results-summary.txt`, `s4-stokes-check.png`.
 
 ## Benchmarks (all pass, 12/12)
@@ -45,7 +46,7 @@ Two things about this start section (SALT-R1, S4 section and S3-4):
 - It inherits a hole. The thin-sheet run it was cut from had the S3b bypass bug (fixed in S3c, see spike 003 README). Crest 13 (column 230,
   exposed from 13.3 Myr) lies inside the window (columns 226 to 315) and sits in a seafloor hole of order 100 m at 20 Myr. The 11-column
   median filter removes a one-column hole from the sediment level; the unfiltered runs carry it. Both give the same burial verdict at the
-  x1 crest, so the verdict does not depend on it. S4 was not rerun on a fixed start section.
+  x1 crest, so the verdict does not depend on it. S4 was not rerun on a fixed start section there; S4b (below) does that.
 - The thin-sheet comparison case ("exposed 26.8 to 54 Myr at x1", crest 21, column 270/271, `s4-case.json`) is a Windows-only realisation
   of the spike (Windows, node 26). On Linux (WSL, node 22) crest 21 is never exposed; it is buried from 24.8 Myr on (D16.4, noise-sensitive
   single crest). The S4 answer does not change, because on Linux the thin sheet keeps that crest buried too.
@@ -164,6 +165,110 @@ with a cover of order 100 to 700 m that is not converged.
 - D (a Stokes solver in the product) is the only option that gets both cases right from one model. It is a large step and the spike
   shows the cost (minutes to an hour and more per run in node, no real-time use). My recommendation: neither C nor D for the Gulf
   work now; take C only if GL24-style stem growth is a product goal; keep D as the long-term answer if both behaviours are needed.
+
+## S4b: one Stokes rerun from the fixed spike 003 (SALT-R2 N-3, D23)
+
+Why: the S4 answer above used a start section cut from the pre-fix spike (it carried crest 13's hole) and compared a crest (id 21, exposed
+26.8 to 54 Myr) that no longer exists after the S3c fix. SALT-R2 said what would change its answer: a Stokes run from a fixed start section
+that keeps the crest at the surface for more than about 5 Myr, or a Stokes crest that also falls about 30 m/Myr. This is that run. Nothing
+here builds anything for option C.
+
+Files: `dump_s4b.js` (runs the fixed spike 003 Gulf run, `gulfParams({exposed: 1})`, tracks crests with the spike's own `crestlog.js`, writes the
+start section and the thin-sheet series of the followed crest to `s4b-case.json`; the seafloor and basement per record step go to the
+scratch folder as `forcing-s4b.json`, not committed), `analyse_s4b.js` (tables), `cases.js` (new env `S4B=1` selects the S4b start and forcing;
+`S4B_CASE=<file>` selects another case file), `s4b-case.json` (Windows, node 26), `s4b-case-linux.json` (Linux, node 22), `s4b-results-windows.md`
+and `s4b-results-linux.md` (the full tables). Spike 003 code is not changed.
+
+Commands (Windows; the Linux line differs only in the crest id and the output file):
+
+    node dump_s4b.js                                   (crest 26, writes s4b-case.json)
+    S4B_OUT=... node dump_s4b.js 83                    (Linux: crest 83)
+    S4B=1 S4_TAG=-s4b node cases.js gulf A 1           (case A, cover viscosity x1)
+    node analyse_s4b.js                                (tables)
+
+Start section. Fixed spike 003 Gulf run, state at 24.9 Myr, window columns 226 to 315 (90 km, x = 226 to 316 km) of the 211 to 331 cut, the same
+window and cut as S4. Why 24.9 Myr: it is the time at which the followed crest (Windows id 26) first has under 500 m of cover (`tNear`
+24.9 in `gulf-crests.csv`), so the start section is the same kind of start as S4 used for crest 21 (24.8 Myr). The Linux equivalent, id 83, first
+comes within 500 m at 26.9 Myr, so the Linux case starts there (a different start, D16.4).
+
+Crest followed. Windows: id 26 (start column 270, x = 270.5 km, moves to column 275; exposed 27.5 to 33.7 Myr, 6.2 Myr; buried at 60.9 Myr) as
+primary, as the card says. Thin sheet: the spike's `crestlog.js` follows it (the lowest-cover salt column within 3 columns per 0.1 Myr). Stokes: the
+highest salt top within 4 km of the previous crest position, every 0.5 Myr (same rule as S4). Linux: id 83 (start column 270, ends column 273, exposed 29.3 to
+31.3 Myr = 2.0 Myr, buried at 56.1 Myr). The thin-sheet series reproduces SALT-R2 exactly (27.5, 60.9, 6.2 on Windows).
+
+Settings (S4 case A, cover viscosity x1, the rest unchanged): grid 180 x 37 cells, dx 500 m, dy 249 m (Linux 180 x 36, dy 253 m); box 90 km by
+9.2 km; Newtonian salt 1e18 Pa s, density 2160 kg/m3; cover 1e19 Pa s (the spike's `coverVisc`), Athy density with the 35/65 sand/mud mix; sticky
+water 1e16 Pa s; free-slip top, no-slip bottom; surface stabilisation theta 0.5; advection Courant number 0.5; 5 x 5 markers per cell, seed 4321;
+maximum step 0.2 Myr; records every 0.5 Myr; sediment level = the thin-sheet seafloor of the same fixed run, median filtered over 11 columns, plus the
+mean basement drop; the sediment is never removed. Run to 66 Myr.
+
+Benchmarks before the run: `node test.js` 12/12 pass (Windows, node 26, 81 s; Linux, node 22, 12/12). Run time: Windows 8.9 min, Linux 7.1 min (both
+well under the 2 hour guide).
+
+Windows (node 26), crest id 26, thin sheet against Stokes. Cover over the crest:
+
+| t Myr | thin cover m (ft) | Stokes cover m (ft) |
+|---|---|---|
+| 24.9 | 427 (1,401) | 430 (1,410) |
+| 26 | 271 (889) | 173 (567) |
+| 27.5 | 0 (0) | 229 (752) |
+| 30 | 0 (0) | 301 (988) |
+| 34 | 0 (0) | 499 (1,638) |
+| 40 | 69 (226) | 612 (2,007) |
+| 45 | 149 (488) | 589 (1,934) |
+| 50 | 229 (751) | 323 (1,061) |
+| 55 | 340 (1,116) | 223 (730) |
+| 60 | 471 (1,545) | 257 (842) |
+| 60.9 | 501 (1,645) | 152 (500) |
+| 66 | not run | 262 (859) |
+
+| measure (Windows, node 26) | thin sheet | Stokes |
+|---|---|---|
+| time with cover under 2 m (the spike's roofMin) | 6.2 Myr | 0 records of 83 |
+| time with cover under 50 m | 11.8 Myr | 0 records |
+| cover range 24.9 to 60.9 Myr | 0 to 501 m (0 to 1,644 ft) | 138 to 687 m (453 to 2,254 ft); lowest record of the whole run 105 m (344 ft) at 61.4 Myr |
+| salt-top rise relative to the flank, F - A, 55.9 to 60.9 Myr (thin sheet falling) | -28.1 m/Myr (-92 ft/Myr) | +4.9 m/Myr (+16 ft/Myr) |
+| F - A, whole 24.9 to 60.9 Myr | -11.8 m/Myr (-39 ft/Myr) | +4.2 m/Myr (+14 ft/Myr) |
+| F - A, first 10 Myr, 24.9 to 34.9 | +28.9 m/Myr (+95 ft/Myr) | -31.4 m/Myr (-103 ft/Myr) |
+| relief (salt top minus flank seafloor) range 24.9 to 60.9 Myr | -500 to +25 m (-1,640 to +82 ft) | -699 to -194 m (-2,293 to -636 ft) |
+
+Linux (node 22), crest id 83, start 26.9 Myr: thin sheet exposed under 2 m for 2.0 Myr (6.9 Myr under 50 m), cover 0 to 501 m up to the 56.1 Myr
+burial. Stokes: cover 400 m at 27 Myr, 212 m at 28, 318 m at 30, 616 m at 40, 309 m at 50, 133 m at 60 Myr, 101 m at 66; 0 records under 50 m at
+the followed crest, 2 records under 100 m, both late (78.9 m at 64.4 Myr and 62.1 m at 64.9 Myr, 8 Myr after the thin-sheet burial); the cover range over 26.9 to 56.1 Myr is 165 to 645 m (541 to 2,116 ft). In the
+crest zone (262 to 285 km) the smallest cover was 45 m at 65.4 Myr, one record, at 279 km, 9 Myr after the thin-sheet burial; treat it as a brief
+touch inside the scatter, not as exposure (the same kind of touch S4 saw in its x10 and x0.1 runs). F - A for Stokes: -32.1 m/Myr over the first 10 Myr
+(thin sheet +13.4), +17.1 m/Myr over the last 5 Myr before the thin-sheet burial (thin sheet -23.1), +3.7 whole phase (thin sheet -15.5).
+
+Mass balance (Stokes salt area, marker-in-cell): Windows +0.99 % (159.35 to 160.92 km2); Linux +0.78 % (179.57 to 180.98 km2). Thin sheet: relative
+mass error 1.4e-14 total, 3.6e-15 for salt (Windows). Both are small beside the 100 to 600 m cover effects.
+
+Answer (one paragraph). **No on both counts.** Stokes does not keep the crest at the surface: in the Windows run the crest has at least 138 m (453 ft) of
+cover at every one of the 83 records to 66 Myr (at least 138 m, 453 ft, up to the thin-sheet burial at 60.9 Myr), against 6.2 Myr under 2 m in the
+thin sheet; on Linux it is the same through the thin-sheet window (165 m or more up to 56.1 Myr), with 0 records under 50 m at the crest (two late
+records at 79 and 62 m at 64.4 and 64.9 Myr, and a 45 m touch in the crest zone at 65.4 Myr, all 8 to 9 Myr after the thin sheet buried its crest).
+SALT-R2's first condition (surface for more than about 5 Myr) is not met, with a margin of 100 m or more through the thin-sheet window. The second condition (a Stokes crest that also falls about 30 m/Myr) is not met in the window that matters:
+over the last 5 Myr before the thin-sheet burial the thin sheet falls 28 m/Myr (Windows) relative to the flank, while the Stokes crest rises relative
+to it, +5 m/Myr (Windows) and +17 m/Myr (Linux). The one 30 m/Myr fall Stokes does show is in the first 10 Myr (-31 m/Myr Windows, -32 Linux), which is
+the flank aggrading at 35 to 38 m/Myr past a salt top that rises only 2 to 7 m/Myr; the thin sheet rises 36 and 25 m/Myr in the same window, so the two
+models disagree about that period too. Both models do bury the crest, but by different paths: the thin sheet exposes it, then loses it by a steady
+fall to 500 m; Stokes never exposes it, buries it deepest near 40 Myr (612 m Windows, 616 m Linux, 2,000 ft) and then lets it shoal again to 100 to
+260 m. So the thin sheet's exposed episode (2 to 6 Myr) is a thin-sheet feature that Stokes does not reproduce, and the burial itself (100 m or more of cover on
+the Windows crest for the whole run) is supported by Stokes. Confidence: medium to high for "Stokes does not hold the crest at the
+surface" (two platforms, two start sections, the same verdict as the 12 S4 runs on the older start section); low for the cover history and the rates
+(one run per platform, resolution scatter of 100 to 250 m between A and B in S4, a crest tracker that wanders
+between 264 and 291 km as the Stokes salt top is broad and flat).
+
+Does this argue for C (a source layer feeding the crest)? **No, not for the Gulf sheet. Recommendation: do not build C on this evidence; John decides.**
+Reason: C is meant to hold a crest up by feeding it. The Stokes model has the full salt layer under the crest as its source (a continuous 4 km
+sheet, no prescribed feed) and still does not hold the crest at the surface; it buries it as the thin sheet does. A feed would push the thin
+sheet further from Stokes, not closer. What would reopen C: a GL24-like case with a thick source and down-building (the GL24-like check in S4
+above, where Stokes keeps the salt at the seafloor and the thin sheet drains it), or a run with a brittle cover. Confidence: medium (Newtonian
+cover only; closed box sides, so no salt arrives from outside the 90 km window; one grid; the 0.5 Myr records are too coarse to say
+anything about an exposure shorter than about 1 Myr).
+
+DECISIONs: (1) start at the followed crest's own tNear (24.9 Myr Windows, 26.9 Myr Linux) rather than forcing 24.9 on Linux; (2) the same 226 to 315 window and
+the same cut as S4, so the two runs compare; (3) `cases.js` got an `S4B` env switch instead of a copy of the case builder (the S4 path is
+unchanged and not rerun); (4) no cover-viscosity or resolution variants, because the card asks for one run (case A, x1).
 
 ## Limits
 

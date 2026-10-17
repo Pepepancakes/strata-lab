@@ -25,7 +25,7 @@
 
 ## time at the seafloor and cover range
 thin sheet: records with cover < 2 m: 62 x 0.1 Myr = 6.2 Myr; cover < 50 m: 11.8 Myr; cover range 24.900000000000002-60.9 Myr: 0 to 501 m
-Stokes:     records with cover < 2 m: 0 x 0.5 Myr; cover < 50 m: 0 x 0.5 Myr; cover < 100 m: 0; cover range 24.900000000000002-60.9 Myr: 138 to 687 m (min at t 61.4); zone min over run 173 m; shallowest salt anywhere in the 90 km box over the run 0 m at 255.25 km (24.9 Myr)
+Stokes:     records with cover < 2 m: 0 x 0.5 Myr; cover < 50 m: 0 x 0.5 Myr; cover < 100 m: 0; cover range 24.900000000000002-60.9 Myr: 138 to 687 m (min at t 61.4); zone min over run 173 m; shallowest salt anywhere in the 90 km box after the start record 105 m at 287.25 km (61.4 Myr); start section itself has 0 m at 255.25 km
 
 ## salt-top rise F, flank seafloor rise A, F - A (m/Myr, least squares), relief = salt top minus flank seafloor (m)
 | window Myr | thin F | thin A | thin F-A | thin F-A ft/Myr | Stokes F | Stokes A | Stokes F-A | Stokes F-A ft/Myr | n Stokes pts |
