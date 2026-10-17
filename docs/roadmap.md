@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-16):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. M3 salt (M3.1 to M3.12) was merged to main on 2026-10-16 with John's approval. Now: the salt literature review (LIT cards) and UI-1, the controls panel in named groups (D20). Next: M3b passive diapirs, then M4.
+**Status (2026-10-16):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. M3 salt (M3.1 to M3.12) was merged to main on 2026-10-16 with John's approval. The salt literature review (LIT cards) is done and approved. Now: UI-1, the controls panel in named groups (D20); the salt evidence round (SALT-1, S3b, S4, SALT-R1) that sets the M3b scope; and M4 well-planning outputs in parallel (D21).
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -240,7 +240,7 @@ benchmarked against a hand calculation?
   (3) bypass splits sediment equally between the two lower sides; real sediment follows the slope (a small change); (4) roof thinning is a tuned
   rule, not physics.
 
-## M3b — Passive diapirs and thinner welds  *(after M3 and S3, before M4; scope to be set from S3 and John's answers)*
+## M3b — Passive diapirs and thinner welds  *(after M3 and S3; scope to be set from the salt evidence round and John's answers; M4 no longer waits for it, D21)*
 Build S3's approach into the engine, as maintained code and test-first, so that the Gulf preset shows crests that reach and stay at the seafloor
 and welds that thin closer to zero than the 100 m label of D18.
 - Scope is NOT fixed yet. It depends on John's answers to the S3 questions (feed or a salt source that keeps up; dissolution).
@@ -281,8 +281,21 @@ Decisions (D20): speed/accuracy settings go in one **Grid and numerical settings
 - Checked in the built file at 100 %, 125 % and 150 % display scaling.
 - John says he can find a parameter without Ctrl+F.
 
-## M4 — Well-planning outputs
-- A planned well (vertical or deviated) through the section.
+## Salt evidence round  *(John, 2026-10-16: "go all"; before the M3b scope is set)*
+The salt literature review (section 12) recommends settling whether S3's fast burial of exposed crests
+is geology or a limit of the thin-sheet method before M3b is scoped.
+- SALT-1: permanent QC tests from the literature checklist (flux scales with h cubed, the no-flow null
+  cases, weld thinning time against Wu and Jackson 2011 Eq. 9). A check that fails is recorded, not
+  patched in the engine.
+- S3b: spike 003 rerun on the M3.10 start with a per-crest log (rise against aggradation, neighbouring
+  salt thickness at burial), plus a down-building case like Gemmer and Lund 2024.
+- S4: spike 004, an independent 2D Stokes check of the decisive case, benchmarked first (van Keken et
+  al. 1997).
+- SALT-R1: review by a dedicated salt reviewer: verdict, an evidence table for M3b options A to F, and
+  a recommended answer to each open S3 question. John then sets the M3b scope.
+
+## M4 — Well-planning outputs  *(John, 2026-10-16: "go all"; runs alongside the salt evidence round; D21)*
+- A planned well (vertical or build-and-hold, in the section plane) through the section.
 - Along the well: pore pressure, overburden, fracture gradient (Eaton 1969 / Matthews & Kelly
   1967) and the mud-weight window in ppg against TVDSS.
 - The same well across branches, to compare scenarios.

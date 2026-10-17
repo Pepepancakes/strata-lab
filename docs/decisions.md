@@ -188,3 +188,19 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      quantities.
   2. **A "changed from preset" marker** (a dot on the value, the preset value under it, and a count in
      the group header) is part of the same card, not later.
+
+- **D21. Next work, all three tracks at once (John, 2026-10-16: "go all").**
+  1. **Housekeeping:** the approved salt literature goes to main as docs (DOCS-1), with the LIT-4b and
+     M3.12 re-review follow-ups; FIX-1 does the small M3.12 code follow-ups.
+  2. **Salt evidence round before M3b:** QC tests (SALT-1), spike 003 rerun with a per-crest log (S3b),
+     an independent 2D Stokes check (S4), and a review by a dedicated salt reviewer (SALT-R1). John sets
+     the M3b scope from that review. A QC check that fails is recorded, not patched in the engine.
+  3. **M4 runs now, alongside the salt round,** not after M3b (this changes the D3 order for M3b and M4
+     only): the M3b scope cannot be set until S3b and S4 report, and M4 touches different files.
+  4. **M4 picks:** wells are vertical or build-and-hold (J) in the section plane (S-shapes and
+     out-of-plane wells go to the Backlog). Fracture gradient by Eaton (1969) by default, Matthews &
+     Kelly (1967) as an option; in salt, fracture gradient = overburden. Depths in ft TVDSS; mud weights
+     (EMW, ppg) referenced to RKB with an 80 ft air gap (tuned, editable); the existing pseudo-well
+     curves move to the same datum. Mud-weight window = pore pressure to fracture gradient, with no
+     wellbore-stability (collapse) limit in M4. The well is saved in the scenario file; old files open
+     unchanged.
