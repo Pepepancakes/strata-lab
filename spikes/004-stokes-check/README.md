@@ -155,7 +155,7 @@ of the two alternatives: not "buried within a few Myr after a long exposure", an
 Plane strain; Newtonian salt and cover unless stated (no power-law run, the optional n = 5 run was not done); no dissolution; no
 faults or brittle failure in the cover; viscous cover; prescribed sediment level (from the thin-sheet run); sediment never removed (no
 erosion or slumping); compaction through an Athy density only; sticky-water free surface (water viscosity 1e16 Pa s, a tuned
-choice; the free-surface benchmark passes with it); marker-in-cell, so salt area drifts by up to 1.3 % (Gulf) and 2.2 % (GL24-like A);
+choice; the free-surface benchmark used a sticky layer of eta/1000 with theta 0.5, so the 1e16 value itself is not benchmarked, only tried at 1e15 to 1e17 early on); marker-in-cell, so salt area drifts by up to 1.3 % (Gulf) and 2.2 % (GL24-like A);
 one start section; resolution scatter of 100 to 250 m.
 
 ## Open questions for John
