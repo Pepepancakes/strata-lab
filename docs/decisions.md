@@ -268,3 +268,33 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      will move, so a salt review follows.
   5. Order: labels and checks (no physics change), then viscosity, then the Gulf coefficients and a salt re-check, then
      the full-accuracy switch, then one integrity review of the batch. Card code reaches main only after John's check.
+
+- **D27. The AUD-3 answer, and a Fable round on three tracks (John, 2026-10-17 evening: "A", then "go with your picks").**
+  1. AUD-3 (D26.4), option A: the Gulf preset keeps the Hart, Flemings and Deshpande (1995, p. 46) Gulf shale coefficients
+     (phi0 0.40, beta 3.68e-8 /Pa). They narrow the Traugott (1997) overburden gap at column 150 from 1.73 to 1.15 ppg, but the
+     shallow crests go from 4 to 0 in every run on Windows and Linux, and the weld total roughly halves (16 to about 8 km). The
+     D18 shallow-crest target is dropped for this preset as a measured result, not tuned back: the old crests were 300-850 m
+     cover ripples over the light, over-porous mud. Diapirs at the seafloor are left to the S3/M3b work. The Gulf test bands
+     are reset from the new Windows and Linux medians with the D16.4 margin. Hart's fit comes from the shallow, hydrostatic
+     section (above about 1,500 m, 4,900 ft) of one Eugene Island 330 well, so its use at 8,000 to 12,000 ft is an extrapolation.
+  2. John's spare weekly Fable 5.1 allowance (resets 2026-10-18, 17:00 Central) goes to high-judgement cards only:
+     - the two review cards of the audit batch (AUD-4 salt re-check, AUD-6 integrity review);
+     - spike S5, which opens M5 (growth faults), and its review;
+     - the pore-pressure and fracture-gradient literature review (LIT-PP).
+     Building, UI and docs cards stay on Sonnet.
+  3. S5, spike 005 (`spikes/005-growth-fault/`): one listric growth fault over a mobile layer, as a throwaway prototype. It must
+     show hanging-wall rollover and growth strata that thicken into the fault. Sand, mud and salt mass must be conserved per
+     grain size and material, and the run must be bit-identical on a rerun. The rollover is checked against a hand-calculated
+     hanging-wall construction (inclined shear and vertical shear). S5 also delivers a design note: how the layer record carries
+     sideways motion, what that costs, and the M5 card list with recommended picks. A review card (Fable) checks it. M5 itself
+     is scoped from the note and John's picks, as M3b was.
+  4. LIT-PP: two deep-read cards over the papers John supplied (Eaton 1969; Traugott 1997; Hart et al. 1995; Zhang and Yin
+     2017; Alberty and McLean SPE 167945; IOGP Report 608; Hauser's papers on salt-sealed formations and on stress and fracture
+     pressure; the Hauser and Couzens-Schultz preprint on effective stress; Tahvildari 2026), then a synthesis
+     (`docs/pp-literature.md`) with a QC checklist for the M4 pressures, then an independent citation check. The papers stay
+     outside the repo, and only short quotes with page numbers go in. It feeds the open M4 backlog items (rising stress ratio,
+     fracture gradient in salt, the leak-off limit, the narrowest-window depth floor) and M4's "Eaton and Matthews & Kelly not
+     read" note.
+  5. If allowance remains on Sunday morning, a read-only review of the design against published stratigraphic forward models
+     (the Backlog's specialist review) may also run on Fable. The orchestrator decides from the usage meter.
+  6. Nothing from these cards reaches main before its review and John's check.

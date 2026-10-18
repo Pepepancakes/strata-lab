@@ -1,6 +1,6 @@
 # Strata Lab roadmap
 
-**Status (2026-10-17):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. M3 salt (M3.1 to M3.12) was merged to main on 2026-10-16 with John's approval. The salt literature review (LIT cards) is done and approved. UI-1 (controls panel in named groups, D20) and M4 well-planning outputs (D21) were merged to main on 2026-10-17 after John's checks. Now: the salt evidence round is closed (SALT-R2) and M3b part 1 (the crest log, D23) is built on branches and waits for review and John's check. Earlier in the round: SALT-R1 found the S3b exposed crests come from a spike bypass bug, so S3c fixed it and SALT-R2 re-checked before John set the M3b scope.
+**Status (2026-10-17):** spikes 001 and 002 done and reviewed by John; spike 003 (S3, passive diapirs) is built and waits for John's answers. M1 and M2 are done and on main (M2 merged 2026-10-15 after review M2.11 APPROVE and John's checks, D16). Linux CI tolerances (D16.4) merged 2026-10-15. M3 salt (M3.1 to M3.12) was merged to main on 2026-10-16 with John's approval. The salt literature review (LIT cards) is done and approved. UI-1 (controls panel in named groups, D20) and M4 well-planning outputs (D21) were merged to main on 2026-10-17 after John's checks. The salt evidence round and M3b part 1 (the crest log) are on main. Now (D27): the audit-fix and crest-layout chain (UI-2, AUD-1 to AUD-6), spike S5 (growth faults, opens M5) and the pore-pressure literature review (LIT-PP) run on branches; nothing reaches main before John's check.
 Each milestone has a fixed "Done when". Anything beyond it goes to the Backlog, which keeps
 polishing from running on forever.
 
@@ -365,10 +365,25 @@ M3b check found the crest table too far down the page. Cards (branches `strata-l
 - The crest list and the section are on screen together at 1920 x 1080 (100, 125, 150 %) and 2560 x 1440 (125, 150 %).
 - John says the well plot and the crest list read right, or names what is wrong.
 
+## Fable round: growth-fault spike and pore-pressure literature  *(John, 2026-10-17 evening: "go with your picks"; D27)*
+- **S5, spike 005: one listric growth fault over a mobile layer** (`spikes/005-growth-fault/`, throwaway). Hanging-wall rollover
+  and growth strata that thicken into the fault; mass conserved per grain size and per material; bit-identical rerun; rollover
+  checked against hand-calculated inclined-shear and vertical-shear constructions. Delivers a design note (how the record moves
+  columns sideways, cost, M5 card list with recommended picks), then a review (S5-R).
+- **LIT-PP, pore-pressure and fracture-gradient literature:** two deep reads (`docs/pp-notes/`), a synthesis
+  (`docs/pp-literature.md`: methods compared, where the sources disagree, salt, a QC checklist for the M4 pressures, a benchmark
+  table, options for the M4 backlog items) and an independent citation check.
+
+**Done when:**
+- S5's rollover matches its hand construction, its mass balance closes per grain size and material, and a rerun is
+  bit-identical; the review says APPROVE or its findings are recorded.
+- The pore-pressure literature passes its citation check, and each M4 backlog item has a recommended pick for John.
+- John has picked the M5 scope from the S5 design note.
+
 ## M5 — Growth faults
 Listric normal faults that start and grow under loading over mobile shale or salt, with
 hanging-wall rollover and thicker growth strata. Columns must be able to move sideways, which is
-a large engine change, so this milestone opens with its own spike.
+a large engine change, so this milestone opens with its own spike (S5, D27.3).
 
 ## M6 — 3D
 A 3D version on the GPU (WebGPU). Opens with a spike on speed.
