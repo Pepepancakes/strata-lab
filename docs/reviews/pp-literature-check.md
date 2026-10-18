@@ -124,3 +124,20 @@ BLOCKING list and minimum fix:
 2. F2: remove author affiliations from the Record lines of `hart1995.md`, `alberty-mclean-spe167945.md`,
    `hauser-spe2020-stress.md`, `hauser-couzens-effective-stress.md`, `tahvildari2026.md`, and the personal-
    communication clause from the quote in `refs/hart1995.json`.
+
+## Resolution (LIT-PP-3b, branch `strata-lab/lit-pp-03b-fix`)
+
+Added by the fix card; the findings above are left as the reviewer wrote them. Every item was fixed in commit 1b26457 (docs only: `docs/pp-literature.md`, `docs/pp-notes/`).
+
+| Id | Resolution | Commit |
+|---|---|---|
+| F1 | H95 p. 45 changed to p. 46 wherever Eqs. 1-3, Fig. 2 or the coefficients are meant: 15 citation instances in `pp-literature.md` (the 11 listed plus "pp. 45-46" and "pp. 45, 47" at lines 53 and 148, which cited the fit) and 6 in `hart1995.md`; the four matching pages in `refs/hart1995.json` (Eqs. 1-3, fit) also moved to 46. "pp. 45, 47" stays at lines 11 and 38 (abstract: three-quarters disequilibrium) and `hart-three-quarters` stays p. 45. The "Hart page" item (section 10f) is marked withdrawn and the section 2 page check now says p. 46 is correct. `citation-map.md` regenerated: 365 instances, 99 pairs, 75 pages (unchanged totals); H95 rows and the uncertain-pages note updated. | 1b26457 |
+| F2 | Record lines of the five notes reduced to authors' names (and "(p. 1)" dropped); the parenthetical naming a third party cut from the `hart-late-mechanisms` quote, which now ends at "diagenetic reactions". Two mentions of the authors' employer in `hauser-couzens-effective-stress.md` (lines 68, 78, about the unpublished Vp-void-ratio trend) reworded to "the authors' in-house / unpublished" trend. | 1b26457 |
+| F3 | AM14 p. 434 to p. 435 at `pp-literature.md` lines 75, 205, 267, `alberty-mclean-spe167945.md` line 98 and `refs/alberty-mclean-spe167945.json` (`am-fg-in-sand`); `citation-map.md` AM14 pages now 431, 435. | 1b26457 |
+| F4 | Lines 9 and 93: "about 0.28 near 1,000 ft" (line 157 and QC item 15 unchanged, as the review found them consistent). | 1b26457 |
+| F5 | Section 7 rows now cite `wellPressureParams.ts` 29, 31, 33, 35, 37, 39; the "not read" paragraph below the table now cites lines 30, 32 and 34 for the same reason. | 1b26457 |
+| F6 | Line 147 and the section 2 paragraph now say "`presets.ts` on the aud-03 branch" beside D27.1. | 1b26457 |
+| F7 | Line 254: 3,100 ft (E69 pp. 1357-1358). | 1b26457 |
+| F8 | Line 95: "with only the elastic term the differential form of Shmin integrates back to Eq. 11 with the present nu (Hau20b p. 5)". | 1b26457 |
+
+Gate after the fix, Windows node 26.7: `npm run check` exit 0 (typecheck, lint, vitest main 483 passed / 1 skipped in 44 files, wallclock 82 passed / 8 skipped in 6 files). Linux parity not run (docs only).
