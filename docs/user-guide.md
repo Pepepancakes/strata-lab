@@ -233,7 +233,7 @@ slope and coastal-plain diffusivities were tuned by eye, not calibrated to data.
 
 **Grid and numerical settings.** Not geology: these trade speed for accuracy. Change them only to check that a result does not depend on them.
 
-**Deep compaction: Fast (bundled) / Full accuracy (slower).** A two-way switch in the **Scenario** block at the top of the controls (under *Time steps*, so it stays on screen beside the section; this group only points to it), for the presets that bundle deep compaction (Miocene, Cenozoic, Gulf). *Fast* is the preset as shipped. *Full accuracy* solves every layer at every step (it sets **bundleEvery** to 1) and runs the main run again from the start. Use it when you want to read pore pressure below about 5,000 ft below the sea floor: bundling moves the 10,000 ft pore pressure by about 0.7 to 1 ppg on the Miocene preset and by more on the Gulf one (section 5). It costs 6 to 12 times the run time. Measured in the built file in Chrome on the development Windows computer: Miocene 2.6 s fast and 16.7 s full; Cenozoic 2.8 s and 34.0 s; Gulf 3.6 s and 36.9 s. A slower computer takes proportionally longer; the switch shows these numbers for the loaded preset. It can only be changed on the main run (a branch shows it locked), the choice is saved in a scenario file like any other control, and *Fast* takes the preset's own value back. The yellow bundling note under the well plot goes away with Full accuracy. The presets that never bundle (last 3 Myr, MTD, short salt) show a line saying there is nothing to switch.
+**Deep compaction: Fast (bundled) / Full accuracy (slower).** A two-way switch in the **Scenario** block at the top of the controls (under *Time steps*, so it stays on screen beside the section; this group only points to it), for the presets that bundle deep compaction (Miocene, Cenozoic, Gulf). *Fast* is the preset as shipped. *Full accuracy* solves every layer at every step (it sets **bundleEvery** to 1) and runs the main run again from the start. Use it when you want to read pore pressure below about 5,000 ft below the sea floor: bundling moves the 10,000 ft pore pressure by about 0.7 to 1 ppg on the Miocene preset and by more on the Gulf one (section 5). On the Gulf preset the salt and the surface also differ between the two runs (up to about 6.6 km of salt thickness and 2.1 km of surface height, Windows node 26), so the whole section moves, not only the deep pressure. It costs 6 to 12 times the run time. Measured in the built file in Chrome on the development Windows computer: Miocene 2.6 s fast and 16.7 s full; Cenozoic 2.8 s and 34.0 s; Gulf 3.6 s and 36.9 s. A slower computer takes proportionally longer; the switch shows these numbers for the loaded preset. It can only be changed on the main run (a branch shows it locked), the choice is saved in a scenario file like any other control, and *Fast* takes the preset's own value back. The yellow bundling note under the well plot goes away with Full accuracy. The presets that never bundle (last 3 Myr, MTD, short salt) show a line saying there is nothing to switch.
 
 | Control | Default | Source |
 |---|---|---|
@@ -309,7 +309,7 @@ What coarse steps can and cannot show:
   Miocene: the largest excess pressure is 11.2 MPa bundled against 8.4 MPa (25 % of the bundled value) and the mean 0.49
   against 0.29 MPa (40 %); at about 10,000 ft
   below the sea floor the pore pressure reads 10.02 against 9.36 ppg (column 80) and 10.39 against
-  9.63 ppg (column 100). Gulf-style: the 1 ppg at column 250 (9.93 against 8.95 ppg) was measured before AUD-3 (North Sea mud) and has not been re-measured; the table in the well window, measured again with the Hart mud, gives a largest difference of 8.7 ppg (it was 13.1 ppg), found at column 71 about 12,700 ft below the sea floor (Windows, Node 26). The pseudo-well
+  9.63 ppg (column 100). Gulf-style (Hart mud, AUD-3; Windows node 26): the pore pressure at about 10,000 ft below the sea floor is 15.15 ppg bundled against 14.03 ppg full at column 150 and 13.52 against 11.10 ppg at column 250; the table in the well window gives a largest difference of 8.7 ppg (99 % of cells within 7.0), found at column 71 about 12,700 ft below the sea floor. (With the North Sea mud the figures were 12.68 against 12.59 and 9.93 against 8.95 ppg, and a largest difference of 13.1 ppg.) The salt and the surface also differ between the two runs, up to about 6.6 km of salt thickness and 2.1 km of surface height. The pseudo-well
   and planned-well plots show a yellow note with the largest difference found on that preset
   (`scripts/gen-bundle-table.mjs` measures it, with the 99th percentile; it is also written into the PNG and CSV exports). To read
   pressures with full accuracy, use the **Deep compaction** switch (Full accuracy) under **Scenario** at the top of the controls (the run is then 6 to 12 times
@@ -456,7 +456,7 @@ the pseudo-well overburden with the Traugott (1997) deep-water Gulf regional tre
 with the Hart mud is 1.1 ppg at column 150 and 0.8 to 0.9 ppg at column 250 (about 1.7 and 1.3 ppg with the
 North Sea mud; medians of four runs, Windows and Linux agree to 0.02 ppg). At 10,000 ft below the sea floor the
 pore pressure at column 150 is about 15.2 ppg (it was 12.7). The number of cells where the pore pressure was
-held at the overburden also rose, from about 16,000 to 36,000 (Windows) or 48,000 (Linux). Where the window is
+held at the overburden also rose, from about 16,000 to 36,000 (Windows) or 48,000 (Linux). That count moves by a factor of 2 to 3 between browsers and machines (a last-digit difference, section 15), so the claim is only "tens of thousands on the Gulf preset, 0 on the others". **The shallow section also reads over hydrostatic.** With the Hart mud the pore pressure 500 ft below the sea floor is 9.4 to 10.5 ppg (columns 100 to 250) against 8.6 ppg with the North Sea mud, and 10.2 to 12.2 ppg against 8.7 to 8.8 ppg at 2,000 ft (Windows node 26; Linux node 22 gives 9.2 to 10.7 and 10.4 to 12.3 ppg). Hart's own well is hydrostatic there. The cause is the mud permeability law, which is tuned and was not re-fitted for the lower surface porosity (the surface mud is about 70 times less permeable); nothing was retuned, and the re-fit is in the roadmap Backlog. Where the window is
 zero or negative (red), look for yellow dots: in this model the pore pressure has usually just hit the cap.
 
 **Limits of the planned well** (read before trusting a plot):
@@ -959,7 +959,7 @@ the strata themselves.
 scrolls inside; the column heads stay in view and sort the list (empty cells sort last). Rows are grey when the
 crest is not active at the time shown. Click a row, or a marker on the section, to select the crest: the time slider
 moves to the crest's last record, its marker gets a ring and the **pseudo-well moves to the crest's column**. A
-planned well is not moved; the card says so. Click the row again to clear the selection (the pseudo-well stays).
+planned well is not moved; the card says so. Click the row again to clear the selection (the pseudo-well stays). On a 1080p screen at 150 % browser zoom the card sits below the list, so scroll down to see it.
 Under the list, the card of the selected crest gives: *Position* (km, at the last record), *Followed from / to*
 (Ma), *Time at the seafloor* (Myr with the cover under 2 m; 0 for every Gulf crest), *F*, *A* and *A/F* (near
 window), *Label*, *Salt beside* (ft, the mean salt thickness 10 km either side at the last record), *L/h* (the
@@ -1030,6 +1030,7 @@ of the thin-sheet flow than a lack of salt (medium confidence).
   +20 to +73 %; about 3.3 to 4.1 s against 2.2 to 2.9 s), Cenozoic +45 % (+17 to +52 %; about 3.9 to
   4.4 s against 2.7 to 3.4 s), the MTD-prone preset +20 % (+16 to +31 %). Every preset finishes in
   under 5 s. Failure off costs nothing.
+- **Slope failure on the Gulf-style preset is very slow (AUD-6 N-3).** Nothing in the preset turns failure on, but if you do, the Hart mud (less permeable at the surface, section 5) makes the slopes fail far more often: about 4,759 events and 37 minutes on Windows node 26 (it was 83 events and 26 s with the North Sea mud). Mass is still conserved.
 - **Turbidites are a transport-length rule, not flow physics.** No turbidity-current flow, no
   channels or levees, slope failure is off by default and limited (section 13.6), no faults or 3D yet, and salt is limited (section 14.6).
 - **The slopes are tuned.** Slope and coastal-plain diffusivities were tuned by eye to about 6°

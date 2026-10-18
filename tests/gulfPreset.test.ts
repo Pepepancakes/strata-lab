@@ -125,6 +125,20 @@ describe('Gulf-style preset: the D18 targets (66 Myr, 400 km, dx 1,000 m)', () =
     coverThick: 1000, coverUneven: 0.2, coverSeed: 1, coverVisc: 3e20, weldThick: 10,
   })
 
+  it('mud uses the Gulf shale compaction of Hart et al. (1995) p. 46: phi0 0.40, beta 3.68e-2 /MPa; sand stays North Sea', () => {
+    const P = presetParams('gulf')
+    expect(P.phi0![1]).toBe(0.40)
+    expect(P.beta![1]).toBe(3.68e-2 / 1e6)
+    expect(P.phi0![0]).toBe(0.49)
+    expect(P.beta![0]).toBe(2.68e-8)
+  })
+
+  it('note says the shallow section reads over hydrostatic (AUD-6 B-1) and is a real note', () => {
+    const n = getPreset('gulf').note
+    expect(n).toContain('over hydrostatic')
+    expect(n).toContain('not re-fitted')
+  })
+
   it('has a real note and is the registered 66 Myr preset', () => {
     const p = getPreset('gulf')
     expect(p.note).not.toBe('draft')

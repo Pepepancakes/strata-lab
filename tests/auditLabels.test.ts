@@ -9,7 +9,7 @@ import { TimeMachine } from '../src/worker/timeMachine'
 import type { RunSpec, StateView, WellColumn } from '../src/worker/protocol'
 import { BUNDLE_TABLE, BUNDLE_TABLE_PROVENANCE } from '../src/views/well/bundleTable'
 import {
-  bundlingNote, CAP_TOL, TRAUGOTT_REF_BELOW_SEAFLOOR_FT, isCapped, LIMITS_PARAGRAPH, runIsEdited, showsGulfNote, traugottCheck, traugottOverburdenPpg,
+  bundlingNote, CAP_TOL, GULF_NOT_CALIBRATED, TRAUGOTT_REF_BELOW_SEAFLOOR_FT, isCapped, LIMITS_PARAGRAPH, runIsEdited, showsGulfNote, traugottCheck, traugottOverburdenPpg,
   traugottSedimentDensityPpg, VISCOSITY_LINE, limitsParagraph, thermalIsOn, viscosityLine,
 } from '../src/views/well/audit'
 import { currentBundleEvery, exportNotes } from '../src/views/well/notes'
@@ -127,6 +127,10 @@ describe('F-1 bundling note', () => {
     expect(exportNotes({ presetId: 'gulf', overrides: { bundleEvery: 1 }, segments: p.segments.map((s) => ({ ...s })) }).length).toBe(1) // Gulf only
     expect(exportNotes({ presetId: 'last3', overrides: {}, segments: PRESETS[0].segments.map((s) => ({ ...s })) })).toEqual([])
     expect(showsGulfNote('gulf')).toBe(true)
+    expect(GULF_NOT_CALIBRATED.startsWith('Not calibrated to the Gulf:')).toBe(true) // AUD-6 B-2
+    expect(GULF_NOT_CALIBRATED).toContain('mud permeability is tuned')
+    expect(GULF_NOT_CALIBRATED).toContain('shallow section reads over hydrostatic')
+    expect(GULF_NOT_CALIBRATED).not.toContain('partly')
     expect(showsGulfNote('miocene')).toBe(false)
   })
 })
@@ -160,12 +164,24 @@ describe('u / L diagnostics', () => {
   }, 60000)
 
   it('the view carries diag.clamps and the largest u / L, equal to the lambda* field before its cap at 1', () => {
-    expect(view.clamps).toBeGreaterThanOrEqual(0)
+    expect(Number.isInteger(view.clamps)).toBe(true)
     let max = 0
     for (let i = 0; i < view.lam!.length; i++) max = Math.max(max, view.lam![i])
     expect(view.maxUOverL!).toBeGreaterThanOrEqual(max - 1e-12)
     expect(view.maxUOverL!).toBeGreaterThan(0)
   })
+
+  it('AUD-7 N-6: a run that caps counts clamps > 0 and no cell goes past the overburden (u / L <= 1)', () => {
+    // 60 m^2/yr supply and mud permeability x0.01 on the 40-column 3 Myr run: the pore pressure reaches the overburden.
+    const capSpec: RunSpec = { ...SPEC, overrides: { ...SPEC.overrides, supply: 60, kMudMult: 0.01 } }
+    const tmc = new TimeMachine()
+    tmc.run(capSpec, 1)
+    const v = tmc.seek(tmc.root, tmc.nSteps, ['u', 'lam'])
+    expect(v.clamps!).toBeGreaterThan(0)
+    expect(v.maxUOverL!).toBeLessThanOrEqual(1 + 1e-12) // largest u / L over the record, not clamped by the view
+    expect(v.maxUOverL!).toBeGreaterThan(1 - 1e-9) // and it sits on the cap
+    for (let i = 0; i < v.lam!.length; i++) expect(v.lam![i]).toBeLessThanOrEqual(1 + 1e-12)
+  }, 60000)
 
   it('the pseudo-well profile u / L agrees with the lambda* field of the same column, cell by cell', () => {
     const prof = wellProfile(well)

@@ -392,6 +392,7 @@ a large engine change, so this milestone opens with its own spike (S5, D27.3).
 A 3D version on the GPU (WebGPU). Opens with a spike on speed.
 
 ## Backlog
+- Re-fit the mud permeability law (`kA` / `kB`, `src/engine/params.ts`, tuned with phi0 0.63) for the Gulf preset to a published Gulf permeability-porosity relation; Yang & Aplin (2010) is the named candidate (to verify; not read). Reason: with the Hart mud the shallow Gulf section reads 1 to 2 ppg over hydrostatic (AUD-6 B-1, D26.4). Its own card with its own review; do not tune toward a result.
 - AUD-4 section 9, question for John: keep the bare salt toe wall (6.2 to 6.7 km of salt, 0 m cover over the last 3 to 5 km, a step of about 4,170 ft, Windows) and label it as a model limit, which the reviewer recommends, or retune to bury it? Every alternative is a tuning step (salt limit, supply, thickness, section width) and none is planned.
 - AUD-4 F-8: the Gulf weld band (5 km total) sits 1 km under the lowest Linux run (6 km in 7 runs). Not near zero, but thin; if a later physics change moves welds again, report before re-banding.
 - Salt canopies and allochthonous sheets (salt flowing over the seafloor like a glacier).
