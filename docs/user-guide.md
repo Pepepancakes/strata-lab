@@ -830,8 +830,8 @@ to see the crest on the section at once. Section 14.7 explains how to read them.
 These are numbers from one run on the development machine (Node 26, Windows); they are the model's
 output, not data. Another machine can move single structures a little (section 15). At the end of
 the run, with structures counted when their relief is at least 300 m (984 ft):
-- The wedge keeps building out: the shoreline moves from about 54 km at 56 Ma to over 200 km near the end
-  (checked by the tests).
+- The wedge keeps building out: the shelf edge moves from about 97 km at 56 Ma to 206 to 215 km at the end
+  (Windows Node 26 and Linux Node 22, 7 runs each, AUD-4; the shoreline itself ends near 90 km; checked by the tests).
 - **Welds** (salt thinner than 100 m where it was thicker before) are real but thinner than before the mud change
   (AUD-3): about 8 to 11 km of weld in total on Windows and 6 to 8 km on Linux (the plain run and three 1-ulp
   repeats), in runs of 2 to 3 km, under the shelf and the ramp the wedge crossed. They were 12 to 20 km in
