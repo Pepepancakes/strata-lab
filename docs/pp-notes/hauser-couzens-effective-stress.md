@@ -5,7 +5,7 @@ Page numbers are pdf pages of the SSRN preprint (the preprint has no printed pag
 
 ## 1. Record
 
-- Authors: Matt R. Hauser (corresponding), Brent A. Couzens-Schultz; both Shell International Exploration and Production, Houston (p. 1).
+- Authors: Matt R. Hauser, Brent A. Couzens-Schultz.
 - Year: undated preprint. SSRN abstract 5128263 (every page footer). Cites Hauser 2020a and 2020b and Xie et al. 2021, so 2025 or later (the SSRN number is consistent with early 2025; to verify).
 - Status: "Preprint not peer reviewed" (every page). Not a citable peer-reviewed source; cite as a preprint if at all.
 - Title: Can compaction modeling and pore pressure prediction be simplified by the definition of effective stress?
@@ -65,7 +65,7 @@ A data paper arguing that compaction trends (velocity or resistivity against ver
 - Vs and rho mostly from regional trends, not logs (p. 6); trend departures near base salt can mislead a Biot calculation (pp. 14-15).
 - Unloading, complex stress and sand-shale disequilibrium were assumed minimal, not tested (p. 10).
 - Illitisation kinetics not modelled; the smectite/illite split is by temperature and behaviour (p. 5).
-- The paper's compaction state is a log proxy (Vp, resistivity), not a measured porosity; the Eq. 4 constants are tied to Shell's internal Vp-void-ratio trends, which are not given (p. 7).
+- The paper's compaction state is a log proxy (Vp, resistivity), not a measured porosity; the Eq. 4 constants are tied to the authors' in-house Vp-void-ratio trends, which are not given (p. 7).
 - Data not fully releasable (p. 11).
 
 ## 7. Relevance to Strata Lab
@@ -75,7 +75,7 @@ Bears on `src/engine/compaction.ts` (`porosity(P, lith, s)`, Athy phi = phi0 exp
 - The engine is Terzaghi throughout: effective stress is overburden minus pore pressure in `compaction.ts` (the buoyant-load formulation is the same thing with hydrostatic removed) and in `fracturePressurePa`. H&CS do not say Terzaghi is wrong for a forward compaction model; their claim is about log-based inversion, where a Terzaghi trend calibrated at one lambda* mispredicts at another (p. 8). Strata Lab does not invert logs, so the finding changes nothing in the engine. It is worth one line in physics-references: the effective stress is Terzaghi (alpha = 1), and alpha < 1 (Biot) is "not modelled".
 - Where it could matter: the porosity-stress law. Athy in Terzaghi stress with constant beta cannot reproduce the H&CS observation that deep, highly overpressured shale (near-zero Terzaghi VES) is faster and less porous than shallow shale at the same VES (p. 4, citing Ebrom et al. 2004). In the engine that case arises in sealed sub-salt or low net-to-gross columns. The engine would keep such mud at phi0; a Biot law would compact it. This is a known simplification to record, not a defect to fix in this card.
 - IOGP 608 (p. 6) defines effective stress as Terzaghi, and Hauser 2020b (p. 4) uses Terzaghi for the stress model; the engine agrees with the practice documents. H&CS is the dissenting view and is a preprint.
-- Numbers reusable for a future check: brine 1.07 g/cc and thermal gradient 2 degC/100 m (p. 7), grain density 2.65 g/cc for smectitic mud (Table 2) against the engine's RHO_S 2650 kg/m^3 (`constants.ts`). The Eq. 4 constants cannot be used without Shell's Vp-void-ratio trend.
+- Numbers reusable for a future check: brine 1.07 g/cc and thermal gradient 2 degC/100 m (p. 7), grain density 2.65 g/cc for smectitic mud (Table 2) against the engine's RHO_S 2650 kg/m^3 (`constants.ts`). The Eq. 4 constants cannot be used without the authors' unpublished Vp-void-ratio trend.
 - Sub-salt: Appendix A's observation that a vertical-stress-only Biot model fits the whole sub-salt section (pp. 14-15) is a second, independent hint (with Hauser 2020b p. 11) that stress perturbation near tabular salt is small; both are GoM only.
 - Terminology: lambda* (overpressure ratio) is a one-number summary the M4 plot or the crest log could show; it is defined identically in Hauser 2020b and here.
 

@@ -5,7 +5,7 @@ taken from others are written "Alberty & McLean (citing X)". Nothing in `src/`, 
 
 ## 1. Record
 
-- Authors: M. W. Alberty (Hess Corporation), M. R. McLean (consultant).
+- Authors: M. W. Alberty, M. R. McLean.
 - Year: 2014 (paper SPE 167945, accepted for the 2014 IADC/SPE Drilling Conference, Fort Worth, 4-6 March 2014;
   journal version December 2014).
 - Title: The Use of Modeling To Enhance the Analysis of Formation-Pressure Integrity Tests.
@@ -95,7 +95,7 @@ Count recorded: 8 rows. No basin, depth or stress data: the paper is about test 
   nu/(1-nu) from closure data, and belongs in `physics-references.md` under M4 "Fracture pressure: what it is
   compared to".
 - Sand versus shale: "any measured fracture gradient is likely to be in sand because sands are generally subject to
-  a lower minimum Earth stress than shale" (p. 434). The engine uses one `poissonRatio` for all lithologies
+  a lower minimum Earth stress than shale" (p. 435). The engine uses one `poissonRatio` for all lithologies
   (`wellPressureParams.ts` line 31); a per-lithology k (Zhang & Yin: 0.43 shale, 0.3 sand) is supported by both
   papers if a later card wants it.
 - Mud compressibility (1.8-4.0 x 10^-6 psi^-1) and the ECD vocabulary are not engine quantities; the engine's mud

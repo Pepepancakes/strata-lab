@@ -5,7 +5,7 @@ Page numbers are the paper's own (1-21, pdf page = printed page). Claims the pap
 
 ## 1. Record
 
-- Author: Matt R. Hauser, Shell Exploration and Production Company.
+- Author: Matt R. Hauser.
 - Year: 2020. SPE Journal; "Original SPE manuscript received for review 9 July 2020 ... peer approved 1 October 2020" (p. 1).
 - Title: Evaluating an Integrated Physical Model for Borehole-Leakoff Pressures.
 - Paper number: SPE 204453 (p. 1). DOI not printed in the copy (SPE papers of this number carry 10.2118/204453-PA; to verify).

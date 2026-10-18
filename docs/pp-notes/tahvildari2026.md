@@ -6,8 +6,7 @@ rendered to read them). Nothing in `src/`, `tests/` or presets was changed.
 
 ## 1. Record
 
-- Authors: Seyed Pouyan Tahvildari, Soroush Shojaei, Mohsen Masihi (University of Tehran; Sharif University of
-  Technology).
+- Authors: Seyed Pouyan Tahvildari, Soroush Shojaei, Mohsen Masihi.
 - Year: 2026 (received 18 October 2025, accepted 23 February 2026; article in press, unedited).
 - Title: A physics-informed hybrid ML framework for pore pressure and fracture gradient prediction in carbonate
   reservoirs.
