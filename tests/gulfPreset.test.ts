@@ -167,6 +167,7 @@ describe('Gulf-style preset: the D18 targets (66 Myr, 400 km, dx 1,000 m)', () =
 
   it('no pile: under 100 m of salt within 20 km of the basinward edge, and nowhere beyond 250 km thicker than 2 times the start', () => {
     expect(main.maxLast20).toBeLessThan(100) // measured 0
+    // AUD-4b: the 6.4 km beyond 250 km is the exposed toe wall, not a pile against the section edge (the original M3.9 purpose)
     // AUD-3: measured 1.6 times (6.4 to 6.6 km; Windows, 4 runs; was 1.25 times with the North Sea mud); the M3.9 preset gave 2.3 times
     expect(main.maxBeyond250).toBeLessThan(2 * main.P.saltThick)
   })
