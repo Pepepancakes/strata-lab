@@ -311,3 +311,16 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
   5. If allowance remains on Sunday morning, a read-only review of the design against published stratigraphic forward models
      (the Backlog's specialist review) may also run on Fable. The orchestrator decides from the usage meter.
   6. Nothing from these cards reaches main before its review and John's check.
+
+- **D28. Audit batch and pore-pressure literature to main; two small picks (John, 2026-10-18: "merge audit batch", "go with
+  recommended", "okay to merge").**
+  1. The audit batch (AUD-1 to AUD-8, reviews AUD-6 and AUD-8 APPROVE) merges to main after John's check of the preview.
+  2. The shallow Gulf overpressure (Hart mud reads about 1 to 2 ppg over hydrostatic in the top 2,000 ft, AUD-6 B-1) stays a
+     documented model limit, as the Gulf preset note and the "Not calibrated to the Gulf" label already say. The permeability
+     re-fit stays in the Backlog as its own card with its own review; nothing is tuned toward a result.
+  3. AUD-8 N-C / M3b.4 N-1: the crest list gets a capped height with its own scroll, so the crest card stays on screen at
+     1920 x 1080 at 100, 125 and 150 % (card CL-1, view only, no engine change). N-7 and N-8 stay open as conveniences.
+  4. The pore-pressure literature review (deep-read notes, `docs/pp-literature.md`, citation check) merges to main as docs.
+     Its section 10 options for the M4 backlog items wait until John plans the next M4 work.
+  5. Spare Fable allowance before the 2026-10-18 reset goes to S5c (spike 005, Q7 option (c) measured) and the stratigraphic
+     forward-modelling specialist review (SFM-R, D27.5). Neither reaches main before John's check.

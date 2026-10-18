@@ -368,6 +368,9 @@ M3b check found the crest table too far down the page. Cards (branches `strata-l
 - The crest list and the section are on screen together at 1920 x 1080 (100, 125, 150 %) and 2560 x 1440 (125, 150 %).
 - John says the well plot and the crest list read right, or names what is wrong.
 
+**Status (2026-10-18, D28):** merged to main after John's check. Open: CL-1, a capped crest-list height so the crest card
+stays on screen at 1920 x 1080, 150 % (AUD-8 N-C).
+
 ## Fable round: growth-fault spike and pore-pressure literature  *(John, 2026-10-17 evening: "go with your picks"; D27)*
 - **S5, spike 005: one listric growth fault over a mobile layer** (`spikes/005-growth-fault/`, throwaway). Hanging-wall rollover
   and growth strata that thicken into the fault; mass conserved per grain size and per material; bit-identical rerun; rollover
@@ -392,7 +395,7 @@ a large engine change, so this milestone opens with its own spike (S5, D27.3).
 A 3D version on the GPU (WebGPU). Opens with a spike on speed.
 
 ## Backlog
-- Re-fit the mud permeability law (`kA` / `kB`, `src/engine/params.ts`, tuned with phi0 0.63) for the Gulf preset to a published Gulf permeability-porosity relation; Yang & Aplin (2010) is the named candidate (to verify; not read). Reason: with the Hart mud the shallow Gulf section reads 1 to 2 ppg over hydrostatic (AUD-6 B-1, D26.4). Its own card with its own review; do not tune toward a result.
+- Re-fit the mud permeability law (`kA` / `kB`, `src/engine/params.ts`, tuned with phi0 0.63) for the Gulf preset to a published Gulf permeability-porosity relation; Yang & Aplin (2010) is the named candidate (to verify; not read). Reason: with the Hart mud the shallow Gulf section reads 1 to 2 ppg over hydrostatic (AUD-6 B-1, D26.4). Its own card with its own review; do not tune toward a result. Until then the shallow overpressure is a documented limit (D28.2).
 - AUD-4 section 9, question for John: keep the bare salt toe wall (6.2 to 6.7 km of salt, 0 m cover over the last 3 to 5 km, a step of about 4,170 ft, Windows) and label it as a model limit, which the reviewer recommends, or retune to bury it? Every alternative is a tuning step (salt limit, supply, thickness, section width) and none is planned.
 - AUD-4 F-8: the Gulf weld band (5 km total) sits 1 km under the lowest Linux run (6 km in 7 runs). Not near zero, but thin; if a later physics change moves welds again, report before re-banding.
 - Salt canopies and allochthonous sheets (salt flowing over the seafloor like a glacier).
@@ -401,7 +404,7 @@ A 3D version on the GPU (WebGPU). Opens with a spike on speed.
 - More published sea-level curves, and tectonic tilt or flexure.
 - Calibration: compare against published Gulf of America shelf-margin progradation rates,
   published pressure-depth profiles, and other forward models (for example, Landlab components).
-- Review by a stratigraphic forward-modelling specialist once M2 or M3 exist.
+- Review by a stratigraphic forward-modelling specialist once M2 or M3 exist (SFM-R running on Fable, D28.5).
 - Teaching mode: guided scenarios ("why did this sand get here?").
 - Export a section to geoblock.
 - Metric/oilfield units toggle.
