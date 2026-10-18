@@ -360,6 +360,25 @@ export class AppStore {
 
   // ---- parameter edits ----------------------------------------------------------------------
 
+  /**
+   * The "Deep compaction: fast / full accuracy" switch (AUD-5). Main run only (bundleEvery is start-only).
+   * Full accuracy sets the override bundleEvery = 1; fast removes it, so the preset's own value applies again.
+   */
+  async setDeepCompaction(full: boolean): Promise<void> {
+    const s = this.state
+    const active = s.branches.find((b) => b.id === s.activeId)
+    if (!active || active.parentId) return
+    const go = async () => {
+      const overrides = { ...this.state.overrides }
+      if (full) overrides.bundleEvery = 1
+      else delete overrides.bundleEvery
+      this.set({ overrides })
+      await this.startRun()
+    }
+    if (this.guard.isDirty && this.dropsBranches()) this.guard.request('Change a main-run control', () => void go(), true)
+    else await go()
+  }
+
   /** Change one parameter (SI value) in the active timeline: the main run restarts, a branch is rebuilt. */
   async editParam(key: string, value: ParamValue): Promise<void> {
     const s = this.state
@@ -679,7 +698,8 @@ export class AppStore {
 
   /**
    * Pick a crest in the crest table or on its marker: go to the view that shows it at its last record
-   * (record step k is seen at view step k + 1) and highlight its marker. null clears the pick.
+   * (record step k is seen at view step k + 1), highlight its marker and move the pseudo-well to its
+   * column. null clears the pick.
    */
   selectCrest(id: number | null): void {
     const e = id === null ? undefined : this.state.crestLog?.episodes.find((x) => x.id === id)
@@ -687,8 +707,13 @@ export class AppStore {
       this.set({ selectedCrest: null })
       return
     }
-    const last = e.track.step[e.track.step.length - 1] + 1
-    this.set({ selectedCrest: e.id, step: Math.max(0, Math.min(this.state.info?.nSteps ?? last, last)) })
+    const n = e.track.step.length
+    const last = e.track.step[n - 1] + 1
+    // UI-2 (D25): the pseudo-well moves to the crest's column at its last record. The planned well
+    // (state.wellPlan) is NOT touched: only the pseudo-well column changes, unlike a click on the section.
+    const nx = this.state.info?.nx ?? 0
+    const col = Math.max(0, Math.min(nx - 1, e.track.col[n - 1]))
+    this.set({ selectedCrest: e.id, step: Math.max(0, Math.min(this.state.info?.nSteps ?? last, last)), wellCol: col })
     this.refresh(false)
   }
 

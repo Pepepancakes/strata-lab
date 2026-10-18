@@ -21,6 +21,7 @@ import type { EngineParams } from './engineParams'
 import { SALT as SALT_TAG } from './record'
 import type { EngineState } from './state'
 import { thomas } from './thomas'
+import { waterViscosity } from './viscosity'
 
 // Local copies of imported constants: reading an imported binding inside a hot loop is several
 // times slower under the test runner's module transform (measured: 3 Myr run 5 s vs 2 s).
@@ -173,7 +174,10 @@ export function compactColumn(
     }
     A[m] = s * C
     hh[m] = h
-    kk[m] = k
+    // Heat model on (AUD-2): the cell's k/mu is k * (MU / mu(T)), so the series face average below is
+    // the harmonic mean of k/mu (flow in series). T = eng.temp, the value of the last thermal update
+    // (every thermalEvery steps); a layer deposited since then holds the sea-floor temperature set in step() when it was added.
+    kk[m] = P.thermal === 1 ? k * (MU / waterViscosity(eng.temp[i])) : k
   }
   for (let m = 0; m < n - 1; m++) T[m] = 1 / (hh[m] / (2 * kk[m]) + hh[m + 1] / (2 * kk[m + 1]))
   const Ttop = 2 * kk[n - 1] / hh[n - 1]

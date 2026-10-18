@@ -79,6 +79,9 @@ export interface StateView {
   /** Salt welds (M3.5): age (Ma) of each column's first weld, -1 = never (state.ts WELD_NONE), and the thickness below which a column counts as welded, m. */
   weldAge?: Float64Array
   weldThick?: number
+  /** F-3: how many times pore pressure was capped at the overburden (u forced down to the buoyant load) from the start of the run to this step, and the largest u / L in the record now (1 = capped). Diagnostics only: nothing here feeds back into the engine. */
+  clamps?: number
+  maxUOverL?: number
   /** Present only when asked for (it costs a pass over the whole record). */
   hash?: string
 }

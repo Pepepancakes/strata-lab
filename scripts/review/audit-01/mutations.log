@@ -1,0 +1,50 @@
+# Mutation checks (10 % changes in one engine term); each line is one mutation and the test that should catch it
+M1 Gibson: consolidation coefficient 10 % high (w0 = dt YR / MU -> x1.1): FAIL (benchmark caught it) [Tests  3 failed | 2 skipped (5)]
+         × T = 0.1: max error < 0.001 of overburden 226ms
+         × T = 1: max error < 0.001 of overburden 219ms
+         × T = 10: max error < 0.001 of overburden 183ms
+     FAIL  |main| tests/compaction.test.ts > Gibson (1958) consolidation benchmark > T = 0.1: max error < 0.001 of overburden
+    AssertionError: expected 0.0038176469803015284 to be less than 0.001
+     FAIL  |main| tests/compaction.test.ts > Gibson (1958) consolidation benchmark > T = 1: max error < 0.001 of overburden
+    AssertionError: expected 0.01518923709003589 to be less than 0.001
+     FAIL  |main| tests/compaction.test.ts > Gibson (1958) consolidation benchmark > T = 10: max error < 0.001 of overburden
+M2 S&C drained porosity: beta used 10 % high in porosity(): PASS (benchmark did NOT catch the mutation) [Tests  2 passed | 3 skipped (5)]
+M3 Salt channel flux: 12 eta -> 13.2 eta (10 % less mobility): FAIL (benchmark caught it) [Tests  9 failed | 10 skipped (19)]
+         × wavelength 25 km, eta 1e+17 Pa s: decay rate within 1 % 36ms
+         × wavelength 50 km, eta 1e+17 Pa s: decay rate within 1 % 30ms
+         × wavelength 100 km, eta 1e+17 Pa s: decay rate within 1 % 32ms
+         × wavelength 200 km, eta 1e+17 Pa s: decay rate within 1 % 31ms
+         × wavelength 25 km, eta 1e+18 Pa s: decay rate within 1 % 32ms
+         × wavelength 50 km, eta 1e+18 Pa s: decay rate within 1 % 30ms
+         × wavelength 100 km, eta 1e+18 Pa s: decay rate within 1 % 28ms
+         × wavelength 200 km, eta 1e+18 Pa s: decay rate within 1 % 31ms
+M4 Thermal: bulk conductivity geometric mean, water exponent 10 % high: FAIL (benchmark caught it) [Tests  1 failed | 6 passed | 14 skipped (21)]
+         × geometric-mean conductivity: hand calculation 2ms
+     FAIL  |main| tests/burial.test.ts > temperature: steady conduction > geometric-mean conductivity: hand calculation
+    AssertionError: expected 3.526415000711802 to be close to 3.5808727050738467, received difference is 0.05445770436204489, but expected 5e-10
+M5 Cement: quartz molar mass 10 % high: PASS (benchmark did NOT catch the mutation) [Tests  6 passed | 15 skipped (21)]
+M6 Run-out: Bingham mean velocity divisor 6 mu -> 6.6 mu: FAIL (benchmark caught it) [Tests  2 failed | 4 passed | 2 skipped (8)]
+         × matches a numerical integral of the shear profile (< 0.1 %) 5ms
+         × uniform flow: plug thickness tau_y / (rho g sin) and velocity from the integral 1ms
+     FAIL  |main| tests/runout.test.ts > Bingham velocity law > matches a numerical integral of the shear profile (< 0.1 %)
+    AssertionError: expected 0.09090909089796494 to be less than 0.001
+     FAIL  |main| tests/runout.test.ts > Bingham velocity law > uniform flow: plug thickness tau_y / (rho g sin) and velocity from the integral
+    AssertionError: expected 0.09090909090342829 to be less than 0.001
+M7 Cover bending: plate stiffness coverVisc / 3 -> / 3.3: FAIL (benchmark caught it) [Tests  4 failed | 4 passed | 11 skipped (19)]
+         × mode 10 (wavelength 10.0 km): growth rate within 2 % of sigma(k) 103ms
+         × mode 14 (wavelength 7.1 km): growth rate within 2 % of sigma(k) 96ms
+         × mode 18 (wavelength 5.6 km): growth rate within 2 % of sigma(k) 95ms
+         × mode 22 (wavelength 4.5 km): growth rate within 2 % of sigma(k) 132ms
+     FAIL  |wallclock| tests/coverBending.test.ts > cover bending: dispersion relation (dense cover, level seafloor) > mode 10 (wavelength 10.0 km): growth rate within 2 % of sigma(k)
+    AssertionError: expected 0.03117579529815373 to be less than 0.02
+     FAIL  |wallclock| tests/coverBending.test.ts > cover bending: dispersion relation (dense cover, level seafloor) > mode 14 (wavelength 7.1 km): growth rate within 2 % of sigma(k)
+    AssertionError: expected 0.0822510880627565 to be less than 0.02
+M8 Stability: sand friction tan(phi) used 10 % high (infinite-slope FS): FAIL (benchmark caught it) [Tests  1 failed | 8 passed | 5 skipped (14)]
+         × a sand/mud cell takes strength from its solid fractions 3ms
+     FAIL  |main| tests/stability.test.ts > infinite-slope factor of safety: hand calculations (middle column, tan(beta) = 0.05) > a sand/mud cell takes strength from its solid fractions
+    AssertionError: expected 0.05820549574905194 to be less than 1e-9
+M9 Thermal subsidence: tau used 10 % high: FAIL (benchmark caught it) [Tests  1 failed | 20 skipped (21)]
+         × thermal mode: summed step integrals equal the closed form for uneven steps 4ms
+     FAIL  |main| tests/burial.test.ts > changing subsidence > thermal mode: summed step integrals equal the closed form for uneven steps
+    AssertionError: expected 0.040721974817476185 to be less than 1e-9
+# done; git status after reverts (must be empty):

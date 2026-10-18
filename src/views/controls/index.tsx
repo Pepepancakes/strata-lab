@@ -7,6 +7,7 @@ import { getReference } from '../../engine/references'
 import { displayConversion } from '../../units'
 import type { ViewDefinition } from '../types'
 import { changedKeys, DEFAULT_OPEN, filterGroups, GROUPS, modeNote, type ShownGroup } from './groups'
+import { accuracyMode, costText } from './accuracy'
 
 /** Where the open / closed state of the groups is remembered (its own key, not the scenario autosave). */
 export const OPEN_GROUPS_KEY = 'strata-lab:ui:openGroups'
@@ -172,8 +173,7 @@ function Control({ def, ctx, note }: { def: ParamDef; ctx: Ctx; note?: string | 
   )
 }
 
-function ScenarioControls() {
-  const s = useAppState()
+function ScenarioControls({ s }: { s: AppState }) {
   const preset = PRESETS.find((p) => p.id === s.presetId)!
   const lenDef: ParamDef = PARAMS.find((p) => p.key === 'duration')!
   const busy = !!s.busy
@@ -202,6 +202,7 @@ function ScenarioControls() {
       <div className="schedule" data-testid="schedule">
         <strong>Time steps:</strong> {describeSchedule(s.segments)} ({stepCount(s.segments)} steps). <span className="tag tag-tuned">tuned</span>
       </div>
+      <DeepCompactionSwitch state={s} />
     </div>
   )
 }
@@ -248,6 +249,41 @@ const SWITCH_LABELS: Record<string, { label: string; aria: string }> = {
 }
 
 const isOn = (ctx: Ctx, key: string): boolean => Number(ctx.p ? ctx.p[key] : defOf(key).default) === 1
+
+/**
+ * AUD-5: "Deep compaction: fast (bundled) / full accuracy (slower)". Start-only, main run only; shows the measured cost.
+ * It sits in the Scenario block at the top of the column, not in Grid and numerical settings at the bottom (D20.1): it changes the
+ * whole run and the section, so it must be on screen together with the section (D25 lesson; docs/handover.md, AUD-5).
+ */
+export function DeepCompactionSwitch({ state }: { state: AppState }) {
+  const ctx = makeCtx(state)
+  const presetId = state.presetId
+  const mode = accuracyMode(ctx.preset.bundleEvery, ctx.p ? ctx.p.bundleEvery : ctx.preset.bundleEvery)
+  const disabled = ctx.isBranch || !ctx.p || ctx.busy || mode === 'not-bundled'
+  const row = { display: 'flex', alignItems: 'center', gap: 8, minHeight: 44, cursor: disabled ? 'default' : 'pointer' } as const
+  const pick = (full: boolean) => { if (!disabled && (mode === 'full') !== full) void store.setDeepCompaction(full) }
+  return (
+    <div className="control" data-param="deepCompaction" data-testid="deep-compaction" role="radiogroup" aria-label="Deep compaction">
+      <div className="clabel"><span>Deep compaction</span></div>
+      {mode === 'not-bundled' ? (
+        <div className="muted small">This preset already solves deep compaction in full (no bundling), so there is nothing to switch.</div>
+      ) : (
+        <>
+          <label style={row}>
+            <input type="radio" name="deepCompaction" checked={mode === 'fast'} disabled={disabled} onChange={() => pick(false)} aria-label="Deep compaction: fast (bundled)" />
+            Fast (bundled)
+          </label>
+          <label style={row}>
+            <input type="radio" name="deepCompaction" checked={mode === 'full'} disabled={disabled} onChange={() => pick(true)} aria-label="Deep compaction: full accuracy (slower)" />
+            Full accuracy (slower)
+          </label>
+          <div className="muted small" data-testid="deep-compaction-cost">{costText(presetId)} Pore pressure below about 5,000 ft is the part that changes.</div>
+          {ctx.isBranch ? <div className="muted small">Set at the start of the run; a branch cannot change it.</div> : <div className="muted small">Changing it runs the main run again from the start.</div>}
+        </>
+      )}
+    </div>
+  )
+}
 
 function GroupSwitch({ switchKey, ctx }: { switchKey: string; ctx: Ctx }) {
   const names = SWITCH_LABELS[switchKey]
@@ -344,7 +380,7 @@ function ControlsView() {
   const s = useAppState()
   return (
     <div>
-      <ScenarioControls />
+      <ScenarioControls s={s} />
       <ControlsPanel state={s} />
     </div>
   )

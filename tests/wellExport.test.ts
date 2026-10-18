@@ -41,7 +41,7 @@ function samples(): WellSamples {
     n, mdFt: Float64Array.from(TVDSS.map((t) => t + GAP + 40)), tvdFt: Float64Array.from(TVDSS.map((t) => t + GAP)), tvdssFt: Float64Array.from(TVDSS),
     xKm: Float64Array.from(TVDSS.map(() => 12.35)), incDeg: new Float64Array(n), kind: new Uint8Array(n), depthRkbFt: new Float64Array(n),
     hydroPa: new Float64Array(n), porePa: new Float64Array(n), overburdenPa: new Float64Array(n),
-    porosity: new Float64Array(n), tempC: new Float64Array(n),
+    porosity: new Float64Array(n), tempC: new Float64Array(n), uOverL: new Float64Array(n),
   }
   TVDSS.forEach((t, i) => {
     const c = handColumn(t)
@@ -87,7 +87,7 @@ describe('well CSV export', () => {
     expect(csv.columns).toEqual([...CSV_COLUMNS])
     expect(csv.columns).toEqual([
       'md_ft', 'tvd_rkb_ft', 'tvdss_ft', 'x_km', 'material', 'porosity', 'pore_pressure_psi', 'pore_pressure_ppg', 'hydrostatic_ppg',
-      'overburden_ppg', 'fracture_gradient_ppg', 'window_ppg', 'temperature_f', 'branch',
+      'overburden_ppg', 'fracture_gradient_ppg', 'window_ppg', 'temperature_f', 'capped_at_overburden', 'branch',
     ])
     expect(csv.rows).toHaveLength(4)
     expect(csv.rows.map((r) => r.material)).toEqual(['sea water', 'sediment', 'salt', 'sediment'])

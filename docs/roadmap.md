@@ -206,7 +206,7 @@ Results against the done-when:
   9.92 km at 1,000 m cells, 10.12 km at 500 m, 9.97 km at 250 m, against lambda* = 10.24 km; with bending off 2.47, 1.34 and 0.77 km (2 to 3 cells,
   following the grid). On the Gulf preset itself the wavelength agrees within 1.3 % (200 km section, 1,000 against 500 m); counts and spacing of
   structures do NOT converge with the grid (spacing differs 9 to 12 %, counts 4 against 5). The finite-amplitude needle is reported, not tested.
-- **Gulf-style preset (D18 targets), after M3.10:**
+- **Gulf-style preset (D18 targets), after M3.10 (North Sea mud; superseded by AUD-3 below):**
   - **Weld: met, but not robust.** Welds (salt under 100 m, thicker before) total 17 km in the plain run and 12 to 20 km across six 1 ulp
     noise salts; the longest run is 3 to 4 km. Their positions move with the last digit of the maths, so the tests ask for a band (total 8 km or
     more, a run of 2 km or more) and not for particular welds.
@@ -217,6 +217,9 @@ Results against the done-when:
   - **Basinward edge fixed (D19).** At M3.9 salt piled 8 to 9 km thick against the closed 400 km edge. The preset now ends the salt basin at
     200/240 km (tuned); the thickest salt beyond 250 km is 5.0 km, the last 20 km hold none.
   - **Speed.** The 66 Myr Gulf run takes 5.0 to 5.1 s in Node; salt-off presets are within 5 % of main (best of three, interleaved).
+- **Gulf-style preset after AUD-3 (Hart et al. 1995 mud; D26.4), Windows node 26 / Linux node 22:** welds total 8 to 11 km / 6 to 8 km, longest run 2 to 3 km (band: 5 km total, a run of 2 km);
+  crests within 2 km of the seafloor: none in any run (the D18 crest target is dropped for this preset, D26.4); wedge still progrades (shelf edge 212 / 208 km at the end);
+  salt beyond 250 km up to 6.6 km (no-pile band 2 times the start); wavelength 10.4 to 12.3 km; crest log 15 buried crests and 1 at the run end (the bare toe wall, a model limit), median F - A -277 ft/Myr on both platforms.
 - Views (M3.5): pink salt in every colour mode, a Salt thickness mode, weld and cover marks with (i) buttons, a salt-aware pseudo-well; checked in the built file at 100, 125 and 150 % scaling with 0 console errors.
 - **Two salt presets:** *Gulf-style: wedge over salt (66 Ma)* and *Salt: uneven cover (10 Myr)*. The second is a teaching toy (under 1 s): its section is over-filled and its structures are 1 to 2 cells wide.
 
@@ -389,6 +392,9 @@ a large engine change, so this milestone opens with its own spike (S5, D27.3).
 A 3D version on the GPU (WebGPU). Opens with a spike on speed.
 
 ## Backlog
+- Re-fit the mud permeability law (`kA` / `kB`, `src/engine/params.ts`, tuned with phi0 0.63) for the Gulf preset to a published Gulf permeability-porosity relation; Yang & Aplin (2010) is the named candidate (to verify; not read). Reason: with the Hart mud the shallow Gulf section reads 1 to 2 ppg over hydrostatic (AUD-6 B-1, D26.4). Its own card with its own review; do not tune toward a result.
+- AUD-4 section 9, question for John: keep the bare salt toe wall (6.2 to 6.7 km of salt, 0 m cover over the last 3 to 5 km, a step of about 4,170 ft, Windows) and label it as a model limit, which the reviewer recommends, or retune to bury it? Every alternative is a tuning step (salt limit, supply, thickness, section width) and none is planned.
+- AUD-4 F-8: the Gulf weld band (5 km total) sits 1 km under the lowest Linux run (6 km in 7 runs). Not near zero, but thin; if a later physics change moves welds again, report before re-banding.
 - Salt canopies and allochthonous sheets (salt flowing over the seafloor like a glacier).
 - Jurassic-to-present runs (salt deposition onward; D12, moved here by D17): needs a
   redistributable pre-Cenozoic sea-level curve.

@@ -44,7 +44,7 @@ function headerLines(ctx: CrestExportContext, log: CrestLog, what: string): stri
     `# scenario: ${ctx.scenario}`,
     '# run: main run only (the crest log is not kept for branches)',
     '# units: rates in ft/Myr (elevation, up positive), lengths and depths in ft (depths below sea level, positive down), x in km from the landward edge, ages in Ma, times in Myr',
-    '# F: rise rate of the salt top; A: rise rate of the seafloor beside it (mean of columns 3 to 5 either side); F - A > 0 = tabular, < 0 = tapered, both least-squares slopes over the window',
+    '# F: rise rate of the salt top; A: rise rate of the seafloor beside it (mean of columns 3 to 5 either side); F - A > 0 = tabular, < 0 = tapered, within the noise floor = unresolved (floor in the thresholds line below), both least-squares slopes over the window',
     `# near window: the last ${P.windowMyr} Myr of the records whose cover (seafloor minus salt top) is under ${w(P.nearM)}; burial window: the last ${P.windowMyr} Myr up to the last record`,
     `# thresholds: label noise floor ${Math.round(mToFt(P.noiseFloor))} ft/Myr (tuned), crest prominence ${w(P.minProm)} (tuned), near ${w(P.nearM)} (tuned), gap ${P.gapSteps} steps, track +-${P.trackCols} columns, at the seafloor = cover under ${ft(P.exposedM, 1)} ft, neighbour distance ${w(P.neighbourM)}, weld thickness ${w(P.weldThick)}`,
     '# hooks and wedges (fold zones of 50 to 1,000 m) are not resolved at the grid size: the label comes from the rates only',

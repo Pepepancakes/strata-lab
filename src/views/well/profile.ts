@@ -13,12 +13,14 @@
 //                no pores and uses RHO_SALT.
 //   TVDSS        depth below the sea surface at this time (negative = above it), ft.
 
+import { buoyantLoad } from '../../engine/compaction'
 import { G, RHO_S, RHO_SALT, RHO_W } from '../../engine/constants'
 import { MTD, SALT } from '../../engine/record'
 import type { FailureEvent } from '../../engine/state'
 import { eventsAtCell } from '../events/format'
 import { DEFAULT_AIR_GAP_FT } from '../../engine/well'
 import { cToF, densityToPpg, ftToM, mToFt } from '../../units'
+import { isCapped, TRAUGOTT_REF_BELOW_SEAFLOOR_FT } from './audit'
 import type { WellColumn } from '../../worker/protocol'
 
 /** Cells shallower than this below the datum are left out of the ppg curves (EMW blows up at zero depth), m. */
@@ -39,6 +41,10 @@ export interface WellPoint {
   salt: boolean
   /** The cell is a debris-flow deposit (MTD). */
   mtd: boolean
+  /** u / L of the cell (share of the buoyant load carried by excess pressure); null in salt. */
+  uOverL: number | null
+  /** F-3: pore pressure is capped at the overburden in this cell (u / L >= 1 - 1e-9), so its effective stress is zero. */
+  capped: boolean
   /** Age of the layer, Ma (filled by the caller from the view when wanted). */
 }
 
@@ -62,6 +68,15 @@ export interface WellProfile {
   saltDensityPpg: number
   /** Runs of adjacent MTD cells: top and bottom depth (ft below the sea surface) and the layers in them (top first). */
   mtdIntervals: { topFt: number; botFt: number; layers: number[] }[]
+  /** Largest u / L among the cells of this column (0 if none) and how many cells are capped at the overburden (F-3). */
+  maxUOverL: number
+  cappedCells: number
+  /**
+   * The sediment cell that the regional-trend check reads (F-4a): the one whose middle is nearest TRAUGOTT_REF_BELOW_SEAFLOOR_FT
+   * below the sea floor, or the deepest sediment cell if the column is thinner. Its depth below the SEA SURFACE, the water
+   * depth, and the weight above its middle as ppg from the sea surface (no air gap). Null without sediment.
+   */
+  trendCell: { depthBelowSeaFt: number; waterDepthFt: number; overburdenPpg: number } | null
 }
 
 export function wellProfile(w: WellColumn, events: readonly FailureEvent[] = [], airGapM: number = ftToM(DEFAULT_AIR_GAP_FT)): WellProfile {
@@ -79,12 +94,19 @@ export function wellProfile(w: WellColumn, events: readonly FailureEvent[] = [],
   }
   // overburden to the middle of each cell, from the top down
   const sv = new Float64Array(n)
+  const uol = new Float64Array(n).fill(NaN) // u / L per cell; the load rule is the compaction solver's (salt skipped)
+  let aboveSolid = 0
   let load = RHO_W * G * waterDepth
   for (let l = n - 1; l >= 0; l--) {
     const solid = w.sand[l] + w.mud[l]
     if (solid <= 0 || w.thick[l] <= 0) continue
     const rho = cellDensity(w, l)
     sv[l] = load + 0.5 * rho * G * w.thick[l]
+    if (w.material[l] !== SALT) {
+      const L = buoyantLoad(aboveSolid, solid)
+      uol[l] = L > 0 ? w.u[l] / L : 0
+      aboveSolid += solid
+    }
     load += rho * G * w.thick[l]
   }
   const points: WellPoint[] = []
@@ -110,6 +132,8 @@ export function wellProfile(w: WellColumn, events: readonly FailureEvent[] = [],
       sandFrac: solid > 0 ? w.sand[l] / solid : 0,
       salt: isSalt,
       mtd: w.material[l] === MTD || eventsAtCell(events, l, w.column).length > 0,
+      uOverL: isSalt ? null : uol[l],
+      capped: !isSalt && isCapped(uol[l]),
     }
     points.push(p)
     if (p.mtd) {
@@ -137,7 +161,27 @@ export function wellProfile(w: WellColumn, events: readonly FailureEvent[] = [],
   const weld = w.weldAge != null && w.weldAge >= 0 && saltBulk < (w.weldThick ?? 10)
     ? { ageMa: w.weldAge, depthFt: mToFt(w.seaLevelM - w.b), remnantFt: mToFt(saltBulk) }
     : null
-  return { points, topFt, bottomFt, cemOnsetFt: cementationOnsetDepthFt(points, cToF(w.cemTonsetC)), cemOnsetF: cToF(w.cemTonsetC), saltIntervals, weld, saltDensityPpg: densityToPpg(RHO_SALT), mtdIntervals }
+  let maxUOverL = 0
+  let cappedCells = 0
+  for (const p of points) {
+    if (p.uOverL !== null && p.uOverL > maxUOverL) maxUOverL = p.uOverL
+    if (p.capped) cappedCells++
+  }
+  // the cell for the regional-trend check: sediment cell nearest the reference depth below the sea floor (points run top to bottom)
+  let trend: WellProfile['trendCell'] = null
+  let best = Infinity
+  for (const p of points) {
+    if (p.salt) continue
+    const depthM = datum - 0.5 * (zb[p.layer] + zt[p.layer])
+    const belowFloor = mToFt(depthM - waterDepth)
+    if (!(depthM > 0) || !(belowFloor > 0)) continue
+    const d = Math.abs(belowFloor - TRAUGOTT_REF_BELOW_SEAFLOOR_FT)
+    if (d < best) {
+      best = d
+      trend = { depthBelowSeaFt: mToFt(depthM), waterDepthFt: mToFt(waterDepth), overburdenPpg: densityToPpg(sv[p.layer] / (G * depthM)) }
+    }
+  }
+  return { points, topFt, bottomFt, cemOnsetFt: cementationOnsetDepthFt(points, cToF(w.cemTonsetC)), cemOnsetF: cToF(w.cemTonsetC), saltIntervals, weld, saltDensityPpg: densityToPpg(RHO_SALT), mtdIntervals, maxUOverL, cappedCells, trendCell: trend }
 }
 
 function cellDensity(w: WellColumn, l: number): number {

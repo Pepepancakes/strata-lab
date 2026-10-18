@@ -33,6 +33,11 @@ export const REFERENCES: readonly Reference[] = [
     full: 'Sclater, J.G. & Christie, P.A.F. (1980). Continental stretching: an explanation of the post-mid-Cretaceous subsidence of the central North Sea Basin. JGR 85(B7), 3711-3739.',
   },
   {
+    id: 'hart-flemings-deshpande-1995',
+    short: 'Hart et al. (1995)',
+    full: 'Hart, B.S., Flemings, P.B. & Deshpande, A. (1995). Porosity and pressure: role of compaction disequilibrium in the development of geopressures in a Gulf Coast Pleistocene basin. Geology 23(1), 45-48 (eqs 1 and 2 and the fit, p. 46).',
+  },
+  {
     id: 'athy-1930',
     short: 'Athy (1930)',
     full: 'Athy, L.F. (1930). Density, porosity, and compaction of sedimentary rocks. AAPG Bull. 14, 1-24.',

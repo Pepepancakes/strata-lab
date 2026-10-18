@@ -1,0 +1,76 @@
+# Check 4: conservation per class on every preset (ledger: stored - init vs in - out, m^2)
+
+last3: hash cb22255bd39a216a
+  sand    stored-init 2.099999e+7  in-out 2.099999e+7  err -2.198e-7  rel -1.047e-14  (in 2.1e+7 out 14.1 init 6.8e+6)
+  mud     stored-init 3.751199e+7  in-out 3.751199e+7  err 1.639e-7  rel 4.203e-15  (in 3.9e+7 out 1.5e+6 init 1.6e+7)
+  salt    stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  cement  stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  diag: clamps 0 deficit 0.000 saltClip 0 saltLimited 0 saltLimitedVol 0 failUnresolved 0 events 0 steps 600 2089 ms
+
+mtd: hash 9be1b3f383e0bb5e
+  sand    stored-init 3.149997e+7  in-out 3.149997e+7  err -1.788e-7  rel -5.677e-15  (in 3.2e+7 out 33.5 init 6.8e+6)
+  mud     stored-init 5.448489e+7  in-out 5.448489e+7  err -2.310e-7  rel -3.948e-15  (in 5.9e+7 out 4.0e+6 init 1.6e+7)
+  salt    stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  cement  stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  MTD sand rel 835264.0 dep 835264.0 exp 0.0 err -2.33e-10 worst 2.19e-16; mud rel 601062.1 dep 601062.1 exp 0.0 err 0.00e+0 worst 1.64e-16
+  diag: clamps 4 deficit 0.000 saltClip 0 saltLimited 0 saltLimitedVol 0 failUnresolved 4 events 24 steps 600 3161 ms
+
+miocene: hash fa992a56e93157c3
+  sand    stored-init 1.610000e+8  in-out 1.610000e+8  err -1.159e-5  rel -7.201e-14  (in 1.6e+8 out 4.1e-31 init 1.8e+7)
+  mud     stored-init 2.989518e+8  in-out 2.989518e+8  err -7.987e-6  rel -2.671e-14  (in 3.0e+8 out 48217.0 init 4.2e+7)
+  salt    stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  cement  stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  diag: clamps 0 deficit 0.000 saltClip 0 saltLimited 0 saltLimitedVol 0 failUnresolved 0 events 0 steps 1000 3182 ms
+
+cenozoic: hash ebd3965bbcc65cca
+  sand    stored-init 4.620000e+8  in-out 4.620000e+8  err -1.526e-5  rel -3.303e-14  (in 4.6e+8 out 3.0e-30 init 1.8e+7)
+  mud     stored-init 8.571335e+8  in-out 8.571335e+8  err 1.979e-5  rel 2.306e-14  (in 8.6e+8 out 8.7e+5 init 4.2e+7)
+  salt    stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  cement  stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  diag: clamps 0 deficit 0.000 saltClip 0 saltLimited 0 saltLimitedVol 0 failUnresolved 0 events 0 steps 1430 3752 ms
+
+saltshort: hash b9d410d60a5de2e7
+  sand    stored-init 1.749137e+8  in-out 1.749137e+8  err -1.460e-6  rel -8.345e-15  (in 1.8e+8 out 86287.3 init 3.3e+6)
+  mud     stored-init 3.232681e+8  in-out 3.232681e+8  err -3.397e-6  rel -1.045e-14  (in 3.3e+8 out 1.7e+6 init 7.8e+6)
+  salt    stored-init 2.980232e-8  in-out 0.000000  err 2.980e-8  rel 2.292e-16  (in 0.0 out 0.0 init 1.3e+8)
+  cement  stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  diag: clamps 0 deficit 0.000 saltClip 0 saltLimited 0 saltLimitedVol 0 failUnresolved 0 events 0 steps 200 583 ms
+
+gulf: hash f2e2fd2ca42afb35
+  sand    stored-init 6.468000e+8  in-out 6.468000e+8  err -2.384e-5  rel -3.686e-14  (in 6.5e+8 out 2.1e-21 init 2.7e+7)
+  mud     stored-init 1.200643e+9  in-out 1.200643e+9  err -8.106e-6  rel -6.748e-15  (in 1.2e+9 out 5.6e+5 init 6.3e+7)
+  salt    stored-init -4.053116e-6  in-out 0.000000  err -4.053e-6  rel -6.141e-15  (in 0.0 out 0.0 init 6.6e+8)
+  cement  stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  diag: clamps 14626 deficit 0.000 saltClip 0 saltLimited 333553 saltLimitedVol 212.22571298880365 failUnresolved 0 events 0 steps 1430 7131 ms
+
+## Combined: saltshort + MTDs (failOn 1, kMudMult 0.1)
+  sand    stored-init 1.749915e+8  in-out 1.749915e+8  err -1.192e-6  rel -6.812e-15  (in 1.8e+8 out 8491.4 init 3.3e+6)
+  mud     stored-init 3.233157e+8  in-out 3.233157e+8  err 1.073e-6  rel 3.301e-15  (in 3.3e+8 out 1.7e+6 init 7.8e+6)
+  salt    stored-init -4.470348e-8  in-out 0.000000  err -4.470e-8  rel -3.439e-16  (in 0.0 out 0.0 init 1.3e+8)
+  cement  stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  MTD sand rel 648645.5 dep 648645.5 exp 0.0 err 0.00e+0 worst 4.43e-16; mud rel 2377691.6 dep 2377691.6 exp 0.0 err -4.66e-10 worst 2.84e-16
+  diag: clamps 33 deficit 0.000 saltClip 0 saltLimited 0 saltLimitedVol 0 failUnresolved 33 events 60 steps 200 3642 ms
+
+## Combined: saltshort + MTDs + thermal + cement (failOn 1, kMudMult 0.1, thermal 1, cement 1)
+  sand    stored-init 1.749918e+8  in-out 1.749918e+8  err -2.533e-6  rel -1.448e-14  (in 1.8e+8 out 8209.7 init 3.3e+6)
+  mud     stored-init 3.235280e+8  in-out 3.235280e+8  err -2.980e-6  rel -9.170e-15  (in 3.3e+8 out 1.5e+6 init 7.8e+6)
+  salt    stored-init -1.490116e-8  in-out 0.000000  err -1.490e-8  rel -1.146e-16  (in 0.0 out 0.0 init 1.3e+8)
+  cement  stored-init 2.330894e+7  in-out 2.330894e+7  err 2.012e-7  rel 8.630e-15  (in 2.3e+7 out 0.0 init 0.0)
+  MTD sand rel 835023.4 dep 835023.4 exp 0.0 err 0.00e+0 worst 2.98e-16; mud rel 3270984.9 dep 3270984.9 exp 0.0 err 0.00e+0 worst 3.82e-16
+  diag: clamps 78 deficit 0.000 saltClip 0 saltLimited 0 saltLimitedVol 0 failUnresolved 39 events 75 steps 200 8261 ms
+
+## Combined: mtd preset + thermal + cement
+  sand    stored-init 3.149996e+7  in-out 3.149996e+7  err 2.235e-8  rel 7.096e-16  (in 3.2e+7 out 35.0 init 6.8e+6)
+  mud     stored-init 5.471466e+7  in-out 5.471466e+7  err -6.929e-7  rel -1.184e-14  (in 5.9e+7 out 3.8e+6 init 1.6e+7)
+  salt    stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  cement  stored-init 3.370356  in-out 3.370356  err 4.441e-16  rel 1.318e-16  (in 3.4 out 0.0 init 0.0)
+  MTD sand rel 765235.9 dep 765235.9 exp 0.0 err -1.16e-10 worst 2.19e-16; mud rel 526358.4 dep 526358.4 exp 0.0 err 0.00e+0 worst 1.57e-16
+  diag: clamps 6 deficit 0.000 saltClip 0 saltLimited 0 saltLimitedVol 0 failUnresolved 4 events 21 steps 600 3030 ms
+
+## Combined: gulf + MTDs (failOn 1), bundled every 20 with failure on (deep cache path is bypassed)
+  sand    stored-init 6.468000e+8  in-out 6.468000e+8  err -2.444e-5  rel -3.778e-14  (in 6.5e+8 out 8.4e-21 init 2.7e+7)
+  mud     stored-init 1.200654e+9  in-out 1.200654e+9  err -4.816e-5  rel -4.009e-14  (in 1.2e+9 out 5.5e+5 init 6.3e+7)
+  salt    stored-init -3.814697e-6  in-out 0.000000  err -3.815e-6  rel -5.780e-15  (in 0.0 out 0.0 init 6.6e+8)
+  cement  stored-init 0.000000  in-out 0.000000  err 0.000e+0  rel 0.000e+0  (in 0.0 out 0.0 init 0.0)
+  MTD sand rel 1651959.2 dep 1651959.2 exp 0.0 err 0.00e+0 worst 3.32e-16; mud rel 1353141.8 dep 1353141.8 exp 0.0 err 0.00e+0 worst 4.35e-16
+  diag: clamps 10695 deficit 0.000 saltClip 0 saltLimited 336744 saltLimitedVol 193.21661574722697 failUnresolved 18 events 83 steps 1430 26378 ms

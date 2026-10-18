@@ -19,7 +19,7 @@ import { subside } from './subsidence'
 import { cloneHistory, copyHistory, type TriggerHistory } from './triggers'
 import { initialSaltThickness, coverUnevenness, saltStep, type DeepWindow } from './salt'
 import { allocateEngine, type Diagnostics, type EngineState, type FailureEvent } from './state'
-import { columnTemperatures, computeTemperatures } from './thermal'
+import { columnTemperatures, computeTemperatures, seafloorTemperature } from './thermal'
 import { transportSubstep } from './transport'
 
 // initial surface: coastal plain, shelf, slope, basin floor (x in m, elevation in m); synthetic
@@ -106,6 +106,12 @@ export function step(eng: EngineState, P: EngineParams, schedule: Schedule, seaL
   subside(rec, P, dtRec, t0, schedule.startAgeMa * 1e6)
   const op = k1 * nx
   for (let j = 0; j < nx; j++) setPor(eng, P, op + j, 0)
+  // AUD-2: the new layer has no temperature until the next thermal update; give it the seafloor value
+  // (the viscosity in compaction reads eng.temp). Only with the heat model on, so heat-off is unchanged.
+  if (thermalOn) {
+    const sl0 = seaLevel(t0)
+    for (let j = 0; j < nx; j++) eng.temp[op + j] = seafloorTemperature(P, sl0 - rec.H[j])
+  }
   const dt = dtRec / P.nSub
   for (let s = 0; s < P.nSub; s++) transportSubstep(eng, P, seaLevel(t0 + (s + 0.5) * dt), dt)
   compactStep(eng, P, schedule, k, k1)
