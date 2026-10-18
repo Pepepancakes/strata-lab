@@ -1,0 +1,16 @@
+[
+  {"id": "hcs-preprint", "claim": "Preprint, not peer reviewed; SSRN 5128263; year not printed.", "page": 1, "quote": "Preprint not peer reviewed"},
+  {"id": "hcs-eq1-biot", "claim": "Effective stress sigma = S - alpha Pp; alpha = 1 is Terzaghi (Eq. 1).", "page": 4, "quote": "sigma = S - alpha Pp"},
+  {"id": "hcs-eq2-alpha", "claim": "Biot coefficient alpha = 1 - Kfr/Kgr from drained frame and grain bulk moduli (Eq. 2).", "page": 5, "quote": "alpha = 1 - Kfr / Kgr"},
+  {"id": "hcs-path-dependence", "claim": "Under Terzaghi, drained (hydrostatic) and undrained (lithostatic) burial give different compaction trends; under Biot they coincide.", "page": 5, "quote": "a drained formation following a hydrostatic burial trend and an undrained formation following a lithostatic burial trend would exhibit quite different compaction behavior if plotted against a Terzaghi effective stress"},
+  {"id": "hcs-biot-tighter", "claim": "Vp-VES trends are much tighter under Biot and split cleanly into smectitic and illitic populations.", "page": 7, "quote": "much tighter"},
+  {"id": "hcs-calibration-bias", "claim": "A Terzaghi model calibrated in a low-pressure basin underpredicts high pressure; one calibrated in a high-pressure basin overpredicts.", "page": 8, "quote": "a conventional Terzaghi-based effective stress/pore pressure model calibrated in a low-pressure basin would tend to predict low pressures and underpredict any high-pressure sections, while a model calibrated in a high pressure basin would tend to overpredict"},
+  {"id": "hcs-converge-soft", "claim": "For soft rock or very low pore pressure, Terzaghi and Biot converge (alpha near 1).", "page": 9, "quote": "for soft rocks or very low pore pressures the Terzaghi and Biot approaches will converge"},
+  {"id": "hcs-no-age-rate", "claim": "The Biot trend shows no dependence on formation age or burial rate.", "page": 9, "quote": "no apparent dependence on formation age"},
+  {"id": "hcs-resistivity-benefit-gone", "claim": "Resistivity's advantage over sonic under Terzaghi calibration disappears under Biot.", "page": 14, "quote": "This benefit disappears when using a Biot-based model"},
+  {"id": "hcs-subsalt-vertical-only", "claim": "With measured Vs, a vertical-stress-only Biot model matches the sub-salt section regardless of distance from salt.", "page": 15, "quote": "independent of distance from the salt body"},
+  {"id": "hcs-caveats", "claim": "Unloading, complex stress and sand-shale disequilibrium were assumed minimal, not characterised.", "page": 10, "quote": "their potential has not been fully characterized or studied here"},
+  {"id": "hcs-local-calibration", "claim": "Kgr, grain density and salinity are fitted constants and may still need local calibration.", "page": 9, "quote": "Local calibration of these properties may still be required for reliable pore pressure modeling"},
+  {"id": "hcs-table2", "claim": "Table 2: smectite Kgr 27.8 GPa, rho_gr 2.65 g/cc, c1 0.093, c2 39.3, c3 3.30, c4 188, c5 11.8; illite Kgr 34.6 GPa, rho_gr 2.70 g/cc, c1 0.087, c2 26.1, c3 2.48, c4 104, c5 8.16 (c in MPa).", "page": 17, "quote": "Table 2"},
+  {"id": "hcs-forward-model", "claim": "Forward model uses brine 1.07 g/cc and 2 degC per 100 m; lambda* = (Pp - Phyd)/(Sv - Phyd).", "page": 7, "quote": "1.07 g/cc"}
+]
