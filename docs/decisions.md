@@ -276,7 +276,7 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      7.5 km (Linux); salt beyond 250 km reaches 6.4 to 6.6 km (was 5.0). **D18's shallow-crest target is dropped for the
      Gulf preset as a measured result of the cited compaction change:** crests within 2 km of the seafloor go from 4 to 0 in
      every run on both platforms. The old 2 to 5 were 300 to 850 m cover ripples over the light, over-porous mud, not
-     diapirs. Diapirs at the seafloor are left to S3 and M3b work. Nothing was retuned to bring them or the cap count
+     diapirs. Diapirs at the seafloor are left to S3 and M3b work. Also (AUD-4): with the Hart mud the toe of the salt became exposed: 6.2 to 6.7 km of salt bare at the seafloor over the last 3 to 5 km before the front, a step of about 1,270 m (4,170 ft) in the plain run, bare since about 21 Ma, one "run end" crest in the log (14 of 14 runs on Windows node 26 and Linux node 22). It is a model limit (no dissolution, no extrusion, salt not eroded), not a result. Nothing was retuned to bring them or the cap count
      back. The tests assert the new bands (weld total 5 km or more and a run of 2 km or more, no-pile limit 2 times the
      start thickness, no crest count; any crest that exists is under the seafloor and obeys the 20 km rule).
      `ENGINE_VERSION` is 3 (a saved Gulf run replays with the new mud). The overburden-cap count is for AUD-4 and AUD-6

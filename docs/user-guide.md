@@ -844,17 +844,26 @@ the run, with structures counted when their relief is at least 300 m (984 ft):
   in a weld column is a few tens of metres; thin-sheet flow slows as the cube of the thickness, so it never
   reaches zero.
 - **Crests**: with the Gulf shale mud there are **no** salt highs with tops within 2 km of the seafloor and
-  well away from the section edge, in any run (Windows and Linux, plain and noise runs). With the North Sea mud
+  well away from the section edge, in any run (Windows and Linux, plain and noise runs); this holds inside the
+  20 km rule, and the exposed toe (below) is outside it. With the North Sea mud
   there were two to five, 300 to 850 m bumps of the seeded cover unevenness on a flat salt slab; they were not
   diapirs, and John accepted losing them as a measured result of the cited compaction change (decision D26.4).
   The D18 target (a crest within 2 km of the seafloor) is dropped for this preset. Diapirs that reach the
   seafloor and stay there need new physics (spike S3, then milestone M3b). The crest log of section 14.7 still
-  finds 16 buried crests (it follows highs from the beginning, when they were near the seafloor).
+  finds 16 crests, 15 of them buried and one, the toe, still at the surface at the end of the run (it follows
+  highs from the beginning, when they were near the seafloor).
 - **The salt basin has its own end.** Before the basin limit was added, the salt pushed basinward piled up against
   the closed end of the section, 8 to 9 km thick, and the earlier "crests" were ripples on that pile. Now the
   salt starts out between 10 and 240 km, flows about 100 km past its limit, stops about 60 km short of the end of
   the section and is 6.4 to 6.6 km thick at most (it was 5 km with the North Sea mud; the no-pile test now allows
   twice the start thickness).
+- **The toe of the salt is bare.** With the Gulf shale mud the front of the salt does not stay buried. Over the last
+  3 to 5 km before the front the salt is at the seafloor with no cover, and there it is 6.2 to 6.7 km (20,000 to
+  22,000 ft) thick (Windows node 26 and Linux node 22, 7 runs each, AUD-4). The seafloor drops by a step of about
+  1,270 m (4,170 ft) there in the plain run (Windows), and the front has been bare since about 21 Ma. The crest log
+  carries it as one crest that ends "run end", exposed for 44 to 57 Myr. In Chrome the toe column keeps a thin
+  veneer of cover; the exact cover at one column moves with the maths library, but the wall and its marker do not.
+  This is a limit of the model, not a result (14.6).
 - Spacing: the dominant wavelength of the salt thickness is about 10 to 12 km (Windows; it was 13 to 14 km). On
   a 200 km section it is 34 to 38 km and the two grids still agree within 15 %. The counts of highs and
   minibasins and their spacing do **not** hold, so do not trust a count.
@@ -871,6 +880,11 @@ the 4 km start thickness and the 300 m cover are tuned and have no field behind 
 - **Columns do not move sideways.** There is no tilt of structures, no overhang and no lateral
   shift of a diapir.
 - **No dissolution.** Salt that reaches the seafloor is not dissolved away.
+- **Why the bare toe wall stays.** The model has no sink for salt at the seafloor: no dissolution, no extrusion
+  or canopy, and the exposed salt is not eroded. Thin-sheet flow pushes salt to the toe and nothing takes it away.
+  Vendeville (2005, p. 1078) shows distal inflation at a pinch-out, but that is a scaled physical model and only
+  the geological part of the picture. Bare salt that stays bare for 50 Myr is a model limit, not a result; do not
+  read it as a prediction of the Gulf.
 - **No faults over salt.** The cover is one plate and does not break, so there are no crestal
   faults, rafts or counter-regional faults.
 - **The cover is a viscous plate.** This stands in for real brittle and ductile cover and is the
@@ -891,7 +905,7 @@ the 4 km start thickness and the 300 m cover are tuned and have no field behind 
 - **Diapirs at the seafloor are not in the model yet.** Where a crest gets near the seafloor, thin-sheet flow drains the
   column as fast as sediment loads it, so a crest that is exposed is buried again within a few million years unless salt is
   fed in by hand. That is spike S3; milestone M3b is meant to deal with it (roadmap).
-- The structure width of about 13 to 14 km comes from the tuned cover viscosity. It is a model result, not a measurement, and no published minibasin width was used (Pilcher et al. 2011 gives none).
+- The structure width of about 10 to 13 km comes from the tuned cover viscosity. It is a model result, not a measurement, and no published minibasin width was used (Pilcher et al. 2011 gives none).
 
 ### 14.7 Salt crest log (M3b)
 The crest log answers one question about each salt high: while it was near the seafloor, did the salt keep
@@ -958,8 +972,9 @@ highs that were merged into an older crest, when there are any.
 
 **The markers.** On the section a marker stands on the seafloor at each crest active at the time shown. The shape
 carries the label, not the colour: a triangle up with T is tabular, a triangle down with P is tapered, a diamond
-with ? is unresolved. Hover over a marker, or tab to it, to see its numbers. A key sits under the section. At the
-end of a run every crest is already buried, so there are no markers until you move back in time.
+with ? is unresolved. Hover over a marker, or tab to it, to see its numbers. A key sits under the section. The
+Gulf run ends with one crest still at the surface, the toe, so there is one marker at the end of the run; the
+other 15 crests are buried and show only when you move back in time.
 
 **The CSV files.** **Export crests (CSV)** writes one row per crest; **Export crest records (CSV)** writes
 one row per record of each crest, which is the series the fits are made from. Lines that start with `#` give units,
