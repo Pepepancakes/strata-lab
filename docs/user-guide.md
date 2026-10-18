@@ -959,7 +959,7 @@ the strata themselves.
 scrolls inside; the column heads stay in view and sort the list (empty cells sort last). Rows are grey when the
 crest is not active at the time shown. Click a row, or a marker on the section, to select the crest: the time slider
 moves to the crest's last record, its marker gets a ring and the **pseudo-well moves to the crest's column**. A
-planned well is not moved; the card says so. Click the row again to clear the selection (the pseudo-well stays). On a 1080p screen at 150 % browser zoom the card sits below the list, so scroll down to see it.
+planned well is not moved; the card says so. Click the row again to clear the selection (the pseudo-well stays). The list is capped to a share of the window height, so the list, the card and the section are on screen together even on a 1080p screen at 150 % (the list then shows about four rows, and a short window hides the card's note and the list's intro line); a selected row that is hidden inside the list is scrolled into view.
 Under the list, the card of the selected crest gives: *Position* (km, at the last record), *Followed from / to*
 (Ma), *Time at the seafloor* (Myr with the cover under 2 m; 0 for every Gulf crest), *F*, *A* and *A/F* (near
 window), *Label*, *Salt beside* (ft, the mean salt thickness 10 km either side at the last record), *L/h* (the
