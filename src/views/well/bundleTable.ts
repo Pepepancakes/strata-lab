@@ -40,11 +40,11 @@ export const BUNDLE_TABLE: Readonly<Record<string, BundleEntry>> = {
   },
   gulf: {
     bundleEvery: 20,
-    maxPpg: 13.1,
-    rawPpg: 13.007,
-    p99Ppg: 7.022,
-    column: 46,
-    depthBelowSeafloorFt: 7471,
-    cells: 213250
+    maxPpg: 8.7,
+    rawPpg: 8.659,
+    p99Ppg: 6.907,
+    column: 71,
+    depthBelowSeafloorFt: 12673,
+    cells: 187466
   }
 }
