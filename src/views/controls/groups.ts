@@ -57,7 +57,7 @@ export const GROUPS: readonly Group[] = [
   { id: 'cement', title: 'Quartz cement', switchKey: 'cement', sections: [{ keys: ['cemA', 'cemB', 'cemTonset', 'cemGrain', 'cemSurf'] }] },
   {
     id: 'numerics', title: 'Grid and numerical settings',
-    note: 'Not geology: these trade speed for accuracy. Change them only to check that a result does not depend on them.',
+    note: 'Not geology: these trade speed for accuracy. Change them only to check that a result does not depend on them. The fast / full accuracy switch for deep compaction is under Scenario, at the top.',
     sections: [{ keys: ['nx', 'dx', 'nSub', 'nSaltSub', 'bundleEvery', 'bundleAgeYr', 'thermalEvery', 'failMaxIters', 'linear'] }],
   },
 ]

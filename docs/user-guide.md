@@ -232,6 +232,9 @@ slope and coastal-plain diffusivities were tuned by eye, not calibrated to data.
 | **Share of grain surface that is clean quartz** | 0.7 | tuned. Synthetic |
 
 **Grid and numerical settings.** Not geology: these trade speed for accuracy. Change them only to check that a result does not depend on them.
+
+**Deep compaction: Fast (bundled) / Full accuracy (slower).** A two-way switch in the **Scenario** block at the top of the controls (under *Time steps*, so it stays on screen beside the section; this group only points to it), for the presets that bundle deep compaction (Miocene, Cenozoic, Gulf). *Fast* is the preset as shipped. *Full accuracy* solves every layer at every step (it sets **bundleEvery** to 1) and runs the main run again from the start. Use it when you want to read pore pressure below about 5,000 ft below the sea floor: bundling moves the 10,000 ft pore pressure by about 0.7 to 1 ppg on the Miocene preset and by more on the Gulf one (section 5). It costs 6 to 12 times the run time. Measured in the built file in Chrome on the development Windows computer: Miocene 2.6 s fast and 16.7 s full; Cenozoic 2.8 s and 34.0 s; Gulf 3.6 s and 36.9 s. A slower computer takes proportionally longer; the switch shows these numbers for the loaded preset. It can only be changed on the main run (a branch shows it locked), the choice is saved in a scenario file like any other control, and *Fast* takes the preset's own value back. The yellow bundling note under the well plot goes away with Full accuracy. The presets that never bundle (last 3 Myr, MTD, short salt) show a line saying there is nothing to switch.
+
 | Control | Default | Source |
 |---|---|---|
 | **Columns** | 150 | start. Grid size |
@@ -309,7 +312,7 @@ What coarse steps can and cannot show:
   9.63 ppg (column 100). Gulf-style: the 1 ppg at column 250 (9.93 against 8.95 ppg) was measured before AUD-3 (North Sea mud) and has not been re-measured; the table in the well window, measured again with the Hart mud, gives a largest difference of 8.7 ppg (it was 13.1 ppg), found at column 71 about 12,700 ft below the sea floor (Windows, Node 26). The pseudo-well
   and planned-well plots show a yellow note with the largest difference found on that preset
   (`scripts/gen-bundle-table.mjs` measures it, with the 99th percentile; it is also written into the PNG and CSV exports). To read
-  pressures with full accuracy, set **bundleEvery** to 1 under Controls (the run is then several times
+  pressures with full accuracy, use the **Deep compaction** switch (Full accuracy) under **Scenario** at the top of the controls (the run is then 6 to 12 times
   slower). The layer record still holds every layer.
 - Use the long presets to see where sand and mud go over millions of years, not to read
   precise pressures at a fixed depth.

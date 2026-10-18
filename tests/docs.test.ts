@@ -119,7 +119,7 @@ describe('docs/physics-references.md matches the registry', () => {
  ' porosity at 2 km vs Sclater & Christie (1980)', 'Drained ',
  'Infinite-slope FS', 'FS crosses 1 at', 'Bingham plug thickness', 'Mass balance through a slope failure',
  'Salt channel-flow decay', 'Cover bending: fastest-growing wavelength', 'Mass balance, salt only',
- 'Salt crests', 'Export crests (CSV)', 'Export crest records (CSV)', 'Planned well', 'Plan a well here', 'Remove well', 'Surface location', 'Well shape', 'Total depth', 'Air gap', 'Kickoff depth', 'Build rate', 'Hold angle', 'Direction', 'Fracture-gradient method', 'Compare branches', 'Export plot (PNG)', 'Export stations (CSV)',
+ 'Deep compaction', 'Fast (bundled)', 'Full accuracy (slower)', 'Salt crests', 'Export crests (CSV)', 'Export crest records (CSV)', 'Planned well', 'Plan a well here', 'Remove well', 'Surface location', 'Well shape', 'Total depth', 'Air gap', 'Kickoff depth', 'Build rate', 'Hold angle', 'Direction', 'Fracture-gradient method', 'Compare branches', 'Export plot (PNG)', 'Export stations (CSV)',
  'supplied', 'stored', 'exported', 'imbalance', 'frames per second', 'steps per frame',
  ]
 

@@ -45,10 +45,10 @@ export function bundlingNote(a: BundlingNoteInput): string | null {
   if (!(a.bundleEvery > 1)) return null
   const entry = BUNDLE_TABLE[a.presetId]
   if (!a.edited && entry && entry.bundleEvery === a.bundleEvery) {
-    return `Bundled deep compaction (speed-up): pore pressure below about 5,000 ft may be off by up to ${entry.maxPpg.toFixed(1)} ppg on this preset (99 % of cells within ${(Math.ceil(entry.p99Ppg * 10 - 1e-9) / 10).toFixed(1)} ppg; measured, AUDIT-1). Set bundleEvery = 1 for full accuracy.`
+    return `Bundled deep compaction (speed-up): pore pressure below about 5,000 ft may be off by up to ${entry.maxPpg.toFixed(1)} ppg on this preset (99 % of cells within ${(Math.ceil(entry.p99Ppg * 10 - 1e-9) / 10).toFixed(1)} ppg; measured, AUDIT-1). For full accuracy use the Deep compaction switch under Controls (Full accuracy, bundleEvery = 1; slower).`
   }
   return 'Bundled deep compaction (speed-up, bundleEvery = ' + a.bundleEvery + '): pore pressure below about 5,000 ft may be off from the full solve; ' +
-    'the difference was not measured for an edited or custom run. For full accuracy set bundleEvery = 1 under Controls (slower).'
+    'the difference was not measured for an edited or custom run. For full accuracy use the Deep compaction switch under Controls (Full accuracy, bundleEvery = 1; slower).'
 }
 
 // ---- F-2 and F-9: limits of the pressure panel ----------------------------------------------------
