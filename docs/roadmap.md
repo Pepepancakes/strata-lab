@@ -214,12 +214,12 @@ Results against the done-when:
     at 286 to 323 km, but the shallowest has 4,243 ft (1.3 km) of cover. They are ripples of 300 to 850 m on a flat salt slab 5 km thick, not
     diapirs.
   - **Wedge: progrades** (shoreline 54.5 km at 56 Ma, 212.5 km at 0.6 Ma at M3.9).
-- **Gulf-style preset after AUD-3 (Hart et al. 1995 mud; D26.4), Windows node 26 / Linux node 22:** welds total 8 to 11 km / 6 to 8 km, longest run 2 to 3 km (band: 5 km total, a run of 2 km);
-  crests within 2 km of the seafloor: none in any run (the D18 crest target is dropped for this preset, D26.4); wedge still progrades (shelf edge 212 / 208 km at the end);
-  salt beyond 250 km up to 6.6 km (no-pile band 2 times the start); wavelength 10.4 to 12.3 km; crest log 16 buried crests, median F - A -277 ft/Myr on both platforms.
   - **Basinward edge fixed (D19).** At M3.9 salt piled 8 to 9 km thick against the closed 400 km edge. The preset now ends the salt basin at
     200/240 km (tuned); the thickest salt beyond 250 km is 5.0 km, the last 20 km hold none.
   - **Speed.** The 66 Myr Gulf run takes 5.0 to 5.1 s in Node; salt-off presets are within 5 % of main (best of three, interleaved).
+- **Gulf-style preset after AUD-3 (Hart et al. 1995 mud; D26.4), Windows node 26 / Linux node 22:** welds total 8 to 11 km / 6 to 8 km, longest run 2 to 3 km (band: 5 km total, a run of 2 km);
+  crests within 2 km of the seafloor: none in any run (the D18 crest target is dropped for this preset, D26.4); wedge still progrades (shelf edge 212 / 208 km at the end);
+  salt beyond 250 km up to 6.6 km (no-pile band 2 times the start); wavelength 10.4 to 12.3 km; crest log 16 buried crests, median F - A -277 ft/Myr on both platforms.
 - Views (M3.5): pink salt in every colour mode, a Salt thickness mode, weld and cover marks with (i) buttons, a salt-aware pseudo-well; checked in the built file at 100, 125 and 150 % scaling with 0 console errors.
 - **Two salt presets:** *Gulf-style: wedge over salt (66 Ma)* and *Salt: uneven cover (10 Myr)*. The second is a teaching toy (under 1 s): its section is over-filled and its structures are 1 to 2 cells wide.
 
