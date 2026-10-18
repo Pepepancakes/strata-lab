@@ -59,7 +59,11 @@ details.group > summary { display: flex; align-items: center; gap: 6px; min-heig
 .changed-dot { display: inline-block; width: 8px; height: 8px; margin-right: 5px; border-radius: 50%; background: #5c8fc8; vertical-align: middle; }
 /* Wide layout: the controls column scrolls on its own so the section, pseudo-well and right column stay on screen. */
 @media (min-width: 1101px) { .controls { position: sticky; top: 6px; max-height: calc(100vh - 12px); overflow-y: auto; } }
-/* M3b.2: the crest table is wide, so its view takes a whole row of the pseudo-well region */
-.well > .view:has(.crest-panel) { flex: 1 1 100%; }
+/* UI-2 (D25): the crest list sits at the top of the right column, beside the section; it scrolls inside (about 10 rows of 44 px) */
+.crest-scroll { max-height: 480px; overflow: auto; border: 1px solid #2a323c; border-radius: 4px; }
+.crest-scroll thead th { position: sticky; top: 0; z-index: 1; background: #1b222b; }
+.crest-card { margin-top: 8px; border: 1px solid #2a323c; border-radius: 4px; padding: 6px 8px; }
+.crest-card h3 { margin: 2px 0 4px; font-size: 13px; }
+.crest-fields { margin: 0; } .crest-fields > div { display: flex; justify-content: space-between; gap: 8px; padding: 1px 0; } .crest-fields dt, .crest-fields dd { margin: 0; }
 table.crest-table th, table.crest-table td { white-space: nowrap; } table.crest-table td.cause { text-align: left; }
 table.crest-table th button { cursor: pointer; }

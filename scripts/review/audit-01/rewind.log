@@ -1,0 +1,7 @@
+# Check 3d: snapshot / restore vs uninterrupted, with every later state on
+saltshort + MTDs + thermal + cement, unbundled: steps 66->133 of 200; hash straight 899b33887c4eb73d replay 899b33887c4eb73d IDENTICAL; events 75 vs 75; max|dWeldAge| 0; max|dTemp| 0; max|dLd| 254919.07811977284 (in cells that hold sediment: 0)
+  one more step after the replay: IDENTICAL to a fresh run
+gulf schedule shortened (20 Myr at 100 kyr), bundled x20, salt + thermal + cement + MTDs: steps 66->133 of 200; hash straight 6c02bccd361a3f74 replay 6c02bccd361a3f74 IDENTICAL; events 3 vs 3; max|dWeldAge| 0; max|dTemp| 0; max|dLd| 0 (in cells that hold sediment: 0)
+  one more step after the replay: IDENTICAL to a fresh run
+miocene shortened (10 Myr at 50 kyr), bundled x10, thermal + cement: steps 66->133 of 200; hash straight c9474d001a65e44d replay c9474d001a65e44d IDENTICAL; events 0 vs 0; max|dWeldAge| 0; max|dTemp| 0; max|dLd| 0 (in cells that hold sediment: 0)
+  one more step after the replay: IDENTICAL to a fresh run

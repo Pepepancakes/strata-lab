@@ -299,8 +299,18 @@ What coarse steps can and cannot show:
   glacial cycles to show even with fine steps.
 - To keep long runs fast, the preset runs use **bundled deep compaction**: old layers are
   consolidated once every 10 or 20 steps, with the summed time. This is a numerical saving, not
-  physics. It was measured against the full solve (about 0.25 % of the thickness on the Miocene
-  preset and 0.8 % on the Cenozoic one; see `docs/physics-references.md`). The layer record still holds every layer.
+  physics. On prescribed deposition (three columns, no transport) it matched the full solve to about
+  0.25 % of the thickness on the Miocene preset and 0.8 % on the Cenozoic one; see
+  `docs/physics-references.md`. **On the coupled presets the pressures are less exact.** The audit
+  (AUDIT-1, `scripts/review/audit-01/bundle.log`) ran each preset bundled and with `bundleEvery = 1`.
+  Miocene: the largest excess pressure is 11.2 MPa bundled against 8.4 MPa (25 % of the bundled value) and the mean 0.49
+  against 0.29 MPa (40 %); at about 10,000 ft
+  below the sea floor the pore pressure reads 10.02 against 9.36 ppg (column 80) and 10.39 against
+  9.63 ppg (column 100). Gulf-style: the 1 ppg at column 250 (9.93 against 8.95 ppg) was measured before AUD-3 (North Sea mud) and has not been re-measured; the table in the well window, measured again with the Hart mud, gives a largest difference of 8.7 ppg (it was 13.1 ppg), found at column 71 about 12,700 ft below the sea floor (Windows, Node 26). The pseudo-well
+  and planned-well plots show a yellow note with the largest difference found on that preset
+  (`scripts/gen-bundle-table.mjs` measures it, with the 99th percentile; it is also written into the PNG and CSV exports). To read
+  pressures with full accuracy, set **bundleEvery** to 1 under Controls (the run is then several times
+  slower). The layer record still holds every layer.
 - Use the long presets to see where sand and mud go over millions of years, not to read
   precise pressures at a fixed depth.
 
@@ -350,7 +360,10 @@ same datum as the planned well (air gap 80 ft by default, or the air gap of the 
 has four tracks:
 1. **Pressure, ppg EMW**: pore pressure (red), overburden (black) and hydrostatic (blue dashed),
    on a 6 to 20 ppg scale. Where red moves right of blue, the well is overpressured. If it
-   approaches black, the pore fluid is carrying nearly all the load.
+   approaches black, the pore fluid is carrying nearly all the load. A **yellow dot** on the red
+   line marks a cell where the model has *capped* the pore pressure at the overburden (the water
+   carries the whole load). The model has no leak-off, so a capped cell is a warning, not a
+   prediction; the sentence under the plot counts them.
 2. **Porosity**, 0 to 0.7.
 3. **Temperature, °F**. A purple line marks where **Temperature where cementation starts** is
    crossed, and the depth where it happens is labelled. If cement is off the label says
@@ -421,6 +434,27 @@ default: K = Poisson's ratio / (1 - Poisson's ratio), 0.67 at a ratio of 0.40. *
 (1967)** uses a stress ratio, 0.60 here. Each uses one number for every depth, and both numbers
 are tuned, not read from the papers' depth charts, so the two lines lie close together and
 neither is a calibrated field curve.
+
+**Limits of the pressures** (also printed under the plot): one vertical column at a time (1D
+drainage, no sideways flow, no leak-off); disequilibrium compaction is the only source of
+overpressure; the mud permeability is tuned, not measured; the shale pressure is used for sands too
+(no centroid effect); pore pressure is capped at the overburden; and, with the heat model off, the pore water is taken at 68 F
+(20 C) viscosity, which is thicker than water at depth, so the real overpressure would be lower.
+With the heat model on (Temperature on under Controls) the water viscosity follows each cell's
+temperature (IAPWS 2008 water, no pressure or salinity effect): thinner at depth, so overpressure is
+lower there, but thicker than the 68 F value in cold sea-floor mud, so shallow slope mud drains
+more slowly than with the heat model off.
+On the Gulf-style preset the mud uses Gulf shale coefficients (Hart, Flemings and Deshpande 1995, p. 46:
+surface porosity 0.40, compaction 3.68e-2 per MPa), but the sand is still the North Sea curve and the
+permeability is tuned. That fit comes from the shallow, hydrostatic part (under 4,900 ft, 1,500 m) of one
+well, so using it at 8,000 to 12,000 ft is an extrapolation; the paper also shows a second curve (7.2e-2 per
+MPa) that matches pressures at depth. The overburden still reads low: the **Physics checks** panel compares
+the pseudo-well overburden with the Traugott (1997) deep-water Gulf regional trend and shows the gap, which
+with the Hart mud is 1.1 ppg at column 150 and 0.8 to 0.9 ppg at column 250 (about 1.7 and 1.3 ppg with the
+North Sea mud; medians of four runs, Windows and Linux agree to 0.02 ppg). At 10,000 ft below the sea floor the
+pore pressure at column 150 is about 15.2 ppg (it was 12.7). The number of cells where the pore pressure was
+held at the overburden also rose, from about 16,000 to 36,000 (Windows) or 48,000 (Linux). Where the window is
+zero or negative (red), look for yellow dots: in this model the pore pressure has usually just hit the cap.
 
 **Limits of the planned well** (read before trusting a plot):
 - The well is in the plane of the section (2D). There are no S-shaped or sideways wells.
@@ -750,7 +784,8 @@ limit), a 984 ft (300 m) older cover with 50 % seeded unevenness (seed 2), salt 
 viscosity 1e19 Pa s, supply 28 m²/yr, only 10 % of it routed as turbidity currents, a weld threshold of 328 ft
 (100 m), and the bundled sea-level curve. A wedge builds out across the salt. It takes about 5 s to run on the
 development machine. The values were found by sweeping them against targets written down in advance (decisions
-D18 and D19). They are all tuned and not matched to any field. Whether it looks like Gulf salt is for you to
+D18 and D19). They are all tuned and not matched to any field, except the mud compaction, which uses the Gulf
+shale fit of Hart et al. (1995, p. 46; AUD-3) and moved the results below. Whether it looks like Gulf salt is for you to
 judge, and 14.5 says plainly what it does and does not show.
 
 *Salt: uneven cover (10 Myr)* is a **teaching toy**, not a Gulf section. It runs in under a second and shows
@@ -787,8 +822,9 @@ of the salt and starts again below its base, because salt has no pore fluid; a n
 A well through a welded column shows the weld, its age and the salt that is left.
 Tap the (i) buttons for what each mark means.
 
-**Salt crests (M3b.2).** Below the pseudo-well, the **Salt crests** table lists each salt crest that came within
-1,640 ft of the seafloor, and markers on the section show them. Section 14.7 explains how to read them.
+**Salt crests (M3b.2, UI-2).** At the top of the right-hand column, beside the section, the **Salt crests** list
+shows each salt crest that came within 1,640 ft of the seafloor, and markers on the section show them. Click a row
+to see the crest on the section at once. Section 14.7 explains how to read them.
 
 ### 14.5 What the Gulf-style preset gives
 These are numbers from one run on the development machine (Node 26, Windows); they are the model's
@@ -796,25 +832,29 @@ output, not data. Another machine can move single structures a little (section 1
 the run, with structures counted when their relief is at least 300 m (984 ft):
 - The wedge keeps building out: the shoreline moves from about 54 km at 56 Ma to over 200 km near the end
   (checked by the tests).
-- **Welds** (salt thinner than 100 m where it was thicker before) are real: about 12 to 20 km of weld in total
-  in the run and in six repeats with 1-ulp noise, in runs of up to 3 or 4 km, under the shelf and the ramp the
-  wedge crossed. **But where they are, and how long each run is, moves with a last-digit change in the maths.**
-  Treat the places as examples, not predictions, and do not quote one weld length. The tests ask only for a total
-  of 8 km or more and one run of 2 km or more. The thinnest salt left in a weld column is a few tens of metres;
-  thin-sheet flow slows as the cube of the thickness, so it never reaches zero.
-- **Crests**: two to five salt highs (five in the plain run, between about km 286 and 323) have their tops
-  within 2 km of the seafloor and well away from the section edge. The shallowest still has about 4,240 ft
-  (1.3 km) of sediment over it, so none reaches the seafloor. They are bumps of 300 to 850 m on a flat salt
-  slab about 5 km thick, shaped by the seeded unevenness of the cover. They are not diapirs. The run meets the
-  written target (a crest within 2 km of the seafloor) by the letter only. Diapirs that reach the seafloor and
-  stay there need new physics (spike S3, then milestone M3b).
+- **Welds** (salt thinner than 100 m where it was thicker before) are real but thinner than before the mud change
+  (AUD-3): about 8 to 11 km of weld in total on Windows and 6 to 8 km on Linux (the plain run and three 1-ulp
+  repeats), in runs of 2 to 3 km, under the shelf and the ramp the wedge crossed. They were 12 to 20 km in
+  runs of up to 3 or 4 km with the North Sea mud. **But where they are, and how long each run is, moves with a
+  last-digit change in the maths.** Treat the places as examples, not predictions, and do not quote one weld
+  length. The tests ask only for a total of 5 km or more and one run of 2 km or more. The thinnest salt left
+  in a weld column is a few tens of metres; thin-sheet flow slows as the cube of the thickness, so it never
+  reaches zero.
+- **Crests**: with the Gulf shale mud there are **no** salt highs with tops within 2 km of the seafloor and
+  well away from the section edge, in any run (Windows and Linux, plain and noise runs). With the North Sea mud
+  there were two to five, 300 to 850 m bumps of the seeded cover unevenness on a flat salt slab; they were not
+  diapirs, and John accepted losing them as a measured result of the cited compaction change (decision D26.4).
+  The D18 target (a crest within 2 km of the seafloor) is dropped for this preset. Diapirs that reach the
+  seafloor and stay there need new physics (spike S3, then milestone M3b). The crest log of section 14.7 still
+  finds 16 buried crests (it follows highs from the beginning, when they were near the seafloor).
 - **The salt basin has its own end.** Before the basin limit was added, the salt pushed basinward piled up against
   the closed end of the section, 8 to 9 km thick, and the earlier "crests" were ripples on that pile. Now the
-  salt starts out between 10 and 240 km, flows about 115 km past its limit, stops about 45 km short of the end of
-  the section and is 5 km thick at most.
-- Spacing: the dominant wavelength of the salt thickness is about 13 to 14 km and holds within a few per cent
-  when the columns are made narrower. The counts of highs and minibasins and their spacing do **not** hold
-  (4 against 5 highs, 16 against 17.6 km spacing at 1,000 and 500 m), so do not trust a count.
+  salt starts out between 10 and 240 km, flows about 100 km past its limit, stops about 60 km short of the end of
+  the section and is 6.4 to 6.6 km thick at most (it was 5 km with the North Sea mud; the no-pile test now allows
+  twice the start thickness).
+- Spacing: the dominant wavelength of the salt thickness is about 10 to 12 km (Windows; it was 13 to 14 km). On
+  a 200 km section it is 34 to 38 km and the two grids still agree within 15 %. The counts of highs and
+  minibasins and their spacing do **not** hold, so do not trust a count.
 - Total salt is conserved to about 1e-14 (relative), with nothing clipped.
 
 If this does not look like Gulf salt to you, that is a finding; say what is wrong. The model has no
@@ -875,6 +915,9 @@ measurements (docs/physics-references.md, M3b.1).
   top the ratio means nothing, and the cell is empty). Near 1, the crest and its flanks keep pace; well above 1,
   the sediment is winning.
 - Both rates are least-squares slopes over a window of 1 Myr. They are not a single before-and-after pair.
+- The model has no dissolution. A crest that stays at the seafloor would in nature lose some salt to dissolution,
+  which the model does not have, so F is the whole net rise (the burial rule of VJ92a p. 347 uses F minus the
+  dissolution rate).
 
 **The two windows.** The table shows the *near* window: the last 1 Myr of the time the crest was within 1,640 ft of
 the seafloor. This is the rate while the crest was still near the surface. The CSV also has the *burial* window:
@@ -886,18 +929,29 @@ the new fill is pushing the salt top down. The burial numbers are usually more n
 rising salt body (GR12 p. 20). When the sediment builds up slower than the salt rises (A below F) the sequence is
 *tabular*. When it builds up faster (A above F) the sequence is *tapered*. If F and A differ by less than
 82 ft/Myr (25 m/Myr) the label is *unresolved*: that difference is what 1 ulp of maths noise moves the same crest
-by, so it cannot be told from noise (a tuned floor). One thing to keep in mind: GR12 name the kinds from the
+by, so it cannot be told from noise (a tuned floor). F and A are absolute rates, the rise of the salt top and of the
+seafloor in elevation. GR12 (p. 19) define rise relative to the minibasin subsidence plus differential compaction.
+If the flank subsides by the same rate as the crest, both rates shift by that rate and F - A does not change, so the
+label rule carries over; if the salt top sinks differently from the flank, it does not. One thing to keep in mind: GR12 name the kinds from the
 shape of the strata (hook and wedge sequences, fold zones of 50 to 1,000 m wide, p. 8). The grid here is 1,000 m wide,
 so it **cannot show hooks and wedges**. The label comes from the two rates only, and says nothing about
 the strata themselves.
 
-**The table.** Columns: *Crest* (its number), *x* (km, where the crest was at its last record), *First* and
-*Last* (Ma), *At seafloor* (Myr with the cover under 2 m; 0 for every Gulf crest), *F*, *A*, *F - A* and *A/F* (near
+**The list and the card.** The list at the top of the right-hand column has four columns: *Crest* (its number),
+*Label* (a shape and a word), *F - A* (ft/Myr, near window) and *Last record* (Ma). It shows about ten rows and
+scrolls inside; the column heads stay in view and sort the list (empty cells sort last). Rows are grey when the
+crest is not active at the time shown. Click a row, or a marker on the section, to select the crest: the time slider
+moves to the crest's last record, its marker gets a ring and the **pseudo-well moves to the crest's column**. A
+planned well is not moved; the card says so. Click the row again to clear the selection (the pseudo-well stays).
+Under the list, the card of the selected crest gives: *Position* (km, at the last record), *Followed from / to*
+(Ma), *Time at the seafloor* (Myr with the cover under 2 m; 0 for every Gulf crest), *F*, *A* and *A/F* (near
 window), *Label*, *Salt beside* (ft, the mean salt thickness 10 km either side at the last record), *L/h* (the
 distance to the nearest column without salt, divided by that mean salt thickness: how many salt thicknesses of
-flow the crest has behind it) and *How it ended*. Click a column head to sort; empty cells sort last. Click a row
-to move the time slider to the crest's last record. Rows are grey when the crest is not active at the time shown.
-Under the table a note gives the number of candidate highs that were merged into an older crest, when there are any.
+flow the crest has behind it) and *How it ended*. With nothing selected the card says how to select. The two
+export buttons are on the card. *Last record* is the age of the last record the log followed. It can be one or two
+records after the cover passed 1,640 ft, so it can be younger than the burial age that *How it ended* gives (a
+crest can read "Last record 57.30 Ma, buried at 57.40 Ma"). A note under the card gives the number of candidate
+highs that were merged into an older crest, when there are any.
 
 **The markers.** On the section a marker stands on the seafloor at each crest active at the time shown. The shape
 carries the label, not the colour: a triangle up with T is tabular, a triangle down with P is tapered, a diamond
@@ -917,22 +971,33 @@ The records file has `crest_id`, `record_step`, `age_ma`, `time_myr`, `x_km`, `s
 `salt_thickness_ft`, `cover_ft`, `seafloor_depth_ft` and `flank_seafloor_depth_ft`. The table, the markers and both
 files read the same rows, so the numbers agree.
 
-**Worked example, Gulf-style preset (plain run, Windows, Node 26).** The run gives 13 crests. Crest 5 is at
-km 187.5. It first appears at 65.9 Ma, is near the seafloor for 7.9 Myr and is last near it at 57.8 Ma, then buried.
-In the near window its salt top rose at F = 182 ft/Myr (55 m/Myr) while the seafloor beside it built up at
-A = 371 ft/Myr (113 m/Myr). So F - A = -189 ft/Myr (-58 m/Myr), A/F = 2.0 and the label is *tapered*: the
-flanks gained on the crest at about twice its rise rate, and the difference is well past the 82 ft/Myr floor. The
-burial window gives F - A = -174 ft/Myr, also tapered. There was about 16,540 ft (5,040 m) of salt beside it and
-L/h = 10, so the salt was not short of supply; this agrees with SALT-R2, which reads the burial of crests as
-more likely a limit of the thin-sheet flow than a lack of salt (medium confidence).
-- **Do not read a single crest as a result.** Crest 11 (km 203.5) has F - A = -15 ft/Myr, inside the floor, so it is
-  *unresolved*. Which crests are tabular, tapered or unresolved moves with 1 ulp of maths noise, and the numbers
+**Worked example, Gulf-style preset (plain run).** The run gives 16 crests on Windows Node 26 and on Linux Node 22,
+and 16 in the built file in Chrome. Crest 5 is at km 187.5 on all three. On Windows Node 26 it first appears at
+65.9 Ma, is followed to a last record at 52.5 Ma and is then buried (52.6 Ma). In the near window its salt top
+rose at F = 51 ft/Myr (16 m/Myr) while the seafloor beside it built up at A = 150 ft/Myr (46 m/Myr). So
+F - A = -99 ft/Myr (-30 m/Myr), A/F = 2.9 and the label is *tapered*: the flanks gained on the crest at about
+three times its rise rate, and the difference is past the 82 ft/Myr floor. The burial window gives
+F - A = -121 ft/Myr, also tapered. There was about 18,240 ft (5,560 m) of salt beside it and L/h = 12, so the
+salt was not short of supply; this agrees with SALT-R2, which reads the burial of crests as more likely a limit
+of the thin-sheet flow than a lack of salt (medium confidence).
+- **Which platform each number is from (M3b.4 N-1).** The numbers above are Windows Node 26. The same crest on
+  Linux Node 22 has F - A = -101 ft/Myr (-30.7 m/Myr), tapered. In the built file in Chrome (Windows) the list
+  row shows -98 ft/Myr, tapered, so for this crest the three agree to a few ft/Myr and the label is the same.
+  That is not guaranteed: single crests move with the maths library (with the North Sea mud the same crest was
+  *tapered* in Node and *unresolved* in Chrome). Read the list in your own browser; do not expect the guide's
+  digits.
+- **Do not read a single crest as a result.** Crest 11 (km 175.5) has F - A = -130 ft/Myr on Windows and
+  -131 ft/Myr in Chrome (*tapered*); a crest with |F - A| under 82 ft/Myr is *unresolved* (2 to 3 of the 16 in
+  the plain run). Which crests are tabular, tapered or unresolved moves with 1 ulp of maths noise, and the numbers
   differ between machines.
-- **Quote the middle of all crests.** Over all crests of 7 runs on each platform (the plain run and six with 1 ulp
-  noise), the median near-window F - A is -232 ft/Myr (-71 m/Myr) on Windows Node 26 and -337 ft/Myr (-103 m/Myr)
-  on Linux Node 22. The median A is 360 to 380 ft/Myr on both. Across all 14 runs 125 crests are tapered, 58
-  unresolved and only 1 tabular, so the Gulf-style preset shows crests buried by their flanks, not crests that keep
-  up. That is expected geology for a buried diapir; the log reports it and does not try to change it.
+- **Quote the middle of all crests, and the range, not a platform difference (N-2).** Over all crests of 7 runs
+  on each platform (the plain run and six with 1 ulp noise), the median near-window F - A is -277 ft/Myr
+  (-84.5 m/Myr) on both Windows Node 26 and Linux Node 22, and the median A is 245 and 249 ft/Myr. The median of
+  one run moves from -193 to -288 ft/Myr on Windows and from -208 to -287 ft/Myr on Linux depending only on the
+  noise seed, so the spread between seeds is as big as any difference between platforms; none is claimed. Across
+  all 14 runs 197 of 227 crests are tapered, 25 unresolved and only 5 tabular, so the Gulf-style preset shows
+  crests buried by their flanks, not crests that keep up. That is expected geology for a buried diapir; the log
+  reports it and does not try to change it.
 
 ## 15. Known limits
 - **Same results on the same machine, not on every machine.** On one browser the same inputs give

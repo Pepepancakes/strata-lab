@@ -1,0 +1,5 @@
+# Check 3e: salt off, salt parameters changed: the hash must not move
+  last3 with {"saltThick":4000,"saltVisc":10000000000000000,"coverUneven":0.5,"coverSeed":7,"coverThick":1000,"weldThick":100,"coverVisc":1e+22,"saltK0":1}: IDENTICAL
+  last3 with {"saltOn":0,"coverBend":0,"nSaltSub":1}: IDENTICAL
+  mtd with salt params changed: IDENTICAL
+  last3 thermal+cement with salt conductivity changed: IDENTICAL

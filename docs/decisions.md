@@ -268,6 +268,19 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      will move, so a salt review follows.
   5. Order: labels and checks (no physics change), then viscosity, then the Gulf coefficients and a salt re-check, then
      the full-accuracy switch, then one integrity review of the batch. Card code reaches main only after John's check.
+  6. **D26.4 outcome (AUD-3; John, 2026-10-17: "A").** The Gulf preset's mud now uses Hart, Flemings and Deshpande (1995,
+     p. 46: phi0 0.40, beta 3.68e-8 /Pa); sand stays North Sea (the paper gives shale only). Measured result, medians of
+     four runs (plain and 1 ulp noise salts 7, 11, 13), Windows node 26 / Linux node 22: the Traugott gap at column 150
+     falls 1.73 -> 1.15 / 1.14 ppg (about a third of it); pore pressure at 10,000 ft rises 12.7 -> 15.2 ppg; the
+     overburden-cap count **rises** 15.6k -> 36.1k (Windows), 16.1k -> 48.2k (Linux); welds total 16 -> 8.5 km (Windows),
+     7.5 km (Linux); salt beyond 250 km reaches 6.4 to 6.6 km (was 5.0). **D18's shallow-crest target is dropped for the
+     Gulf preset as a measured result of the cited compaction change:** crests within 2 km of the seafloor go from 4 to 0 in
+     every run on both platforms. The old 2 to 5 were 300 to 850 m cover ripples over the light, over-porous mud, not
+     diapirs. Diapirs at the seafloor are left to S3 and M3b work. Nothing was retuned to bring them or the cap count
+     back. The tests assert the new bands (weld total 5 km or more and a run of 2 km or more, no-pile limit 2 times the
+     start thickness, no crest count; any crest that exists is under the seafloor and obeys the 20 km rule).
+     `ENGINE_VERSION` is 3 (a saved Gulf run replays with the new mud). The overburden-cap count is for AUD-4 and AUD-6
+     to read against F-3b (the leak-off limit, later).
 
 - **D27. The AUD-3 answer, and a Fable round on three tracks (John, 2026-10-17 evening: "A", then "go with your picks").**
   1. AUD-3 (D26.4), option A: the Gulf preset keeps the Hart, Flemings and Deshpande (1995, p. 46) Gulf shale coefficients

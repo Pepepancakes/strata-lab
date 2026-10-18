@@ -276,6 +276,17 @@ b9d410d6, f2e2fd2c). `git diff main -- src/engine` is three new files and no edi
   gradient against the Eaton formula to 3.5e-8 relative, compare CSV has one block per branch, 0 console errors, 0 external requests).
 - Labels: the planned-well labels are listed in `tests/docs.test.ts` (`APP_STRINGS`), so the guide and the app source are checked against each other.
 
+## AUD-2 pore-water viscosity (2026-10-17)
+Branch `strata-lab/aud-02-viscosity` (stacked after `aud-01-labels-checks`). Details: `docs/physics-references.md` ("Pore-water viscosity follows temperature").
+- `ENGINE_VERSION` is now **2**: with `thermal` = 1, compaction uses mu(T) per cell, so saved heat-on runs replay differently. Heat-off runs and
+  every preset (none has the heat model on) are unchanged; the goldens and fixtures did not move.
+- **Trap: with the heat model on, sea-floor mud is MORE viscous than the old fixed 20 C value** (mu 1.5 to 1.8 mPa s at 0 to 5 C), so shallow cold
+  sediment drains more slowly than a heat-off run, while deep sediment drains faster. On the MTD preset with heat on this gives more slope failures,
+  not fewer (numbers in the AUD-2 handoff). Do not compare a heat-on run to a heat-off run and read the difference as "heat".
+- **Trap: `eng.temp` is a cache of the last thermal update** (every `thermalEvery` steps). `step()` writes the sea-floor temperature into the new layer
+  so compaction never reads an unset 0. Anything that adds a layer by another route must do the same when `thermal` = 1.
+- `scripts/review/aud-02/viscosity-runs.mjs <case...>` prints max u, max u/L, slides and pore pressure at 10,000 ft for the presets run with `thermal` = 1.
+
 ## M3b part 1 crest log (2026-10-17)
 Chain: `strata-lab/m3b-01-crest-log` -> `m3b-02-crest-view` -> `m3b-03-docs`. NOT on main; waiting for review (M3b.4) and John's check. Picks are D23 in
 `docs/decisions.md`; definitions, sources and tuned values are in `docs/physics-references.md` ("M3b.1 Crest log"); the user text is `docs/user-guide.md` 14.7.
@@ -309,3 +320,13 @@ analysis file and the side output that copies three arrays after each step.
 - **Trap: canvas size at display scaling.** The marker buttons use the canvas's own mapping, and the canvas backing store follows scaling (1123x360 at 100 %, 924x450 at 125 %,
   725x540 at 150 %, Gulf, Chrome on Windows). Checked in the built file at all three, 12 crest rows, no horizontal overflow, 0 console errors. Recheck after any layout change.
 - Labels: `Salt crests`, `Export crests (CSV)` and `Export crest records (CSV)` are listed in `tests/docs.test.ts` (`APP_STRINGS`), so the guide and the app source are checked against each other.
+
+## AUD-3 Gulf shale compaction (2026-10-17)
+Branch `strata-lab/aud-03-gulf-compaction` (stacked after `aud-02-viscosity`). Details: `docs/physics-references.md` ("AUD-3 Gulf shale compaction"), `docs/decisions.md` D26.4 outcome.
+- Gulf preset only: `phi0: [0.49, 0.40]`, `beta: [2.68e-8, 3.68e-8]` (Hart, Flemings and Deshpande 1995, p. 46). Other presets and registry defaults unchanged, so their `stateHash` is unchanged.
+  Gulf `stateHash` changed on purpose: Windows f2e2fd2c -> 12e30532, Linux 1ab55b6c -> c92d52e9. `ENGINE_VERSION` is now **3** (a saved Gulf run replays with the new mud).
+- **Trap: the Gulf preset has no crest count to test any more.** D18's shallow-crest target is dropped for it (D26.4); `tests/gulfPreset.test.ts` asserts only that any crest is under the seafloor and obeys the 20 km rule. Do not add a test on a crest count near zero.
+- **Trap: the wavelength margin is thin.** 400 km section: 10.4 to 12.3 km (Windows), band 8 to 25 km. 200 km section: 34 to 38 km, band 10 to 45 km.
+- **Trap: the overburden-cap count rose** (15.6k -> 36k Windows, 16k -> 48k Linux). Not tuned; AUD-4/AUD-6 read it against F-3b (leak-off limit).
+- `src/views/well/bundleTable.ts` was regenerated (`node scripts/gen-bundle-table.mjs`): Gulf worst bundled-versus-full difference 13.1 -> 8.7 ppg. Rerun it after any change to a bundled preset.
+- Scripts: `scripts/review/aud-03/gulf-compaction.mjs [north|hart]` (the before/after table), `crest-example.mjs` (the numbers in user guide 14.7). `scripts/review/m3b-a-browser.mjs 0` now takes the first crest in the list (the list has no km column since UI-2).

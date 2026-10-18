@@ -158,3 +158,36 @@ export const fmt = {
   one: (v: number): string => (Number.isFinite(v) ? v.toFixed(1) : '\u2013'),
   two: (v: number): string => (Number.isFinite(v) ? v.toFixed(2) : '\u2013'),
 }
+
+/**
+ * UI-2 (D25): the compact crest list beside the section. Four columns only; everything else is in the
+ * selected-crest card and the CSV. "Last record" is the age of the last record followed (M3b.4 N-3): it can be
+ * one or two records after the cover passed 1,640 ft, so it may be younger than the burial age.
+ */
+export const CREST_LIST_COLUMNS: { key: SortKey; head: string; unit: string }[] = [
+  { key: 'id', head: 'Crest', unit: '' },
+  { key: 'label', head: 'Label', unit: '' },
+  { key: 'fMinusAFtPerMyr', head: 'F \u2212 A', unit: 'ft/Myr' },
+  { key: 'lastAgeMa', head: 'Last record', unit: 'Ma' },
+]
+
+/** The cells of one list row as text, in the order of CREST_LIST_COLUMNS (the label is the word; the view adds the glyph). */
+export function listCells(r: CrestRow): string[] {
+  return [String(r.id), LABEL_TEXT[r.label], fmt.signed0(r.fMinusAFtPerMyr), fmt.two(r.lastAgeMa)]
+}
+
+/** The rows of the selected-crest card: [name, value], in ft, ft/Myr, km and Ma. */
+export function cardFields(r: CrestRow): [string, string][] {
+  return [
+    ['Position (last record)', `${fmt.one(r.xKm)} km`],
+    ['Followed from / to', `${fmt.two(r.firstAgeMa)} / ${fmt.two(r.lastAgeMa)} Ma`],
+    ['Time at the seafloor', `${fmt.two(r.atSeafloorMyr)} Myr`],
+    ['F (salt top rise)', `${fmt.signed0(r.fFtPerMyr)} ft/Myr`],
+    ['A (seafloor beside it)', `${fmt.signed0(r.aFtPerMyr)} ft/Myr`],
+    ['A/F', fmt.ratio(r.ratioAF)],
+    ['Label', LABEL_TEXT[r.label]],
+    ['Salt beside', `${fmt.num0(r.neighbourSaltFt)} ft`],
+    ['L/h', fmt.one(r.lOverH)],
+    ['How it ended', r.endText],
+  ]
+}

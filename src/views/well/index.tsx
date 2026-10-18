@@ -4,6 +4,8 @@ import { eventSentence, eventsAtCell } from '../events/format'
 import { ramp } from '../section/colors'
 import { BROKEN_PRESSURE_INFO, SALT_INFO, WELD_INFO, WhatItMeans } from '../WhatItMeans'
 import type { ViewDefinition } from '../types'
+import { CAP_MARKER_TEXT } from './audit'
+import { AuditNotes } from './notes'
 import { wellProfile, type WellPoint } from './profile'
 import { DEFAULT_AIR_GAP_FT } from '../../engine/well'
 import { ftToM } from '../../units'
@@ -78,6 +80,11 @@ function WellView() {
         <Track pts={pts} field="hydroEmw" x0={TRACKS[0].x} w={TRACKS[0].w} lo={emwLo} hi={emwHi} y={y} colour="#2b7bd6" dash="4 3" />
         <Track pts={pts} field="overburdenEmw" x0={TRACKS[0].x} w={TRACKS[0].w} lo={emwLo} hi={emwHi} y={y} colour="#222" />
         <Track pts={pts} field="poreEmw" x0={TRACKS[0].x} w={TRACKS[0].w} lo={emwLo} hi={emwHi} y={y} colour="#d1352b" breakAtSalt />
+        {pts.filter((p) => p.capped && p.poreEmw !== null).filter((_, k, a) => k % Math.max(1, Math.ceil(a.length / 40)) === 0).map((p) => (
+          <circle key={p.layer} data-testid="well-capped" cx={TRACKS[0].x + ((Math.max(emwLo, Math.min(emwHi, p.poreEmw as number)) - emwLo) / (emwHi - emwLo)) * TRACKS[0].w} cy={y(p.tvdssFt)} r={3} fill="#ffd400" stroke="#111" strokeWidth={1}>
+            <title>{CAP_MARKER_TEXT}</title>
+          </circle>
+        ))}
         <text x={TRACKS[0].x + 2} y={H - 8} fontSize={9} fill="#333">{emwLo}</text>
         <text x={TRACKS[0].x + TRACKS[0].w - 2} y={H - 8} fontSize={9} textAnchor="end" fill="#333">{emwHi}</text>
         {/* track 2: porosity */}
@@ -161,6 +168,7 @@ function WellView() {
           <line x1={530} x2={555} y1={50} y2={50} stroke="#d1352b" strokeWidth={2} /><text x={560} y={53} fill="#333">pore</text>
           <line x1={530} x2={555} y1={66} y2={66} stroke="#222" strokeWidth={2} /><text x={560} y={69} fill="#333">overburden</text>
           <line x1={530} x2={555} y1={82} y2={82} stroke="#2b7bd6" strokeWidth={2} strokeDasharray="4 3" /><text x={560} y={85} fill="#333">hydrostatic</text>
+          {prof.cappedCells > 0 ? <g><circle cx={542} cy={113} r={3} fill="#ffd400" stroke="#111" /><text x={560} y={117} fill="#333">capped</text></g> : null}
           {prof.saltIntervals.length ? <g><rect x={530} y={92} width={25} height={9} fill="rgb(232,150,170)" /><text x={560} y={101} fill="#333">salt</text></g> : null}
         </g>
       </svg>
@@ -181,6 +189,12 @@ function WellView() {
           ) : null}
         </div>
       ) : null}
+      {prof.cappedCells > 0 ? (
+        <p className="small" data-testid="well-capped-note">
+          {prof.cappedCells} cell{prof.cappedCells === 1 ? '' : 's'} in this column {prof.cappedCells === 1 ? 'is' : 'are'} capped at the overburden (yellow dots on the pore line; largest u / L {prof.maxUOverL.toFixed(3)}). {CAP_MARKER_TEXT}
+        </p>
+      ) : null}
+      <AuditNotes s={s} />
       <p className="mtdtip" data-testid="mtd-tip" aria-live="polite">{tip || (prof.mtdIntervals.length ? 'Hover a hatched interval to see its event.' : '')}</p>
       <p className="muted">Column {w.column + 1} at {w.ageMa.toFixed(2)} Ma. Click the section to move the well. Temperature is steady conduction (no burial transient).</p>
     </div>

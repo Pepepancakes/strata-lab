@@ -1,0 +1,101 @@
+# Check 5: what M4 reads, at the end of a run (SI from the record, ppg through src/units.ts)
+
+gulf: sea level -1.5 m, 0 events
+  largest u/L (share of buoyant load carried by excess pressure): 1.000 at col 345, 11467 ft below seafloor; largest u 15020 psi
+  col 150 (x 150 km): water depth 252 ft, surface -78 m, basement -12010 m
+    depth below seafloor (ft) | TVDSS (ft) | OBG ppg | hydro ppg | pore ppg | u/L | porosity | material
+          0 |     252 | 8.56 | 8.55 | 8.55 | 0.007 | 0.567 | sed
+        501 |     753 | 12.17 | 8.55 | 8.62 | 0.018 | 0.561 | sed
+       1003 |    1255 | 13.03 | 8.55 | 8.66 | 0.025 | 0.533 | sed
+       1998 |    2250 | 13.85 | 8.55 | 8.79 | 0.045 | 0.449 | sed
+       2889 |    3141 | 14.34 | 8.55 | 9.01 | 0.078 | 0.458 | sed
+       3999 |    4251 | 14.84 | 8.55 | 9.43 | 0.139 | 0.409 | sed
+       5002 |    5254 | 15.22 | 8.55 | 9.80 | 0.187 | 0.371 | sed
+       6013 |    6265 | 15.54 | 8.55 | 10.53 | 0.282 | 0.351 | sed
+       8004 |    8256 | 16.03 | 8.55 | 11.74 | 0.426 | 0.326 | sed
+      10005 |   10257 | 16.36 | 8.55 | 12.75 | 0.538 | 0.317 | sed
+      11922 |   12174 | 16.59 | 8.55 | 13.43 | 0.607 | 0.308 | sed
+      15014 |   15266 | 16.87 | 8.55 | 14.18 | 0.677 | 0.294 | sed
+      19991 |   20243 | 17.18 | 8.55 | 15.06 | 0.755 | 0.286 | sed
+      37965 |   38217 | 17.93 | 8.55 |   -   |   -   | 0.000 | salt
+  col 250 (x 250 km): water depth 2824 ft, surface -862 m, basement -7687 m
+    depth below seafloor (ft) | TVDSS (ft) | OBG ppg | hydro ppg | pore ppg | u/L | porosity | material
+          3 |    2828 | 8.56 | 8.55 | 8.55 | 0.064 | 0.630 | sed
+        500 |    3324 | 9.35 | 8.55 | 8.61 | 0.065 | 0.602 | sed
+        999 |    3823 | 9.98 | 8.55 | 8.66 | 0.074 | 0.566 | sed
+       2000 |    4825 | 10.98 | 8.55 | 8.79 | 0.097 | 0.514 | sed
+       2996 |    5821 | 11.76 | 8.55 | 8.97 | 0.129 | 0.460 | sed
+       3995 |    6820 | 12.41 | 8.55 | 9.20 | 0.168 | 0.418 | sed
+       4998 |    7822 | 12.96 | 8.55 | 9.47 | 0.208 | 0.378 | sed
+       5995 |    8820 | 13.44 | 8.55 | 9.72 | 0.238 | 0.344 | sed
+       8005 |   10830 | 14.27 | 8.55 | 9.99 | 0.251 | 0.287 | sed
+      15704 |   18528 | 15.87 | 8.55 |   -   |   -   | 0.000 | salt
+  col 320 (x 320 km): water depth 4811 ft, surface -1468 m, basement -7607 m
+    depth below seafloor (ft) | TVDSS (ft) | OBG ppg | hydro ppg | pore ppg | u/L | porosity | material
+          0 |    4812 | 8.55 | 8.55 | 8.55 | 0.000 | 0.620 | sed
+        498 |    5310 | 9.09 | 8.55 | 8.55 | 0.000 | 0.548 | sed
+        968 |    5779 | 9.68 | 8.55 | 8.56 | 0.005 | 0.351 | sed
+       2000 |    6812 | 10.88 | 8.55 | 8.58 | 0.011 | 0.322 | sed
+       3012 |    7823 | 11.78 | 8.55 | 8.60 | 0.013 | 0.309 | sed
+       3986 |    8797 | 12.49 | 8.55 | 8.61 | 0.014 | 0.272 | sed
+       5004 |    9816 | 13.13 | 8.55 | 8.63 | 0.016 | 0.232 | sed
+       6002 |   10813 | 13.70 | 8.55 | 8.64 | 0.017 | 0.192 | sed
+      13675 |   18486 | 15.59 | 8.55 |   -   |   -   | 0.000 | salt
+
+mtd: sea level -1.5 m, 24 events
+  largest u/L (share of buoyant load carried by excess pressure): 0.463 at col 20, 92 ft below seafloor; largest u 1104 psi
+  col 60 (x 60 km): water depth 182 ft, surface -57 m, basement -1701 m
+    depth below seafloor (ft) | TVDSS (ft) | OBG ppg | hydro ppg | pore ppg | u/L | porosity | material
+          9 |     191 | 8.79 | 8.55 | 8.55 | 0.004 | 0.619 | sed
+        501 |     683 | 12.85 | 8.55 | 8.57 | 0.004 | 0.575 | sed
+       1089 |    1271 | 13.92 | 8.55 | 8.58 | 0.004 | 0.489 | sed
+       1989 |    2171 | 14.67 | 8.55 | 8.59 | 0.006 | 0.471 | sed
+       2992 |    3174 | 15.15 | 8.55 | 8.67 | 0.018 | 0.418 | sed
+       4001 |    4183 | 15.54 | 8.55 | 8.85 | 0.042 | 0.374 | sed
+       5086 |    5268 | 15.98 | 8.55 | 9.41 | 0.116 | 0.243 | sed
+  col 80 (x 80 km): water depth 253 ft, surface -78 m, basement -2070 m
+    depth below seafloor (ft) | TVDSS (ft) | OBG ppg | hydro ppg | pore ppg | u/L | porosity | material
+          7 |     260 | 8.70 | 8.55 | 8.56 | 0.042 | 0.611 | sed
+        507 |     760 | 12.79 | 8.55 | 8.64 | 0.021 | 0.519 | sed
+       1013 |    1265 | 13.67 | 8.55 | 8.74 | 0.036 | 0.472 | sed
+       1998 |    2250 | 14.52 | 8.55 | 8.95 | 0.067 | 0.453 | sed
+       3007 |    3260 | 14.95 | 8.55 | 9.70 | 0.179 | 0.457 | sed
+       4005 |    4257 | 15.23 | 8.55 | 10.43 | 0.282 | 0.427 | sed
+       5002 |    5255 | 15.48 | 8.55 | 10.85 | 0.332 | 0.398 | sed
+       6206 |    6459 | 15.84 | 8.55 | 11.70 | 0.432 | 0.243 | sed
+  col 100 (x 100 km): water depth 1369 ft, surface -419 m, basement -2208 m
+    depth below seafloor (ft) | TVDSS (ft) | OBG ppg | hydro ppg | pore ppg | u/L | porosity | material
+         13 |    1381 | 8.62 | 8.55 | 8.55 | 0.000 | 0.490 | sed
+        500 |    1869 | 10.03 | 8.55 | 9.03 | 0.318 | 0.517 | sed
+       1002 |    2370 | 10.99 | 8.55 | 9.37 | 0.335 | 0.582 | sed
+       1995 |    3364 | 12.11 | 8.55 | 9.72 | 0.328 | 0.523 | sed
+       3000 |    4369 | 12.87 | 8.55 | 9.90 | 0.313 | 0.489 | sed
+       3999 |    5368 | 13.47 | 8.55 | 9.95 | 0.284 | 0.421 | sed
+       5003 |    6372 | 13.97 | 8.55 | 9.95 | 0.258 | 0.388 | sed
+
+last3: sea level -1.5 m, 0 events
+  largest u/L (share of buoyant load carried by excess pressure): 0.148 at col 69, 5512 ft below seafloor; largest u 302 psi
+  col 60 (x 60 km): water depth 307 ft, surface -95 m, basement -1701 m
+    depth below seafloor (ft) | TVDSS (ft) | OBG ppg | hydro ppg | pore ppg | u/L | porosity | material
+          0 |     307 | 8.55 | 8.55 | 8.55 | -0.001 | 0.630 | sed
+        506 |     813 | 12.43 | 8.55 | 8.55 | -0.000 | 0.519 | sed
+        985 |    1292 | 13.44 | 8.55 | 8.55 | -0.001 | 0.486 | sed
+       1988 |    2295 | 14.43 | 8.55 | 8.55 | -0.001 | 0.469 | sed
+       3001 |    3307 | 14.99 | 8.55 | 8.55 | -0.001 | 0.421 | sed
+       4000 |    4307 | 15.42 | 8.55 | 8.55 | 0.000 | 0.363 | sed
+       4961 |    5268 | 15.86 | 8.55 | 8.61 | 0.008 | 0.243 | sed
+  col 80 (x 80 km): water depth 2673 ft, surface -816 m, basement -2070 m
+    depth below seafloor (ft) | TVDSS (ft) | OBG ppg | hydro ppg | pore ppg | u/L | porosity | material
+         10 |    2682 | 8.57 | 8.55 | 8.55 | 0.014 | 0.590 | sed
+        504 |    3177 | 9.43 | 8.55 | 8.57 | 0.024 | 0.597 | sed
+       1002 |    3674 | 10.12 | 8.55 | 8.60 | 0.028 | 0.564 | sed
+       2002 |    4675 | 11.16 | 8.55 | 8.66 | 0.041 | 0.505 | sed
+       2998 |    5670 | 11.97 | 8.55 | 8.70 | 0.044 | 0.440 | sed
+       3786 |    6459 | 12.63 | 8.55 | 8.77 | 0.052 | 0.243 | sed
+  col 100 (x 100 km): water depth 3576 ft, surface -1091 m, basement -2208 m
+    depth below seafloor (ft) | TVDSS (ft) | OBG ppg | hydro ppg | pore ppg | u/L | porosity | material
+          3 |    3579 | 8.56 | 8.55 | 8.55 | 0.045 | 0.630 | sed
+        499 |    4075 | 9.25 | 8.55 | 8.58 | 0.033 | 0.599 | sed
+       1001 |    4576 | 9.83 | 8.55 | 8.60 | 0.037 | 0.526 | sed
+       1998 |    5573 | 10.80 | 8.55 | 8.64 | 0.038 | 0.479 | sed
+       3001 |    6577 | 11.59 | 8.55 | 8.65 | 0.031 | 0.419 | sed

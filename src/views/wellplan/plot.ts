@@ -2,6 +2,7 @@
 // Everything here is a pure function of a WellSamples and its WellPressures, so it can be tested without a browser.
 // The plot has EMW (ppg, from the rig floor) across and depth (ft TVDSS) down.
 
+import { isCapped } from '../well/audit'
 import { WELL_AIR, WELL_SALT, WELL_WATER, type WellSamples } from '../../engine/well'
 import { WINDOW_NO_WINDOW, WINDOW_NONE, WINDOW_OK, WINDOW_TIGHT, type WellPressures } from '../../engine/wellPressure'
 
@@ -210,4 +211,19 @@ export function readoutAt(run: PlotRun, station: number): Readout {
     state: WINDOW_STATE_NAME[p.state[station]] ?? '',
     inSalt: s.kind[station] === WELL_SALT,
   }
+}
+
+/**
+ * Stations where the pore pressure is capped at the overburden (u / L >= 1 - 1e-9, F-3) and the pore line is drawn,
+ * thinned to at most `max` so a long capped stretch shows as a row of markers rather than a solid blob.
+ */
+export function cappedStations(run: Pick<PlotRun, 'samples' | 'lines'>, max = 40): number[] {
+  const s = run.samples
+  const all: number[] = []
+  for (let i = 0; i < s.n; i++) if (isCapped(s.uOverL[i]) && Number.isFinite(run.lines.pore[i])) all.push(i)
+  if (all.length <= max) return all
+  const step = all.length / max
+  const out: number[] = []
+  for (let k = 0; k < max; k++) out.push(all[Math.floor(k * step)])
+  return out
 }
