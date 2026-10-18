@@ -42,6 +42,7 @@ for (const [label, over] of [['constant sea level, default supply/subsidence/tur
   const dtHalf = await measure({ ...over, dtRec: 2500 }, [{ fromAgeMa: 3, toAgeMa: 0, dt: 2500 }])
   const nSub1 = await measure({ ...over, nSub: 1 }) // 5 kyr transport step: the implicit solve has no CFL limit, but K and the sorting pass are explicit
   const dxDouble = await measure({ ...over, nx: 75, dx: 2000 }) // the record allows at most 400 columns, so the sequence is 2000 / 1000 / 500
-  table(base, [['base (dx 1000, dt 5000/5)', base], ['dx 2000', dxDouble], ['dx 500', dxHalf], ['nSub 1', nSub1], ['nSub 10', nSub2], ['dtRec 2500', dtHalf]])
+  const longer = await measure({ ...over, nx: 300, dx: 1000 }) // same grid, basinward wall moved from 150 km to 300 km (closed-boundary sensitivity)
+  table(base, [['base (dx 1000, dt 5000/5)', base], ['dx 2000', dxDouble], ['dx 500', dxHalf], ['nSub 1', nSub1], ['nSub 10', nSub2], ['dtRec 2500', dtHalf], ['domain 300 km', longer]])
 }
 await close()
