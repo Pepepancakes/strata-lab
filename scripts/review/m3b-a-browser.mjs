@@ -16,7 +16,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { createServer } from 'vite'
 
 const OUT = resolve(process.argv[2] ?? 'm3b-a-browser-out')
-const CREST = Number(process.argv[3] ?? 5)
+let CREST = Number(process.argv[3] ?? 5) // 0 = take the first crest in the table (ids move when the physics does)
 const APP = resolve('dist/strata-lab.html')
 if (!existsSync(APP)) throw new Error(`${APP} missing (npm run build first)`)
 mkdirSync(OUT, { recursive: true })
@@ -81,6 +81,8 @@ try {
     await setSelect('Scenario preset', 'gulf')
     await settle()
     const before = await canvasInfo()
+    if (!CREST) CREST = Number(await ev(`/Go to crest (\\d+),/.exec(document.querySelector('button[aria-label^="Go to crest "]').getAttribute('aria-label'))[1]`))
+    report.allRows ??= await ev(`[...document.querySelectorAll('[data-crest-row]')].map((tr) => [...tr.children].map((td) => td.innerText.replace(/\\s+/g, ' ').trim()))`)
     // capture the CSV blobs
     await ev(`(() => { window.__csv = []; const o = URL.createObjectURL.bind(URL); URL.createObjectURL = (b) => { b.text().then((t) => window.__csv.push(t)); return o(b) }; return true })()`)
     const tableText = await ev(`!!document.querySelector('[data-testid=crest-table]')`)
@@ -95,7 +97,7 @@ try {
     const key = await ev(`document.querySelector('[data-testid=crest-key]')?.innerText ?? null`)
     const ci = await canvasInfo()
     // seafloor pixel in the canvas at the crest's column: first non-white pixel from the top; the crest's column from its km
-    const km = Number((row?.[1] ?? '0'))
+    const km = Number(row?.[1]) || 0 // the list has no km column since UI-2 (D25); the seafloor-gap fields below are only meaningful for the marker rows
     const col = Math.round((km * 1000) / GP.dx - 0.5)
     const px = await ev(`(() => { const c = document.getElementById('section-canvas'); const x = Math.round(((${col} + 0.5) / ${NX}) * c.width); const d = c.getContext('2d').getImageData(x, 0, 1, c.height).data; let y = -1; for (let i = 0; i < c.height; i++) { const o = i * 4; if (d[o] + d[o+1] + d[o+2] < 480) { y = i; break } } /* water is light blue (sum > 600); sediment and salt are darker */ return { x, y, scaleY: c.height / c.clientHeight, scaleX: c.width / c.clientWidth } })()`)
     const seafloorCssY = ci.top + px.y / px.scaleY
@@ -133,6 +135,8 @@ try {
   console.log(`errors: ${report.errors.length}, external requests: ${report.externalRequests.length}`)
   failed = false
   ws.close()
+} catch (e) {
+  console.error(String(e?.stack ?? e))
 } finally {
   proc.kill()
   process.exit(failed ? 1 : 0)
