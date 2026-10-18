@@ -29,7 +29,7 @@ function RunChecks() {
             Pseudo-well at column {s.well!.column + 1}, sediment cell nearest 12,000 ft below the sea floor (the deepest if the column is thinner), at {Math.round(tc.depthBelowSeaFt).toLocaleString('en-US')} ft below the sea surface
             ({Math.round(tc.waterDepthFt).toLocaleString('en-US')} ft of water): model {tc.modelPpg.toFixed(2)} ppg, trend {tc.trendPpg.toFixed(2)} ppg, gap {tc.gapPpg.toFixed(2)} ppg (limit {TRAUGOTT_FLAG_PPG} ppg).
           </div>
-          <div className="muted small">{s.presetId === 'gulf' ? 'On the Gulf preset a gap here means the densities are not calibrated to the Gulf (North Sea compaction coefficients until AUD-3).' : 'The trend is for the deep-water Gulf; on other presets it is shown for reference, not as a failure of the model.'}</div>
+          <div className="muted small">{s.presetId === 'gulf' ? 'On the Gulf preset a gap here means the densities are only partly calibrated: the mud uses Hart et al. (1995) Gulf shale coefficients, the sand is still the North Sea curve.' : 'The trend is for the deep-water Gulf; on other presets it is shown for reference, not as a failure of the model.'}</div>
           <div className="muted small">Source: {TRAUGOTT_SOURCE}</div>
         </div>
       ) : null}

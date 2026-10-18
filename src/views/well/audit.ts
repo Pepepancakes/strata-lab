@@ -80,7 +80,7 @@ export function thermalIsOn(presetThermal: number, overrides: Record<string, unk
 // ---- F-4a: Gulf overburden ------------------------------------------------------------------------
 
 export const GULF_NOT_CALIBRATED =
-  'Not calibrated to the Gulf: densities and the overburden use North Sea compaction coefficients (until AUD-3), so the overburden and the fracture gradient read low (see the Traugott check under Physics checks).'
+  'Only partly calibrated to the Gulf: the mud uses Hart et al. (1995) Gulf shale coefficients (an extrapolation below 4,900 ft), the sand is still the North Sea curve, so the overburden and the fracture gradient still read low (see the Traugott check under Physics checks).'
 
 export function showsGulfNote(presetId: string): boolean {
   return presetId === 'gulf'
