@@ -324,3 +324,14 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      Its section 10 options for the M4 backlog items wait until John plans the next M4 work.
   5. Spare Fable allowance before the 2026-10-18 reset goes to S5c (spike 005, Q7 option (c) measured) and the stratigraphic
      forward-modelling specialist review (SFM-R, D27.5). Neither reaches main before John's check.
+
+- **D29. Parameter lineage review (John, 2026-10-18: "I love the idea of borrowing this for strata lab so yes lets do that").**
+  1. One doc-writer card (LIN-1) traces each tuned physical parameter in `docs/physics-references.md` to its literature
+     ancestry using OpenAlex citation data, in the manner of the Sediment research tool: a seed paper, its references, and
+     every link marked verified (citation present in the data) or inferred (not present). A verified citation shows a
+     reference relationship, not that the value was taken from that paper.
+  2. The card changes no parameter and no code. Its output is a recommendation per parameter (adopt with page, obtain paper
+     then decide, or keep tuned with a reason) and a ranked "Papers to get" list for John. Adopting any value is a later card.
+  3. Only values from papers the writer actually read may be quoted; OpenAlex abstracts are paraphrased and marked
+     "(abstract only)". Short quotes stay within the public-repo rule (at most two per paper, with page numbers).
+  4. The trace script lives under `scripts/lineage/` and is never part of the app build; the app stays offline.

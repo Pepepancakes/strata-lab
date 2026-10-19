@@ -394,6 +394,18 @@ a large engine change, so this milestone opens with its own spike (S5, D27.3).
 ## M6 — 3D
 A 3D version on the GPU (WebGPU). Opens with a spike on speed.
 
+## LIN-1 — Parameter lineage  *(John, 2026-10-18: "yes lets do that"; D29)*
+- **LIN-1, trace every tuned physical parameter to its literature ancestry** (doc-writer, `strata-lab/lin-01-parameter-lineage`).
+  Method borrowed from the open-source tool Sediment (github.com/shresthkapoor7/sediment): concept -> seed paper -> reference
+  walk on OpenAlex, with every link labelled **verified** (the citation is in the data) or **inferred** (believed, not in the data).
+  Delivers `docs/parameter-lineage.md` (one section per tuned physical parameter: chain, what each paper contributes, a
+  Recommendation line for John), `docs/lineage/<param>.json`, `scripts/lineage/openalex-trace.mjs`, and a "Papers to get" list.
+  Numerical and set-up parameters get a one-line "no source expected" entry instead of a trace. Docs only: no parameter changes.
+
+**Done when:** every `tuned` / `to verify` item in `docs/physics-references.md` has a lineage section or a "no source
+expected" line; every quoted value comes from a paper the writer read; the trace script reruns from a clean clone; John has a
+ranked list of papers to obtain. The mud-permeability re-fit (Backlog, D28.2) stays its own card and starts from this lineage.
+
 ## Backlog
 - Re-fit the mud permeability law (`kA` / `kB`, `src/engine/params.ts`, tuned with phi0 0.63) for the Gulf preset to a published Gulf permeability-porosity relation; Yang & Aplin (2010) is the named candidate (to verify; not read). Reason: with the Hart mud the shallow Gulf section reads 1 to 2 ppg over hydrostatic (AUD-6 B-1, D26.4). Its own card with its own review; do not tune toward a result. Until then the shallow overpressure is a documented limit (D28.2).
 - AUD-4 section 9, question for John: keep the bare salt toe wall (6.2 to 6.7 km of salt, 0 m cover over the last 3 to 5 km, a step of about 4,170 ft, Windows) and label it as a model limit, which the reviewer recommends, or retune to bury it? Every alternative is a tuning step (salt limit, supply, thickness, section width) and none is planned.
