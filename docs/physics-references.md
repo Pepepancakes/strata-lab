@@ -8,6 +8,8 @@ Every engine parameter belongs in this file with its source and published range,
 
 Papers themselves go in the git-ignored `References/` folder, never in git.
 
+**Parameter lineage (LIN-1).** `docs/parameter-lineage.md` traces each tuned or to-verify physical parameter to candidate literature sources through OpenAlex citation lists (raw traces in `docs/lineage/`). Those are recommendations, not sources: a parameter changes status here only when a value is adopted with a page reference from a paper that was read. The lineage document also says which values were read in full and which from an abstract only, and lists one wrong attribution found in this file (the salt viscosity range credited to Hudec & Jackson 2007).
+
 ## Benchmarks (exact or independent solutions)
 | Check | Source | Used for |
 |---|---|---|

@@ -1,0 +1,1552 @@
+{
+  "param": "cohesion",
+  "query": "cohesion undrained shear strength marine sediments submarine slope",
+  "seed": "W4210955136",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W2562841224",
+      "title": "Influence of diatom microfossils on sediment shear strength and slope stability",
+      "year": 2016,
+      "doi": "10.1002/2016gc006568",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2260173701",
+      "title": "Elevated shear strength of sediments on active margins: Evidence for seismic strengthening",
+      "year": 2015,
+      "doi": "10.1002/2015gl066603",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W777472654",
+      "title": "Determination of undrained shear strength of marine clays by combined vane and direct shear analysis.",
+      "year": 1977,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W827763680",
+      "title": "Direct shear testing of marine sediments",
+      "year": 1971,
+      "doi": "10.5962/bhl.title.59856",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2275299808",
+      "title": "Modeling of large-deformation behaviour of marine sensitive clays and its application to submarine slope stability analysis",
+      "year": 2016,
+      "doi": "10.1139/cgj-2015-0176",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3022104240",
+      "title": "Undrained triaxial tests on water-saturated methane hydrate–bearing clayey-silty sediments of the South China Sea",
+      "year": 2020,
+      "doi": "10.1139/cgj-2019-0711",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3217764752",
+      "title": "Shear Strength of Sediment Offshore Southern Alaska",
+      "year": 2017,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W801426317",
+      "title": "An analysis of data obtained from vane shear tests of recent marine sediment",
+      "year": 1973,
+      "doi": "10.5962/bhl.title.60919",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4390170715",
+      "title": "Sliding-Surface Liquefaction and Undrained Steady-State Shear-Strength",
+      "year": 2023,
+      "doi": "10.1007/978-3-031-39012-8_2",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2783932227",
+      "title": "Back analysis of an earthquake-triggered submarine landslide near the SW of Xiaoliuqiu",
+      "year": 2018,
+      "doi": "10.3319/tao.2017.05.08.01",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W636030797",
+      "title": "Bergsturz und Menschenleben",
+      "authors": [
+        "Heim, Albert"
+      ],
+      "year": 1931,
+      "venue": "E-Periodica",
+      "doi": "10.5169/seals-9840",
+      "type": "article",
+      "cited_by_count": 521,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.5169/seals-9840",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2089013720",
+      "title": "Turbidity Currents as a Cause of Graded Bedding",
+      "authors": [
+        "Ph. H. Kuenen",
+        "C. I. Migliorini"
+      ],
+      "year": 1950,
+      "venue": "The Journal of Geology",
+      "doi": "10.1086/625710",
+      "type": "article",
+      "cited_by_count": 559,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2040414117",
+      "title": "Effect of Rate of Loading on the Strength of Clays and Shales at Constant Water Content",
+      "authors": [
+        "A. Casacrande",
+        "S. D. Wilson"
+      ],
+      "year": 1951,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1951.2.3.251",
+      "type": "article",
+      "cited_by_count": 180,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2317563576",
+      "title": "Turbidity currents and submarine slumps, and the 1929 Grand Banks [Newfoundland] earthquake",
+      "authors": [
+        "Bruce Charles Heezen",
+        "W. Maurice Ewing"
+      ],
+      "year": 1952,
+      "venue": "American Journal of Science",
+      "doi": "10.2475/ajs.250.12.849",
+      "type": "article",
+      "cited_by_count": 690,
+      "open_access": true,
+      "oa_url": "https://ajs.scholasticahq.com/article/58374.pdf",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2139417932",
+      "title": "Experiments on a gravity-free dispersion of large solid spheres in a Newtonian fluid under shear",
+      "authors": [
+        "Ralph Alger Bagnold"
+      ],
+      "year": 1954,
+      "venue": "Proceedings of the Royal Society of London A Mathematical and Physical Sciences",
+      "doi": "10.1098/rspa.1954.0186",
+      "type": "article",
+      "cited_by_count": 2697,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2172185966",
+      "title": "The flow of cohesionless grains in fluids",
+      "authors": [
+        "Ralph Alger Bagnold"
+      ],
+      "year": 1956,
+      "venue": "Philosophical Transactions of the Royal Society of London Series A Mathematical and Physical Sciences",
+      "doi": "10.1098/rsta.1956.0020",
+      "type": "article",
+      "cited_by_count": 1000,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2280882476",
+      "title": "Modifications to the soil pattern of South-Central Chile resulting from seismic and associated phenomenona during the period May to August 1960",
+      "authors": [
+        "Charles Wright",
+        "Arnoldo Mella L."
+      ],
+      "year": 1963,
+      "venue": "Bulletin of the Seismological Society of America",
+      "doi": "10.1785/bssa0530061367",
+      "type": "article",
+      "cited_by_count": 120,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W580680426",
+      "title": "Submarine canyons and other sea valleys",
+      "authors": [
+        "Francis Parker Shepard",
+        "Robert Dill"
+      ],
+      "year": 1966,
+      "venue": "Rand McNally eBooks",
+      "doi": null,
+      "type": "book",
+      "cited_by_count": 442,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W113831185",
+      "title": "Critical State Soil Mechanics",
+      "authors": [
+        "A. N. Schofield",
+        "Peter C. Wroth"
+      ],
+      "year": 1968,
+      "venue": "Infoscience (Ecole Polytechnique Fédérale de Lausanne)",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 3062,
+      "open_access": true,
+      "oa_url": "http://infoscience.epfl.ch/record/26624",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1516863255",
+      "title": "Soil Creep As A Rate Process",
+      "authors": [
+        "James K. Mitchell",
+        "R. G. Campanella",
+        "Awtar Singh"
+      ],
+      "year": 1968,
+      "venue": "Journal of the Soil Mechanics and Foundations Division",
+      "doi": "10.1061/jsfeaq.0001085",
+      "type": "article",
+      "cited_by_count": 183,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2063076447",
+      "title": "The Role of Waves in Causing Submarine Landslides",
+      "authors": [
+        "David J. Henkel"
+      ],
+      "year": 1970,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1970.20.1.75",
+      "type": "article",
+      "cited_by_count": 204,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1999065571",
+      "title": "SLUMPING ON A CONTINENTAL SLOPE INCLINED AT 1°–4°",
+      "authors": [
+        "Keith B. Lewis"
+      ],
+      "year": 1971,
+      "venue": "Sedimentology",
+      "doi": "10.1111/j.1365-3091.1971.tb00221.x",
+      "type": "article",
+      "cited_by_count": 243,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2134038787",
+      "title": "The role of subaqueous debris flow in generating turbidity currents",
+      "authors": [
+        "Monty A. Hampton"
+      ],
+      "year": 1972,
+      "venue": "Journal of Sedimentary Research",
+      "doi": "10.1306/74d7262b-2b21-11d7-8648000102c1865d",
+      "type": "article",
+      "cited_by_count": 499,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2019672072",
+      "title": "On the prediction of the reach and velocity of catastrophic landslides",
+      "authors": [
+        "Adrian E. Scheidegger"
+      ],
+      "year": 1973,
+      "venue": "Rock Mechanics and Rock Engineering",
+      "doi": "10.1007/bf01301796",
+      "type": "article",
+      "cited_by_count": 751,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1978304314",
+      "title": "Fundamentals of Soil Behavior",
+      "authors": [
+        "Joe Michael Bradford"
+      ],
+      "year": 1976,
+      "venue": "Soil Science Society of America Journal",
+      "doi": "10.2136/sssaj1976.03615995004000040003x",
+      "type": "article",
+      "cited_by_count": 2069,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2041342616",
+      "title": "Sediment slides on the northwestern continental margin of Africa",
+      "authors": [
+        "Robert D. Jacobi"
+      ],
+      "year": 1976,
+      "venue": "Marine Geology",
+      "doi": "10.1016/0025-3227(76)90045-1",
+      "type": "article",
+      "cited_by_count": 166,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1985524925",
+      "title": "The anatomy of a large submarine slump on a sheared continental margin (SE Africa)",
+      "authors": [
+        "R.V. Dingle"
+      ],
+      "year": 1977,
+      "venue": "Journal of the Geological Society",
+      "doi": "10.1144/gsjgs.134.3.0293",
+      "type": "article",
+      "cited_by_count": 145,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2318473918",
+      "title": "Marine sediment transport and environmental management",
+      "authors": [
+        "I Nick McCave"
+      ],
+      "year": 1977,
+      "venue": "Geoexploration",
+      "doi": "10.1016/0016-7142(77)90029-1",
+      "type": "article",
+      "cited_by_count": 377,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2017885123",
+      "title": "Wave‐induced pore pressure in relation to ocean floor stability of cohesionless soils",
+      "authors": [
+        "H. Bolton Seed",
+        "M. S. Rahman"
+      ],
+      "year": 1978,
+      "venue": "Marine Geotechnology",
+      "doi": "10.1080/10641197809379798",
+      "type": "article",
+      "cited_by_count": 319,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1560313239",
+      "title": "Sedimentation in Submarine Canyons, Fans and Trenches",
+      "authors": [
+        "Hugh E. Hendry"
+      ],
+      "year": 1979,
+      "venue": "Geoscience Canada",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 512,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2001464254",
+      "title": "Mechanisms of large landslides",
+      "authors": [
+        "Theodor H. Erismann"
+      ],
+      "year": 1979,
+      "venue": "Rock Mechanics and Rock Engineering",
+      "doi": "10.1007/bf01241087",
+      "type": "article",
+      "cited_by_count": 212,
+      "open_access": true,
+      "oa_url": "https://www.dora.lib4ri.ch/empa/dload/empa:31558/PDF/view",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1608359815",
+      "title": "The Steady State of Deformation",
+      "authors": [
+        "Steve J. Poulos"
+      ],
+      "year": 1981,
+      "venue": "Journal of the Geotechnical Engineering Division",
+      "doi": "10.1061/ajgeb6.0001129",
+      "type": "article",
+      "cited_by_count": 380,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2002951179",
+      "title": "The formation of sedimentary strata in an allochthonous shelf environment: The Washington continental shelf",
+      "authors": [
+        "Charles Albert Nittrouer",
+        "Richard W. Sternberg"
+      ],
+      "year": 1981,
+      "venue": "Marine Geology",
+      "doi": "10.1016/0025-3227(81)90164-x",
+      "type": "article",
+      "cited_by_count": 224,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2034984580",
+      "title": "Coincident sediment slump/clathrate complexes on the U.S. Atlantic continental slope",
+      "authors": [
+        "George B. Carpenter"
+      ],
+      "year": 1981,
+      "venue": "Geo-Marine Letters",
+      "doi": "10.1007/bf02463298",
+      "type": "article",
+      "cited_by_count": 112,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W152667042",
+      "title": "Active Slides and Flows in Underconsolidated Marine Sediments on the Slopes of the Mississippi Delta",
+      "authors": [
+        "David B. Prior",
+        "James M. Coleman"
+      ],
+      "year": 1982,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-1-4613-3362-3_3",
+      "type": "book-chapter",
+      "cited_by_count": 129,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2067955554",
+      "title": "Morphology of a submarine slide, Kitimat Arm, British Columbia",
+      "authors": [
+        "David B. Prior",
+        "Brian D. Bornhold",
+        "James M. Coleman",
+        "William R. Bryant"
+      ],
+      "year": 1982,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1982)10<588:moassk>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 142,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2078760366",
+      "title": "Earthquake-induced sediment failures on a 0.25° slope, Klamath River delta, California",
+      "authors": [
+        "Michael E. Field",
+        "James V. Gardner",
+        "ANNE E. JENNINGS",
+        "Brian D. Edwards"
+      ],
+      "year": 1982,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1982)10<542:esfoas>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 180,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W621045790",
+      "title": "Marine Slides and Other Mass Movements",
+      "authors": [],
+      "year": 1982,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-1-4613-3362-3",
+      "type": "book",
+      "cited_by_count": 145,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2084401215",
+      "title": "Wave‐Induced Slides in South Pass Block 70, Mississippi Delta",
+      "authors": [
+        "Robert G. Bea",
+        "Stephen G. Wright",
+        "Partha Sircar",
+        "Alan W. Niedoroda"
+      ],
+      "year": 1983,
+      "venue": "Journal of Geotechnical Engineering",
+      "doi": "10.1061/(asce)0733-9410(1983)109:4(619)",
+      "type": "article",
+      "cited_by_count": 144,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2162752452",
+      "title": "Suspended Particulate Loading on the Macrobenthos in a Highly Turbid Fjord: Knight Inlet, British Columbia",
+      "authors": [
+        "George E. Farrow",
+        "James P. M. Syvitski",
+        "Verena Tunnicliffe"
+      ],
+      "year": 1983,
+      "venue": "Canadian Journal of Fisheries and Aquatic Sciences",
+      "doi": "10.1139/f83-289",
+      "type": "article",
+      "cited_by_count": 111,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1967067367",
+      "title": "Experiments on the flow behaviour of granular materials at high velocity in an open channel",
+      "authors": [
+        "O Hunger",
+        "N. R. Morgenstern"
+      ],
+      "year": 1984,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1984.34.3.405",
+      "type": "article",
+      "cited_by_count": 141,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1985975295",
+      "title": "Deposit from a Giant Wave on the Island of Lanai, Hawaii",
+      "authors": [
+        "James Gregory Moore",
+        "George Winfred Moore"
+      ],
+      "year": 1984,
+      "venue": "Science",
+      "doi": "10.1126/science.226.4680.1312",
+      "type": "article",
+      "cited_by_count": 228,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1990180991",
+      "title": "Catastrophic debris avalanche from ancestral Mount Shasta volcano, California",
+      "authors": [
+        "Dwight Raymond Crandell",
+        "C. Dan Miller",
+        "Harry X. Glicken",
+        "Robert L. Christiansen",
+        "Christopher G. Newhall"
+      ],
+      "year": 1984,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1984)12<143:cdafam>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 195,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1994047151",
+      "title": "High velocity ring shear tests on sand",
+      "authors": [
+        "O Hunger",
+        "N. R. Morgenstern"
+      ],
+      "year": 1984,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1984.34.3.415",
+      "type": "article",
+      "cited_by_count": 130,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2014437180",
+      "title": "A new interpretation of viscosity and yield stress in dense slurries: Coal and other irregular particles",
+      "authors": [
+        "Craig R. Wildemuth",
+        "Michael C. Williams"
+      ],
+      "year": 1985,
+      "venue": "Rheologica Acta",
+      "doi": "10.1007/bf01329266",
+      "type": "article",
+      "cited_by_count": 110,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2022954662",
+      "title": "Liquefaction Evaluation Procedure",
+      "authors": [
+        "Steve J. Poulos",
+        "Gonzalo Castro",
+        "John W. France"
+      ],
+      "year": 1985,
+      "venue": "Journal of Geotechnical Engineering",
+      "doi": "10.1061/(asce)0733-9410(1985)111:6(772)",
+      "type": "article",
+      "cited_by_count": 422,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1977771508",
+      "title": "A sliding–consolidation model for flow slides",
+      "authors": [
+        "John Neville Hutchinson"
+      ],
+      "year": 1986,
+      "venue": "Canadian Geotechnical Journal",
+      "doi": "10.1139/t86-021",
+      "type": "article",
+      "cited_by_count": 238,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2013222364",
+      "title": "Large debris flows: A macro-viscous phenomenon",
+      "authors": [
+        "Tim R. Davies"
+      ],
+      "year": 1986,
+      "venue": "Acta Mechanica",
+      "doi": "10.1007/bf01182546",
+      "type": "article",
+      "cited_by_count": 127,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2053191935",
+      "title": "Submarine slope angles, drowning unconformities, and self-erosion of limestone escarpments",
+      "authors": [
+        "Wolfgang Schlager",
+        "Oren Camber"
+      ],
+      "year": 1986,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1986)14<762:ssadua>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 197,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2109752826",
+      "title": "The debris of the Frank Slide and theories of rockslide–avalanche mobility",
+      "authors": [
+        "D. M. Crudën",
+        "Oldrich Hungr"
+      ],
+      "year": 1986,
+      "venue": "Canadian Journal of Earth Sciences",
+      "doi": "10.1139/e86-044",
+      "type": "article",
+      "cited_by_count": 193,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2128559143",
+      "title": "Regional Method to Assess Offshore Slope Stability",
+      "authors": [
+        "Homa J. Lee",
+        "Brian D. Edwards"
+      ],
+      "year": 1986,
+      "venue": "Journal of Geotechnical Engineering",
+      "doi": "10.1061/(asce)0733-9410(1986)112:5(489)",
+      "type": "article",
+      "cited_by_count": 121,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2092339430",
+      "title": "Mass-wasting features on the continental slope of Northwest Europe",
+      "authors": [
+        "NEIL H. KENYON"
+      ],
+      "year": 1987,
+      "venue": "Marine Geology",
+      "doi": "10.1016/0025-3227(87)90005-3",
+      "type": "article",
+      "cited_by_count": 149,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2399362911",
+      "title": "A rheologic classification of subaerial sediment-water flows",
+      "authors": [
+        "Thomas C. Pierson",
+        "John E. Costa"
+      ],
+      "year": 1987,
+      "venue": "Reviews in engineering geology",
+      "doi": "10.1130/reg7-p1",
+      "type": "book-chapter",
+      "cited_by_count": 570,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4255443215",
+      "title": "Fjords",
+      "authors": [
+        "James P. M. Syvitski",
+        "David C. Burrell",
+        "Jens M. Skei"
+      ],
+      "year": 1987,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-1-4612-4632-9",
+      "type": "book",
+      "cited_by_count": 221,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1975258366",
+      "title": "The Storegga Slides: Evidence from eastern Scotland for a possible tsunami",
+      "authors": [
+        "Alastair G. Dawson",
+        "David A. Long",
+        "David Edward Smith"
+      ],
+      "year": 1988,
+      "venue": "Marine Geology",
+      "doi": "10.1016/0025-3227(88)90146-6",
+      "type": "article",
+      "cited_by_count": 380,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1993466701",
+      "title": "Viscosity, yield stress, remolded strength, and liquidity index relationships for sensitive clays",
+      "authors": [
+        "Jacques Locat",
+        "Denis Demers"
+      ],
+      "year": 1988,
+      "venue": "Canadian Geotechnical Journal",
+      "doi": "10.1139/t88-088",
+      "type": "article",
+      "cited_by_count": 251,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2064692695",
+      "title": "Generalized Viscoplastic Modeling of Debris Flow",
+      "authors": [
+        "Cheng‐lung Chen"
+      ],
+      "year": 1988,
+      "venue": "Journal of Hydraulic Engineering",
+      "doi": "10.1061/(asce)0733-9429(1988)114:3(237)",
+      "type": "article",
+      "cited_by_count": 135,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2107964773",
+      "title": "The Storegga slide",
+      "authors": [
+        "Tom Bugge",
+        "ROBERT H. BELDERSON",
+        "NEIL H. KENYON"
+      ],
+      "year": 1988,
+      "venue": "Philosophical Transactions of the Royal Society of London Series A Mathematical and Physical Sciences",
+      "doi": "10.1098/rsta.1988.0055",
+      "type": "article",
+      "cited_by_count": 297,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2307302882",
+      "title": "Large-scale bedforms in boulder gravel produced by giant waves in Hawaii",
+      "authors": [
+        "George Winfred Moore",
+        "James Gregory Moore"
+      ],
+      "year": 1988,
+      "venue": "Geological Society of America eBooks",
+      "doi": "10.1130/spe229-p101",
+      "type": "book-chapter",
+      "cited_by_count": 113,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2101842711",
+      "title": "Prodigious submarine landslides on the Hawaiian Ridge",
+      "authors": [
+        "James Gregory Moore",
+        "David A. Clague",
+        "Robin T. Holcomb",
+        "Peter W. Lipman",
+        "William R. Normark",
+        "Michael E. Torresan"
+      ],
+      "year": 1989,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb094ib12p17465",
+      "type": "article",
+      "cited_by_count": 741,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2158161118",
+      "title": "A Holocene tsunami deposit in eastern Scotland",
+      "authors": [
+        "David A. Long",
+        "David Edward Smith",
+        "Alastair G. Dawson"
+      ],
+      "year": 1989,
+      "venue": "Journal of Quaternary Science",
+      "doi": "10.1002/jqs.3390040107",
+      "type": "article",
+      "cited_by_count": 121,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2047944040",
+      "title": "An approach to the physics and the modeling of submarine flowslides",
+      "authors": [
+        "Harald Norem",
+        "Jaques Locat",
+        "Bonsak Schieldrop"
+      ],
+      "year": 1990,
+      "venue": "Marine Geotechnology",
+      "doi": "10.1080/10641199009388233",
+      "type": "article",
+      "cited_by_count": 130,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2048075105",
+      "title": "Large landslides from oceanic volcanoes",
+      "authors": [
+        "Robin T. Holcomb",
+        "Roger C. Searle"
+      ],
+      "year": 1991,
+      "venue": "Marine Geotechnology",
+      "doi": "10.1080/10641199109379880",
+      "type": "article",
+      "cited_by_count": 253,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2091876039",
+      "title": "Pleistocene slope instability of gas hydrate‐laden sediment on the Beaufort sea margin",
+      "authors": [
+        "Robert E. Kayen",
+        "Homa J. Lee"
+      ],
+      "year": 1991,
+      "venue": "Marine Geotechnology",
+      "doi": "10.1080/10641199109379886",
+      "type": "article",
+      "cited_by_count": 238,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1973124328",
+      "title": "The coupling of a submarine slide and the surface waves which it generates",
+      "authors": [
+        "L. Jiang",
+        "Paul H. LeBlond"
+      ],
+      "year": 1992,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/92jc00912",
+      "type": "article",
+      "cited_by_count": 211,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2048703934",
+      "title": "The effects of fluid escape on accretionary wedges 2. Seepage force, slope failure, headless submarine canyons, and vents",
+      "authors": [
+        "Daniel L. Orange",
+        "Nancy A. Breen"
+      ],
+      "year": 1992,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/92jb00460",
+      "type": "article",
+      "cited_by_count": 113,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2080750138",
+      "title": "Model simulations of tsunamis generated by the Storegga Slides",
+      "authors": [
+        "Carl Bonnevie Harbitz"
+      ],
+      "year": 1992,
+      "venue": "Marine Geology",
+      "doi": "10.1016/0025-3227(92)90178-k",
+      "type": "article",
+      "cited_by_count": 255,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1985011582",
+      "title": "GIANT HAWAIIAN LANDSLIDES",
+      "authors": [
+        "James Gregory Moore",
+        "William R. Normark",
+        "Robin T. Holcomb"
+      ],
+      "year": 1994,
+      "venue": "Annual Review of Earth and Planetary Sciences",
+      "doi": "10.1146/annurev.ea.22.050194.001003",
+      "type": "article",
+      "cited_by_count": 399,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2092248350",
+      "title": "On the behavior of fine mud suspensions",
+      "authors": [
+        "Philippe Coussot",
+        "Jean‐Michel Piau"
+      ],
+      "year": 1994,
+      "venue": "Rheologica Acta",
+      "doi": "10.1007/bf00437302",
+      "type": "article",
+      "cited_by_count": 191,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4210955136",
+      "title": "Submarine landslides",
+      "authors": [
+        "Monty A. Hampton",
+        "Homa J. Lee",
+        "Jacques Locat"
+      ],
+      "year": 1996,
+      "venue": "Reviews of Geophysics",
+      "doi": "10.1029/95rg03287",
+      "type": "article",
+      "cited_by_count": 990,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "none"
+    },
+    {
+      "id": "W2102455575",
+      "title": "Clathrate Hydrates of Natural Gases",
+      "authors": [
+        "E. Dendy Sloan",
+        "Carolyn Ann Koh",
+        "Carolyn Ann Koh"
+      ],
+      "year": 2007,
+      "venue": "CRC Press eBooks",
+      "doi": "10.1201/9781420008494",
+      "type": "book",
+      "cited_by_count": 9864,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W4210955136",
+      "to": "W113831185",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1516863255",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W152667042",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1560313239",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1608359815",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1967067367",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1973124328",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1975258366",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1977771508",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1978304314",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1985011582",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1985524925",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1985975295",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1990180991",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1993466701",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1994047151",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W1999065571",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2001464254",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2002951179",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2013222364",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2014437180",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2017885123",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2019672072",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2022954662",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2034984580",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2040414117",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2041342616",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2047944040",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2048075105",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2048703934",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2053191935",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2063076447",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2064692695",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2067955554",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2078760366",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2080750138",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2084401215",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2089013720",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2091876039",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2092248350",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2092339430",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2101842711",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2102455575",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2107964773",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2109752826",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2128559143",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2134038787",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2139417932",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2158161118",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2162752452",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2172185966",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2280882476",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2307302882",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2317563576",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2318473918",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W2399362911",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W4255443215",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W580680426",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W621045790",
+      "kind": "verified"
+    },
+    {
+      "from": "W4210955136",
+      "to": "W636030797",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 61,
+    "edges": 60,
+    "verified": 60,
+    "inferred": 0,
+    "seed_references_in_openalex": 146,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:29:30.650Z"
+}

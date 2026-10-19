@@ -1,0 +1,1615 @@
+{
+  "param": "cover-thickness",
+  "query": "Gulf of Mexico salt basin pre-salt thickness cover overburden",
+  "seed": "W2134109970",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W2264656316",
+      "title": "Geologic structures in the Gulf of Mexico basin",
+      "year": 1973,
+      "doi": "10.3133/pp773",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3185659402",
+      "title": "Pre‐salt rift morphology controls salt tectonics in the Campos Basin, offshore SE Brazil",
+      "year": 2021,
+      "doi": "10.1111/bre.12588",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2922661896",
+      "title": "The Impact of Pre‐Salt Rift Topography on Salt Tectonics: A Discrete‐Element Modeling Approach",
+      "year": 2019,
+      "doi": "10.1029/2018tc005174",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2883604154",
+      "title": "Geometry and kinematics of salt-detached ramp syncline basins",
+      "year": 2018,
+      "doi": "10.1016/j.jsg.2018.07.016",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2990019454",
+      "title": "Application of 3D Salt Modeling: An Example from the Northeastern Gulf of Mexico",
+      "year": 2019,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3127574679",
+      "title": "Salt tectonics in the Thumrait area, in the southern part of the South Oman Salt Basin: Implications for mini-basin evolution",
+      "year": 2008,
+      "doi": "10.2113/geoarabia130477",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2100347734",
+      "title": "Sand on salt: Controls on dune subsidence and determining salt substrate thickness",
+      "year": 2014,
+      "doi": "10.1130/l323.1",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2586120374",
+      "title": "Salt structures and salt tectonics in the Barents Sea - Southwestern sub-basin, Nordkapp Basin",
+      "year": 2016,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4376105402",
+      "title": "Australian salt basins – options for underground hydrogen storage",
+      "year": 2023,
+      "doi": "10.1071/aj22153",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1981721885",
+      "title": "Salt on the move: Multi stage evolution of salt diapirs in the Netherlands North Sea",
+      "year": 2014,
+      "doi": "10.1016/j.marpetgeo.2014.12.003",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W1969208391",
+      "title": "Sediments and oceanic structural history of the Gulf of Mexico",
+      "authors": [
+        "John I. Ewing",
+        "J. Lamar Worzel",
+        "Maurice Ewing"
+      ],
+      "year": 1962,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jz067i006p02509",
+      "type": "article",
+      "cited_by_count": 113,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1489825917",
+      "title": "Future Hydrocarbon Provinces of Gulf of Mexico-Caribbean Region",
+      "authors": [
+        "Arthur A. Meyerhoff"
+      ],
+      "year": 1967,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 42,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2063478706",
+      "title": "Viscosity of the mantle from relaxation time spectra of isostatic adjustment",
+      "authors": [
+        "Robert K. McConnell"
+      ],
+      "year": 1968,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb073i022p07089",
+      "type": "article",
+      "cited_by_count": 239,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2111451633",
+      "title": "Age and Evolution of Salt Basins of Southeastern Mexico",
+      "authors": [
+        "Viniegra O. Francisco"
+      ],
+      "year": 1971,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/5d25cf6b-16c1-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 92,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2114345078",
+      "title": "Geology and History of the Gulf of Mexico",
+      "authors": [
+        "OSCAR WILHELM",
+        "Maurice Ewing"
+      ],
+      "year": 1972,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1972)83[575:gahotg]2.0.co;2",
+      "type": "article",
+      "cited_by_count": 85,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1834345359",
+      "title": "The Carbonate Ramp: An Alternative to the Shelf Model",
+      "authors": [
+        "Wayne M. Ahr"
+      ],
+      "year": 1973,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 310,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2133346363",
+      "title": "Late Miocene Desiccation of the Mediterranean",
+      "authors": [
+        "Kenneth J. Hsü",
+        "William B. F. Ryan",
+        "Maria Bianca Cita"
+      ],
+      "year": 1973,
+      "venue": "Nature",
+      "doi": "10.1038/242240a0",
+      "type": "article",
+      "cited_by_count": 1013,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1975656127",
+      "title": "Atlantic evaporites formed by evaporation of water spilled from Pacific, Tethyan, and Southern oceans",
+      "authors": [
+        "Kevin Burke"
+      ],
+      "year": 1975,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1975)3<613:aefbeo>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 69,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2154463579",
+      "title": "Permo‐Triassic reconstruction of western Pangea and the evolution of the Gulf of Mexico/Caribbean region",
+      "authors": [
+        "James Pindell",
+        "John Frederick Dewey"
+      ],
+      "year": 1982,
+      "venue": "Tectonics",
+      "doi": "10.1029/tc001i002p00179",
+      "type": "article",
+      "cited_by_count": 649,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1600222128",
+      "title": "Distribution of Crust and Early History, Gulf of Mexico Basin",
+      "authors": [
+        "Richard T. Buffler",
+        "Dale S. Sawyer"
+      ],
+      "year": 1985,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 160,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2062024970",
+      "title": "Alleghenian reconstruction and subsequent evolution of the Gulf of Mexico, Bahamas, and Proto‐Caribbean",
+      "authors": [
+        "James Pindell"
+      ],
+      "year": 1985,
+      "venue": "Tectonics",
+      "doi": "10.1029/tc004i001p00001",
+      "type": "article",
+      "cited_by_count": 443,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2090416219",
+      "title": "Punctiform initiation of seafloor spreading in the Red Sea during transition from a continental to an oceanic rift",
+      "authors": [
+        "Enrico Bonatti"
+      ],
+      "year": 1985,
+      "venue": "Nature",
+      "doi": "10.1038/316033a0",
+      "type": "article",
+      "cited_by_count": 324,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2144983431",
+      "title": "Norphlet Formation (Upper Jurassic) of Southwestern and Offshore Alabama: Environments of Deposition and Petroleum Geology",
+      "authors": [
+        "Ernest A. Mancini",
+        "Robert M. Mink",
+        "Bennett L. Bearden",
+        "Richard P. Wilkerson"
+      ],
+      "year": 1985,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/ad462b14-16f7-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 104,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2738626587",
+      "title": "Late Triassic-Jurassic Paleogeography and Origin of Gulf of Mexico Basin",
+      "authors": [
+        "Amos Salvador"
+      ],
+      "year": 1987,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/94886ec5-1704-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 326,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1661135759",
+      "title": "A Comparison of the Jurassic Norphlet Formation in Mary Ann Field, Mobile Bay, Alabama to Onshore Regional Norphlet Trends",
+      "authors": [
+        "Michael Marzano",
+        "Glenn M. Pense",
+        "Peter Andronaco"
+      ],
+      "year": 1988,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 43,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2090197800",
+      "title": "Structure and tectonics of the northern Red Sea: catching a continental margin between rifting and drifting",
+      "authors": [
+        "Fernando Martínez",
+        "James R. Cochran"
+      ],
+      "year": 1988,
+      "venue": "Tectonophysics",
+      "doi": "10.1016/0040-1951(88)90293-4",
+      "type": "article",
+      "cited_by_count": 176,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.1016/0040-1951(88)90293-4",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2115305977",
+      "title": "Paleogeographic Evolution of Early Deep-Water Gulf of Mexico and Margins, Jurassic to Middle Cretaceous (Comanchean)",
+      "authors": [
+        "Charles D. Winker",
+        "Richard T. Buffler"
+      ],
+      "year": 1988,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/703c8c22-1707-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 171,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2142537332",
+      "title": "Late Triassic-Jurassic Paleogeography and Origin of Gulf of Mexico Basin: Reply",
+      "authors": [
+        "Amos Salvador"
+      ],
+      "year": 1988,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/703c99ba-1707-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 251,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2012875059",
+      "title": "Jurassic Reconstruction of the Gulf of Mexico Basin",
+      "authors": [
+        "György Márton",
+        "Richard T. Buffler"
+      ],
+      "year": 1994,
+      "venue": "International Geology Review",
+      "doi": "10.1080/00206819409465475",
+      "type": "article",
+      "cited_by_count": 163,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2494150486",
+      "title": "Crustal structure and evolution of the southeastern margin of North America and the Gulf of Mexico basin",
+      "authors": [
+        "Richard T. Buffler",
+        "William A. Thomas"
+      ],
+      "year": 1994,
+      "venue": "Geological Society of America eBooks",
+      "doi": "10.1130/dnag-cot-pen.219",
+      "type": "book-chapter",
+      "cited_by_count": 46,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2151332720",
+      "title": "Cenozoic Structural Evolution and Tectono-Stratigraphic Framework of the Northern Gulf Coast Continental Margin",
+      "authors": [
+        "F. A. Diegel",
+        "John F. Karlo",
+        "DAVID C. SCHUSTER",
+        "Robert C. Shoup",
+        "Peter R. Tauvers"
+      ],
+      "year": 1995,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m65604c6",
+      "type": "book-chapter",
+      "cited_by_count": 335,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2228829038",
+      "title": null,
+      "authors": [
+        "Robert W. Butler",
+        "W. Henry Lickorish",
+        "Mario Grasso",
+        "H.M. Pedley",
+        "Lamberto Ramberti"
+      ],
+      "year": 1995,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1995)107<0425:tassim>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 206,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2109201207",
+      "title": "Alternate interpretation of the Messinian salinity crisis: Controversy resolved?",
+      "authors": [
+        "Georges Clauzon E",
+        "Jean‐Pierre Suc",
+        "François Gautier",
+        "André Berger",
+        "Marie‐France Loutre"
+      ],
+      "year": 1996,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1996)024<0363:aiotms>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 469,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2021959819",
+      "title": "Global Sea Floor Topography from Satellite Altimetry and Ship Depth Soundings",
+      "authors": [
+        "Walter H. F. Smith",
+        "David T. Sandwell"
+      ],
+      "year": 1997,
+      "venue": "Science",
+      "doi": "10.1126/science.277.5334.1956",
+      "type": "article",
+      "cited_by_count": 4705,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2119313675",
+      "title": "South Atlantic volcanic margins",
+      "authors": [
+        "Tadeusz P. Gladczenko",
+        "K. Hinz",
+        "Olav Eldholm",
+        "H. MEYER",
+        "S. Neben",
+        "Jakob Skogseid"
+      ],
+      "year": 1997,
+      "venue": "Journal of the Geological Society",
+      "doi": "10.1144/gsjgs.154.3.0465",
+      "type": "article",
+      "cited_by_count": 261,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2123786602",
+      "title": "Marine gravity anomaly from Geosat and ERS 1 satellite altimetry",
+      "authors": [
+        "David T. Sandwell",
+        "Walter H. F. Smith"
+      ],
+      "year": 1997,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/96jb03223",
+      "type": "article",
+      "cited_by_count": 1828,
+      "open_access": true,
+      "oa_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1029/96JB03223",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2159867270",
+      "title": "Seismic Stratigraphy and Geologic History of Jurassic Rocks, Northeastern Gulf of Mexico",
+      "authors": [
+        "LAURA M. DOBSON",
+        "Richard T. Buffler"
+      ],
+      "year": 1997,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/522b42a3-1727-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 39,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2163602251",
+      "title": "The Evolution of Allochthonous Salt Along a Megaregional Profile Across the Northern Gulf of Mexico Basin",
+      "authors": [
+        "Barry C. McBride"
+      ],
+      "year": 1998,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/1d9bc9e9-172d-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 49,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2140893622",
+      "title": "Chronology, causes and progression of the Messinian salinity crisis",
+      "authors": [
+        "Wout Krijgsman",
+        "Frederick J. Hilgen",
+        "Isabella Raffi",
+        "Francisco Javier Sierro",
+        "Douglas S. Wilson"
+      ],
+      "year": 1999,
+      "venue": "Nature",
+      "doi": "10.1038/23231",
+      "type": "article",
+      "cited_by_count": 1843,
+      "open_access": true,
+      "oa_url": "http://dspace.library.uu.nl:8080/handle/1874/1500",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2170245360",
+      "title": "How continents break up: Insights from Papua New Guinea",
+      "authors": [
+        "Brian Taylor",
+        "A. M. Goodliffe",
+        "Fernando Martínez"
+      ],
+      "year": 1999,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/1998jb900115",
+      "type": "article",
+      "cited_by_count": 235,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1539265249",
+      "title": "Deep-water, salt-cored foldbelts: Lessons from the Mississippi Fan and Perdido foldbelts, northern Gulf of Mexico",
+      "authors": [
+        "Mark G. Rowan",
+        "Bruce D. Trudgill",
+        "Joseph Carl Fiduk"
+      ],
+      "year": 2000,
+      "venue": "Geophysical monograph",
+      "doi": "10.1029/gm115p0173",
+      "type": "book-chapter",
+      "cited_by_count": 82,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1548767494",
+      "title": "Evolution of the Angolan passive margin, West Africa, with emphasis on post-salt structural styles",
+      "authors": [
+        "L. György Marton",
+        "Gábor Tari",
+        "Christoph Lehmann"
+      ],
+      "year": 2000,
+      "venue": "Geophysical monograph",
+      "doi": "10.1029/gm115p0129",
+      "type": "book-chapter",
+      "cited_by_count": 212,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2084261215",
+      "title": "Tectonic setting and sandstone petrofacies of the Bisbee basin(USA–Mexico)",
+      "authors": [
+        "William R. Dickinson",
+        "Timothy F. Lawton"
+      ],
+      "year": 2001,
+      "venue": "Journal of South American Earth Sciences",
+      "doi": "10.1016/s0895-9811(01)00046-3",
+      "type": "article",
+      "cited_by_count": 116,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2481053936",
+      "title": "Kinematic Evolution of the Gulf of Mexico and Caribbean",
+      "authors": [
+        "James Pindell",
+        "Lorcan Kennan"
+      ],
+      "year": 2001,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.5724/gcs.01.21.0193",
+      "type": "book-chapter",
+      "cited_by_count": 187,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2160307270",
+      "title": "The accretionary complex of the Mediterranean Ridge: tectonics, fluid flow and the formation of brine lakes – an introduction to the special issue of Marine Geology",
+      "authors": [
+        "Graham K. Westbrook",
+        "T. J. Reston"
+      ],
+      "year": 2002,
+      "venue": "Marine Geology",
+      "doi": "10.1016/s0025-3227(02)00169-x",
+      "type": "editorial",
+      "cited_by_count": 45,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2116548959",
+      "title": "Regional restoration across the Kwanza Basin, Angola: Salt tectonics triggered by repeated uplift of a metastable passive margin",
+      "authors": [
+        "Michael R. Hudec",
+        "Martin P. A. Jackson"
+      ],
+      "year": 2004,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/02050403061",
+      "type": "article",
+      "cited_by_count": 183,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2132180838",
+      "title": "Upper Jurassic thrombolite reservoir play, northeastern Gulf of Mexico",
+      "authors": [
+        "Ernest A. Mancini",
+        "Juan Carlos Llinás",
+        "William C. Parcell",
+        "Marcos Aurell",
+        "Beatriz Bádenas",
+        "Reinhold Leinfelder",
+        "D. Joe Benson"
+      ],
+      "year": 2004,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/06210404017",
+      "type": "article",
+      "cited_by_count": 96,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2137625220",
+      "title": "Gulf of Mexico tectonic history: Hotspot tracks, crustal boundaries, and early salt distribution",
+      "authors": [
+        "Dale E. Bird",
+        "Kevin Burke",
+        "Stuart A. Hall",
+        "John Casey"
+      ],
+      "year": 2005,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/10280404026",
+      "type": "article",
+      "cited_by_count": 162,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2506597436",
+      "title": "The Mesozoic Opening of the Gulf of Mexico: Part 2, Integrating Seismic and Magnetic Data into a General Opening Model",
+      "authors": [
+        "Patrice Imbert",
+        "Yann Philippe"
+      ],
+      "year": 2005,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.5724/gcs.05.25.1151",
+      "type": "book-chapter",
+      "cited_by_count": 58,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2102010978",
+      "title": "Geometric and seismic interpretation of the Perdido fold belt: Northwestern deep-water Gulf of Mexico",
+      "authors": [
+        "Rion H. Camerlo",
+        "Edward F. Benson"
+      ],
+      "year": 2006,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/10120505003",
+      "type": "article",
+      "cited_by_count": 63,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W629685990",
+      "title": "Evaporites: Sediments, Resources and Hydrocarbons",
+      "authors": [
+        "John K. Warren"
+      ],
+      "year": 2006,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/3-540-32344-9",
+      "type": "book",
+      "cited_by_count": 971,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1997235146",
+      "title": "Variation in styles of rifting in the Gulf of California",
+      "authors": [
+        "Daniel Lizarralde",
+        "Gary J. Axen",
+        "Hillary E. Brown",
+        "John M. Fletcher",
+        "Antonio González‐Fernández",
+        "Alistair J. Harding",
+        "W. Steven Holbrook",
+        "Graham M. Kent",
+        "Pedro Paramo",
+        "F. H. Sutherland",
+        "Paul J. Umhoefer"
+      ],
+      "year": 2007,
+      "venue": "Nature",
+      "doi": "10.1038/nature06035",
+      "type": "article",
+      "cited_by_count": 320,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2145511995",
+      "title": "The rift-to-drift transition in the North Atlantic: A stuttering start of the MORB machine?",
+      "authors": [
+        "Oliver Jagoutz",
+        "Othmar Müntener",
+        "Giänreto Manatschal",
+        "Daniela Rubatto",
+        "Gwenn Péron‐Pinvidic",
+        "Brent D. Turrin",
+        "Igor M. Villa"
+      ],
+      "year": 2007,
+      "venue": "Geology",
+      "doi": "10.1130/g23613a.1",
+      "type": "article",
+      "cited_by_count": 158,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2161724321",
+      "title": "National Geophysical Data Center candidate for the World Digital Magnetic Anomaly Map",
+      "authors": [
+        "S. Maus",
+        "Tatiana Sergeevna Sazonova",
+        "K. Hemant",
+        "James Derek Fairhead",
+        "D. Ravat"
+      ],
+      "year": 2007,
+      "venue": "Geochemistry Geophysics Geosystems",
+      "doi": "10.1029/2007gc001643",
+      "type": "article",
+      "cited_by_count": 157,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1966198843",
+      "title": "FA2BOUG—A FORTRAN 90 code to compute Bouguer gravity anomalies from gridded free-air anomalies: Application to the Atlantic-Mediterranean transition zone",
+      "authors": [
+        "Javier Fullea",
+        "Manel Fernández",
+        "Hermann Zeyen"
+      ],
+      "year": 2008,
+      "venue": "Computers & Geosciences",
+      "doi": "10.1016/j.cageo.2008.02.018",
+      "type": "article",
+      "cited_by_count": 162,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1959605402",
+      "title": "Petroleum Systems in the Southern Gulf of Mexico",
+      "authors": [
+        "Claudio Bartolini",
+        "Juan Ramos"
+      ],
+      "year": 2009,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m901319",
+      "type": "book",
+      "cited_by_count": 40,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2101473265",
+      "title": "Potential field evidence for a volcanic rifted margin along the Texas Gulf Coast",
+      "authors": [
+        "Kevin Mickus",
+        "Robert J. Stern",
+        "G. Randy Keller",
+        "Elizabeth Y. Anthony"
+      ],
+      "year": 2009,
+      "venue": "Geology",
+      "doi": "10.1130/g25465a.1",
+      "type": "article",
+      "cited_by_count": 90,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2075772841",
+      "title": "Hyper-extended crust in the South Atlantic: in search of a model",
+      "authors": [
+        "Patrick Unternehr",
+        "Gwenn Péron‐Pinvidic",
+        "Giänreto Manatschal",
+        "Emilie Sutra"
+      ],
+      "year": 2010,
+      "venue": "Petroleum Geoscience",
+      "doi": "10.1144/1354-079309-904",
+      "type": "article",
+      "cited_by_count": 219,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1929000718",
+      "title": "Plate Kinematics of the Gulf of Mexico Based on Integrated Observations from the Central and South Atlantic",
+      "authors": [
+        "Erik A. Kneller",
+        "Christopher Johnson"
+      ],
+      "year": 2011,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 64,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2046640225",
+      "title": "Depth-dependent extension, two-stage breakup and cratonic underplating at rifted margins",
+      "authors": [
+        "Ritske S. Huismans",
+        "Christopher Beaumont"
+      ],
+      "year": 2011,
+      "venue": "Nature",
+      "doi": "10.1038/nature09988",
+      "type": "article",
+      "cited_by_count": 586,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2166743522",
+      "title": "Southern Louisiana salt dome xenoliths: First glimpse of Jurassic (ca. 160 Ma) Gulf of Mexico crust",
+      "authors": [
+        "Robert J. Stern",
+        "Elizabeth Y. Anthony",
+        "Minghua Ren",
+        "Brian E. Lock",
+        "Ian O. Norton",
+        "Jun‐Ichi Kimura",
+        "Takashi Miyazaki",
+        "Takeshi Hanyu",
+        "Qing Chang",
+        "Yuka Hirahara"
+      ],
+      "year": 2011,
+      "venue": "Geology",
+      "doi": "10.1130/g31635.1",
+      "type": "article",
+      "cited_by_count": 48,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W598471198",
+      "title": "The salt mine : a digital atlas of salt tectonics",
+      "authors": [
+        "Michael R. Hudec",
+        "Martin P. A. Jackson",
+        "Nancy Cottington",
+        "Bruno Claude Vendeville",
+        "Daniel D. Schultz-Ela",
+        "Tim P. Dooley"
+      ],
+      "year": 2011,
+      "venue": "AAPG memoir",
+      "doi": null,
+      "type": "book",
+      "cited_by_count": 99,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2015077183",
+      "title": "Inverse methods for modeling non-rigid plate kinematics: Application to mesozoic plate reconstructions of the Central Atlantic",
+      "authors": [
+        "Erik A. Kneller",
+        "Christopher A. Johnson",
+        "Garry D. Karner",
+        "Jesse C. Einhorn",
+        "Thomas A. Queffelec"
+      ],
+      "year": 2012,
+      "venue": "Computers & Geosciences",
+      "doi": "10.1016/j.cageo.2012.06.019",
+      "type": "article",
+      "cited_by_count": 57,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2154101681",
+      "title": "Variations in rift symmetry: cautionary examples from the Southern Rift System (Australia–Antarctica)",
+      "authors": [
+        "Nicholas G Direen",
+        "Howard M. J. Stagg",
+        "Philip A. Symonds",
+        "Ian O. Norton"
+      ],
+      "year": 2012,
+      "venue": "Geological Society London Special Publications",
+      "doi": "10.1144/sp369.4",
+      "type": "article",
+      "cited_by_count": 39,
+      "open_access": true,
+      "oa_url": "https://figshare.com/articles/chapter/Variations_in_rift_symmetry_Cautionary_examples_from_the_Southern_Rift_System_Australia_Antarctica_/23057528",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2125176922",
+      "title": "Coeval extension and shortening above and below salt canopies on an uplifted, continental margin: Application to the northern Gulf of Mexico",
+      "authors": [
+        "Tim P. Dooley",
+        "Martin P. A. Jackson",
+        "Michael R. Hudec"
+      ],
+      "year": 2013,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/03271312072",
+      "type": "article",
+      "cited_by_count": 62,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2134109970",
+      "title": "Jurassic evolution of the Gulf of Mexico salt basin",
+      "authors": [
+        "Michael R. Hudec",
+        "Ian O. Norton",
+        "Martin P. A. Jackson",
+        "Frank J. Peel"
+      ],
+      "year": 2013,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/04011312073",
+      "type": "article",
+      "cited_by_count": 225,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "full"
+    },
+    {
+      "id": "W2161849672",
+      "title": "Influence of deep Louann structure on the evolution of the northern Gulf of Mexico",
+      "authors": [
+        "Michael R. Hudec",
+        "Martin P. A. Jackson",
+        "Frank Peel"
+      ],
+      "year": 2013,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/04011312074",
+      "type": "article",
+      "cited_by_count": 103,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2484539772",
+      "title": "The crust under the Gulf of Mexico basin",
+      "authors": [
+        "Dale S. Sawyer",
+        "Richard T. Buffler",
+        "Rex Herbert Pilger"
+      ],
+      "year": 2015,
+      "venue": "Geological Society of America eBooks",
+      "doi": "10.1130/dnag-gna-j.53",
+      "type": "book-chapter",
+      "cited_by_count": 140,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2487040690",
+      "title": "Origin and development of the Gulf of Mexico basin",
+      "authors": [
+        "Amos Salvador"
+      ],
+      "year": 2015,
+      "venue": "Geological Society of America eBooks",
+      "doi": "10.1130/dnag-gna-j.389",
+      "type": "book-chapter",
+      "cited_by_count": 230,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2502645159",
+      "title": "Physiography and bathymetry",
+      "authors": [
+        "William R. Bryant",
+        "José Lugo Hubp",
+        "Carlos E. Córdova",
+        "Amos Salvador"
+      ],
+      "year": 2015,
+      "venue": "Geological Society of America eBooks",
+      "doi": "10.1130/dnag-gna-j.13",
+      "type": "book-chapter",
+      "cited_by_count": 79,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4211027019",
+      "title": "Triassic-Jurassic",
+      "authors": [
+        "Amos Salvador"
+      ],
+      "year": 2015,
+      "venue": "Geological Society of America eBooks",
+      "doi": "10.1130/dnag-gna-j.131",
+      "type": "book-chapter",
+      "cited_by_count": 54,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W2134109970",
+      "to": "W1489825917",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W1539265249",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W1548767494",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W1600222128",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W1661135759",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W1834345359",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W1929000718",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W1959605402",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W1966198843",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W1969208391",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W1975656127",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W1997235146",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2012875059",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2015077183",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2021959819",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2046640225",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2062024970",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2063478706",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2075772841",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2084261215",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2090197800",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2090416219",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2101473265",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2102010978",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2109201207",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2111451633",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2114345078",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2115305977",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2116548959",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2119313675",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2123786602",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2125176922",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2132180838",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2133346363",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2137625220",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2140893622",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2142537332",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2144983431",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2145511995",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2151332720",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2154101681",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2154463579",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2159867270",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2160307270",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2161724321",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2161849672",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2163602251",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2166743522",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2170245360",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2228829038",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2481053936",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2484539772",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2487040690",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2494150486",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2502645159",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2506597436",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W2738626587",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W4211027019",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W598471198",
+      "kind": "verified"
+    },
+    {
+      "from": "W2134109970",
+      "to": "W629685990",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 61,
+    "edges": 60,
+    "verified": 60,
+    "inferred": 0,
+    "seed_references_in_openalex": 77,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:27:11.743Z"
+}

@@ -1,0 +1,1555 @@
+{
+  "param": "grain-density",
+  "query": "density of clay minerals grain density shale",
+  "seed": "W3173615624",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W2332561857",
+      "title": "Shale anisotropy and the elastic anisotropy of clay minerals",
+      "year": 2014,
+      "doi": "10.1190/segam2014-0114.1",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2746271086",
+      "title": "Dependence of shale velocity on clay-mineral content and temperature",
+      "year": 2017,
+      "doi": "10.1190/segam2017-16975444.1",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3006748607",
+      "title": "An Evaluation of the Procedures Used in the Determination of the Grain Densities of Petroleum Reservoir Minerals",
+      "year": 1957,
+      "doi": "10.2118/775-g",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1987211948",
+      "title": "Experimental investigations of the wettability of clays and shales",
+      "year": 2009,
+      "doi": "10.1029/2008jb005928",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1554158673",
+      "title": "Chapter 12 Heavy Minerals in Shales",
+      "year": 2007,
+      "doi": "10.1016/s0070-4571(07)58012-x",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2350092862",
+      "title": "Clay mineralogy and unconventional hydrocarbon shale reservoirs in the USA. II. Implications of predominantly illitic clays on the physico-chemical properties of shales",
+      "year": 2016,
+      "doi": "10.1016/j.earscirev.2016.04.005",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3211674335",
+      "title": "Effects of Clay Minerals and External Pressures on Imbibition in Shales",
+      "year": 2021,
+      "doi": "10.3390/en14227528",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3173615624",
+      "title": "Basics of Clay Minerals and Their Characteristic Properties",
+      "year": 2021,
+      "doi": "10.5772/intechopen.97672",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3010697095",
+      "title": "Laboratory observation of velocity anisotropy affected by clays and microcracks in artificial clay-rich shale samples",
+      "year": 2020,
+      "doi": "10.1016/j.petrol.2020.107156",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4214641942",
+      "title": "Clays and Clay Minerals in the Construction Industry",
+      "year": 2022,
+      "doi": "10.3390/min12030301",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W1997811206",
+      "title": "Formation and Occurrence of Clay Minerals",
+      "authors": [
+        "Paul Francis Kerr"
+      ],
+      "year": 1955,
+      "venue": "Clays and clay technology (National Conference on Clays and Clay Technology)",
+      "doi": "10.1346/ccmn.1952.0010104",
+      "type": "conference-paper",
+      "cited_by_count": 59,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2090437643",
+      "title": "Stability problems in underground constructions caused by montmorillonite-carrying joints and faults",
+      "authors": [
+        "T L Brekke",
+        "R Selmer-Olsen"
+      ],
+      "year": 1965,
+      "venue": "Engineering Geology",
+      "doi": "10.1016/0013-7952(65)90004-9",
+      "type": "article",
+      "cited_by_count": 33,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2522917253",
+      "title": "The measurement of the cation exchange capacity and exchangeable cations in soils: a new method",
+      "authors": [
+        "Ranbir Chhabra",
+        "J. L. Pleysier",
+        "Adrien E. Cremers"
+      ],
+      "year": 1975,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 180,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2012010146",
+      "title": "Proceedings of the International Clay Conference",
+      "authors": [
+        "David E. Pettry",
+        "Victor E. Nash"
+      ],
+      "year": 1976,
+      "venue": "Soil Science",
+      "doi": "10.1097/00010694-197611000-00009",
+      "type": "article",
+      "cited_by_count": 390,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1977165383",
+      "title": "Effect of pH on Saturated Hydraulic Conductivity and Soil Dispersion",
+      "authors": [
+        "Donald L. Suarez",
+        "J. D. Rhoades",
+        "Raúl S. Lavado",
+        "C. M. Grieve"
+      ],
+      "year": 1984,
+      "venue": "Soil Science Society of America Journal",
+      "doi": "10.2136/sssaj1984.03615995004800010009x",
+      "type": "article",
+      "cited_by_count": 245,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2069694403",
+      "title": "Smectite clay minerals: properties and uses",
+      "authors": [
+        "Ira Edgar Odom"
+      ],
+      "year": 1984,
+      "venue": "Philosophical Transactions of the Royal Society of London Series A Mathematical and Physical Sciences",
+      "doi": "10.1098/rsta.1984.0036",
+      "type": "article",
+      "cited_by_count": 336,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2080406074",
+      "title": "Metachromasy in clay minerals. Sorption of acridine orange by montmorillonite",
+      "authors": [
+        "Rachel Cohen",
+        "S. Yariv"
+      ],
+      "year": 1984,
+      "venue": "Journal of the Chemical Society Faraday Transactions 1 Physical Chemistry in Condensed Phases",
+      "doi": "10.1039/f19848001705",
+      "type": "article",
+      "cited_by_count": 66,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1567627451",
+      "title": "Fuller's earth: A history of calcium montmoril-lonite",
+      "authors": [],
+      "year": 1988,
+      "venue": "Additives for Polymers",
+      "doi": "10.1016/0306-3747(88)90256-4",
+      "type": "article",
+      "cited_by_count": 57,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2979145712",
+      "title": "An Introduction to Soil Mineralogy",
+      "authors": [
+        "Darrell G. Schulze"
+      ],
+      "year": 1989,
+      "venue": "Soil Science Society of America book series",
+      "doi": "10.2136/sssabookser1.2ed.c1",
+      "type": "other",
+      "cited_by_count": 117,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1987397366",
+      "title": "Determination of cation exchange capacity of clay minerals by potentiometric titration using divalent cation electrodes",
+      "authors": [
+        "Y.C. Chiu",
+        "Lingli Huang",
+        "C.M. Uang",
+        "Jun-Fu Huang"
+      ],
+      "year": 1990,
+      "venue": "Colloids and Surfaces",
+      "doi": "10.1016/0166-6622(90)80174-3",
+      "type": "article",
+      "cited_by_count": 19,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2000481759",
+      "title": "Methods of soil analysis, part 1, physical and mineralogical methods (2nd edition), A. Klute, Ed., 1986, American Society of Agronomy, Agronomy Monographs 9(1), Madison, Wisconsin, 1188 pp., $60.00",
+      "authors": [
+        "Vance T. Holliday"
+      ],
+      "year": 1990,
+      "venue": "Geoarchaeology",
+      "doi": "10.1002/gea.3340050110",
+      "type": "article",
+      "cited_by_count": 78,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1979448533",
+      "title": "Sodicity and soil structure",
+      "authors": [
+        "Pichu Rengasamy",
+        "KA Olsson"
+      ],
+      "year": 1991,
+      "venue": "Soil Research",
+      "doi": "10.1071/sr9910935",
+      "type": "article",
+      "cited_by_count": 467,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1595309896",
+      "title": "Bentonite and fuller's earth resources of the United States",
+      "authors": [
+        "John W. Hosterman",
+        "Sam H. Patterson"
+      ],
+      "year": 1992,
+      "venue": "USGS professional paper",
+      "doi": "10.3133/pp1522",
+      "type": "report",
+      "cited_by_count": 55,
+      "open_access": true,
+      "oa_url": "https://pubs.usgs.gov/pp/1522/report.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2053020241",
+      "title": "Proton Effects on Quaternary Cation Exchange and Flocculation of Silver Hill Illite",
+      "authors": [
+        "Catherine Thellier",
+        "Garrison Sposito",
+        "Kenneth M. Holtzclaw"
+      ],
+      "year": 1992,
+      "venue": "Soil Science Society of America Journal",
+      "doi": "10.2136/sssaj1992.03615995005600020014x",
+      "type": "article",
+      "cited_by_count": 11,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2481124287",
+      "title": "The Diffuse-Ion Swarm Near Smectite Particles Suspended in 1:1 Electrolyte Solutions",
+      "authors": [
+        "Garrison Sposito"
+      ],
+      "year": 1992,
+      "venue": "Clay Minerals Society eBooks",
+      "doi": "10.1346/cms-wls-4.3",
+      "type": "book-chapter",
+      "cited_by_count": 47,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2494127360",
+      "title": "Introduction to Clay Minerals",
+      "authors": [
+        "B. Velde"
+      ],
+      "year": 1992,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-94-011-2368-6",
+      "type": "book",
+      "cited_by_count": 417,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2502273777",
+      "title": "Rheological Aspects of Aqueous Smectite Suspensions",
+      "authors": [
+        "Necip Güven"
+      ],
+      "year": 1992,
+      "venue": "Clay Minerals Society eBooks",
+      "doi": "10.1346/cms-wls-4.2",
+      "type": "book-chapter",
+      "cited_by_count": 47,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2140638095",
+      "title": "Determination of the Cation Exchange Capacity of Clays by Surface Tension Measurements",
+      "authors": [
+        "G. Burrafato",
+        "Fausto Miano"
+      ],
+      "year": 1993,
+      "venue": "Clay Minerals",
+      "doi": "10.1180/claymin.1993.028.3.10",
+      "type": "article",
+      "cited_by_count": 12,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2168168314",
+      "title": "Hysteresis in the Binary Exchange of Cations on 2:1 Clay Minerals: A Critical Review",
+      "authors": [
+        "Kirsten Verburg",
+        "Philippe C. Baveye"
+      ],
+      "year": 1994,
+      "venue": "Clays and Clay Minerals",
+      "doi": "10.1346/ccmn.1994.0420211",
+      "type": "article",
+      "cited_by_count": 119,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2004923003",
+      "title": "Determination of the cation exchange capacity and the surface area of bentonite, illite and kaolinite by methylene blue adsorption",
+      "authors": [
+        "Günter Kahr",
+        "Fritz T. Madsen"
+      ],
+      "year": 1995,
+      "venue": "Applied Clay Science",
+      "doi": "10.1016/0169-1317(94)00028-o",
+      "type": "article",
+      "cited_by_count": 309,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2039595390",
+      "title": "Dispersion and zeta potential of pure clays as related to net particle charge under varying pH, electrolyte concentration and cation type",
+      "authors": [
+        "Mostafa Chorom",
+        "Pichu Rengasamy"
+      ],
+      "year": 1995,
+      "venue": "European Journal of Soil Science",
+      "doi": "10.1111/j.1365-2389.1995.tb01362.x",
+      "type": "article",
+      "cited_by_count": 246,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2067235107",
+      "title": "Definition of clay and clay mineral: joint report of the AIPEA and CMS Nomenclature Committees",
+      "authors": [
+        "Stephen Guggenheim",
+        "R. T. Martin"
+      ],
+      "year": 1995,
+      "venue": "Clay Minerals",
+      "doi": "10.1180/claymin.1995.030.3.09",
+      "type": "article",
+      "cited_by_count": 78,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2126584167",
+      "title": "Definition of Clay and Clay Mineral: Joint Report of the Aipea Nomenclature and CMS Nomenclature Committees",
+      "authors": [
+        "Stephen Guggenheim",
+        "R. T. Martin"
+      ],
+      "year": 1995,
+      "venue": "Clays and Clay Minerals",
+      "doi": "10.1346/ccmn.1995.0430213",
+      "type": "article",
+      "cited_by_count": 398,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1553877930",
+      "title": "Handbook of inorganic compounds",
+      "authors": [
+        "Perry, Dale L."
+      ],
+      "year": 1996,
+      "venue": "Choice Reviews Online",
+      "doi": "10.5860/choice.33-3322",
+      "type": "book-review",
+      "cited_by_count": 307,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2028327310",
+      "title": "CEC of clays: Measurement by adsorption of a copper ethylenediamine complex",
+      "authors": [
+        "F. Bergaya",
+        "Marylène Vayer"
+      ],
+      "year": 1997,
+      "venue": "Applied Clay Science",
+      "doi": "10.1016/s0169-1317(97)00012-4",
+      "type": "article",
+      "cited_by_count": 339,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2036059668",
+      "title": "Surface modification of clay minerals",
+      "authors": [
+        "F. Bergaya",
+        "G. Lagaly"
+      ],
+      "year": 2001,
+      "venue": "Applied Clay Science",
+      "doi": "10.1016/s0169-1317(01)00063-1",
+      "type": "article",
+      "cited_by_count": 281,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1528465288",
+      "title": "Colloid And Surface Properties Of Clays And Related Minerals",
+      "authors": [
+        "Rossman F. Giese",
+        "Carel Jan van Oss"
+      ],
+      "year": 2002,
+      "venue": "CRC Press eBooks",
+      "doi": "10.1201/9780203910658",
+      "type": "reference-entry",
+      "cited_by_count": 187,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1992217438",
+      "title": "Influence of pH on Soil Charge Characteristics and Cadmium Sorption in Some Noncontaminated Soils of Indian Subtropics",
+      "authors": [
+        "Tanmoy Karak",
+        "Dillip Kumar Das",
+        "Uttam Kumar Singh",
+        "Debtanu Maiti"
+      ],
+      "year": 2005,
+      "venue": "The Scientific World JOURNAL",
+      "doi": "10.1100/tsw.2005.26",
+      "type": "article",
+      "cited_by_count": 18,
+      "open_access": true,
+      "oa_url": "https://downloads.hindawi.com/journals/tswj/2005/986126.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2073540689",
+      "title": "Clay mineralogy, specific surface area and micromorphology of polygenetic soils from Eastern Kansas",
+      "authors": [
+        "Hikmet Günal",
+        "Michel D. Ransom"
+      ],
+      "year": 2005,
+      "venue": "Archives of Agronomy and Soil Science",
+      "doi": "10.1080/03650340500186439",
+      "type": "article",
+      "cited_by_count": 9,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2096034074",
+      "title": "Geosynthetic Clay Liner Interaction with Leachate: Correlation between Permeability, Microstructure, and Surface Chemistry",
+      "authors": [
+        "Dominique Guyonnet",
+        "Éric C. Gaucher",
+        "Hervé Gaboriau",
+        "Charles-Henri Pons",
+        "Christian Clinard",
+        "Véronique Norotte",
+        "Gérard Didier"
+      ],
+      "year": 2005,
+      "venue": "Journal of Geotechnical and Geoenvironmental Engineering",
+      "doi": "10.1061/(asce)1090-0241(2005)131:6(740)",
+      "type": "article",
+      "cited_by_count": 115,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1513009057",
+      "title": "Chapter 7.5 Pillared Clays and Clay Minerals",
+      "authors": [
+        "F. Bergaya",
+        "Amina Aouad",
+        "Tushar Mandalia"
+      ],
+      "year": 2006,
+      "venue": "Developments in clay science",
+      "doi": "10.1016/s1572-4352(05)01012-3",
+      "type": "book-chapter",
+      "cited_by_count": 83,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1513892485",
+      "title": "Chapter 1 General Introduction: Clays, Clay Minerals, and Clay Science",
+      "authors": [
+        "F. Bergaya",
+        "G. Lagaly"
+      ],
+      "year": 2006,
+      "venue": "Developments in clay science",
+      "doi": "10.1016/s1572-4352(05)01001-9",
+      "type": "book-chapter",
+      "cited_by_count": 581,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1734615767",
+      "title": "Chapter 2 Structure and Composition of the Clay Minerals and their Physical and Chemical Properties",
+      "authors": [
+        "Haydn H. Murray"
+      ],
+      "year": 2006,
+      "venue": "Developments in clay science",
+      "doi": "10.1016/s1572-4352(06)02002-2",
+      "type": "book-chapter",
+      "cited_by_count": 176,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4230697018",
+      "title": "Clay mineralogy",
+      "authors": [
+        "Stephen Hillier"
+      ],
+      "year": 2006,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/3-540-31079-7_47",
+      "type": "reference-entry",
+      "cited_by_count": 3,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2001826058",
+      "title": "Selective Modification of Clay Minerals for the Adsorption of Herbicides Widely Used in Olive Groves",
+      "authors": [
+        "Rafael Celis",
+        "Carmen Trigo",
+        "Gracia Facenda",
+        "María C. Hermosín",
+        "Juan Cornejo"
+      ],
+      "year": 2007,
+      "venue": "Journal of Agricultural and Food Chemistry",
+      "doi": "10.1021/jf070709q",
+      "type": "article",
+      "cited_by_count": 82,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1997915977",
+      "title": "Clays, Nanoclays, and Montmorillonite Minerals",
+      "authors": [
+        "Faheem Uddin"
+      ],
+      "year": 2008,
+      "venue": "Metallurgical and Materials Transactions A",
+      "doi": "10.1007/s11661-008-9603-5",
+      "type": "article",
+      "cited_by_count": 570,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2030798415",
+      "title": "A spectrophotometric measurement of soil cation exchange capacity based on cobaltihexamine chloride absorbance",
+      "authors": [
+        "Delphine Aran",
+        "A. Maul",
+        "Jean‐François Masfaraud"
+      ],
+      "year": 2008,
+      "venue": "Comptes Rendus Géoscience",
+      "doi": "10.1016/j.crte.2008.07.015",
+      "type": "article",
+      "cited_by_count": 178,
+      "open_access": true,
+      "oa_url": "https://www.sciencedirect.com/science/article/pii/S1631071308001910/pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2078780505",
+      "title": "Insights from theory and simulation on the electrical double layer",
+      "authors": [
+        "Douglas J. Henderson",
+        "Dezső Boda"
+      ],
+      "year": 2009,
+      "venue": "Physical Chemistry Chemical Physics",
+      "doi": "10.1039/b815946g",
+      "type": "article",
+      "cited_by_count": 162,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2022831571",
+      "title": "Cases of instability caused by weakness zones in Norwegian tunnels",
+      "authors": [
+        "Bjørn Nilsen"
+      ],
+      "year": 2010,
+      "venue": "Bulletin of Engineering Geology and the Environment",
+      "doi": "10.1007/s10064-010-0331-x",
+      "type": "article",
+      "cited_by_count": 36,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2139178477",
+      "title": "Measuring the plasticity of clays: A review",
+      "authors": [
+        "Fernando A. Andrade",
+        "Hazim Ali Al-Qureshi",
+        "Dachamir Hotza"
+      ],
+      "year": 2010,
+      "venue": "Applied Clay Science",
+      "doi": "10.1016/j.clay.2010.10.028",
+      "type": "article",
+      "cited_by_count": 253,
+      "open_access": true,
+      "oa_url": "https://www.sciencedirect.com/science/article/pii/S0169131710003601/pdf",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2149521871",
+      "title": "Measuring and Modeling the Plasticity of Clays",
+      "authors": [
+        "Fernando A. Andrade",
+        "Hazim Ali Al-Qureshi",
+        "Dachamir Hotza"
+      ],
+      "year": 2010,
+      "venue": "Materials Research",
+      "doi": "10.1590/s1516-14392010000300019",
+      "type": "article",
+      "cited_by_count": 34,
+      "open_access": true,
+      "oa_url": "https://www.scielo.br/j/mr/a/hBkwtNLBm7hCPnB37DBbRVr/?lang=en&format=pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2494555931",
+      "title": "The surface properties of clay minerals",
+      "authors": [
+        "Robert A. Schoonheydt",
+        "Cliff T. Johnston"
+      ],
+      "year": 2011,
+      "venue": "Mineralogical Society of Great Britain and Ireland eBooks",
+      "doi": "10.1180/emu-notes.11.10",
+      "type": "book-chapter",
+      "cited_by_count": 59,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1600033613",
+      "title": "Formation and Properties of Clay-Polymer Complexes",
+      "authors": [],
+      "year": 2012,
+      "venue": "Developments in clay science",
+      "doi": "10.1016/c2009-0-01833-9",
+      "type": "book",
+      "cited_by_count": 767,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1579319646",
+      "title": "An Introduction to the Rock-Forming Minerals",
+      "authors": [
+        "William Alexander Deer",
+        "R. A. Howie",
+        "Jack Zussman"
+      ],
+      "year": 2013,
+      "venue": "Mineralogical Society of Great Britain and Ireland eBooks",
+      "doi": "10.1180/dhz",
+      "type": "book",
+      "cited_by_count": 6560,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1971664533",
+      "title": "Hydrologic properties and leachate nutrient responses of soil columns collected from gypsum-treated fields",
+      "authors": [
+        "Rebecca Tirado‐Corbalá",
+        "Brian K. Slater",
+        "Warren Albert Dick",
+        "Jerry Marshal Bigham",
+        "Edward L. McCoy"
+      ],
+      "year": 2013,
+      "venue": "Soil and Tillage Research",
+      "doi": "10.1016/j.still.2013.08.007",
+      "type": "article",
+      "cited_by_count": 45,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2030144454",
+      "title": "Physicochemical Properties and Surface Charge Characteristics of Arid Soils in Southeastern Iran",
+      "authors": [
+        "Aboulghasem Moghimi",
+        "Hamdan Jol",
+        "Jusop Shamshuddin",
+        "A. W. Samsuri",
+        "A. Abtahi"
+      ],
+      "year": 2013,
+      "venue": "Applied and Environmental Soil Science",
+      "doi": "10.1155/2013/252861",
+      "type": "article",
+      "cited_by_count": 32,
+      "open_access": true,
+      "oa_url": "https://downloads.hindawi.com/journals/aess/2013/252861.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2121487832",
+      "title": "The Characterization of Clay Minerals and Adsorption Mechanism onto Clays",
+      "authors": [
+        "Suryadi Ismadji",
+        "Felycia Edi Soetaredjo",
+        "Aning Ayucitra"
+      ],
+      "year": 2015,
+      "venue": "Springer briefs in molecular science",
+      "doi": "10.1007/978-3-319-16712-1_5",
+      "type": "book-chapter",
+      "cited_by_count": 9,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W218775224",
+      "title": "Surface Properties of Clay Minerals",
+      "authors": [
+        "Christophe Tournassat",
+        "Ian C. Bourg",
+        "Carl I. Steefel",
+        "F. Bergaya"
+      ],
+      "year": 2015,
+      "venue": "Developments in clay science",
+      "doi": "10.1016/b978-0-08-100027-4.00001-2",
+      "type": "book-chapter",
+      "cited_by_count": 113,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W958492342",
+      "title": "Clay Minerals – Mineralogy and Phenomenon of Clay Swelling in Oil & Gas Industry",
+      "authors": [
+        "B. Karpiński",
+        "Marek Szkodo"
+      ],
+      "year": 2015,
+      "venue": "Advances in Materials Science",
+      "doi": "10.1515/adms-2015-0006",
+      "type": "article",
+      "cited_by_count": 84,
+      "open_access": true,
+      "oa_url": "https://sciendo.com/pdf/10.1515/adms-2015-0006",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2297662526",
+      "title": "Adsorption of Industrial Pollutants by Natural and Modified Aluminosilicates",
+      "authors": [
+        "Liudmila Novikova",
+        "Larisa I. Belchinskaya"
+      ],
+      "year": 2016,
+      "venue": "InTech eBooks",
+      "doi": "10.5772/61678",
+      "type": "book-chapter",
+      "cited_by_count": 32,
+      "open_access": true,
+      "oa_url": "https://www.intechopen.com/citation-pdf-url/49614",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2299012005",
+      "title": "Charging Behavior of Clays and Clay Minerals in Aqueous Electrolyte Solutions — Experimental Methods for Measuring the Charge and Interpreting the Results",
+      "authors": [
+        "Tajana Preočanin",
+        "Ahmed Abdelmonem",
+        "Gilles Montavon",
+        "Johannes Lützenkirchen"
+      ],
+      "year": 2016,
+      "venue": "InTech eBooks",
+      "doi": "10.5772/62082",
+      "type": "book-chapter",
+      "cited_by_count": 45,
+      "open_access": true,
+      "oa_url": "https://www.intechopen.com/citation-pdf-url/49766",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2610177059",
+      "title": "Characterizing the surface charge of clay minerals with Atomic Force Microscope (AFM)",
+      "authors": [
+        "Yuan Cheng Guo",
+        "Xiong Bill Yu"
+      ],
+      "year": 2017,
+      "venue": "AIMS Materials Science",
+      "doi": "10.3934/matersci.2017.3.582",
+      "type": "article",
+      "cited_by_count": 46,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.3934/matersci.2017.3.582",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2750123487",
+      "title": "Environmental characteristics of clay and clay-based minerals",
+      "authors": [
+        "Suzanne Christine Aboudi-Mana",
+        "Marlia Mohd Hanafiah",
+        "Ahmed Jalal Khan Chowdhury"
+      ],
+      "year": 2017,
+      "venue": "Geology Ecology and Landscapes",
+      "doi": "10.1080/24749508.2017.1361128",
+      "type": "article",
+      "cited_by_count": 160,
+      "open_access": true,
+      "oa_url": "https://www.tandfonline.com/doi/pdf/10.1080/24749508.2017.1361128?needAccess=true",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2792120818",
+      "title": "Effect of swelling mineral on geotechnical characteristics of clay soil",
+      "authors": [
+        "Mechri Mohammed Cherif",
+        "Amal Medjnoun",
+        "Bahar Ramdane"
+      ],
+      "year": 2018,
+      "venue": "MATEC Web of Conferences",
+      "doi": "10.1051/matecconf/201814902067",
+      "type": "conference-paper",
+      "cited_by_count": 24,
+      "open_access": true,
+      "oa_url": "https://www.matec-conferences.org/articles/matecconf/pdf/2018/08/matecconf_cmss2018_02067.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2801388325",
+      "title": "Clay Minerals—Organic Matter Interactions in Relation to Carbon Stabilization in Soils",
+      "authors": [
+        "Binoy Sarkar",
+        "Mandeep Singh",
+        "Sanchita Mandal",
+        "Gordon Jock Churchman",
+        "Nanthi Sirangie Bolan"
+      ],
+      "year": 2018,
+      "venue": "Elsevier eBooks",
+      "doi": "10.1016/b978-0-12-811687-6.00003-1",
+      "type": "book-chapter",
+      "cited_by_count": 104,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2903934794",
+      "title": "Modified clay minerals for environmental applications",
+      "authors": [
+        "Binoy Sarkar",
+        "Ruhaida Rusmin",
+        "Uzochukwu Cornelius Ugochukwu",
+        "Raj Mukhopadhyay",
+        "Kanchikeri Math Manjaiah"
+      ],
+      "year": 2018,
+      "venue": "Elsevier eBooks",
+      "doi": "10.1016/b978-0-12-814617-0.00003-7",
+      "type": "book-chapter",
+      "cited_by_count": 95,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2905445209",
+      "title": "Characteristics of clay minerals relevant to bioremediation of environmental contaminated systems",
+      "authors": [
+        "Uzochukwu Cornelius Ugochukwu"
+      ],
+      "year": 2018,
+      "venue": "Elsevier eBooks",
+      "doi": "10.1016/b978-0-12-814617-0.00006-2",
+      "type": "book-chapter",
+      "cited_by_count": 29,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2913842380",
+      "title": "Facile sample preparation method allowing TEM characterization of the stacking structures and interlayer spaces of clay minerals",
+      "authors": [
+        "Dong Liu",
+        "Qian Tian",
+        "Peng Yuan",
+        "Peixin Du",
+        "Junming Zhou",
+        "Yun Li",
+        "Hongling Bu",
+        "Jieyu Zhou"
+      ],
+      "year": 2019,
+      "venue": "Applied Clay Science",
+      "doi": "10.1016/j.clay.2019.01.019",
+      "type": "article",
+      "cited_by_count": 41,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2973844636",
+      "title": "Physico-Chemical Properties of Clay Minerals and Their Use as a Health Promoting Feed Additive",
+      "authors": [
+        "Małgorzata Nadziakiewicza",
+        "S.I. Kehoe",
+        "Piotr Micek"
+      ],
+      "year": 2019,
+      "venue": "Animals",
+      "doi": "10.3390/ani9100714",
+      "type": "article",
+      "cited_by_count": 128,
+      "open_access": true,
+      "oa_url": "https://www.mdpi.com/2076-2615/9/10/714/pdf?version=1569462266",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W3173615624",
+      "title": "Basics of Clay Minerals and Their Characteristic Properties",
+      "authors": [
+        "Neeraj Kumari",
+        "Chandra Mohan"
+      ],
+      "year": 2021,
+      "venue": "IntechOpen eBooks",
+      "doi": "10.5772/intechopen.97672",
+      "type": "book-chapter",
+      "cited_by_count": 407,
+      "open_access": true,
+      "oa_url": "https://www.intechopen.com/citation-pdf-url/76780",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W3173615624",
+      "to": "W1513009057",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1513892485",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1528465288",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1553877930",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1567627451",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1579319646",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1595309896",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1600033613",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1734615767",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1971664533",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1977165383",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1979448533",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1987397366",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1992217438",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1997811206",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W1997915977",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2000481759",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2001826058",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2004923003",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2012010146",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2022831571",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2028327310",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2030144454",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2030798415",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2036059668",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2039595390",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2053020241",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2067235107",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2069694403",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2073540689",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2078780505",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2080406074",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2090437643",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2096034074",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2121487832",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2126584167",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2139178477",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2140638095",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2149521871",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2168168314",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W218775224",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2297662526",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2299012005",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2481124287",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2494127360",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2494555931",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2502273777",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2522917253",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2610177059",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2750123487",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2792120818",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2801388325",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2903934794",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2905445209",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2913842380",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2973844636",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W2979145712",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W4230697018",
+      "kind": "verified"
+    },
+    {
+      "from": "W3173615624",
+      "to": "W958492342",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 60,
+    "edges": 59,
+    "verified": 59,
+    "inferred": 0,
+    "seed_references_in_openalex": 61,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:29:29.621Z"
+}

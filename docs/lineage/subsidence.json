@@ -1,0 +1,2406 @@
+{
+  "param": "subsidence",
+  "query": "Cenozoic subsidence northern Gulf of Mexico basin",
+  "seed": "W2105082865",
+  "ancestors": [
+    "W2486246430",
+    "W1599441881",
+    "W2154819637",
+    "W2156274950",
+    "W631949783"
+  ],
+  "candidates": [
+    {
+      "id": "W2021800930",
+      "title": "History of Cenozoic North American drainage basin evolution, sediment yield, and accumulation in the Gulf of Mexico basin",
+      "year": 2011,
+      "doi": "10.1130/ges00647.1",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2151332720",
+      "title": "Cenozoic Structural Evolution and Tectono-Stratigraphic Framework of the Northern Gulf Coast Continental Margin",
+      "year": 1995,
+      "doi": "10.1306/m65604c6",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3128579912",
+      "title": "Northern and Eastern Gulf of Mexico Continental Margin",
+      "year": 1978,
+      "doi": "10.1306/st7399c2",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2163934475",
+      "title": "Subsidence controls on foreland basin development of northwestern offshore Cuba, southeastern Gulf of Mexico",
+      "year": 2013,
+      "doi": "10.1306/06111212002",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2163602251",
+      "title": "The Evolution of Allochthonous Salt Along a Megaregional Profile Across the Northern Gulf of Mexico Basin",
+      "year": 1998,
+      "doi": "10.1306/1d9bc9e9-172d-11d7-8645000102c1865d",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2321906440",
+      "title": "The Gulf of Mexico is a Jurassic backarc basin",
+      "year": 2010,
+      "doi": "10.1130/ges00585.1",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2241013499",
+      "title": "Geothermal and Hydrocarbon Regimes, Northern Gulf of Mexico Basin",
+      "year": 1975,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2755593045",
+      "title": "Hydrology of Neogene Deposits in the Northern Gulf of Mexico Basin.",
+      "year": 1968,
+      "doi": "10.31390/gradschool_disstheses.1494",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2766613048",
+      "title": "Rapid Cenozoic Subsidence in the Gulf of Mexico Resulting From Hess Rise Conjugate Subduction",
+      "year": 2017,
+      "doi": "10.1002/2017gl074959",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2264656316",
+      "title": "Geologic structures in the Gulf of Mexico basin",
+      "year": 1973,
+      "doi": "10.3133/pp773",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W1597435737",
+      "title": "Depositional systems in the Wilcox Group of Texas and their relationship to occurrence of oil and gas",
+      "authors": [
+        "William L. Fisher",
+        "Joseph H. McGowen"
+      ],
+      "year": 1967,
+      "venue": "The University of Texas at Austin Digital Collections",
+      "doi": "10.26153/tsw/5010",
+      "type": "article",
+      "cited_by_count": 242,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.26153/tsw/5010",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1732722538",
+      "title": "Depositional Systems of the Lower Wilcox Group, North-Central Gulf Coast Basin",
+      "authors": [
+        "William E. Galloway"
+      ],
+      "year": 1968,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 67,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2146615298",
+      "title": "Depositional systems in the Jackson Group of Texas: their relationship to oil, gas, and uranium",
+      "authors": [
+        "William L. Fisher",
+        "Proctor, C.V.",
+        "Galloway, William E.",
+        "J. S. Nagle"
+      ],
+      "year": 1970,
+      "venue": "The University of Texas at Austin Digital Collections",
+      "doi": "10.26153/tsw/5067",
+      "type": "article",
+      "cited_by_count": 61,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.26153/tsw/5067",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2318152314",
+      "title": "Initial reports of the deep sea drilling project",
+      "authors": [
+        "Roland E. von Huene"
+      ],
+      "year": 1971,
+      "venue": "Marine Geology",
+      "doi": "10.1016/0025-3227(71)90053-3",
+      "type": "article",
+      "cited_by_count": 3990,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2147705734",
+      "title": "Depositional systems and oil-gas reservoirs in the Queen City Formation (Eocene), Texas",
+      "authors": [
+        "Edgar H. Guevara",
+        "Roberto García"
+      ],
+      "year": 1972,
+      "venue": "The University of Texas at Austin Digital Collections",
+      "doi": "10.26153/tsw/5151",
+      "type": "article",
+      "cited_by_count": 20,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.26153/tsw/5151",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1604095676",
+      "title": "Process Framework for Describing the Morphologic and Stratigraphic Evolution of Deltaic Depositional Systems",
+      "authors": [
+        "William E. Galloway"
+      ],
+      "year": 1975,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 775,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2322427423",
+      "title": "Geomorphic and Tectonic Implications of the Post-Laramide, Late Eocene Erosion Surface in the Southern Rocky Mountains",
+      "authors": [
+        "Rudy C. Epis",
+        "Charles E. Chapin"
+      ],
+      "year": 1975,
+      "venue": "Geological Society of America eBooks",
+      "doi": "10.1130/mem144-p45",
+      "type": "book-chapter",
+      "cited_by_count": 226,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2460971277",
+      "title": "Geology of Continental Margins",
+      "authors": [
+        "Joseph R. Curray",
+        "William R. Dickinson",
+        "Wallace G. Dow",
+        "Kenneth Orris Emery",
+        "D. R. Seely",
+        "Peter R. Vail",
+        "Hunter Yarborough"
+      ],
+      "year": 1977,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/ce5387",
+      "type": "book",
+      "cited_by_count": 107,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2948653511",
+      "title": "Catahoula formation of the Texas Coastal Plain: depositional systems, composition, structural development, ground-water flow history, and uranium distribution",
+      "authors": [
+        "W. Galloway"
+      ],
+      "year": 1977,
+      "venue": null,
+      "doi": "10.2172/7301167",
+      "type": "report",
+      "cited_by_count": 64,
+      "open_access": true,
+      "oa_url": "https://digital.library.unt.edu/ark:/67531/metadc784603/",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2056452793",
+      "title": "Deep-Water Sandstone Facies and Ancient Submarine Fans: Models for Exploration for Stratigraphic Traps: Discussion",
+      "authors": [
+        "KENNETH R. AALTO"
+      ],
+      "year": 1979,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/2f9182e3-16ce-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 475,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2063746375",
+      "title": "Distributary channels, sand lobes, and mesotopography of Navy Submarine Fan, California Borderland, with applications to ancient fan sediments",
+      "authors": [
+        "William R. Normark",
+        "David J. W. Piper",
+        "Gordon R. Hess"
+      ],
+      "year": 1979,
+      "venue": "Sedimentology",
+      "doi": "10.1111/j.1365-3091.1979.tb00971.x",
+      "type": "article",
+      "cited_by_count": 197,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W18304594",
+      "title": "Lignite Resources in Texas",
+      "authors": [
+        "Bureau of Economic Geology",
+        "W.R. Kaiser",
+        "Walter B. Ayers",
+        "L.W. LaBrie"
+      ],
+      "year": 1980,
+      "venue": "Report of investigations/Report of investigations - University of Texas at Austin. Bureau of Economic Geology",
+      "doi": "10.23867/ri0104d",
+      "type": "report",
+      "cited_by_count": 67,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2126983863",
+      "title": "Upper Wilcox Rosita Delta System of South Texas: Growth-Faulted Shelf-Edge Deltas",
+      "authors": [
+        "Marc B. Edwards"
+      ],
+      "year": 1981,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/2f91976f-16ce-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 71,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2981937176",
+      "title": "DELTAIC AND SLOPE DEPOSITS IN THE PLANULINA TREND (BASAL MIOCENE), SOUTHWESTERN LOUISIANA",
+      "authors": [
+        "Charles A. Caughey"
+      ],
+      "year": 1981,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.5724/gcs.81.02.0020",
+      "type": "book-chapter",
+      "cited_by_count": 3,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1544422900",
+      "title": "Frio Formation of the Texas Gulf Coast Basin : depositional systems, structural framework, and hydrocarbon origin, migration, distribution, and exploration potential",
+      "authors": [
+        "William E. Galloway"
+      ],
+      "year": 1982,
+      "venue": "The University of Texas at Austin Digital Collections",
+      "doi": "10.26153/tsw/7489",
+      "type": "article",
+      "cited_by_count": 58,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.26153/tsw/7489",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1599441881",
+      "title": "Cenozoic Shelf Margins, Northwestern Gulf of Mexico(*)",
+      "authors": [
+        "Charles D. Winker"
+      ],
+      "year": 1982,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 122,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "ancestor",
+      "read": "none"
+    },
+    {
+      "id": "W2005340259",
+      "title": "Tectonic subsidence, flexure and global changes of sea level",
+      "authors": [
+        "A. B. Watts"
+      ],
+      "year": 1982,
+      "venue": "Nature",
+      "doi": "10.1038/297469a0",
+      "type": "article",
+      "cited_by_count": 197,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W4252623095",
+      "title": "Depositional Framework, Hydrostratigraphy, and Uranium Mineralization of the Oakville Sandstone (Miocene), Texas Coastal Plain",
+      "authors": [
+        "Bureau of Economic Geology",
+        "William Galloway",
+        "Christopher D. Henry",
+        "Gary Smith"
+      ],
+      "year": 1982,
+      "venue": "Report of investigations/Report of investigations - University of Texas at Austin. Bureau of Economic Geology",
+      "doi": "10.23867/ri0113d",
+      "type": "report",
+      "cited_by_count": 43,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1508535337",
+      "title": "Unstable Progradational Clastic Shelf Margins",
+      "authors": [
+        "Charles D. Winker",
+        "Marc B. Edwards"
+      ],
+      "year": 1983,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.2110/pec.83.06.0139",
+      "type": "book-chapter",
+      "cited_by_count": 109,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1547075426",
+      "title": "Breaching the Shelfbreak",
+      "authors": [
+        "John A. Farre",
+        "Bonnie A. McGregor",
+        "William B. F. Ryan",
+        "James M. Robb"
+      ],
+      "year": 1983,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.2110/pec.83.06.0025",
+      "type": "book-chapter",
+      "cited_by_count": 200,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2105018537",
+      "title": "Timing of Deformation in Overthrust Belt and Foreland of Idaho, Wyoming, and Utah",
+      "authors": [
+        "David V. Wiltschko",
+        "John A. Dorr"
+      ],
+      "year": 1983,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/03b5b740-16d1-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 204,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2461469459",
+      "title": "Eocene Tectonics and Sedimentation in the Colorado Plateau - Rocky Mountain Area",
+      "authors": [
+        "Charles E. Chapin",
+        "Steven M. Cather"
+      ],
+      "year": 1983,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 112,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2470875264",
+      "title": "North-South Compression of Rocky Mountain Foreland Structures",
+      "authors": [
+        "Robbie Gries"
+      ],
+      "year": 1983,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 103,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2008549661",
+      "title": "Depositional Characteristics of a Submarine Debris Flow",
+      "authors": [
+        "D. B. Prior",
+        "Brian D. Bornhold",
+        "Mark W. Johns"
+      ],
+      "year": 1984,
+      "venue": "The Journal of Geology",
+      "doi": "10.1086/628907",
+      "type": "article",
+      "cited_by_count": 271,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2168052720",
+      "title": "Appalachian thrusting, lithospheric flexure, and the Paleozoic stratigraphy of the Eastern Interior of North America",
+      "authors": [
+        "Garry M. Quinlan",
+        "Christopher Beaumont"
+      ],
+      "year": 1984,
+      "venue": "Canadian Journal of Earth Sciences",
+      "doi": "10.1139/e84-103",
+      "type": "article",
+      "cited_by_count": 504,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2980627505",
+      "title": "Clastic Shelf Margins of the Post-Comanchean Gulf of Mexico: Implications for Deep-Water Sedimentation",
+      "authors": [
+        "Charles D. Winker"
+      ],
+      "year": 1984,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.5724/gcs.84.05.0109",
+      "type": "book-chapter",
+      "cited_by_count": 42,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W60661936",
+      "title": "Depositional Systems and Structural Controls of Hackberry Sandstone Reservoirs in Southeast Texas",
+      "authors": [
+        "Bureau of Economic Geology",
+        "Thomas E. Ewing",
+        "R.S. Reed"
+      ],
+      "year": 1984,
+      "venue": "Geological circular",
+      "doi": "10.23867/gc8407d",
+      "type": "report",
+      "cited_by_count": 28,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1495509038",
+      "title": "Submarine Fans and Related Turbidite Systems",
+      "authors": [],
+      "year": 1985,
+      "venue": "Frontiers in sedimentary geology",
+      "doi": "10.1007/978-1-4612-5114-9",
+      "type": "book",
+      "cited_by_count": 483,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1593131786",
+      "title": "Deeply Buried Tertiary Sand Bodies in the Northern Gulf of Mexico: Examples from the Lower Hackberry (Oligocene) and Houma Embayments (Miocene)",
+      "authors": [
+        "Elisabeth C. Kosters"
+      ],
+      "year": 1985,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 3,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1600222128",
+      "title": "Distribution of Crust and Early History, Gulf of Mexico Basin",
+      "authors": [
+        "Richard T. Buffler",
+        "Dale S. Sawyer"
+      ],
+      "year": 1985,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 160,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1978752202",
+      "title": "On a tectonic mechanism for regional sealevel variations",
+      "authors": [
+        "Sierd A.P.L. Cloetingh",
+        "H. McQueen",
+        "Kurt Lambeck"
+      ],
+      "year": 1985,
+      "venue": "Earth and Planetary Science Letters",
+      "doi": "10.1016/0012-821x(85)90098-6",
+      "type": "article",
+      "cited_by_count": 290,
+      "open_access": true,
+      "oa_url": "https://research.vu.nl/files/74115107/7108",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2159903574",
+      "title": "Submarine Ramp Facies Model for Delta-Fed, Sand-Rich Turbidite Systems",
+      "authors": [
+        "Paul L. Heller",
+        "William R. Dickinson"
+      ],
+      "year": 1985,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/ad462b37-16f7-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 189,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2053191935",
+      "title": "Submarine slope angles, drowning unconformities, and self-erosion of limestone escarpments",
+      "authors": [
+        "Wolfgang Schlager",
+        "Oren Camber"
+      ],
+      "year": 1986,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1986)14<762:ssadua>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 197,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2147470332",
+      "title": "Correlation of Quaternary glaciations in the Northern Hemisphere",
+      "authors": [
+        "D. Q. Bowen",
+        "Gerald Martin Richmond",
+        "D.S. Fullerton",
+        "Vladimír Šibrava",
+        "R J Fulton",
+        "A.A. Velichko"
+      ],
+      "year": 1986,
+      "venue": "Quaternary Science Reviews",
+      "doi": "10.1016/0277-3791(86)90218-0",
+      "type": "article",
+      "cited_by_count": 72,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2150632750",
+      "title": "A tectonic redefinition of the Southern Rocky Mountains",
+      "authors": [
+        "Gordon P. Eaton"
+      ],
+      "year": 1986,
+      "venue": "Tectonophysics",
+      "doi": "10.1016/0040-1951(86)90031-4",
+      "type": "article",
+      "cited_by_count": 74,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2792562051",
+      "title": "Lower Miocene (Fleming) Depositional Episode of the Texas Coastal Plain and Continental Shelf: Structural Framework, Facies, and Hydrocarbon Resources",
+      "authors": [
+        "Bureau of Economic Geology",
+        "William E. Galloway",
+        "L.A. Jirik",
+        "Robert A. Morton",
+        "Jules R. DuBar"
+      ],
+      "year": 1986,
+      "venue": "Report of investigations/Report of investigations - University of Texas at Austin. Bureau of Economic Geology",
+      "doi": "10.23867/ri0150d",
+      "type": "report",
+      "cited_by_count": 53,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4253575284",
+      "title": "Correlation of Quaternary glaciations in the Northern Hemisphere",
+      "authors": [
+        "D. Q. Bowen"
+      ],
+      "year": 1986,
+      "venue": "Quaternary Science Reviews",
+      "doi": "10.1016/s0277-3791(86)80045-2",
+      "type": "article",
+      "cited_by_count": 58,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1997252211",
+      "title": "Chronology of Fluctuating Sea Levels Since the Triassic",
+      "authors": [
+        "Bilal Ul Haq",
+        "Jan Hardenbol",
+        "Peter R. Vail"
+      ],
+      "year": 1987,
+      "venue": "Science",
+      "doi": "10.1126/science.235.4793.1156",
+      "type": "article",
+      "cited_by_count": 7324,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2093244950",
+      "title": "A giant three-stage submarine slide off Norway",
+      "authors": [
+        "Tom Bugge",
+        "Stein Befring",
+        "ROBERT H. BELDERSON",
+        "Tor Eidvin",
+        "Eystein Jansen",
+        "NEIL H. KENYON",
+        "Hans Holtedahl",
+        "Hans Petter Sejrup"
+      ],
+      "year": 1987,
+      "venue": "Geo-Marine Letters",
+      "doi": "10.1007/bf02242771",
+      "type": "article",
+      "cited_by_count": 284,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1977826448",
+      "title": "Submarine fans: Characteristics, models, classification, and reservoir potential",
+      "authors": [
+        "G. Shanmugam",
+        "Richard J. Moiola"
+      ],
+      "year": 1988,
+      "venue": "Earth-Science Reviews",
+      "doi": "10.1016/0012-8252(88)90064-5",
+      "type": "article",
+      "cited_by_count": 290,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2163556935",
+      "title": "The modern carbonate ramp slope of central West Florida",
+      "authors": [
+        "Henry T. Mullins",
+        "Anne F. Gardulski",
+        "Edward J. Hinchey",
+        "Albert C. Hine"
+      ],
+      "year": 1988,
+      "venue": "Journal of Sedimentary Research",
+      "doi": "10.1306/212f8d73-2b24-11d7-8648000102c1865d",
+      "type": "article",
+      "cited_by_count": 46,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2981977624",
+      "title": "Middle-Upper Miocene Depositional Sequences of the Texas Coastal Plain and Continental Shelf: Geologic Framework, Sedimentary Facies, and Hydrocarbon Plays,",
+      "authors": [
+        "Bureau of Economic Geology",
+        "R.A. Morton",
+        "L.A. Jirik",
+        "William E. Galloway"
+      ],
+      "year": 1988,
+      "venue": "Report of investigations/Report of investigations - University of Texas at Austin. Bureau of Economic Geology",
+      "doi": "10.23867/ri0174d",
+      "type": "report",
+      "cited_by_count": 41,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2136493303",
+      "title": "Genetic Stratigraphic Sequences in Basin Analysis I: Architecture and Genesis of Flooding-Surface Bounded Depositional Units",
+      "authors": [
+        "William E. Galloway"
+      ],
+      "year": 1989,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/703c9af5-1707-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 1040,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2154819637",
+      "title": "Genetic Stratigraphic Sequences in Basin Analysis II: Application to Northwest Gulf of Mexico Cenozoic Basin",
+      "authors": [
+        "William E. Galloway"
+      ],
+      "year": 1989,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/703c9afa-1707-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 215,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "ancestor",
+      "read": "none"
+    },
+    {
+      "id": "W1966074344",
+      "title": "Facies and sand‐body geometry of the Queen City (Eocene) tide‐dominated delta‐margin embayment, NW Gulf of Mexico Basin",
+      "authors": [
+        "Amparo Ramos",
+        "William E. Galloway"
+      ],
+      "year": 1990,
+      "venue": "Sedimentology",
+      "doi": "10.1111/j.1365-3091.1990.tb01847.x",
+      "type": "article",
+      "cited_by_count": 38,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2019282636",
+      "title": "Factors controlling late Cenozoic continental margin growth from the Ebro Delta to the western Mediterranean deep sea",
+      "authors": [
+        "Claudia Nelson",
+        "Andrés Maldonado"
+      ],
+      "year": 1990,
+      "venue": "Marine Geology",
+      "doi": "10.1016/0025-3227(90)90127-6",
+      "type": "article",
+      "cited_by_count": 66,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2121411543",
+      "title": "Sequence Stratigraphy, Facies Geometries, and Depositional History of the Mississippi Fan, Gulf of Mexico",
+      "authors": [
+        "Paul Weimer"
+      ],
+      "year": 1990,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/0c9b2321-1710-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 221,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2478187544",
+      "title": "Biostratigraphic Calibration of Depositional Cycles: A Case Study in High Island-Galveston-East Breaks Areas, Offshore Texas",
+      "authors": [
+        "John M. Armentrout",
+        "J. FRED CLEMENT"
+      ],
+      "year": 1990,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.5724/gcs.90.11.0021",
+      "type": "book-chapter",
+      "cited_by_count": 52,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2089231949",
+      "title": "Sediment accumulation rates in time and space: Paleogene genetic stratigraphic sequences of the northwestern Gulf of Mexico basin",
+      "authors": [
+        "William E. Galloway",
+        "Thomas A. Williams"
+      ],
+      "year": 1991,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1991)019<0986:sarita>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 69,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2159024372",
+      "title": "Control of Depositional Environments, Eustasy, and Gravity and Salt Tectonics on Sandstone Distribution in an Unstable Shelf-Edge Delta, Eocene Yegua Formation, Texas and Louisiana",
+      "authors": [
+        "Marc B. Edwards"
+      ],
+      "year": 1991,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/0c9b1ecb-1710-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 10,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2982285384",
+      "title": "Plio-Pleistocene Depositional Sequences of the Southeastern Texas Continental Shelf and Slope: Geologic Framework, Sedimentary Facies, and Hydrocarbon Distribution",
+      "authors": [
+        "Bureau of Economic Geology",
+        "R.A. Morton",
+        "Richard H. Sams",
+        "L.A. Jirik"
+      ],
+      "year": 1991,
+      "venue": "Report of investigations/Report of investigations - University of Texas at Austin. Bureau of Economic Geology",
+      "doi": "10.23867/ri0200d",
+      "type": "report",
+      "cited_by_count": 24,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W52904068",
+      "title": "Paleontologic Constraints on Depositional Modeling: Examples of Integration of Biostratigraphy and Seismic Stratigraphy, Pliocene-Pleistocene, Gulf of Mexico",
+      "authors": [
+        "John M. Armentrout"
+      ],
+      "year": 1991,
+      "venue": "Frontiers in sedimentary geology",
+      "doi": "10.1007/978-1-4684-8276-8_7",
+      "type": "book-chapter",
+      "cited_by_count": 27,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W68195087",
+      "title": "Seismic and Depositional Facies of Paleocene-Eocene Wilcox Group Submarine Canyon Fills, Northwest Gulf Coast, U.S.A.",
+      "authors": [
+        "William E. Galloway",
+        "W. F. Dingus",
+        "Richard E. Paige"
+      ],
+      "year": 1991,
+      "venue": "Frontiers in sedimentary geology",
+      "doi": "10.1007/978-1-4684-8276-8_13",
+      "type": "book-chapter",
+      "cited_by_count": 69,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1910609001",
+      "title": "Oligocene Hackberry Formation of Southwest Louisiana: Sequence Stratigraphy, Sedimentology, and Hydrocarbon Potential",
+      "authors": [
+        "Stephen P. J. Cossey",
+        "Richard E. Jacobs"
+      ],
+      "year": 1992,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/bdff8876-1718-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 43,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2490077128",
+      "title": "U.S. Middle Atlantic Continental Rise: Provenance, Dispersal, and Deposition of Jurassic to Quaternary Sediments",
+      "authors": [
+        "C. Wylie Poag"
+      ],
+      "year": 1992,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-1-4684-6500-6_6",
+      "type": "book-chapter",
+      "cited_by_count": 44,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2996750844",
+      "title": "Plio-Pleistocene Genetic Sequences of the Southwestern Louisiana Continental Shelf and Slope: Geologic Framework, Sedimentary Facies, and Hydrocarbon Distribution",
+      "authors": [
+        "Bureau of Economic Geology",
+        "R.A. Morton",
+        "Walter B. Ayers"
+      ],
+      "year": 1992,
+      "venue": "Report of investigations/Report of investigations - University of Texas at Austin. Bureau of Economic Geology",
+      "doi": "10.23867/ri0210d",
+      "type": "report",
+      "cited_by_count": 23,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2001605075",
+      "title": "The Vicksburg Formation of Texas: Depositional Systems Distribution, Sequence Stratigraphy, and Petroleum Geology",
+      "authors": [
+        "Janet M. Combes"
+      ],
+      "year": 1993,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/bdff8f88-1718-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 31,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2007738323",
+      "title": "North American glacial meltwater history for the past 2.3 m.y.: Oxygen isotope evidence from the Gulf of Mexico",
+      "authors": [
+        "J. Edward Joyce",
+        "Leonard R. C. Tjaisma",
+        "John M. Prutzman"
+      ],
+      "year": 1993,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1993)021<0483:nagmhf>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 80,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2070821133",
+      "title": "Variability of deltaic processes in terms of sediment supply, with particular emphasis on grain size",
+      "authors": [
+        "Geoff Orton",
+        "H. G. Reading"
+      ],
+      "year": 1993,
+      "venue": "Sedimentology",
+      "doi": "10.1111/j.1365-3091.1993.tb01347.x",
+      "type": "article",
+      "cited_by_count": 702,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2074438535",
+      "title": "River Response to Baselevel Change: Implications for Sequence Stratigraphy",
+      "authors": [
+        "Stanley A. Schumm"
+      ],
+      "year": 1993,
+      "venue": "The Journal of Geology",
+      "doi": "10.1086/648221",
+      "type": "article",
+      "cited_by_count": 826,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2118000640",
+      "title": "Sequence Stratigraphic and Depositional Framework of the Paleocene Lower Wilcox Strata, Northwest Gulf of Mexico Basin",
+      "authors": [
+        "Xue Liangqing"
+      ],
+      "year": 1993,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/bdff7d86-1718-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 38,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2141208488",
+      "title": "Attributes and Origins of Ancient Submarine Slides and Filled Embayments: Examples from the Gulf Coast Basin",
+      "authors": [
+        "Robert A. Morton"
+      ],
+      "year": 1993,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/bdff8de4-1718-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 42,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2164882119",
+      "title": "Heterostegina Zone Carbonates, Southeastern Louisiana-Offshore Mississippi: Petrography, Seismic Stratigraphy, Hydrocarbon Potential",
+      "authors": [
+        "Paul R. Krutak"
+      ],
+      "year": 1993,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/bdff7c28-1718-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 2,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2981258442",
+      "title": "INFLUENCE OF SUBMARINE CANYON EROSION AND SEDIMENTATION ON ALLOCHTHONOUS SALT BODY GEOMETRY: THE PATHWAY OF BRYANT CANYON IN GARDEN BANKS",
+      "authors": [
+        "Joseph Carl Fiduk"
+      ],
+      "year": 1993,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.5724/gcs.95.16.0041",
+      "type": "book-chapter",
+      "cited_by_count": 3,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1573976399",
+      "title": "Enhancing Sandstone Reservoir Prediction by Mapping Erosion Surfaces, Lower Miocene Deltas, Southwest Louisiana, Gulf Coast Basin",
+      "authors": [
+        "Marc B. Edwards"
+      ],
+      "year": 1994,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 8,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2088751485",
+      "title": "Mesozoic-Cenozoic Unroofing of the Southern Appalachian Basin: Apatite Fission Track Evidence from Middle Pennsylvanian Sandstones",
+      "authors": [
+        "Stefan S. Boettcher",
+        "Kitty Lou Milliken"
+      ],
+      "year": 1994,
+      "venue": "The Journal of Geology",
+      "doi": "10.1086/629710",
+      "type": "article",
+      "cited_by_count": 89,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2112508324",
+      "title": "Turbidite Systems in Deep-Water Basin Margins Classified by Grain Size and Feeder System",
+      "authors": [
+        "Harold G. Reading",
+        "Marcus Richards"
+      ],
+      "year": 1994,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/a25fe3bf-171b-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 620,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W3171165416",
+      "title": "REGIONAL SEQUENCE STRATIGRAPHIC SETTING OF THE MISSISSIPPI FAN COMPLEX, NORTHERN DEEP GULF OF MEXICO: IMPLICATIONS FOR EVOLUTION OF THE NORTHERN GULF BASIN MARGIN",
+      "authors": [
+        "Paul Weimer",
+        "Barrett T. Dixon"
+      ],
+      "year": 1994,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.5724/gcs.94.15.0401",
+      "type": "book-chapter",
+      "cited_by_count": 16,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2101706745",
+      "title": "High-Resolution Depositional Framework of the Paleocene Middle Wilcox Strata, Texas Coastal Plain",
+      "authors": [
+        "Xue Liangqing",
+        "William E. Galloway"
+      ],
+      "year": 1995,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/8d2b14f8-171e-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 60,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2130950244",
+      "title": "A Revised Cenozoic Geochronology and Chronostratigraphy",
+      "authors": [
+        "William A. Berggren",
+        "Dennis V. Kent",
+        "Carl C. Swisher",
+        "Marie‐Pierre Aubry"
+      ],
+      "year": 1995,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.2110/pec.95.04.0129",
+      "type": "book-chapter",
+      "cited_by_count": 3116,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W111386384",
+      "title": "Slope and Base-of-Slope Systems",
+      "authors": [
+        "William E. Galloway",
+        "David K. Hobday"
+      ],
+      "year": 1996,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-3-642-61018-9_8",
+      "type": "book-chapter",
+      "cited_by_count": 2,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W140263642",
+      "title": "Depositional Systems and Facies Within a Sequence Stratigraphic Framework",
+      "authors": [
+        "William E. Galloway",
+        "David K. Hobday"
+      ],
+      "year": 1996,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-3-642-61018-9_11",
+      "type": "book-chapter",
+      "cited_by_count": 6,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2076622177",
+      "title": "Formation of high-frequency sequences and their bounding surfaces: case study of the Eocene Yegua Formation, Texas Gulf Coast, USA",
+      "authors": [
+        "Lawrence D. Meckel",
+        "William E. Galloway"
+      ],
+      "year": 1996,
+      "venue": "Sedimentary Geology",
+      "doi": "10.1016/0037-0738(95)00061-5",
+      "type": "article",
+      "cited_by_count": 41,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2086046118",
+      "title": "A model for the headward erosion of submarine canyons induced by downslope-eroding sediment flows",
+      "authors": [
+        "Lincoln F. Pratson",
+        "Bernard Coakley"
+      ],
+      "year": 1996,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1996)108<0225:amfthe>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 261,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2486246430",
+      "title": "Terrigenous Clastic Depositional Systems",
+      "authors": [
+        "William E. Galloway",
+        "David K. Hobday"
+      ],
+      "year": 1996,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-3-642-61018-9",
+      "type": "book",
+      "cited_by_count": 410,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "ancestor",
+      "read": "none"
+    },
+    {
+      "id": "W1499923889",
+      "title": "Hydrocarbon Generation and Migration in the Tampico-Misantla Basin and Sierra Madre Oriental, East-Central Mexico: Evidence From an Exhumed Oil Field in the Sierra De El Abra",
+      "authors": [
+        "Donald A. Yurewicz",
+        "R.J. Chuchla",
+        "Mark Ian Richardson",
+        "Gary G. Gray",
+        "Gary G. Gray",
+        "Michael G. Kozar",
+        "William M. Fitchen"
+      ],
+      "year": 1997,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 6,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1537719966",
+      "title": "Basal Yegua Shelf Margin Failures along the Texas Gulf Coast",
+      "authors": [
+        "D. Swenson"
+      ],
+      "year": 1997,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 5,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1581287455",
+      "title": "Foundered Shelf Edges -- Examples from the Yegua and Frio, Texas and Louisiana",
+      "authors": [
+        "Thomas E. Ewing",
+        "Frank Vincent"
+      ],
+      "year": 1997,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 24,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1753688177",
+      "title": "Gulf of Mexico Cenozoic Biostratigraphic, Lithostratigraphic, and Sequence Stratigraphic Event Chronology",
+      "authors": [
+        "Paul N. Lawless",
+        "Richard Fillon",
+        "Rome G. Lytton"
+      ],
+      "year": 1997,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 33,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1901362944",
+      "title": "Seismic Expression and Depositional Environments of a Late Oligocene/Earliest Miocene Carbonate Unit, Offshore Mississippi and Alabama",
+      "authors": [
+        "Qunling Liu",
+        "Richard T. Buffler",
+        "William E. Galloway"
+      ],
+      "year": 1997,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 3,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2771608949",
+      "title": "Middle Eocene through basal Miocene sequence bio-stratigraphy of the western Gulf Coast region",
+      "authors": [
+        "Mark M. Jiang"
+      ],
+      "year": 1997,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/s0264-8172(97)00049-4",
+      "type": "article",
+      "cited_by_count": 4,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1892593215",
+      "title": "Sequence Stratigraphy of Pliocene and Pleistocene Turbidite Systems, Northern Green Canyon and Ewing Bank (Offshore Louisiana), Northern Gulf of Mexico",
+      "authors": [
+        "Paul Weimer"
+      ],
+      "year": 1998,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/1d9bc9c1-172d-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 76,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1951460972",
+      "title": "Classification, Lithologic Calibration, and Stratigraphic Succession of Seismic Facies of Intraslope Basins, Deep-Water Gulf of Mexico",
+      "authors": [
+        "Bradford E. Prather",
+        "J. R. Booth",
+        "G. S. Steffens",
+        "P. A. Craig"
+      ],
+      "year": 1998,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/1d9bc5d9-172d-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 430,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2099737731",
+      "title": "Glacial Eustasy During the Cenozoic: Sequence Stratigraphic Implications",
+      "authors": [
+        "Vitor Abreu",
+        "John B. Anderson"
+      ],
+      "year": 1998,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/1d9bca89-172d-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 249,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2156274950",
+      "title": "Siliciclastic Slope and Base-of-Slope Depositional Systems: Component Facies, Stratigraphic Architecture, and Classification",
+      "authors": [
+        "William E. Galloway"
+      ],
+      "year": 1998,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/1d9bc5bb-172d-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 217,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "ancestor",
+      "read": "none"
+    },
+    {
+      "id": "W2105082865",
+      "title": "Cenozoic Depositional History of the Gulf of Mexico Basin",
+      "authors": [
+        "William E. Galloway",
+        "Patricia Ganey-Curry",
+        "Xiang Li",
+        "Richard T. Buffler"
+      ],
+      "year": 2000,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/8626c37f-173b-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 388,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "none"
+    },
+    {
+      "id": "W2155796971",
+      "title": "Stratigraphic Organization of Late Pleistocene Deposits of the Western Part of the Golfe du Lion Shelf (Languedoc Shelf), Western Mediterranean Sea, Using High-Resolution Seismic and Core Data",
+      "authors": [
+        "Michel Tesson",
+        "Henry W. Posamentier",
+        "Bernard Gensous"
+      ],
+      "year": 2000,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/c9ebcd83-1735-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 103,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W580392308",
+      "title": "THE FLUVIAL SYSTEM",
+      "authors": [
+        "Ro Charlton"
+      ],
+      "year": 2007,
+      "venue": "Routledge eBooks",
+      "doi": "10.4324/9780203371084-12",
+      "type": "book-chapter",
+      "cited_by_count": 1685,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1575435123",
+      "title": "Evolution of the Rio Grande Rift - A Summary",
+      "authors": [
+        "Charles E. Chapin"
+      ],
+      "year": 2011,
+      "venue": "Special publications",
+      "doi": "10.1029/sp014p0001",
+      "type": "book-chapter",
+      "cited_by_count": 132,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W631949783",
+      "title": "Terrigenous Clastic Depositional Systems: Applications to Fossil Fuel and Groundwater Resources",
+      "authors": [
+        "William E. Galloway",
+        "David K. Hobday"
+      ],
+      "year": 2014,
+      "venue": "Medical Entomology and Zoology",
+      "doi": null,
+      "type": "book",
+      "cited_by_count": 172,
+      "open_access": true,
+      "oa_url": "http://ci.nii.ac.jp/ncid/BA2782362X",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "ancestor",
+      "read": "none"
+    },
+    {
+      "id": "W4211072050",
+      "title": "Cenozoic",
+      "authors": [
+        "William E. Galloway",
+        "Don G. Bebout",
+        "William L. Fisher",
+        "J. B. Dunlap",
+        "R. Cabrera-Castro",
+        "J. E. Lugo-Rivera",
+        "Thomas Scott"
+      ],
+      "year": 2015,
+      "venue": "Geological Society of America eBooks",
+      "doi": "10.1130/dnag-gna-j.245",
+      "type": "book-chapter",
+      "cited_by_count": 37,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4243710496",
+      "title": "Geochemical Properties",
+      "authors": [
+        "Mehdi Ostadhassan",
+        "Kouqi Liu",
+        "Chunxiao Li",
+        "Seyedalireza Khatibi"
+      ],
+      "year": 2018,
+      "venue": "SpringerBriefs in petroleum geoscience & engineering",
+      "doi": "10.1007/978-3-319-76087-2_3",
+      "type": "book-chapter",
+      "cited_by_count": 1,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W2105082865",
+      "to": "W1499923889",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1537719966",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1544422900",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1573976399",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1581287455",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1593131786",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1597435737",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1599441881",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1732722538",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1753688177",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1892593215",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1901362944",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1910609001",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1951460972",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W1966074344",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2001605075",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2007738323",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2019282636",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2076622177",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2088751485",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2089231949",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2099737731",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2101706745",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2118000640",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2121411543",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2126983863",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2130950244",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2141208488",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2146615298",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2147470332",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2147705734",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2154819637",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2155796971",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2156274950",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2159024372",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2163556935",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2164882119",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2318152314",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2478187544",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2486246430",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2490077128",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2771608949",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2792562051",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2948653511",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2980627505",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2981258442",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2981937176",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2981977624",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2982285384",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W2996750844",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W3171165416",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W4211072050",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W4252623095",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W4253575284",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W52904068",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W60661936",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W631949783",
+      "kind": "verified"
+    },
+    {
+      "from": "W2105082865",
+      "to": "W68195087",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W1508535337",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W1575435123",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W1597435737",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W1600222128",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W1604095676",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W18304594",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W1978752202",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W1997252211",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W2005340259",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W2105018537",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W2147705734",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W2150632750",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W2168052720",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W2322427423",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W2460971277",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W2461469459",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W2470875264",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154819637",
+      "to": "W2486246430",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W1495509038",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W1547075426",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W1597435737",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W1910609001",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W1977826448",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2008549661",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2019282636",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2053191935",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2056452793",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2063746375",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2070821133",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2074438535",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2086046118",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2093244950",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2112508324",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2121411543",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2136493303",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2141208488",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2159903574",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2486246430",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W2982285384",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W3171165416",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W580392308",
+      "kind": "verified"
+    },
+    {
+      "from": "W2156274950",
+      "to": "W60661936",
+      "kind": "verified"
+    },
+    {
+      "from": "W2486246430",
+      "to": "W111386384",
+      "kind": "verified"
+    },
+    {
+      "from": "W2486246430",
+      "to": "W140263642",
+      "kind": "verified"
+    },
+    {
+      "from": "W2486246430",
+      "to": "W4243710496",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 92,
+    "edges": 103,
+    "verified": 103,
+    "inferred": 0,
+    "seed_references_in_openalex": 58,
+    "level2": {
+      "W2486246430": {
+        "references_in_openalex": 3,
+        "kept": 3
+      },
+      "W1599441881": {
+        "references_in_openalex": 0,
+        "kept": 0
+      },
+      "W2154819637": {
+        "references_in_openalex": 31,
+        "kept": 15
+      },
+      "W2156274950": {
+        "references_in_openalex": 71,
+        "kept": 15
+      },
+      "W631949783": {
+        "references_in_openalex": 0,
+        "kept": 0
+      }
+    }
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:29:45.741Z"
+}

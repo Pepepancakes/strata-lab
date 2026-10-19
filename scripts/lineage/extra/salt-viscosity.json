@@ -1,0 +1,9 @@
+{
+  "papers": [
+    {"id": "local:vendeville-jackson-1992a", "title": "The rise of diapirs during thin-skinned extension", "authors": ["B. C. Vendeville", "M. P. A. Jackson"], "year": 1992, "venue": "Marine and Petroleum Geology 9(4), 331-353", "doi": null, "open_access": null, "read": "full", "note": "Read through the project's salt-literature notes (branch strata-lab/docs-01-salt-lit-main); lab-type viscosities quoted there from p. 333."},
+    {"id": "local:gemmer-2004", "title": "Salt tectonics driven by differential sediment loading: stability analysis and finite-element experiments", "authors": ["Lykke Gemmer", "Steven J. Ings", "Sergei Medvedev", "Christopher Beaumont"], "year": 2004, "venue": "Basin Research 16, 199-218", "doi": "10.1111/j.1365-2117.2004.00229.x", "open_access": null, "read": "full", "note": "Read through the salt-literature notes."},
+    {"id": "local:wagner-jackson-2011", "title": "Viscous flow during salt welding", "authors": ["Bryce H. Wagner III", "Martin P. A. Jackson"], "year": 2011, "venue": "Tectonophysics 510, 309-326", "doi": "10.1016/j.tecto.2011.07.012", "open_access": null, "read": "full", "note": "Read through the salt-literature notes; pp. 311-312 give 1e12 to 1e20 Pa s from flow laws and 1e17 to 1e20 from the field."},
+    {"id": "local:gou-liu-2024", "title": "Active and passive salt diapirs: a numerical study", "authors": ["Yiren Gou", "Mian Liu"], "year": 2024, "venue": "Geophysical Journal International 239, 621-636", "doi": "10.1093/gji/ggae284", "open_access": true, "read": "full", "note": "Read through the salt-literature notes; overburden viscosity controls growth far more than salt viscosity (pp. 624-625, Fig. 3)."}
+  ],
+  "edges": []
+}

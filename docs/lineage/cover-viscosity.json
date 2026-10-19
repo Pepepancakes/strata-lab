@@ -1,0 +1,1637 @@
+{
+  "param": "cover-viscosity",
+  "query": "effective viscosity sediment cover salt tectonics",
+  "seed": "W2032123209",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W4409747283",
+      "title": "12 Salt tectonics",
+      "year": 2025,
+      "doi": "10.1515/9789048554973-014",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2998010092",
+      "title": "Topographic and Tectonic Evolution of Mountain Belts Controlled by Salt Thickness and Rift Architecture",
+      "year": 2020,
+      "doi": "10.1029/2019tc005903",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4412834818",
+      "title": "Controls on the Geometry and Evolution of Salt Tectonic Structures Along Salt‐Bearing Passive Margins",
+      "year": 2025,
+      "doi": "10.1029/2024tc008750",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3155035106",
+      "title": "Restoration of multiphase salt tectonic deformation using passive strain markers",
+      "year": 2021,
+      "doi": "10.1111/bre.12564",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4231476184",
+      "title": "Base-Salt Relief Controls on Salt-Tectonic Structural Style, São Paulo Plateau, Santos Basin, Brazil",
+      "year": 2018,
+      "doi": "10.31223/osf.io/enk29",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2963976301",
+      "title": "Numerical modelling of Cretaceous Pyrenean Rifting: The interaction between mantle exhumation and syn‐rift salt tectonics",
+      "year": 2019,
+      "doi": "10.1111/bre.12389",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4381738710",
+      "title": "Contrasting Styles of Salt-Tectonic Processes in the Ionian Zone (NW Greece and S Albania)",
+      "year": 2023,
+      "doi": "10.22541/essoar.168748485.58030882/v1",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4308343599",
+      "title": "Coupling Crustal‐Scale Rift Architecture With Passive Margin Salt Tectonics: A Geodynamic Modeling Approach",
+      "year": 2022,
+      "doi": "10.1029/2022jb025177",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2765771533",
+      "title": "Tectonic inversion of salt-detached ramp-syncline basins as illustrated by analog modeling and kinematic restoration",
+      "year": 2017,
+      "doi": "10.1190/int-2017-0073.1",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2078143740",
+      "title": "Geological evidence concerning compressional tectonics in the eastern mediterranean",
+      "year": 1982,
+      "doi": "10.1016/0040-1951(82)90068-3",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W2002800869",
+      "title": "Fluid Mechanics of Salt Domes",
+      "authors": [
+        "Lewis Lomax Nettleton"
+      ],
+      "year": 1934,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/3d932c74-16b1-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 170,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2066975099",
+      "title": "Fluid Mechanics of Salt Domes: DISCUSSION",
+      "authors": [
+        "Lewis Lomax Nettleton"
+      ],
+      "year": 1934,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/3d932ca2-16b1-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 58,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1607277682",
+      "title": "Principles of structural geology",
+      "authors": [
+        "Nevin, Charles Merrick,    1892-"
+      ],
+      "year": 1949,
+      "venue": "Journal of the Franklin Institute",
+      "doi": "10.1016/0016-0032(49)90159-3",
+      "type": "article",
+      "cited_by_count": 599,
+      "open_access": true,
+      "oa_url": "http://hdl.handle.net/2027/mdp.39015069569492",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1971630039",
+      "title": "Halokinesis and thermal convection",
+      "authors": [
+        "Christopher J. Talbot"
+      ],
+      "year": 1978,
+      "venue": "Nature",
+      "doi": "10.1038/273739a0",
+      "type": "article",
+      "cited_by_count": 42,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2013653571",
+      "title": "Age, budget and dynamics of an active salt extrusion in Iran",
+      "authors": [
+        "Christopher J. Talbot",
+        "Richard James Jarvis"
+      ],
+      "year": 1984,
+      "venue": "Journal of Structural Geology",
+      "doi": "10.1016/0191-8141(84)90062-2",
+      "type": "article",
+      "cited_by_count": 147,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1488964129",
+      "title": "Principles of structural geology",
+      "authors": [
+        "P.L. Hancock"
+      ],
+      "year": 1986,
+      "venue": "Journal of Structural Geology",
+      "doi": "10.1016/0191-8141(86)90079-9",
+      "type": "article",
+      "cited_by_count": 603,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1503546514",
+      "title": "Dynamical Geology of Salt and Related Structures",
+      "authors": [
+        "I. Lerche",
+        "J. J. O’Brien"
+      ],
+      "year": 1987,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 108,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2103810229",
+      "title": "Glossary of Geology",
+      "authors": [
+        "Robert Latimer Bates",
+        "Julia Jackson"
+      ],
+      "year": 1987,
+      "venue": "Medical Entomology and Zoology",
+      "doi": null,
+      "type": "book",
+      "cited_by_count": 1208,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2259806172",
+      "title": "THIN-SKINNED DEFORMATION OVER SALT",
+      "authors": [
+        "Dan M. Davis",
+        "Terry Engelder"
+      ],
+      "year": 1987,
+      "venue": "Elsevier eBooks",
+      "doi": "10.1016/b978-0-12-444170-5.50012-9",
+      "type": "book-chapter",
+      "cited_by_count": 59,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4205626632",
+      "title": "Dynamical Geology of Salt and Related Structures",
+      "authors": [],
+      "year": 1987,
+      "venue": "Elsevier eBooks",
+      "doi": "10.1016/c2013-0-04990-0",
+      "type": "book",
+      "cited_by_count": 163,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1886688909",
+      "title": "The Geology of North America—An Overview",
+      "authors": [],
+      "year": 1989,
+      "venue": "Geological Society of America eBooks",
+      "doi": "10.1130/dnag-gna-a",
+      "type": "book",
+      "cited_by_count": 609,
+      "open_access": true,
+      "oa_url": "https://pubs.geoscienceworld.org/books/chapter-pdf/3733269/9780813754451_frontmatter.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2022890737",
+      "title": "Some geometrical characteristics of inversion",
+      "authors": [
+        "A. B. Hayward",
+        "Rodney Graham"
+      ],
+      "year": 1989,
+      "venue": "Geological Society London Special Publications",
+      "doi": "10.1144/gsl.sp.1989.044.01.03",
+      "type": "article",
+      "cited_by_count": 186,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2099339012",
+      "title": "Extensional Tectonics and Stratigraphy of the North Atlantic Margins",
+      "authors": [
+        "A. J. Tankard",
+        "H R Balkwill"
+      ],
+      "year": 1989,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m46497",
+      "type": "book",
+      "cited_by_count": 600,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2488817644",
+      "title": "Evolution of the northern Gulf of Mexico, with emphasis on Cenozoic growth faulting and the role of salt",
+      "authors": [
+        "Dan M. Worrall",
+        "S. Snelson"
+      ],
+      "year": 1989,
+      "venue": "Geological Society of America eBooks",
+      "doi": "10.1130/dnag-gna-a.97",
+      "type": "book-chapter",
+      "cited_by_count": 377,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W653300055",
+      "title": "Evaporites and hydrocarbons",
+      "authors": [],
+      "year": 1989,
+      "venue": "Choice Reviews Online",
+      "doi": "10.5860/choice.26-5087",
+      "type": "book-review",
+      "cited_by_count": 112,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1947809444",
+      "title": "Salt Diapirs of the Great Kavir, Central Iran",
+      "authors": [
+        "Martin P. A. Jackson",
+        "Reinold R. Cornelius",
+        "C. H. Craig",
+        "Augusto Gansser",
+        "Jovan Stöcklin",
+        "Christopher J. Talbot"
+      ],
+      "year": 1990,
+      "venue": "Memoir - Geological Society of America",
+      "doi": "10.1130/mem177-p1",
+      "type": "book-chapter",
+      "cited_by_count": 222,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2046715163",
+      "title": "Diapiric spoke patterns",
+      "authors": [
+        "Christopher J. Talbot",
+        "Peter Rönnlund",
+        "Harro Schmeling",
+        "HEMIN A. KOYI",
+        "Martin P. A. Jackson"
+      ],
+      "year": 1991,
+      "venue": "Tectonophysics",
+      "doi": "10.1016/0040-1951(91)90322-j",
+      "type": "article",
+      "cited_by_count": 52,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2972271632",
+      "title": "A Glossary of Salt Tectonics",
+      "authors": [
+        "Bureau of Economic Geology",
+        "M.P.A. Jackson",
+        "Christopher J. Talbot"
+      ],
+      "year": 1991,
+      "venue": "Geological circular",
+      "doi": "10.23867/gc9104d",
+      "type": "report",
+      "cited_by_count": 177,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2005878247",
+      "title": "The rise of diapirs during thin-skinned extension",
+      "authors": [
+        "Bruno Claude Vendeville",
+        "Martin P. A. Jackson"
+      ],
+      "year": 1992,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/0264-8172(92)90047-i",
+      "type": "article",
+      "cited_by_count": 680,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2135110440",
+      "title": "Imaging salt with turning seismic waves",
+      "authors": [
+        "Dave Hale",
+        "N. R. Hill",
+        "Joe Stefani"
+      ],
+      "year": 1992,
+      "venue": "Geophysics",
+      "doi": "10.1190/1.1443213",
+      "type": "article",
+      "cited_by_count": 102,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4246367839",
+      "title": "The fall of diapirs during thin-skinned extension",
+      "authors": [
+        "Bruno Claude Vendeville",
+        "Martin P. A. Jackson"
+      ],
+      "year": 1992,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/0264-8172(92)90048-j",
+      "type": "article",
+      "cited_by_count": 301,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "local:vendeville-jackson-1992a",
+      "title": "The rise of diapirs during thin-skinned extension",
+      "authors": [
+        "B. C. Vendeville",
+        "M. P. A. Jackson"
+      ],
+      "year": 1992,
+      "venue": "Marine and Petroleum Geology 9(4), 331-353",
+      "doi": null,
+      "type": null,
+      "cited_by_count": null,
+      "open_access": null,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "local",
+      "read": "full",
+      "note": "Read through the project's salt-literature notes (branch strata-lab/docs-01-salt-lit-main); lab-type viscosities quoted there from p. 333."
+    },
+    {
+      "id": "W2056923231",
+      "title": "Rheological and tectonic modeling of salt provinces",
+      "authors": [
+        "Ruud Weijermars",
+        "Martin P. A. Jackson",
+        "Bruno Claude Vendeville"
+      ],
+      "year": 1993,
+      "venue": "Tectonophysics",
+      "doi": "10.1016/0040-1951(93)90208-2",
+      "type": "article",
+      "cited_by_count": 391,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2112332342",
+      "title": "Diapirism on Triton: A record of crustal layering and instability",
+      "authors": [
+        "Paul Michael Schenk",
+        "Martin P. A. Jackson"
+      ],
+      "year": 1993,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1993)021<0299:dotaro>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 61,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2127388617",
+      "title": "The effective viscosity of rocksalt: implementation of steady-state creep laws in numerical models of salt diapirism",
+      "authors": [
+        "Peter E. van Keken",
+        "Christopher James Spiers",
+        "Arie P. van den Berg",
+        "Everhard Muyzert"
+      ],
+      "year": 1993,
+      "venue": "Tectonophysics",
+      "doi": "10.1016/0040-1951(93)90310-g",
+      "type": "article",
+      "cited_by_count": 235,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2981110268",
+      "title": "EPISODIC GROWTH OF SALT DIAPIRS DRIVEN BY HORIZONTAL SHORTENING",
+      "authors": [
+        "Bruno Claude Vendeville",
+        "Kåre Tormod Nilsen"
+      ],
+      "year": 1993,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.5724/gcs.95.16.0285",
+      "type": "book-chapter",
+      "cited_by_count": 87,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W3130310761",
+      "title": "Salt, Sediment and Hydrocarbons",
+      "authors": [
+        "Adam’s Mark Hotel"
+      ],
+      "year": 1993,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.5724/gcs.95.16",
+      "type": "book",
+      "cited_by_count": 60,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2003485713",
+      "title": "Regional extension as a geologic trigger for diapirism",
+      "authors": [
+        "Martin P. A. Jackson",
+        "Bruno Claude Vendeville"
+      ],
+      "year": 1994,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1994)106<0057:reaagt>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 364,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2171187271",
+      "title": "STRUCTURAL DYNAMICS OF SALT SYSTEMS",
+      "authors": [
+        "Martin P. A. Jackson",
+        "Bruno Claude Vendeville",
+        "Daniel D. Schultz-Ela"
+      ],
+      "year": 1994,
+      "venue": "Annual Review of Earth and Planetary Sciences",
+      "doi": "10.1146/annurev.ea.22.050194.000521",
+      "type": "article",
+      "cited_by_count": 263,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1518977294",
+      "title": "Evolution of Salt-Related Structures in Compressional Settings",
+      "authors": [
+        "Jean Letouzey",
+        "B. Colletta",
+        "R. Vially",
+        "J. C. Chermette"
+      ],
+      "year": 1995,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m65604c3",
+      "type": "book-chapter",
+      "cited_by_count": 229,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1750942353",
+      "title": "Salt-Influenced Structures in the Mesozoic-Tertiary Cover of the Southern North Sea, U.K.",
+      "authors": [
+        "Mike P. Coward",
+        "Simon A. Stewart"
+      ],
+      "year": 1995,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m65604c10",
+      "type": "book-chapter",
+      "cited_by_count": 46,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1887420083",
+      "title": "Genetic Structural Provinces and Salt Tectonics of the Cenozoic Offshore U.S. Gulf of Mexico",
+      "authors": [
+        "Frank Peel",
+        "Christopher J. Travis",
+        "John R. Hossack"
+      ],
+      "year": 1995,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m65604c7",
+      "type": "book-chapter",
+      "cited_by_count": 167,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1901630780",
+      "title": "Influence of Regional Tectonics on Halokinesis in the Nordkapp Basin, Barents Sea",
+      "authors": [
+        "Bruno C. Vendeville Kare T. Nilsen",
+        "Bruno Claude Vendeville",
+        "Jan-Terje Johansen"
+      ],
+      "year": 1995,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m65604c20",
+      "type": "book-chapter",
+      "cited_by_count": 85,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2112548735",
+      "title": "Retrospective Salt Tectonics",
+      "authors": [
+        "Martin P. A. Jackson"
+      ],
+      "year": 1995,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m65604c1",
+      "type": "book-chapter",
+      "cited_by_count": 111,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2121492657",
+      "title": "Scale models of salt tectonics during basement-involved extension",
+      "authors": [
+        "Bruno Claude Vendeville",
+        "Hongxing Ge",
+        "Martin P. A. Jackson"
+      ],
+      "year": 1995,
+      "venue": "Petroleum Geoscience",
+      "doi": "10.1144/petgeo.1.2.179",
+      "type": "article",
+      "cited_by_count": 146,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2127734661",
+      "title": "Deformation of Allochthonous Salt and Evolution of Related Salt-Structural Systems, Eastern Louisiana Gulf Coast",
+      "authors": [
+        "DAVID C. SCHUSTER"
+      ],
+      "year": 1995,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m65604c8",
+      "type": "book-chapter",
+      "cited_by_count": 99,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2151332720",
+      "title": "Cenozoic Structural Evolution and Tectono-Stratigraphic Framework of the Northern Gulf Coast Continental Margin",
+      "authors": [
+        "F. A. Diegel",
+        "John F. Karlo",
+        "DAVID C. SCHUSTER",
+        "Robert C. Shoup",
+        "Peter R. Tauvers"
+      ],
+      "year": 1995,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m65604c6",
+      "type": "book-chapter",
+      "cited_by_count": 335,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2168409598",
+      "title": "The past of a future syntaxis across the Zagros",
+      "authors": [
+        "Christopher J. Talbot",
+        "Mehdi Alavi"
+      ],
+      "year": 1996,
+      "venue": "Geological Society London Special Publications",
+      "doi": "10.1144/gsl.sp.1996.100.01.08",
+      "type": "article",
+      "cited_by_count": 406,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1986120780",
+      "title": "Salt tectonics: a global perspective",
+      "authors": [
+        "Ian Davison"
+      ],
+      "year": 1997,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/s0264-8172(97)88319-5",
+      "type": "article",
+      "cited_by_count": 382,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2020032820",
+      "title": "Extrusions of Hormuz salt in Iran",
+      "authors": [
+        "Christopher J. Talbot"
+      ],
+      "year": 1998,
+      "venue": "Geological Society London Special Publications",
+      "doi": "10.1144/gsl.sp.1998.143.01.21",
+      "type": "article",
+      "cited_by_count": 111,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2473649409",
+      "title": "Microphysics of rocksalt flow in nature",
+      "authors": [
+        "Christopher James Spiers",
+        "N. L. Carter"
+      ],
+      "year": 1998,
+      "venue": "Rock and Soil Mechanics",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 54,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1578706498",
+      "title": "Lyell: the past is the key to the present",
+      "authors": [],
+      "year": 1999,
+      "venue": "Choice Reviews Online",
+      "doi": "10.5860/choice.36-5056",
+      "type": "book-review",
+      "cited_by_count": 308,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2129153171",
+      "title": "Salt-Related Fault Families and Fault Welds in the Northern Gulf of Mexico",
+      "authors": [
+        "Mark G. Rowan",
+        "Martin P. A. Jackson",
+        "Bruce D. Trudgill"
+      ],
+      "year": 1999,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/e4fd41e3-1732-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 250,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2345236692",
+      "title": "Petroleum Geology of Northwest Europe: Proceedings of the 5th Conference",
+      "authors": [
+        "S. A. R. Boldy"
+      ],
+      "year": 1999,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 422,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2474528733",
+      "title": "Evolution of extensional styles at the southern termination of the Nordland Ridge, Mid-Norway: a response to variations in coupling above Triassic salt",
+      "authors": [
+        "Rob Pascoe",
+        "Robert J. Hooper",
+        "K. Storhaug",
+        "H. HARPER"
+      ],
+      "year": 1999,
+      "venue": "Geological Society London Petroleum Geology Conference series",
+      "doi": "10.1144/0050083",
+      "type": "conference-paper",
+      "cited_by_count": 71,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W651368303",
+      "title": "Evaporites: Their Evolution and Economics",
+      "authors": [
+        "John K. Warren"
+      ],
+      "year": 1999,
+      "venue": "Medical Entomology and Zoology",
+      "doi": null,
+      "type": "book",
+      "cited_by_count": 297,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1973912994",
+      "title": "Calibration and visualization of depositional process models for above-grade slopes: a case study from the Gulf of Mexico",
+      "authors": [
+        "Bradford E. Prather"
+      ],
+      "year": 2000,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/s0264-8172(00)00015-5",
+      "type": "article",
+      "cited_by_count": 138,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2085311733",
+      "title": "Superposed deformation straddling the continental-oceanic transition in deep-water Angola",
+      "authors": [
+        "Carlos Cramez",
+        "Martin P. A. Jackson"
+      ],
+      "year": 2000,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/s0264-8172(00)00053-2",
+      "type": "article",
+      "cited_by_count": 119,
+      "open_access": true,
+      "oa_url": "http://hdl.handle.net/10284/200",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2503851567",
+      "title": "High Resolution Seismic/Sequence Stratigraphic Framework for the Evolution of Pleistocene Intra Slope Basins, Western Gulf of Mexico: Depositional Models and Reservoir Analogs",
+      "authors": [
+        "Rick T. Beaubouef",
+        "S. Julio Friedmann"
+      ],
+      "year": 2000,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.5724/gcs.00.15.0040",
+      "type": "book-chapter",
+      "cited_by_count": 201,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1510543474",
+      "title": "Geologic Analysis of Naturally Fractured Reservoirs",
+      "authors": [],
+      "year": 2001,
+      "venue": "Elsevier eBooks",
+      "doi": "10.1016/b978-0-88415-317-7.x5000-3",
+      "type": "book",
+      "cited_by_count": 1380,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2899671908",
+      "title": "Geotektonischer Atlas von Nordwest-Deutschland und dem - deutschen Nordsee-Sektor",
+      "authors": [
+        "Reinhard Baldschuhn",
+        "Franz Binot",
+        "Stephanie Fleig",
+        "Franz Kockel"
+      ],
+      "year": 2001,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 116,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2125507207",
+      "title": "Halokinetic Sequence Stratigraphy Adjacent to the El Papalote Diapir, Northeastern Mexico",
+      "authors": [
+        "Katherine A. Giles",
+        "Timothy F. Lawton"
+      ],
+      "year": 2002,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/61eedbac-173e-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 178,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2153648928",
+      "title": "Kinematics of a growth fault/raft system on the West African margin using 3-D restoration",
+      "authors": [
+        "Delphine Rouby",
+        "S. Raillard",
+        "François Guillocheau",
+        "Renaud Bouroullec",
+        "Thierry Nalpas"
+      ],
+      "year": 2002,
+      "venue": "Journal of Structural Geology",
+      "doi": "10.1016/s0191-8141(01)00108-0",
+      "type": "article",
+      "cited_by_count": 70,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2100999419",
+      "title": "Near-salt deformation in La Popa basin, Mexico, and the northern Gulf of Mexico: A general model for passive diapirism",
+      "authors": [
+        "Mark G. Rowan",
+        "Timothy F. Lawton",
+        "Katherine A. Giles",
+        "Robert A. Ratliff"
+      ],
+      "year": 2003,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/01150302012",
+      "type": "article",
+      "cited_by_count": 205,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1545041215",
+      "title": "Gravity-driven Fold Belts on Passive Margins",
+      "authors": [
+        "Mark G. Rowan",
+        "Frank J. Peel",
+        "Bruno Claude Vendeville"
+      ],
+      "year": 2004,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m82813c9",
+      "type": "book-chapter",
+      "cited_by_count": 388,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2116548959",
+      "title": "Regional restoration across the Kwanza Basin, Angola: Salt tectonics triggered by repeated uplift of a metastable passive margin",
+      "authors": [
+        "Michael R. Hudec",
+        "Martin P. A. Jackson"
+      ],
+      "year": 2004,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/02050403061",
+      "type": "article",
+      "cited_by_count": 183,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2151680586",
+      "title": "Geology and models of salt extrusion at Qum Kuh, central Iran",
+      "authors": [
+        "Christopher J. Talbot",
+        "Pedram Aftabi"
+      ],
+      "year": 2004,
+      "venue": "Journal of the Geological Society",
+      "doi": "10.1144/0016-764903-102",
+      "type": "article",
+      "cited_by_count": 120,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2169872190",
+      "title": "Thrust Tectonics and Hydrocarbon Systems",
+      "authors": [
+        "Kenneth R. McClay"
+      ],
+      "year": 2004,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m82813",
+      "type": "book",
+      "cited_by_count": 597,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "local:gemmer-2004",
+      "title": "Salt tectonics driven by differential sediment loading: stability analysis and finite-element experiments",
+      "authors": [
+        "Lykke Gemmer",
+        "Steven J. Ings",
+        "Sergei Medvedev",
+        "Christopher Beaumont"
+      ],
+      "year": 2004,
+      "venue": "Basin Research 16, 199-218",
+      "doi": "10.1111/j.1365-2117.2004.00229.x",
+      "type": null,
+      "cited_by_count": null,
+      "open_access": null,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "local",
+      "read": "full",
+      "note": "Read through the salt-literature notes."
+    },
+    {
+      "id": "W2143303030",
+      "title": "Mesozoic diapirism in the Pyrenean orogen: Salt tectonics on a transform plate boundary",
+      "authors": [
+        "J. Canérot",
+        "Michael R. Hudec",
+        "Konrad Rockenbauch"
+      ],
+      "year": 2005,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/09170404007",
+      "type": "article",
+      "cited_by_count": 123,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2025389791",
+      "title": "Deformation and recrystallization mechanisms in mylonitic shear zones in naturally deformed extrusive Eocene–Oligocene rocksalt from Eyvanekey plateau and Garmsar hills (central Iran)",
+      "authors": [
+        "Zsolt Schléder",
+        "Janos Lajos Urai"
+      ],
+      "year": 2006,
+      "venue": "Journal of Structural Geology",
+      "doi": "10.1016/j.jsg.2006.08.014",
+      "type": "article",
+      "cited_by_count": 90,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2161667391",
+      "title": "Advance of allochthonous salt sheets in passive margins and orogens",
+      "authors": [
+        "Michael R. Hudec",
+        "Martin P. A. Jackson"
+      ],
+      "year": 2006,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/05080605143",
+      "type": "article",
+      "cited_by_count": 220,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2032123209",
+      "title": "Terra infirma: Understanding salt tectonics",
+      "authors": [
+        "Michael R. Hudec",
+        "Martin P. A. Jackson"
+      ],
+      "year": 2007,
+      "venue": "Earth-Science Reviews",
+      "doi": "10.1016/j.earscirev.2007.01.001",
+      "type": "article",
+      "cited_by_count": 745,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "seed",
+      "read": "full"
+    },
+    {
+      "id": "local:wagner-jackson-2011",
+      "title": "Viscous flow during salt welding",
+      "authors": [
+        "Bryce H. Wagner III",
+        "Martin P. A. Jackson"
+      ],
+      "year": 2011,
+      "venue": "Tectonophysics 510, 309-326",
+      "doi": "10.1016/j.tecto.2011.07.012",
+      "type": null,
+      "cited_by_count": null,
+      "open_access": null,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "local",
+      "read": "full",
+      "note": "Read through the salt-literature notes; pp. 311-312 give 1e12 to 1e20 Pa s from flow laws and 1e17 to 1e20 from the field."
+    },
+    {
+      "id": "local:gou-liu-2024",
+      "title": "Active and passive salt diapirs: a numerical study",
+      "authors": [
+        "Yiren Gou",
+        "Mian Liu"
+      ],
+      "year": 2024,
+      "venue": "Geophysical Journal International 239, 621-636",
+      "doi": "10.1093/gji/ggae284",
+      "type": null,
+      "cited_by_count": null,
+      "open_access": true,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "local",
+      "read": "full",
+      "note": "Read through the salt-literature notes; overburden viscosity controls growth far more than salt viscosity (pp. 624-625, Fig. 3)."
+    }
+  ],
+  "edges": [
+    {
+      "from": "W2032123209",
+      "to": "W1488964129",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1503546514",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1510543474",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1518977294",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1545041215",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1578706498",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1607277682",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1750942353",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1886688909",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1887420083",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1901630780",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1947809444",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1971630039",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1973912994",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W1986120780",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2002800869",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2003485713",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2005878247",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2013653571",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2020032820",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2022890737",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2025389791",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2046715163",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2056923231",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2066975099",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2085311733",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2099339012",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2100999419",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2103810229",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2112332342",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2112548735",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2116548959",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2121492657",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2125507207",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2127388617",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2127734661",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2129153171",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2135110440",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2143303030",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2151332720",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2151680586",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2153648928",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2161667391",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2168409598",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2169872190",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2171187271",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2259806172",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2345236692",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2473649409",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2474528733",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2488817644",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2503851567",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2899671908",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2972271632",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W2981110268",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W3130310761",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W4205626632",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W4246367839",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W651368303",
+      "kind": "verified"
+    },
+    {
+      "from": "W2032123209",
+      "to": "W653300055",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 65,
+    "edges": 60,
+    "verified": 60,
+    "inferred": 0,
+    "seed_references_in_openalex": 68,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:29:30.363Z"
+}

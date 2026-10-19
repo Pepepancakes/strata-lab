@@ -1,0 +1,12 @@
+{
+  "papers": [
+    {"id": "local:zhang-yin-2017", "title": "Fracture gradient prediction: an overview and an improved method", "authors": ["Jincai Zhang", "Shang-Xian Yin"], "year": 2017, "venue": "Petroleum Science", "doi": "10.1007/s12182-017-0182-1", "open_access": true, "read": "full", "note": "Read through the project's deep-read note docs/pp-notes/zhang-yin2017.md (pdf page numbers)."},
+    {"id": "local:traugott-1997", "title": "Pore Pressure and Fracture Pressure Determinations in Deepwater", "authors": ["Martin Traugott"], "year": 1997, "venue": "Deepwater Technology Supplement to World Oil, August 1997", "doi": null, "open_access": null, "read": "full", "note": "Read through docs/pp-notes/traugott1997.md (pdf page numbers; no DOI printed)."},
+    {"id": "local:matthews-kelly-1967", "title": "How to predict formation pressure and fracture gradient", "authors": ["W. R. Matthews", "J. Kelly"], "year": 1967, "venue": "Oil and Gas Journal", "doi": null, "open_access": null, "read": "none", "note": "Known only second-hand through Eaton 1969 and Zhang and Yin 2017 (to verify; not read)."}
+  ],
+  "edges": [
+    {"from": "local:zhang-yin-2017", "to": "W2021328460", "kind": "inferred"},
+    {"from": "local:zhang-yin-2017", "to": "local:matthews-kelly-1967", "kind": "inferred"},
+    {"from": "W2021328460", "to": "local:matthews-kelly-1967", "kind": "inferred"}
+  ]
+}

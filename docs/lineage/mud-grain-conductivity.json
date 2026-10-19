@@ -1,0 +1,1127 @@
+{
+  "param": "mud-grain-conductivity",
+  "query": "thermal conductivity of shale mudstone",
+  "seed": "W1970624446",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W1970624446",
+      "title": "Thermal conductivity of sedimentary rocks: uncertainties in measurement and modelling",
+      "year": 1999,
+      "doi": "10.1144/gsl.sp.1999.158.01.04",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2036913823",
+      "title": "Thermal conductivities of argillaceous sediments",
+      "year": 1997,
+      "doi": "10.1144/gsl.eng.1997.012.01.33",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2899408996",
+      "title": "Thermal conductivity of sedimentary rocks in the Sichuan basin, Southwest China",
+      "year": 2018,
+      "doi": "10.1177/0144598718804902",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1031725425",
+      "title": "Thermal Insulation by Low Thermal Conductivity Shales: Implications for Basin-Scale Fluid Flow and Heat Transport",
+      "year": 1999,
+      "doi": "10.1007/978-1-4615-4751-8_6",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4224216027",
+      "title": "Organic geochemical characterization of Cretaceous — Eocene shale and mudstone in Belaga Formation",
+      "year": 2022,
+      "doi": "10.1088/1755-1315/1003/1/012026",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1989176121",
+      "title": "Influence of clay fraction on pore‐scale properties and hydraulic conductivity of experimentally compacted mudstones",
+      "year": 1999,
+      "doi": "10.1029/1999jb900276",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2994264287",
+      "title": "Fracture Conductivity Behavior in Shale Formations",
+      "year": 2019,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2263117137",
+      "title": "Thermal properties of clays and shales",
+      "year": 1976,
+      "doi": "10.2172/7327241",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2912077938",
+      "title": "Fractal Characterization of Nanopore Structure in Shale, Tight Sandstone and Mudstone from the Ordos Basin of China Using Nitrogen Adsorption",
+      "year": 2019,
+      "doi": "10.3390/en12040583",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W7124933022",
+      "title": "Thermal conductivity of rocks from SE New Brunswick and geothermal potential across stratigraphic successions containing salt chimneys and shale blankets",
+      "year": 2026,
+      "doi": "10.1144/geoenergy2025-043",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W2066434629",
+      "title": "The thermal conductivity of rocks and its dependence upon temperature and composition",
+      "authors": [
+        "A. F. Birch",
+        "H. Clark"
+      ],
+      "year": 1940,
+      "venue": "American Journal of Science",
+      "doi": "10.2475/ajs.238.8.529",
+      "type": "article",
+      "cited_by_count": 500,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2334140090",
+      "title": "A heat-flow value for a well in California",
+      "authors": [
+        "A. E. Benfield"
+      ],
+      "year": 1947,
+      "venue": "American Journal of Science",
+      "doi": "10.2475/ajs.245.1.1",
+      "type": "article",
+      "cited_by_count": 51,
+      "open_access": true,
+      "oa_url": "https://ajs.scholasticahq.com/article/60839.pdf",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2318775332",
+      "title": "Thermal conductivity, climatic variation, and heat flow near Calumet, Michigan",
+      "authors": [
+        "A. F. Birch"
+      ],
+      "year": 1954,
+      "venue": "American Journal of Science",
+      "doi": "10.2475/ajs.252.1.1",
+      "type": "article",
+      "cited_by_count": 46,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2082725333",
+      "title": "The measurement of thermal conductivity of deep-sea sediments by a needle-probe method",
+      "authors": [
+        "R. von Herzen",
+        "Arthur Eugene Maxwell"
+      ],
+      "year": 1959,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jz064i010p01557",
+      "type": "article",
+      "cited_by_count": 671,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2042396679",
+      "title": "Thermal Conduction in Mica along the Planes of Cleavage",
+      "authors": [
+        "H J Goldsmid",
+        "A E Bowley"
+      ],
+      "year": 1960,
+      "venue": "Nature",
+      "doi": "10.1038/187864a0",
+      "type": "article",
+      "cited_by_count": 20,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2091021867",
+      "title": "Thermal Conductivity of Porous Media. I. Unconsolidated Sands",
+      "authors": [
+        "William F. Woodside",
+        "J. H. Messmer"
+      ],
+      "year": 1961,
+      "venue": "Journal of Applied Physics",
+      "doi": "10.1063/1.1728419",
+      "type": "article",
+      "cited_by_count": 936,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2015925618",
+      "title": "A Variational Approach to the Theory of the Effective Magnetic Permeability of Multiphase Materials",
+      "authors": [
+        "Zvi Hashin",
+        "S. Shtrikman"
+      ],
+      "year": 1962,
+      "venue": "Journal of Applied Physics",
+      "doi": "10.1063/1.1728579",
+      "type": "article",
+      "cited_by_count": 3268,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W422082306",
+      "title": "Handbook of Physical Constants",
+      "authors": [
+        "Sydney P. Clark"
+      ],
+      "year": 1966,
+      "venue": "Geological Society of America eBooks",
+      "doi": "10.1130/mem97",
+      "type": "book",
+      "cited_by_count": 1775,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2788533967",
+      "title": "Numerical data and functional relationships in science and technology",
+      "authors": [
+        "R. Bechmann",
+        "R. F. S. Hearmon",
+        "S. K. Kurtz"
+      ],
+      "year": 1969,
+      "venue": "Springer eBooks",
+      "doi": null,
+      "type": "book",
+      "cited_by_count": 5817,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2061053358",
+      "title": "Thermal conductivity of rock-forming minerals",
+      "authors": [
+        "Ki‐iti Horai"
+      ],
+      "year": 1971,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb076i005p01278",
+      "type": "article",
+      "cited_by_count": 651,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2142204857",
+      "title": "Thermal conductivity of rocks from measurements on fragments and its application to heat-flow determinations",
+      "authors": [
+        "J.H. Sass",
+        "Arthur H. Lachenbruch",
+        "Robert J. Munroe"
+      ],
+      "year": 1971,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb076i014p03391",
+      "type": "article",
+      "cited_by_count": 437,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2007812899",
+      "title": "Predicting Thermal Conductivities of Formations From Other Known Properties",
+      "authors": [
+        "J. Anand",
+        "Wilbur H. Somerton",
+        "Ezzat E. Gomaa"
+      ],
+      "year": 1973,
+      "venue": "Society of Petroleum Engineers Journal",
+      "doi": "10.2118/4171-pa",
+      "type": "article",
+      "cited_by_count": 120,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2012010146",
+      "title": "Proceedings of the International Clay Conference",
+      "authors": [
+        "David E. Pettry",
+        "Victor E. Nash"
+      ],
+      "year": 1976,
+      "venue": "Soil Science",
+      "doi": "10.1097/00010694-197611000-00009",
+      "type": "article",
+      "cited_by_count": 390,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2054451458",
+      "title": "Energy transport in thick sequences of compacting sediment",
+      "authors": [
+        "John M. Sharp",
+        "Patrick A. Domenico"
+      ],
+      "year": 1976,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1976)87<390:etitso>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 127,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1556995040",
+      "title": "Thermal Conductivity of Soils",
+      "authors": [
+        "O E Johansen"
+      ],
+      "year": 1977,
+      "venue": null,
+      "doi": "10.21236/ada044002",
+      "type": "report",
+      "cited_by_count": 1130,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2035003922",
+      "title": "Thermal Properties of Soils",
+      "authors": [
+        "Omar T. Farouki"
+      ],
+      "year": 1981,
+      "venue": null,
+      "doi": "10.21236/ada111734",
+      "type": "report",
+      "cited_by_count": 741,
+      "open_access": true,
+      "oa_url": "https://erdc-library.erdc.dren.mil/bitstreams/81b728f8-7181-4ef8-e053-411ac80adeb3/download",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2098560494",
+      "title": "Thermal conductivities of mudrocks in the United Kingdoms",
+      "authors": [
+        "J. R. Bloomer"
+      ],
+      "year": 1981,
+      "venue": "Quarterly Journal of Engineering Geology",
+      "doi": "10.1144/gsl.qjeg.1981.014.04.12",
+      "type": "article",
+      "cited_by_count": 31,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2036006811",
+      "title": "On the thermal effects of groundwater flow: 1. Regional scale systems",
+      "authors": [
+        "Leslie Smith",
+        "David S. Chapman"
+      ],
+      "year": 1983,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb088ib01p00593",
+      "type": "article",
+      "cited_by_count": 346,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2003550312",
+      "title": "The effects of high pressure and high temperature on some physical properties of ocean sediments",
+      "authors": [
+        "Roger H. Morin",
+        "Armand J. Silva"
+      ],
+      "year": 1984,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb089ib01p00511",
+      "type": "article",
+      "cited_by_count": 121,
+      "open_access": true,
+      "oa_url": "https://digitalcommons.uri.edu/oce_facpubs/2",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2039365491",
+      "title": "A method for determining terrestrial heat flow in oil basinal areas",
+      "authors": [
+        "Kaichi Sekiguchi"
+      ],
+      "year": 1984,
+      "venue": "Tectonophysics",
+      "doi": "10.1016/0040-1951(84)90075-1",
+      "type": "article",
+      "cited_by_count": 128,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2081497798",
+      "title": "Heat flow in the Uinta Basin determined from bottom hole temperature (BHT) data",
+      "authors": [
+        "David S. Chapman",
+        "T. H. Keho",
+        "Michael S. Bauer",
+        "M. Dane Picard"
+      ],
+      "year": 1984,
+      "venue": "Geophysics",
+      "doi": "10.1190/1.1441680",
+      "type": "article",
+      "cited_by_count": 162,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2140577795",
+      "title": "Temperatures and Depth-Dependent Heat Flow in Western North Sea",
+      "authors": [
+        "Philip Andrews‐Speed",
+        "Ernest Ronald Oxburgh",
+        "B. A. Cooper"
+      ],
+      "year": 1984,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/ad461999-16f7-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 87,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2103429051",
+      "title": "Thermal conductivities of marine sediments",
+      "authors": [
+        "M. A. Lovell"
+      ],
+      "year": 1985,
+      "venue": "Quarterly Journal of Engineering Geology",
+      "doi": "10.1144/gsl.qjeg.1985.018.04.14",
+      "type": "article",
+      "cited_by_count": 24,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2033854879",
+      "title": "Thermal conductivity variation in a deep-sea sediment core and its relation to H2O, Ca and Si content",
+      "authors": [
+        "Jun‐ichi Matsuda",
+        "R. P. VON HERZEN"
+      ],
+      "year": 1986,
+      "venue": "Deep Sea Research Part A Oceanographic Research Papers",
+      "doi": "10.1016/0198-0149(86)90116-0",
+      "type": "article",
+      "cited_by_count": 14,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1481080654",
+      "title": "Shale: Measurement of thermal properties",
+      "authors": [
+        "T. Michael Gilliam",
+        "I.L. Morgan"
+      ],
+      "year": 1987,
+      "venue": null,
+      "doi": "10.2172/6163318",
+      "type": "report",
+      "cited_by_count": 33,
+      "open_access": true,
+      "oa_url": "https://www.osti.gov/servlets/purl/6163318",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4211144169",
+      "title": "Thermal Properties",
+      "authors": [
+        "A. E. Beck"
+      ],
+      "year": 1988,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-94-009-2847-3_4",
+      "type": "book-chapter",
+      "cited_by_count": 43,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1978985103",
+      "title": "Thermal conductivity of fluid-saturated rocks",
+      "authors": [
+        "Robert W. Zimmerman"
+      ],
+      "year": 1989,
+      "venue": "Journal of Petroleum Science and Engineering",
+      "doi": "10.1016/0920-4105(89)90019-3",
+      "type": "article",
+      "cited_by_count": 245,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2168846746",
+      "title": "Mineralogy, porosity and fluid control on thermal conductivity of sedimentary rocks",
+      "authors": [
+        "Frédéric Brigaud",
+        "G. Vasseur"
+      ],
+      "year": 1989,
+      "venue": "Geophysical Journal International",
+      "doi": "10.1111/j.1365-246x.1989.tb02287.x",
+      "type": "article",
+      "cited_by_count": 270,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2226102083",
+      "title": "Thermal Conductivity of Sedimentary Rocks: Measurement and Significance",
+      "authors": [
+        "David Blackwell",
+        "John Steele"
+      ],
+      "year": 1989,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-1-4612-3492-0_2",
+      "type": "book-chapter",
+      "cited_by_count": 173,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1876719815",
+      "title": "Basin Evaluation by Integrated Two-Dimensional Modeling of Heat Transfer, Fluid Flow, Hydrocarbon Generation, and Migration",
+      "authors": [
+        "Philippe Ungerer",
+        "J. Burrus",
+        "B. Doligez",
+        "P. Y. Chénet",
+        "F. Bessis"
+      ],
+      "year": 1990,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/0c9b22db-1710-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 394,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2899625353",
+      "title": "Interactive 2D Basin Modelling on Workstations",
+      "authors": [
+        "Willy Fjeldskaar",
+        "Johannes Mykkeltveit",
+        "Harald Johansen",
+        "J. M. Langfeldt",
+        "Olav H.J. Christie",
+        "Peder A. Tyvand",
+        "O. Skurve",
+        "Per Arne Bjørkum"
+      ],
+      "year": 1990,
+      "venue": "Petroleum Computer Conference",
+      "doi": "10.2118/20350-ms",
+      "type": "conference-paper",
+      "cited_by_count": 5,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2164489618",
+      "title": "Thermal conductivity and well logs: a case study in the Paris basin",
+      "authors": [
+        "L. Demongodin",
+        "B. Pinoteau",
+        "G. Vasseur",
+        "Robert S. Gable"
+      ],
+      "year": 1991,
+      "venue": "Geophysical Journal International",
+      "doi": "10.1111/j.1365-246x.1991.tb00805.x",
+      "type": "article",
+      "cited_by_count": 71,
+      "open_access": true,
+      "oa_url": "https://academic.oup.com/gji/article-pdf/105/3/675/1574662/105-3-675.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W644431545",
+      "title": "Thermal properties and temperature-related behavior of rock/fluid systems",
+      "authors": [],
+      "year": 1992,
+      "venue": "Developments in petroleum science",
+      "doi": "10.1016/s0376-7361(09)x7002-0",
+      "type": "book",
+      "cited_by_count": 382,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2165344936",
+      "title": "Estimation of thermal conductivity from the mineral composition: Influence of fabric and anisotropy",
+      "authors": [
+        "Daniel Pribnow",
+        "Thorsten Umsonst"
+      ],
+      "year": 1993,
+      "venue": "Geophysical Research Letters",
+      "doi": "10.1029/93gl02135",
+      "type": "article",
+      "cited_by_count": 52,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2040750436",
+      "title": "Determination of Matrix Thermal Conductivity from Dry Drill Cuttings",
+      "authors": [
+        "Mike F. Middleton"
+      ],
+      "year": 1994,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/a25ff297-171b-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 14,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2500055283",
+      "title": "Soil Physical Properties",
+      "authors": [
+        "William J. Chancellor"
+      ],
+      "year": 1994,
+      "venue": null,
+      "doi": "10.13031/2013.22670",
+      "type": "book-chapter",
+      "cited_by_count": 525,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2095477694",
+      "title": "Thermal Conductivity of Unconsolidated Marine Sediments from Vøring Basin, Norwegian Sea",
+      "authors": [
+        "Kirsti Midttømme",
+        "Joar Sættem",
+        "Elen Roaldset",
+        "Gary W. Zielinski"
+      ],
+      "year": 1995,
+      "venue": "Proceedings",
+      "doi": "10.3997/2214-4609.201409594",
+      "type": "conference-paper",
+      "cited_by_count": 3,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2149206050",
+      "title": "Thermal Conductivity of Wilcox and Frio Sandstones in South Texas (Gulf of Mexico Basin)",
+      "authors": [
+        "John McKenna",
+        "John M. Sharp",
+        "F. Leo Lynch"
+      ],
+      "year": 1996,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/64ed8ce6-1724-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 38,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2313176944",
+      "title": "Thermal conductivity of alluvial sediments from the Ness Formation, Oseberg Area, North Sea",
+      "authors": [
+        "Kirsti Midttømme",
+        "Elen Roaldset",
+        "Jeroen Brantjes"
+      ],
+      "year": 1996,
+      "venue": "Proceedings",
+      "doi": "10.3997/2214-4609.201409129",
+      "type": "conference-paper",
+      "cited_by_count": 2,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2070956356",
+      "title": "The role of thermal conductivity measurements in modelling thermal histories in sedimentary basins",
+      "authors": [
+        "Kerry Gallagher",
+        "Marc Ramsdale",
+        "Lidia Lonergan",
+        "David Morrow"
+      ],
+      "year": 1997,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/s0264-8172(96)00068-2",
+      "type": "article",
+      "cited_by_count": 28,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1996963655",
+      "title": "Thermal Conductivity of Selected Claystones and Mudstones from England",
+      "authors": [
+        "Kirsti Midttømme",
+        "Elen Roaldset",
+        "Per Aagaard"
+      ],
+      "year": 1998,
+      "venue": "Clay Minerals",
+      "doi": "10.1180/000985598545327",
+      "type": "article",
+      "cited_by_count": 113,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2166636743",
+      "title": "The effect of grain size on thermal conductivity of quartz sands and silts",
+      "authors": [
+        "Kirsti Midttømme",
+        "Elen Roaldset"
+      ],
+      "year": 1998,
+      "venue": "Petroleum Geoscience",
+      "doi": "10.1144/petgeo.4.2.165",
+      "type": "article",
+      "cited_by_count": 111,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1970624446",
+      "title": "Thermal conductivity of sedimentary rocks: uncertainties in measurement and modelling",
+      "authors": [
+        "Kirsti Midttømme",
+        "Elen Roaldset"
+      ],
+      "year": 1999,
+      "venue": "Geological Society London Special Publications",
+      "doi": "10.1144/gsl.sp.1999.158.01.04",
+      "type": "article",
+      "cited_by_count": 67,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "abstract"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W1970624446",
+      "to": "W1481080654",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W1556995040",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W1876719815",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W1978985103",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W1996963655",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2003550312",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2007812899",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2012010146",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2015925618",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2033854879",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2035003922",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2036006811",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2039365491",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2040750436",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2042396679",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2054451458",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2061053358",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2066434629",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2070956356",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2081497798",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2082725333",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2091021867",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2095477694",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2098560494",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2103429051",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2140577795",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2142204857",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2149206050",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2164489618",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2165344936",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2166636743",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2168846746",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2226102083",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2313176944",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2318775332",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2334140090",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2500055283",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2788533967",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W2899625353",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W4211144169",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W422082306",
+      "kind": "verified"
+    },
+    {
+      "from": "W1970624446",
+      "to": "W644431545",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 43,
+    "edges": 42,
+    "verified": 42,
+    "inferred": 0,
+    "seed_references_in_openalex": 42,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:29:46.290Z"
+}

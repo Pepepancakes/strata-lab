@@ -1,0 +1,347 @@
+{
+  "param": "quartz-cement-surface",
+  "query": "quartz cement kinetics sandstone Walderhaug",
+  "seed": "W2142688952",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W3004040821",
+      "title": "Quartz Cementation in Polycrystalline Sandstone: Insights From Phase‐Field Simulations",
+      "year": 2020,
+      "doi": "10.1029/2019jb019137",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2600449627",
+      "title": "A Combined Experimental and Numerical Approach to Understanding Quartz Cementation in Sandstones",
+      "year": 2012,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2741608605",
+      "title": "Three‐Dimensional Phase‐Field Investigation of Pore Space Cementation and Permeability in Quartz Sandstone",
+      "year": 2018,
+      "doi": "10.1029/2018jb015618",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3003921492",
+      "title": "Chlorite in sandstones",
+      "year": 2020,
+      "doi": "10.1016/j.earscirev.2020.103105",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3004709584",
+      "title": "Vertical effective stress and temperature as controls of quartz cementation in sandstones: Evidence from North Sea Fulmar and Gulf of Mexico Wilcox sandstones",
+      "year": 2020,
+      "doi": "10.1016/j.marpetgeo.2020.104289",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3178858706",
+      "title": "The Origin of Quartz Cement in the Upper Triassic Second Member of the Xujiahe Formation Sandstones, Western Sichuan Basin, China",
+      "year": 2021,
+      "doi": "10.3390/w13141890",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2604772898",
+      "title": "Compaction and quartz cementation modeling for reservoir quality prediction in sub-salt reservoirs of the deepwater Gulf of Mexico",
+      "year": 2010,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4312002011",
+      "title": "Low volumes of quartz cement in deeply buried Fulmar Formation sandstones explained by a low effective stress burial history",
+      "year": 2022,
+      "doi": "10.1016/j.geoen.2022.211383",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1953820895",
+      "title": "Time‐dependent compaction band formation in sandstone",
+      "year": 2015,
+      "doi": "10.1002/2015jb012022",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3159374602",
+      "title": "Compaction control on diagenesis and reservoir quality development in red bed sandstones: a case study of Permian Rotliegend sandstones",
+      "year": 2021,
+      "doi": "10.1007/s00531-021-02036-6",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W2122543265",
+      "title": "The quartzite problem",
+      "authors": [
+        "Herbert Skolnick"
+      ],
+      "year": 1965,
+      "venue": "Journal of Sedimentary Research",
+      "doi": "10.1306/74d711e0-2b21-11d7-8648000102c1865d",
+      "type": "article",
+      "cited_by_count": 16,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2034753142",
+      "title": "Some remarks on the development of sedimentary basins",
+      "authors": [
+        "Dan McKenzie"
+      ],
+      "year": 1978,
+      "venue": "Earth and Planetary Science Letters",
+      "doi": "10.1016/0012-821x(78)90071-7",
+      "type": "article",
+      "cited_by_count": 3958,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2263574315",
+      "title": "Diagenetic Processes in Sandstones",
+      "authors": [
+        "Harvey Blatt"
+      ],
+      "year": 1979,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.2110/pec.79.26.0141",
+      "type": "book-chapter",
+      "cited_by_count": 100,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2078916507",
+      "title": "Chemical kinetics of water‐rock interactions",
+      "authors": [
+        "Antonio C. Lasaga"
+      ],
+      "year": 1984,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb089ib06p04009",
+      "type": "article",
+      "cited_by_count": 1280,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W53201872",
+      "title": "Porosity development in selected Jurassic sandstones from the Norwegian and North Seas, Norway — an overview",
+      "authors": [
+        "Richard E. Larese",
+        "Norman L. Haskell",
+        "Dennis R. Prezbindowski",
+        "Dan Beju"
+      ],
+      "year": 1984,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-94-009-5626-1_7",
+      "type": "book-chapter",
+      "cited_by_count": 14,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1996789840",
+      "title": "Wilcox sandstone diagenesis, Texas Gulf Coast: a regional isotopic comparison with the Frio Formation",
+      "authors": [
+        "Lynton S. Land",
+        "R. Stephen Fisher"
+      ],
+      "year": 1987,
+      "venue": "Geological Society London Special Publications",
+      "doi": "10.1144/gsl.sp.1987.036.01.17",
+      "type": "article",
+      "cited_by_count": 53,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2035132269",
+      "title": "Diagenetic palaeotemperatures from aqueous fluid inclusions: re-equilibration of inclusions in carbonate cements by burial heating",
+      "authors": [
+        "Robert Carlton Burruss"
+      ],
+      "year": 1987,
+      "venue": "Mineralogical Magazine",
+      "doi": "10.1180/minmag.1987.051.362.02",
+      "type": "article",
+      "cited_by_count": 64,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1987516085",
+      "title": "A fluid inclusion study of quartz-cemented sandstones from offshore mid-Norway; possible evidence for continued quartz cementation during oil emplacement",
+      "authors": [
+        "Olav Walderhaug"
+      ],
+      "year": 1990,
+      "venue": "Journal of Sedimentary Research",
+      "doi": "10.1306/212f9151-2b24-11d7-8648000102c1865d",
+      "type": "article",
+      "cited_by_count": 104,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2063159759",
+      "title": "Diagenetic processes in the Brent Group (Middle Jurassic) reservoirs of the North Sea: an overview",
+      "authors": [
+        "Knut Olav Bjørlykke",
+        "Tor Nedkvitne",
+        "Mogens Ramm",
+        "Girish C. Saigal"
+      ],
+      "year": 1992,
+      "venue": "Geological Society London Special Publications",
+      "doi": "10.1144/gsl.sp.1992.061.01.15",
+      "type": "article",
+      "cited_by_count": 112,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2141536566",
+      "title": "Temperatures of quartz cementation in Jurassic sandstones from the Norwegian continental shelf; evidence from fluid inclusions",
+      "authors": [
+        "Olav Walderhaug"
+      ],
+      "year": 1994,
+      "venue": "Journal of Sedimentary Research",
+      "doi": "10.1306/d4267d89-2b26-11d7-8648000102c1865d",
+      "type": "article",
+      "cited_by_count": 190,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2142688952",
+      "title": "Precipitation rates for quartz cement in sandstones determined by fluid-inclusion microthermometry and temperature-history modeling",
+      "authors": [
+        "Olav Walderhaug"
+      ],
+      "year": 1994,
+      "venue": "Journal of Sedimentary Research",
+      "doi": "10.2110/jsr.64.324",
+      "type": "article",
+      "cited_by_count": 227,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "abstract"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W2142688952",
+      "to": "W1987516085",
+      "kind": "verified"
+    },
+    {
+      "from": "W2142688952",
+      "to": "W1996789840",
+      "kind": "verified"
+    },
+    {
+      "from": "W2142688952",
+      "to": "W2034753142",
+      "kind": "verified"
+    },
+    {
+      "from": "W2142688952",
+      "to": "W2035132269",
+      "kind": "verified"
+    },
+    {
+      "from": "W2142688952",
+      "to": "W2063159759",
+      "kind": "verified"
+    },
+    {
+      "from": "W2142688952",
+      "to": "W2078916507",
+      "kind": "verified"
+    },
+    {
+      "from": "W2142688952",
+      "to": "W2122543265",
+      "kind": "verified"
+    },
+    {
+      "from": "W2142688952",
+      "to": "W2141536566",
+      "kind": "verified"
+    },
+    {
+      "from": "W2142688952",
+      "to": "W2263574315",
+      "kind": "verified"
+    },
+    {
+      "from": "W2142688952",
+      "to": "W53201872",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 11,
+    "edges": 10,
+    "verified": 10,
+    "inferred": 0,
+    "seed_references_in_openalex": 10,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:29:30.039Z"
+}

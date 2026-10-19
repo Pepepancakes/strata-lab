@@ -1,0 +1,184 @@
+{
+  "param": "poisson-ratio",
+  "query": "Poisson's ratio fracture gradient prediction",
+  "seed": "W2021328460",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W2021328460",
+      "title": "Fracture Gradient Prediction and Its Application in Oilfield Operations",
+      "year": 1969,
+      "doi": "10.2118/2163-pa",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2068851483",
+      "title": "Offshore Fracture Gradients",
+      "year": 1973,
+      "doi": "10.2118/4133-pa",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2262251314",
+      "title": "Fracture gradient prediction and application",
+      "year": 1974,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1997900135",
+      "title": "Prediction of Fracture Gradients in Samaan Field",
+      "year": 1976,
+      "doi": "10.2118/5950-ms",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2312567200",
+      "title": "PETROLEUM OF FRACTURE GRADIENTS IN SAMAAN FIELD",
+      "year": 1976,
+      "doi": "10.2523/5950-ms",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2068984338",
+      "title": "Fracture Gradients in Depleted Reservoirs - Drilling Wells in Late Reservoir Life",
+      "year": 2001,
+      "doi": "10.2118/67740-ms",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2753389842",
+      "title": "Fracture gradient prediction: an overview and an improved method",
+      "year": 2017,
+      "doi": "10.1007/s12182-017-0182-1",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2737659766",
+      "title": "Revisiting fracture gradient: Comments on “A new approaching method to estimate fracture gradient by correcting Matthew–Kelly and Eaton's stress ratio”",
+      "year": 2017,
+      "doi": "10.1016/j.petlm.2017.07.001",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2065753096",
+      "title": "Pore Pressure and Fracture Gradient Prediction in Shale Gas Formations: Accounting for Complex Rock Properties and Anisotropies",
+      "year": 2012,
+      "doi": "10.2118/155540-ms",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2928531984",
+      "title": "Prediction of Fracture Pressure Gradient in Halfaya Oilfield",
+      "year": 2019,
+      "doi": "10.31699/ijcpe.2019.1.1",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "local:matthews-kelly-1967",
+      "title": "How to predict formation pressure and fracture gradient",
+      "authors": [
+        "W. R. Matthews",
+        "J. Kelly"
+      ],
+      "year": 1967,
+      "venue": "Oil and Gas Journal",
+      "doi": null,
+      "type": null,
+      "cited_by_count": null,
+      "open_access": null,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "local",
+      "read": "none",
+      "note": "Known only second-hand through Eaton 1969 and Zhang and Yin 2017 (to verify; not read)."
+    },
+    {
+      "id": "W2021328460",
+      "title": "Fracture Gradient Prediction and Its Application in Oilfield Operations",
+      "authors": [
+        "Ben A. Eaton"
+      ],
+      "year": 1969,
+      "venue": "Journal of Petroleum Technology",
+      "doi": "10.2118/2163-pa",
+      "type": "article",
+      "cited_by_count": 547,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "full"
+    },
+    {
+      "id": "local:traugott-1997",
+      "title": "Pore Pressure and Fracture Pressure Determinations in Deepwater",
+      "authors": [
+        "Martin Traugott"
+      ],
+      "year": 1997,
+      "venue": "Deepwater Technology Supplement to World Oil, August 1997",
+      "doi": null,
+      "type": null,
+      "cited_by_count": null,
+      "open_access": null,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "local",
+      "read": "full",
+      "note": "Read through docs/pp-notes/traugott1997.md (pdf page numbers; no DOI printed)."
+    },
+    {
+      "id": "local:zhang-yin-2017",
+      "title": "Fracture gradient prediction: an overview and an improved method",
+      "authors": [
+        "Jincai Zhang",
+        "Shang-Xian Yin"
+      ],
+      "year": 2017,
+      "venue": "Petroleum Science",
+      "doi": "10.1007/s12182-017-0182-1",
+      "type": null,
+      "cited_by_count": null,
+      "open_access": true,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "local",
+      "read": "full",
+      "note": "Read through the project's deep-read note docs/pp-notes/zhang-yin2017.md (pdf page numbers)."
+    }
+  ],
+  "edges": [
+    {
+      "from": "W2021328460",
+      "to": "local:matthews-kelly-1967",
+      "kind": "inferred"
+    },
+    {
+      "from": "local:zhang-yin-2017",
+      "to": "W2021328460",
+      "kind": "inferred"
+    },
+    {
+      "from": "local:zhang-yin-2017",
+      "to": "local:matthews-kelly-1967",
+      "kind": "inferred"
+    }
+  ],
+  "counts": {
+    "papers": 4,
+    "edges": 3,
+    "verified": 0,
+    "inferred": 3,
+    "seed_references_in_openalex": 0,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:27:12.152Z"
+}

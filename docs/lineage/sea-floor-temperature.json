@@ -1,0 +1,660 @@
+{
+  "param": "sea-floor-temperature",
+  "query": "bottom water temperature Gulf of Mexico deep",
+  "seed": "W2055338798",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W2751210951",
+      "title": "Trends in summer bottom-water temperatures on the northern Gulf of Mexico continental shelf from 1985 to 2015",
+      "year": 2017,
+      "doi": "10.1371/journal.pone.0184350",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2623828836",
+      "title": "Large-scale deposition of weathered oil in the Gulf of Mexico following a deep-water oil spill",
+      "year": 2017,
+      "doi": "10.1016/j.envpol.2017.05.019",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2055338798",
+      "title": "Loop Current rings and the deep circulation in the Gulf of Mexico",
+      "year": 2000,
+      "doi": "10.1029/2000jc900054",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2097866151",
+      "title": "Geophysical and geochemical signatures of Gulf of Mexico seafloor brines",
+      "year": 2005,
+      "doi": "10.5194/bg-2-295-2005",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2172563153",
+      "title": "Deep Eddy Energy and Topographic Rossby Waves in the Gulf of Mexico",
+      "year": 2002,
+      "doi": "10.1175/1520-0485(2002)032<3499:deeatr>2.0.co;2",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3129374927",
+      "title": "Deep-Water Warming in the Gulf of Mexico from 2003 to 2019",
+      "year": 2021,
+      "doi": "10.1175/jpo-d-19-0295.1",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2033399930",
+      "title": "Impacts of Hypoxia on Zooplankton Spatial Distributions in the Northern Gulf of Mexico",
+      "year": 2012,
+      "doi": "10.1007/s12237-012-9531-x",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W134170054",
+      "title": "Distribution of some shallow-water Foraminifera in the Gulf of Mexico",
+      "year": 1954,
+      "doi": "10.3133/pp254f",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2133454557",
+      "title": "On the seasonal phytoplankton concentration and sea surface temperature cycles of the Gulf of Mexico as determined by satellites",
+      "year": 1991,
+      "doi": "10.1029/91jc00787",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2343786696",
+      "title": "Deep-water seed populations for red tide blooms in the Gulf of Mexico",
+      "year": 2015,
+      "doi": "10.3354/meps11272",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W4248415553",
+      "title": "A numerical method for the study of the circulation of the world ocean",
+      "authors": [
+        "Kirk Bryan"
+      ],
+      "year": 1969,
+      "venue": "Journal of Computational Physics",
+      "doi": "10.1016/0021-9991(69)90004-7",
+      "type": "article",
+      "cited_by_count": 965,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2044267921",
+      "title": "A Numerical Study of Loop Current Intrusions and Eddy Shedding",
+      "authors": [
+        "Harley E. Hurlburt",
+        "J. Dana Thompson"
+      ],
+      "year": 1980,
+      "venue": "Journal of Physical Oceanography",
+      "doi": "10.1175/1520-0485(1980)010<1611:ansolc>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 398,
+      "open_access": true,
+      "oa_url": "https://journals.ametsoc.org/downloadpdf/journals/phoc/10/10/1520-0485_1980_010_1611_ansolc_2_0_co_2.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1970457558",
+      "title": "Anticyclonic Rings in the Gulf of Mexico",
+      "authors": [
+        "Brady Allen Elliott"
+      ],
+      "year": 1982,
+      "venue": "Journal of Physical Oceanography",
+      "doi": "10.1175/1520-0485(1982)012<1292:aritgo>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 241,
+      "open_access": true,
+      "oa_url": "https://journals.ametsoc.org/downloadpdf/journals/phoc/12/11/1520-0485_1982_012_1292_aritgo_2_0_co_2.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2085776785",
+      "title": "The Dynamics of the Loop Current and Shed Eddies in a Numerical Model of the Gulf of Mexico",
+      "authors": [
+        "Harley E. Hurlburt",
+        "J. Dana Thompson"
+      ],
+      "year": 1982,
+      "venue": "Elsevier oceanography series",
+      "doi": "10.1016/s0422-9894(08)71247-9",
+      "type": "book-chapter",
+      "cited_by_count": 80,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1981669700",
+      "title": "Normal Monthly Wind Stress Over the World Ocean with Error Estimates",
+      "authors": [
+        "Sol Hellerman",
+        "Mel Rosenstein"
+      ],
+      "year": 1983,
+      "venue": "Journal of Physical Oceanography",
+      "doi": "10.1175/1520-0485(1983)013<1093:nmwsot>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 1822,
+      "open_access": true,
+      "oa_url": "https://journals.ametsoc.org/downloadpdf/journals/phoc/13/7/1520-0485_1983_013_1093_nmwsot_2_0_co_2.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2000756370",
+      "title": "Climatological Atlas of the World Ocean",
+      "authors": [
+        "Sydney Levitus"
+      ],
+      "year": 1983,
+      "venue": "Eos",
+      "doi": "10.1029/eo064i049p00962-02",
+      "type": "article",
+      "cited_by_count": 3078,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1528420715",
+      "title": "Finite-Difference Formulation of a World Ocean Model",
+      "authors": [
+        "Albert J. Semtner"
+      ],
+      "year": 1986,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-94-017-0627-8_13",
+      "type": "book-chapter",
+      "cited_by_count": 95,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1997529760",
+      "title": "Aspects of warm rings in the Gulf of Mexico",
+      "authors": [
+        "Fred M. Vukovich",
+        "Bobby W. Crissman"
+      ],
+      "year": 1986,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jc091ic02p02645",
+      "type": "article",
+      "cited_by_count": 119,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2139035782",
+      "title": "An investigation of the circulation of the Gulf of Mexico",
+      "authors": [
+        "Eileen E. Hofmann",
+        "Steven J. Worley"
+      ],
+      "year": 1986,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jc091ic12p14221",
+      "type": "article",
+      "cited_by_count": 74,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W35335320",
+      "title": "History and Methodology of Modelling the Circulation of the World Ocean",
+      "authors": [
+        "Albert J. Semtner"
+      ],
+      "year": 1986,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-94-017-0627-8_3",
+      "type": "book-chapter",
+      "cited_by_count": 27,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2035978058",
+      "title": "Genesis of a Gulf of Mexico ring as determined from kinematic analyses",
+      "authors": [
+        "James K. Lewis",
+        "Albert D. Kirwan Jr."
+      ],
+      "year": 1987,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jc092ic11p11727",
+      "type": "article",
+      "cited_by_count": 40,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2013507462",
+      "title": "Deep Currents in the Gulf of Mexico",
+      "authors": [
+        "Peter Hamilton"
+      ],
+      "year": 1990,
+      "venue": "Journal of Physical Oceanography",
+      "doi": "10.1175/1520-0485(1990)020<1087:dcitgo>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 135,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2052922205",
+      "title": "Velocity and hydrographic structure of two Gulf of Mexico warm‐core rings",
+      "authors": [
+        "Cortis K. Cooper",
+        "George Z. Forristall",
+        "Terrence M. Joyce"
+      ],
+      "year": 1990,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jc095ic02p01663",
+      "type": "article",
+      "cited_by_count": 77,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2172364526",
+      "title": "Westward Motion of Mesoscale Eddies",
+      "authors": [
+        "Benoı̂t Cushman-Roisin",
+        "Benyang Tang",
+        "Eric P. Chassignet"
+      ],
+      "year": 1990,
+      "venue": "Journal of Physical Oceanography",
+      "doi": "10.1175/1520-0485(1990)020<0758:wmome>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 238,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1970488639",
+      "title": "On the interaction of the bottom boundary layer and deep rings",
+      "authors": [
+        "Germanna Peggion",
+        "Georges L. Weatherly"
+      ],
+      "year": 1991,
+      "venue": "Marine Geology",
+      "doi": "10.1016/0025-3227(91)90048-9",
+      "type": "article",
+      "cited_by_count": 9,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2054717205",
+      "title": "Circulation in the Gulf of Mexico from Geosat altimetry during 1985–1986",
+      "authors": [
+        "Donald R. Johnson",
+        "J. Dana Thompson",
+        "Jeffrey D. Hawkins"
+      ],
+      "year": 1992,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/90jc02400",
+      "type": "article",
+      "cited_by_count": 26,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2023519334",
+      "title": "Separation of Warm-Core Rings in the Gulf of Mexico",
+      "authors": [
+        "Wilton Sturges",
+        "John Cyril Evans",
+        "S. Welsh",
+        "William R. Holland"
+      ],
+      "year": 1993,
+      "venue": "Journal of Physical Oceanography",
+      "doi": "10.1175/1520-0485(1993)023<0250:sowcri>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 58,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2058550287",
+      "title": "Eddy‐ and wind‐forced shelf circulation",
+      "authors": [
+        "Lie‐Yauw Oey"
+      ],
+      "year": 1995,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/95jc00785",
+      "type": "article",
+      "cited_by_count": 90,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2004858328",
+      "title": "Cleavage of a Gulf of Mexico loop current eddy by a deep water cyclone",
+      "authors": [
+        "Douglas C. Biggs",
+        "Giulietta S. Fargion",
+        "Peter Hamilton",
+        "Robert R. Leben"
+      ],
+      "year": 1996,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/96jc01078",
+      "type": "article",
+      "cited_by_count": 73,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2175007856",
+      "title": "A Geostrophic Vortex over a Slope*",
+      "authors": [
+        "Joseph Henry LaCasce"
+      ],
+      "year": 1998,
+      "venue": "Journal of Physical Oceanography",
+      "doi": "10.1175/1520-0485(1998)028<2362:agvoas>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 66,
+      "open_access": true,
+      "oa_url": "https://journals.ametsoc.org/downloadpdf/journals/phoc/28/12/1520-0485_1998_028_2362_agvoas_2.0.co_2.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2141140532",
+      "title": "Strange encounters of eddies with walls",
+      "authors": [
+        "Doron Nof"
+      ],
+      "year": 1999,
+      "venue": "Journal of Marine Research",
+      "doi": "10.1357/002224099321560555",
+      "type": "article",
+      "cited_by_count": 39,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2179585981",
+      "title": "Influence of a Strong Bottom Slope on the Evolution of a Surface-Intensified Vortex",
+      "authors": [
+        "Virginie Thierry",
+        "Yves G. Morel"
+      ],
+      "year": 1999,
+      "venue": "Journal of Physical Oceanography",
+      "doi": "10.1175/1520-0485(1999)029<0911:ioasbs>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 31,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2055338798",
+      "title": "Loop Current rings and the deep circulation in the Gulf of Mexico",
+      "authors": [
+        "S. Welsh",
+        "Masamichi Inoue"
+      ],
+      "year": 2000,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/2000jc900054",
+      "type": "article",
+      "cited_by_count": 79,
+      "open_access": true,
+      "oa_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1029/2000JC900054",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "none"
+    },
+    {
+      "id": "W2981002688",
+      "title": "Ring Dynamics in the Western Gulf of Mexico",
+      "authors": [
+        "A. W. Indest"
+      ],
+      "year": 2019,
+      "venue": "ODU Digital Commons (Old Dominion University)",
+      "doi": "10.25777/x4ae-0f76",
+      "type": "article",
+      "cited_by_count": 7,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25777/x4ae-0f76",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W2055338798",
+      "to": "W1528420715",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W1970457558",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W1970488639",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W1981669700",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W1997529760",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2000756370",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2004858328",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2013507462",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2023519334",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2035978058",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2044267921",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2052922205",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2054717205",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2058550287",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2085776785",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2139035782",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2141140532",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2172364526",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2175007856",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2179585981",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W2981002688",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W35335320",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055338798",
+      "to": "W4248415553",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 24,
+    "edges": 23,
+    "verified": 23,
+    "inferred": 0,
+    "seed_references_in_openalex": 23,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:29:49.360Z"
+}
