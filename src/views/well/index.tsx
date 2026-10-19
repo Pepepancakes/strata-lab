@@ -7,6 +7,7 @@ import type { ViewDefinition } from '../types'
 import { CAP_MARKER_TEXT } from './audit'
 import { AuditNotes } from './notes'
 import { wellProfile, type WellPoint } from './profile'
+import { readoutAt, readoutText, svgYToFt } from './readout'
 import { DEFAULT_AIR_GAP_FT } from '../../engine/well'
 import { ftToM } from '../../units'
 
@@ -44,6 +45,8 @@ const fmtFt = (ft: number): string => Math.round(ft).toLocaleString('en-US')
 function WellView() {
   const s = useAppState()
   const [tip, setTip] = useState('')
+  // fix 03: depth under the pointer (ft TVDSS); kept after the pointer leaves so the line can be read
+  const [readFt, setReadFt] = useState<number | null>(null)
   const dx = s.info?.dx ?? 1000
   const w = s.well
   if (!w) return <div><h2>Pseudo-well</h2><p className="muted">Waiting for the run.</p></div>
@@ -59,13 +62,19 @@ function WellView() {
   const emwHi = 20
   const tMax = Math.max(250, Math.ceil(Math.max(...pts.map((p) => p.tempF), 100) / 50) * 50)
   const km = (w.xM / 1000).toFixed(0)
+  const airGapFt = s.wellPlan?.airGapFt ?? DEFAULT_AIR_GAP_FT
+  const read = readFt === null ? null : readoutAt(prof, readFt)
+  const onPointer = (e: { clientY: number; currentTarget: SVGSVGElement }) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    if (r.height > 0) setReadFt(svgYToFt(e.clientY, r.top, r.height, H, TOP, BOT, topFt, botFt))
+  }
   // Where the salt label block (three lines) starts. Normally inside the interval; with a weld in the column the weld labels
   // sit at the salt base, so the salt block moves above the salt top instead of overlapping them.
   const labelY = (a: number, b: number): number => (prof.weld ? y(a) - 40 : Math.min(y(b) - 2, y(a) + 10))
   return (
     <div>
       <h2>Pseudo-well at {km} km</h2>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: 720, background: '#fff', borderRadius: 4 }} role="img" aria-label={`Pseudo-well at ${km} km, ${w.ageMa.toFixed(2)} Ma`}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: 720, background: '#fff', borderRadius: 4 }} role="img" aria-label={`Pseudo-well at ${km} km, ${w.ageMa.toFixed(2)} Ma`} data-testid="well-plot" onPointerMove={onPointer} onPointerDown={onPointer}>
         {/* depth axis */}
         {ticks.map((t) => (
           <g key={t}>
@@ -163,6 +172,13 @@ function WellView() {
         })}
         <text x={TRACKS[3].x} y={H - 8} fontSize={9} fill="#333">mud</text>
         <text x={TRACKS[3].x + TRACKS[3].w} y={H - 8} fontSize={9} textAnchor="end" fill="#333">sand</text>
+        {/* fix 03: the depth being read, across the pressure track, with a dot on the pore line */}
+        {read ? (
+          <g data-testid="well-readout-marker" pointerEvents="none">
+            <line x1={TRACKS[0].x} x2={TRACKS[3].x + TRACKS[3].w} y1={y(read.point.tvdssFt)} y2={y(read.point.tvdssFt)} stroke="#555" strokeDasharray="2 2" />
+            {read.point.poreEmw !== null && !read.point.salt ? <circle cx={TRACKS[0].x + ((Math.max(emwLo, Math.min(emwHi, read.point.poreEmw)) - emwLo) / (emwHi - emwLo)) * TRACKS[0].w} cy={y(read.point.tvdssFt)} r={2.5} fill="#d1352b" stroke="#fff" /> : null}
+          </g>
+        ) : null}
         {/* legend */}
         <g fontSize={10}>
           <line x1={530} x2={555} y1={50} y2={50} stroke="#d1352b" strokeWidth={2} /><text x={560} y={53} fill="#333">pore</text>
@@ -172,6 +188,9 @@ function WellView() {
           {prof.saltIntervals.length ? <g><rect x={530} y={92} width={25} height={9} fill="rgb(232,150,170)" /><text x={560} y={101} fill="#333">salt</text></g> : null}
         </g>
       </svg>
+      <p className="small" data-testid="well-readout" aria-live="polite">
+        {read ? readoutText(read, airGapFt) : readFt === null ? 'Point at the plot (or click it) to read the depth and the pressures there.' : 'No sediment at that depth: point lower, below the sea floor.'}
+      </p>
       {prof.saltIntervals.length || prof.weld ? (
         <div className="saltnote" data-testid="well-salt-note">
           {prof.saltIntervals.map(([a, b], i) => (

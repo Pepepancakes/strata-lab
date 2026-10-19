@@ -376,6 +376,14 @@ has four tracks:
    Hover (or tab to) a hatched interval to read the event: time, cause, source position, scar depth,
    volume and run-out. The same text appears under the plot.
 
+**Reading a depth** (fix 03). The plot spans the whole column, so the top few thousand feet are a thin
+strip at the top. Point at the plot (or click or tap it) and the line under it names the cell at that
+depth: TVDSS, the depth below the sea floor (or the ground), pore, hydrostatic and overburden pressure in
+ppg, and how far the pore pressure is over hydrostatic. A dashed line and a red dot mark the depth on the
+plot. The readout uses the same rig-floor datum as the plot, so near the top it reads lower than a
+sea-surface EMW (hydrostatic water reads under 8.6 ppg); the excess over hydrostatic is the number to
+compare.
+
 Salt (when **Salt layer** is on) is drawn pink and labelled "salt", with its top and base depths. Salt has no pores and no pore fluid, so the pore-pressure and porosity lines stop at the top of the salt and start again below its base; the overburden line carries on and counts the salt at its own weight (about 18 ppg). If the column is welded, a heavy line marks the weld and a note under the plot gives its age and the salt left.
 
 The temperature in this panel and in the Temperature colour mode is **steady conduction**: it
@@ -456,7 +464,7 @@ the pseudo-well overburden with the Traugott (1997) deep-water Gulf regional tre
 with the Hart mud is 1.1 ppg at column 150 and 0.8 to 0.9 ppg at column 250 (about 1.7 and 1.3 ppg with the
 North Sea mud; medians of four runs, Windows and Linux agree to 0.02 ppg). At 10,000 ft below the sea floor the
 pore pressure at column 150 is about 15.2 ppg (it was 12.7). The number of cells where the pore pressure was
-held at the overburden also rose, from about 16,000 to 36,000 (Windows) or 48,000 (Linux). That count moves by a factor of 2 to 3 between browsers and machines (a last-digit difference, section 15), so the claim is only "tens of thousands on the Gulf preset, 0 on the others". **The shallow section also reads over hydrostatic.** With the Hart mud the pore pressure 500 ft below the sea floor is 9.4 to 10.5 ppg (columns 100 to 250) against 8.6 ppg with the North Sea mud, and 10.2 to 12.2 ppg against 8.7 to 8.8 ppg at 2,000 ft (Windows node 26; Linux node 22 gives 9.2 to 10.7 and 10.4 to 12.3 ppg). Hart's own well is hydrostatic there. The cause is the mud permeability law, which is tuned and was not re-fitted for the lower surface porosity (the surface mud is about 70 times less permeable); nothing was retuned, and the re-fit is in the roadmap Backlog. Where the window is
+held at the overburden also rose, from about 16,000 to 36,000 (Windows) or 48,000 (Linux). That count moves by a factor of 2 to 3 between browsers and machines (a last-digit difference, section 15), so the claim is only "tens of thousands on the Gulf preset, 0 on the others". **The shallow section also reads over hydrostatic.** With the Hart mud the pore pressure 500 ft below the sea floor is 9.4 to 10.5 ppg (columns 100 to 250) against 8.6 ppg with the North Sea mud, and 10.2 to 12.2 ppg against 8.7 to 8.8 ppg at 2,000 ft (Windows node 26; Linux node 22 gives 9.2 to 10.7 and 10.4 to 12.3 ppg). Those figures are EMW from the sea surface. The pseudo-well measures from the rig floor (80 ft above the sea), which reads lower near the top: at column 150 (150 km) it shows about 9.4 ppg at 500 ft below the sea floor and about 11.6 ppg at 2,000 ft, against a hydrostatic line of 7.7 and 8.3 ppg there, so 1.7 and 3.4 ppg over hydrostatic. Use the depth readout under the plot (section 8) to read them. Hart's own well is hydrostatic there. The cause is the mud permeability law, which is tuned and was not re-fitted for the lower surface porosity (the surface mud is about 70 times less permeable); nothing was retuned, and the re-fit is in the roadmap Backlog. Where the window is
 zero or negative (red), look for yellow dots: in this model the pore pressure has usually just hit the cap.
 
 **Limits of the planned well** (read before trusting a plot):
