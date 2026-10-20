@@ -34,7 +34,7 @@ well-minus-formation pressure difference.
 |---|---|---|---|
 | 1 | 432 | c*_m = 1 / (V_sys_cit x dP/dV_p) | Apparent mud compressibility from the slope of the casing-integrity test; it lumps mud, casing and cement compliance. |
 | 2 | 432 | dP = (dV_p - dV_fm) / (V_sys_fpit x c*_m) | Expected pre-fracture FPIT slope: the CIT compressibility applied to the larger open-hole system volume, less formation expansion. |
-| 3 | 433 | dV_fm = f(dP, G, HS, L_OH) | Elastic expansion of the open hole (shear modulus, hole size, open-hole length); negligible except in soft shallow formations, e.g. half-metre-shoe tests, where the deformation is unlikely to be elastic. |
+| 3 | 432 | dV_fm = f(dP, G, HS, L_OH) | Elastic expansion of the open hole (shear modulus, hole size, open-hole length); negligible except in soft shallow formations, e.g. half-metre-shoe tests, where the deformation is unlikely to be elastic. |
 | 4 | 433 | dP = (dV_p - dV_fm - dV_k) / [(V_sys_fpit - V_a) c*_m + V_a c_a] | Eq. 2 with air in the lines (c_a = 1/P_a, recomputed each step) and permeability losses; the curve becomes nonlinear and is run in small increments. |
 | 5 | 433 | dV_k = 0.00708 x dT x F_f x dP_w-f / [1440 x ln(r_e/r_w)] | Radial-flow loss to an exposed permeable bed per time step (field units). |
 | 6 | 433 | F_f = K h / mu | Flow factor: permeability x exposed height / viscosity, the single fitting parameter for losses. |
