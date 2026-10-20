@@ -6,7 +6,7 @@ export const G = 9.81
 export const RHO_W = 1025
 export const RHO_S = 2650
 export const MU = 1.0e-3
-/** Halite density, kg/m^3 (Hudec & Jackson 2007). Used by the salt flow (salt.ts). */
+/** Halite density, kg/m^3. To verify: no paper read for this project gives 2160; Hudec & Jackson (2007, p. 4) give about 2200 for impure rock salt. Used by the salt flow (salt.ts). */
 export const RHO_SALT = 2160
 export const YR = 3.15576e7
 /** Buoyant unit weight of solids, Pa/m: (rho_s - rho_w) g. */

@@ -87,9 +87,12 @@ citation come from `curveCreditAtAge(age)` and change with age.
     *Basin Research* 16 (to verify).
   - Ge, H., Jackson, M.P.A. & Vendeville, B.C. (1997). Kinematics and dynamics of salt tectonics
     driven by progradation. *AAPG Bull.* 81(3) (to verify). Expulsion ahead of a wedge, spike 002.
-  - Salt density 2,160 kg/m³ (halite; Hudec & Jackson 2007). Used in spike 002.
-  - Salt viscosity, roughly 1e17–1e19 Pa·s (to verify). Spike 002 default 1e17 is **tuned** to
-    the fast end so that flow shows in 3 Myr.
+  - Salt density 2,160 kg/m³ (halite; **to verify**). No paper read for this project gives 2,160;
+    Hudec & Jackson (2007, p. 4) give about 2,200 kg/m³ for impure rock salt. Used in spike 002.
+  - Salt viscosity: field-based estimates for natural rock salt generally 1e17 to 1e20 Pa·s, creep-law
+    estimates 1e12 to 1e20 Pa·s (Wagner & Jackson 2011, pp. 311-312; earlier versions of this file
+    credited a 1e17-1e19 range to Hudec & Jackson 2007, which gives no viscosity). Spike 002 default
+    1e17 is **tuned** to the fast end so that flow shows in 3 Myr.
   - Spike 002 benchmarks: decay of a thickness bump vs linear lubrication theory
     (rate = h³(ρ_salt−ρ_w)g k²/12η); load-step Poiseuille flux vs hand calculation.
 - **Fracture gradient (M4).**
@@ -233,14 +236,14 @@ under an older cover (layer 1). It flows sideways as a thin viscous sheet betwee
 (Poiseuille channel flow; Turcotte & Schubert, *Geodynamics*): flux q = -(h^3 / 12 eta) dPhi/dx, with
 Phi = W + rho_w g (water depth) + rho_salt g z_roof, W the weight of the sediment above the salt, and
 dh/dt = -dq/dx. Columns do not move sideways; they ride on the salt (D10). Salt density 2,160 kg/m3
-(Hudec & Jackson 2007).
+(to verify; Hudec & Jackson 2007, p. 4, give about 2,200 kg/m3 for impure rock salt, and no paper read for this project gives 2,160).
 
 | Quantity | Value | Status | Note |
 |---|---|---|---|
 | `saltOn` | 0 (off) | tuned | switch; off keeps every earlier run bit-identical |
 | `saltThick` | 1500 m | tuned | start thickness basinward of the pinch-out; synthetic |
 | `saltPinchStart`, `saltPinchEnd` | 25 km, 45 km | tuned | smooth pinch-out of the start thickness |
-| `saltVisc` | 1e17 Pa s | tuned | published range about 1e17 to 1e19 (Hudec & Jackson 2007, not checked); default is the fast end so flow shows within 3 Myr |
+| `saltVisc` | 1e17 Pa s | tuned | field-based estimates generally 1e17 to 1e20 (Wagner & Jackson 2011, pp. 311-312); default is the fast end so flow shows within 3 Myr |
 | `nSaltSub` | 5 | tuned | numerical |
 | `coverUneven`, `coverSeed` | 0, 1 | tuned | optional seeded unevenness of the older cover |
 | `coverThick` | 200 m | tuned | thickness of the older cover over the salt at the start; 200 m is the salt-off substrate (M3.4) |
@@ -277,7 +280,7 @@ Source code: `src/engine/salt.ts` (`limitOutflow`), `src/engine/saltIntervals.ts
 - **Weld.** After Hudec & Jackson (2007): where the layers above and below the salt come back together,
   with at most a thin remnant. `weldThick` (10 m, tuned) is the label threshold only. The age of the first
   time a column went from at least `weldThick` to below it is state (`weldAge`).
-- **Salt in the load.** Salt weight (2,160 kg/m3, Hudec & Jackson 2007) is in the overburden the views use
+- **Salt in the load.** Salt weight (2,160 kg/m3, to verify; see M3.1) is in the overburden the views use
   (`columnOverburden`). Compaction of the sediment BELOW salt does not count it yet (not needed without canopies).
   Salt has no porosity and no pore fluid.
 - **Salt temperature.** Exact steady conduction through a salt cell with k(T) = k0 / (0.99 + T (a - b / k0)),
@@ -321,7 +324,7 @@ Status of every M3 registry key as shown next to the control; the index at the e
 | `saltThick` | 1,500 m | tuned | synthetic; not checked against a published thickness |
 | `saltPinchStart`, `saltPinchEnd` | 25 km, 45 km | tuned | set-up |
 | `saltLimitStart`, `saltLimitEnd` | 2,000 km, 2,500 km (beyond any section) | tuned | basinward end of the salt basin; idea after Hudec et al. (2013), position tuned (M3.10) |
-| `saltVisc` | 1e17 Pa s | tuned (range cited) | Hudec & Jackson (2007) range about 1e17 to 1e19, not checked against the paper |
+| `saltVisc` | 1e17 Pa s | tuned (range cited) | Wagner & Jackson (2011, pp. 311-312): field-based estimates generally 1e17 to 1e20, creep-law estimates 1e12 to 1e20; Hudec & Jackson (2007), credited here before, gives no viscosity |
 | `nSaltSub` | 5 | tuned | numerical |
 | `coverUneven`, `coverSeed` | 0, 1 | tuned | set-up; seeded through `rng.ts` |
 | `coverThick` | 200 m | tuned | 200 m is the salt-off substrate; the Gulf preset uses 1,000 m |
@@ -535,7 +538,7 @@ References (28):
 - `ge-1997`: Ge et al. (1997) (to verify)
 - `eaton-1969`: Eaton (1969)
 - `matthews-kelly-1967`: Matthews & Kelly (1967)
-- `wagner-jackson-2011`: Wagner & Jackson (2011) (to verify)
+- `wagner-jackson-2011`: Wagner & Jackson (2011)
 - `pilcher-2011`: Pilcher et al. (2011) (to verify)
 
 Parameters (83), as `key`: status, reference id:
@@ -611,7 +614,7 @@ Parameters (83), as `key`: status, reference id:
 - `saltPinchEnd`: tuned
 - `saltLimitStart`: tuned, hudec-2013
 - `saltLimitEnd`: tuned, hudec-2013
-- `saltVisc`: tuned, hudec-jackson-2007
+- `saltVisc`: tuned, wagner-jackson-2011
 - `nSaltSub`: tuned
 - `coverUneven`: tuned
 - `coverSeed`: tuned

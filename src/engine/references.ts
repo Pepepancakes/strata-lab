@@ -178,8 +178,7 @@ export const REFERENCES: readonly Reference[] = [
   {
     id: 'wagner-jackson-2011',
     short: 'Wagner & Jackson (2011)',
-    full: 'Wagner, B.H. & Jackson, M.P.A. (2011). Viscous flow during salt welding. Tectonophysics 510(3-4), 309-326, doi:10.1016/j.tecto.2011.07.012. Abstract only read: where flow is held back by drag along the boundaries (for example under a broad prograding wedge) up to about 50 m of salt stays in an incomplete weld; where flow is unrestricted only a vanishingly thin smear remains.',
-    toVerify: true,
+    full: 'Wagner, B.H. & Jackson, M.P.A. (2011). Viscous flow during salt welding. Tectonophysics 510(3-4), 309-326, doi:10.1016/j.tecto.2011.07.012. Read in full for the salt literature review (LIT-2c); salt viscosity ranges on pp. 311-312. Where flow is held back by drag along the boundaries (for example under a broad prograding wedge) up to about 50 m of salt stays in an incomplete weld; where flow is unrestricted only a vanishingly thin smear remains.',
   },
   {
     id: 'pilcher-2011',

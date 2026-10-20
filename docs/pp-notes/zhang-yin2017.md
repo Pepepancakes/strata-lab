@@ -77,7 +77,8 @@ Count recorded: 17 rows. The 229 LOTs are not tabulated; only Figs. 4 and 5 show
 ## 5. Data the method was fitted to
 
 229 public LOT/XLOT values from offshore exploration and production wells in five regions, mostly young clastic
-sediments, with overburden from density logs and pore pressure from the operators' estimates (section 3.1). Salt: FIT
+sediments. The paper keeps only tests "in which the pore pressures and overburden stresses are reliable" (section 3.1,
+pdf 6); it does not say how those pressures and stresses were obtained. Salt: FIT
 and LOT in 15 Gulf of Mexico wells. Case studies: one GoM salt-presalt-subsalt well, one shale-gas well with DFIT and
 LOT, one offshore well with a kick history.
 

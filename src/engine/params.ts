@@ -209,7 +209,7 @@ export const PARAMS: readonly ParamDef[] = [
   { key: 'saltLimitEnd', label: 'Salt basin limit: no salt basinward of', unit: 'm', displayUnit: 'km', default: 2500000, min: 100, max: 5000000, startOnly: true,
     source: { kind: 'tuned', refId: 'hudec-2013', note: 'See saltLimitStart. Must be larger than it.' } },
   { key: 'saltVisc', label: 'Salt viscosity', unit: 'Pa s', displayUnit: 'Pa s', default: 1e17, min: 1e16, max: 1e20, startOnly: false,
-    source: { kind: 'tuned', refId: 'hudec-jackson-2007', note: 'Published range for natural rock salt about 1e17 to 1e19 Pa s (Hudec & Jackson 2007; value range not checked against the paper). The default is the fast end, tuned so that flow shows within 3 Myr.' } },
+    source: { kind: 'tuned', refId: 'wagner-jackson-2011', note: 'Field-based estimates for natural rock salt generally 1e17 to 1e20 Pa s; creep-law estimates 1e12 to 1e20 Pa s (Wagner & Jackson 2011, pp. 311-312). The default is the fast end, tuned so that flow shows within 3 Myr.' } },
   { key: 'nSaltSub', label: 'Salt substeps per record step', unit: '-', displayUnit: '-', default: 5, min: 1, max: 50, startOnly: true,
     source: { kind: 'tuned', note: SETUP } },
   { key: 'coverUneven', label: 'Unevenness of the older cover (salt on)', unit: '-', displayUnit: '-', default: 0, min: 0, max: 0.5, startOnly: true,
