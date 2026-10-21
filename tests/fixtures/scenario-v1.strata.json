@@ -3,7 +3,7 @@
   "version": 1,
   "app": {
     "version": "0.1.0",
-    "engine": 4
+    "engine": 5
   },
   "run": {
     "presetId": "last3",
@@ -32,14 +32,14 @@
       "parent": null,
       "startStep": 0,
       "edits": {},
-      "stateHash": "51bc752d1d691ea8",
+      "stateHash": "1343017d103e8de8",
       "summary": {
         "nx": 60,
         "nLayers": 101,
-        "sand": 4055.2295369,
-        "mud": 7857.48404783,
-        "meanH": -1039.24408949,
-        "maxU": 685100.980913,
+        "sand": 4090.56171659,
+        "mud": 7717.24449977,
+        "meanH": -1046.55066789,
+        "maxU": 861671.628439,
         "events": 0
       }
     },
@@ -51,14 +51,14 @@
       "edits": {
         "supply": 30
       },
-      "stateHash": "3ce20d36a73d7a57",
+      "stateHash": "f8007d1dfa614080",
       "summary": {
         "nx": 60,
         "nLayers": 101,
-        "sand": 4429.47394378,
-        "mud": 8267.03692747,
-        "meanH": -1011.22456889,
-        "maxU": 1082561.79272,
+        "sand": 4500.28501793,
+        "mud": 8194.23422476,
+        "meanH": -1014.22791381,
+        "maxU": 1083549.12392,
         "events": 0
       }
     },
@@ -74,14 +74,14 @@
         ],
         "sandFrac": 0.5
       },
-      "stateHash": "618b531a2bac19db",
+      "stateHash": "8244b08fc08a7a96",
       "summary": {
         "nx": 60,
         "nLayers": 101,
-        "sand": 4755.91110803,
-        "mud": 8066.95523327,
-        "meanH": -1009.40449437,
-        "maxU": 1443271.70529,
+        "sand": 4859.09702848,
+        "mud": 7985.3064324,
+        "meanH": -1011.84461916,
+        "maxU": 1380757.55066,
         "events": 0
       }
     }

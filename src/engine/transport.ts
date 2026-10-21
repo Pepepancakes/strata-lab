@@ -109,7 +109,12 @@ export function transportSubstep(eng: EngineState, P: EngineParams, sl: number, 
   eng.diag.tcShare = Ftc
   const qS = P.supply * P.sandFrac, qM = P.supply * (1 - P.sandFrac) // solid m^2/yr
   const pS = 1 - P.phi0[SAND], pM = 1 - P.phi0[MUD]
-  const inS = qS * (1 - Ftc) / pS, inM = qM * (1 - Ftc) / pM // bulk m^2/yr
+  // SFM-2 (D31.3): the whole supply enters the diffusion step; the turbidite share is taken from what
+  // arrives at the shelf-edge face (see the cascade below), so a shelf that stores sediment sheds less.
+  // (legacyShelfEdge, tests only: the pre-SFM-2 rule, share taken from the supply at the source, for spike parity.)
+  const legacy = !!P.legacyShelfEdge
+  const inS = qS * (legacy ? 1 - Ftc : 1) / pS, inM = qM * (legacy ? 1 - Ftc : 1) / pM // bulk m^2/yr
+  let tcS = 0, tcM = 0 // solid m taken off the shelf-edge face this substep
 
   const r = dt / (dx * dx)
   // ghost cell beyond the last column (open basinward boundary)
@@ -246,8 +251,16 @@ export function transportSubstep(eng: EngineState, P: EngineParams, sl: number, 
       if (outR > 0) {
         const sh = outR / Qout
         if (j < nx - 1) {
-          iSs[j + 1] += oS * sh
-          iMs[j + 1] += oM * sh
+          let toS = oS * sh, toM = oM * sh
+          if (!legacy && j === je && Ftc > 0) {
+            // SFM-2: this face is the shelf edge; the turbidity current takes the share Ftc of what crosses it
+            tcS = toS * Ftc
+            tcM = toM * Ftc
+            toS -= tcS
+            toM -= tcM
+          }
+          iSs[j + 1] += toS
+          iMs[j + 1] += toM
         } else {
           // leaves the section past the basinward edge (solid m x dx = m^2)
           led.cumOut.sand += oS * sh * dx
@@ -276,8 +289,9 @@ export function transportSubstep(eng: EngineState, P: EngineParams, sl: number, 
   led.cumIn.mud += qM * dt
 
   // turbidity currents: bypass steep slope, deposit where gradient decreases
-  if (Ftc > 0) {
-    const q: [number, number] = [qS * Ftc / pS, qM * Ftc / pM]
+  if (legacy ? Ftc > 0 : tcS > 0 || tcM > 0) {
+    const toRate = dx / dt // solid m over the substep -> solid m^2/yr
+    const q: [number, number] = legacy ? [qS * Ftc / pS, qM * Ftc / pM] : [tcS * toRate / pS, tcM * toRate / pM]
     routeTurbidites(H, sand, mud, open, nx, P, je, q, pS, pM, dt)
     led.cumOut.sand += q[0] * pS * dt
     led.cumOut.mud += q[1] * pM * dt

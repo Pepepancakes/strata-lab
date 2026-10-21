@@ -55,10 +55,14 @@ export function summarizeRecord(rec: LayerRecord, events = 0): RunSummary {
 
 /** Relative tolerances, see the header for where each number comes from. */
 export const SUMMARY_TOL = {
-  sand: 3e-4, // SFM-1 (D31): was 1e-6. Sand leaves past the open basinward edge, so the stored total is no longer fixed by the turbidite export alone; measured spread 4e-6 at 1 ulp and 1.4e-4 at 1e-12 noise on the small-grid scenario fixture (Windows, node 26)
-  mud: 1e-3,
+  // SFM-2 (D31.3): the shelf edge now needs a minimum water depth and the turbidite share is taken at the shelf-edge face, so a
+  // last-bit change moves the routing more than before. Measured on the small-grid scenario fixture (Windows, node 26), spread of
+  // sand / mud / maxU over noise 2.2e-16 to 1e-12, six salts: sand up to 6.7e-4, mud up to 1.1e-3, maxU up to 0.34 (b2, 'More supply').
+  // The values below are about 2x those maxima; the supply +1 % test still fails against them.
+  sand: 1.5e-3, // SFM-1 (D31): was 1e-6. Sand leaves past the open basinward edge, so the stored total is no longer fixed by the turbidite export alone; measured spread 4e-6 at 1 ulp and 1.4e-4 at 1e-12 noise on the small-grid scenario fixture (Windows, node 26)
+  mud: 2.5e-3,
   meanH: 4e-3,
-  maxU: 0.3,
+  maxU: 0.6,
   eventsFactor: 3,
 }
 

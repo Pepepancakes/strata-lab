@@ -494,7 +494,7 @@ app labels them so: columns (`nx`, default 150), column width (`dx`, 1 km), run 
 Others the registry carries that the sections above do not describe one by one:
 - `sandFrac` (sand share of supply, 0.35), `slAmp` (40 m), `slPeriod` (100 kyr) and `slShift`
   (sea-level offset, 0): tuned. The sine is a teaching option only.
-- `sBreak`, `tcMax`, `tcLambda`, `tcL0`, `tcSref`, `tcN`: the turbidite transport-length rule,
+- `sBreak`, `shelfBreakDepth`, `tcMax`, `tcLambda`, `tcL0`, `tcSref`, `tcN`: the turbidite transport-length rule,
   tuned. It is a rule, not flow physics.
 - `kMudMult` (mud permeability multiplier) and `elastic` (unloading stiffness): tuned.
 - `linear`: the switch for the Gibson benchmark. Never set in the app.
@@ -526,6 +526,30 @@ Where a source gives a range, it is quoted in the section for that parameter.
   keep the area you read well inboard of it. The 5 % threshold in the test is a round number (D31.5), not a cited target.
 - **Not cited:** the ghost level (pre-run surface) is a modelling choice, not a published boundary condition ("tuned" in kind: it sets how much
   piles up at the edge, nothing was fitted to a result).
+
+## SFM-2 Shelf edge that cannot see the shoreface (SFM-R F1 and F4, D31.3)
+
+- **Problem.** The shelf edge was the first marine face steeper than `sBreak` (0.01). The model builds a shoreface steeper than that where the
+  diffusivity drops from the land value to the marine one, so the rule fired on the shoreface: the median shelf edge - shoreline distance was
+  0 km at constant sea level, about 60 % of the supply was sent down the slope at every stand, and a bigger sea-level swing gave LESS basin sand.
+- **Rule now.** (1) A face counts as the shelf edge only where the water is at least `shelfBreakDepth` deep (default 50 m, 164 ft) AND the face is
+  steeper than `sBreak`. (2) The turbidity share (`tcMax exp(-(shelf edge - shoreline) / tcLambda)`, unchanged) is taken from the sediment that
+  crosses the shelf-edge face in the transport step (per grain size, as it arrives), not from the supply at the source. A shelf that is storing
+  sediment therefore passes on less. The routed sand and mud are still deposited by the unchanged run-out rule and the leftover is booked as exported,
+  so mass per grain size closes.
+- **`shelfBreakDepth` is tuned.** 50 m is 5 x the sand marine e-folding depth `dm` (10 m), the SFM-R suggestion. A measured shelf-break depth was not
+  read for this card; real shelf breaks are commonly deeper. Sensitivity (Windows node 26, not a tuning): 0, 50 and 150 m all leave the 1 Myr sine
+  with no lowstand signal (corr -0.004, -0.014, -0.138), so the depth value is not what limits it.
+- **Tests** (tests/shelfEdge.test.ts; thresholds are round numbers, D31.5): a synthetic surface with the shoreline 30 km inboard of the edge gives share
+  < 0.05; the shoreline on the edge gives more than 0.8 tcMax; the 80 m / 100 kyr sine has corr(sea level, share) < -0.5 and a mean highstand share
+  < 0.05; mass per grain size closes; a rerun is identical.
+- **What it does not fix, measured.** In this model the delta fills the shelf within about 0.3 Myr and the shoreline then rides the steep foreset,
+  so the shelf edge stays 1 to 2 km from the shoreline at every stand of a slow cycle. For the 1 Myr, 40 m sine corr(sea level, share) is -0.014,
+  and sand beyond 100 km orders as constant 9.7 % > sine 40 m 5.6 % > sine 80 m 4.7 % (100 kyr period) of the sand supply, the reverse of the SFM-R expectation: at
+  constant sea level the shelf is full from 0.3 Myr on and bypasses all run, while a cycling sea level spends part of each cycle with a flooded shelf.
+  Both checks are `it.fails` in the test file. The literal SFM-R test 1 ("share < 0.05 for the whole run") cannot hold either: the shelf is full after 0.3 Myr.
+  The test checks the steps while the shoreline is 24 km or more inboard of the edge.
+- **Legacy switch.** `legacyShelfEdge` (tests only, not in the registry) restores the old rule; spike 001's golden parity runs with it.
 
 <!-- registry-index:start -->
 ### Registry index
@@ -562,7 +586,7 @@ References (28):
 - `wagner-jackson-2011`: Wagner & Jackson (2011)
 - `pilcher-2011`: Pilcher et al. (2011) (to verify)
 
-Parameters (83), as `key`: status, reference id:
+Parameters (84), as `key`: status, reference id:
 - `nx`: tuned
 - `dx`: tuned
 - `duration`: tuned
@@ -583,6 +607,7 @@ Parameters (83), as `key`: status, reference id:
 - `tcMax`: tuned
 - `tcLambda`: tuned
 - `sBreak`: tuned
+- `shelfBreakDepth`: tuned
 - `tcL0`: tuned
 - `tcSref`: tuned
 - `tcN`: tuned

@@ -243,6 +243,10 @@ Read with D18 and D19 in `docs/decisions.md`. Full tables: `docs/reviews/m3-10-e
   wall now has a thin edge column, and the salt, which moves toward the lightest load, can pile there (the 10 Myr salt preset and the Gulf salt
   wall changed; see the SFM-1 handoff and D31.4). Spike 001's golden has a closed wall: `tests/run.test.ts` runs its parity with `closedEdge: true`
   (a tests-only parameter, not in the registry). A section shorter than the area you read still shows edge effects; see physics-references SFM-1.
+- **Trap: the shelf edge needs water depth, and the turbidite share is taken at the shelf-edge face (SFM-2, ENGINE_VERSION 5).** `shelfBreakDepth` (50 m,
+  tuned) stops the shoreface being read as the shelf edge; the share is applied to the flux that crosses the shelf-edge face, not the supply.
+  `legacyShelfEdge` (tests only) restores the old rule for spike 001 parity. The mtd preset now makes about 115 events (was 27) and the scenario
+  summary tolerances in `summary.ts` were widened (measured, see its header). Two SFM-R checks are not met (1 Myr sine correlation; sand ordering): see physics-references SFM-2.
 
 ## M4 planned well (2026-10-16)
 Chain: `strata-lab/m4-01-well-path` -> `m4-02-well-pressures` -> `m4-03-well-view` (merges UI-1) -> `m4-04-well-export` -> `m4-05-docs`.

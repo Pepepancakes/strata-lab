@@ -155,14 +155,16 @@ describe('mtd preset', () => {
   it('does not sit on a knife-edge: events survive 1 ulp changes in the maths library (D14, D16.4)', () => {
     // Windows and Linux differ in the last bit of pow/exp/log. Measured on this preset at 5 kyr:
     // 24 events unperturbed, 26 to 34 with 1 ulp to 1e-12 noise. Never 0, always inside the band.
+    // SFM-2 (D31.3): the preset now makes 115 events unperturbed and 111 to 142 with noise (Windows, node 26): the turbidite
+    // sand now lands from the real shelf edge, the slope loads faster and fails more. The upper bound is a round number.
     // (At 25 kyr steps it made 0 to 4: that is why the view tests run it at 5 kyr.)
     for (const [amp, salt] of [[2.2e-16, 1], [2.2e-16, 2], [1e-13, 3]]) {
       const n = withUlpNoise(amp, salt, () => runPreset('mtd').eng.events.length)
       expect(n, `amp ${amp} salt ${salt}`).toBeGreaterThanOrEqual(10)
-      expect(n, `amp ${amp} salt ${salt}`).toBeLessThanOrEqual(60)
+      expect(n, `amp ${amp} salt ${salt}`).toBeLessThanOrEqual(300)
     }
     expect(run.eng.events.length).toBeGreaterThanOrEqual(10)
-    expect(run.eng.events.length).toBeLessThanOrEqual(60)
+    expect(run.eng.events.length).toBeLessThanOrEqual(300)
   }, 120000)
   it('a branch at 1 Ma with supply raised keeps the earlier events and changes the later ones', () => {
     const tm = new TimeMachine()
