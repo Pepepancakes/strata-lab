@@ -13,10 +13,22 @@
 // Sorting scheme matters: the first version swapped 27 % of supply between grain sizes and only
 //   the sand-only balance showed it (handover trap). Always check both.
 // Turbidity currents (turbidites.ts) take a share of the supply before diffusion.
+// Open basinward boundary (SFM-1, D31.3): the last column drains into a ghost cell one column beyond
+//   it, held at a fixed elevation Hg = the pre-run surface of the last column (basement plus the
+//   pre-run layers), which subsides with the basement. Sediment piles on the last column until it
+//   stands above Hg; the face flux K (H[nx-1] - Hg) / dx then carries the rest out of the section, and
+//   it is booked in the ledger (cumOut and cumEdge) per grain size. A fixed value keeps the implicit
+//   solve a plain tridiagonal system (the ghost value moves to the right-hand side) and the flux exact
+//   for a linear slope. If the solve would draw sediment IN across the edge (last column eroded below
+//   Hg) the substep is solved again with the edge closed. Tried first and dropped: a ghost that follows
+//   the slope above the edge; it feeds on its own erosion (the last column kept falling).
+//   Before SFM-1 this face was a closed wall and mud ponded against it (SFM-R F2). `closedEdge` (not in
+//   the registry, tests only) brings the wall back: the spike 001 golden parity test needs it.
 // Salt (material = SALT) is never moved: it stops the active layer and erosion, so nothing below
 //   or in it is touched. Salt flow is M3.
 // Parameters are tuned (params.ts). Benchmark: mass balance per grain size over the full run.
 
+import { cellBulk } from './compaction'
 import * as K from './constants'
 import type { EngineParams } from './engineParams'
 import { SALT as SALT_TAG, type LayerRecord } from './record'
@@ -97,14 +109,23 @@ export function transportSubstep(eng: EngineState, P: EngineParams, sl: number, 
   eng.diag.tcShare = Ftc
   const qS = P.supply * P.sandFrac, qM = P.supply * (1 - P.sandFrac) // solid m^2/yr
   const pS = 1 - P.phi0[SAND], pM = 1 - P.phi0[MUD]
-  const inS = qS * (1 - Ftc) / pS, inM = qM * (1 - Ftc) / pM // bulk m^2/yr
+  // SFM-2 (D31.3): the whole supply enters the diffusion step; the turbidite share is taken from what
+  // arrives at the shelf-edge face (see the cascade below), so a shelf that stores sediment sheds less.
+  // (legacyShelfEdge, tests only: the pre-SFM-2 rule, share taken from the supply at the source, for spike parity.)
+  const legacy = !!P.legacyShelfEdge
+  const inS = qS * (legacy ? 1 - Ftc : 1) / pS, inM = qM * (legacy ? 1 - Ftc : 1) / pM // bulk m^2/yr
+  let tcS = 0, tcM = 0 // solid m taken off the shelf-edge face this substep
 
   const r = dt / (dx * dx)
-  const solve = () => {
-    // face diffusivities, composition from the upwind cell
-    for (let f = 0; f < nx - 1; f++) {
-      const jU = H[f] >= H[f + 1] ? f : f + 1
-      const d = sl - 0.5 * (H[f] + H[f + 1])
+  // ghost cell beyond the last column (open basinward boundary)
+  let Hg = rec.b[nx - 1]
+  for (let l = 0; l < rec.nPre; l++) Hg += cellBulk(eng, P, l * nx + nx - 1)
+  const solve = (edgeOpen: boolean) => {
+    // face diffusivities, composition from the upwind cell; face nx - 1 is the open edge
+    for (let f = 0; f < (edgeOpen ? nx : nx - 1); f++) {
+      const hR = f < nx - 1 ? H[f + 1] : Hg
+      const jU = f === nx - 1 || H[f] >= hR ? f : f + 1
+      const d = sl - 0.5 * (H[f] + hR)
       let k0: number, k1: number
       if (d <= 0) {
         k0 = P.Kc[0]
@@ -120,11 +141,12 @@ export function transportSubstep(eng: EngineState, P: EngineParams, sl: number, 
     // implicit solve for the new surface
     for (let j = 0; j < nx; j++) {
       const a = j > 0 ? -r * Ke[j - 1] : 0
+      const edge = edgeOpen && j === nx - 1
       const c = j < nx - 1 ? -r * Ke[j] : 0
       S.lo[j] = a
       S.up[j] = c
-      S.di[j] = 1 - a - c
-      S.rhs[j] = H[j] + (j === 0 ? dt * (inS + inM) / dx : 0)
+      S.di[j] = 1 - a - c + (edge ? r * Ke[j] : 0)
+      S.rhs[j] = H[j] + (j === 0 ? dt * (inS + inM) / dx : 0) + (edge ? r * Ke[j] * Hg : 0)
     }
     thomas(nx, S.lo, S.di, S.up, S.rhs, Hn, S.cp, S.dp)
   }
@@ -134,10 +156,16 @@ export function transportSubstep(eng: EngineState, P: EngineParams, sl: number, 
     surfComp(eng, j, top)
     F[j] = S.aT[j] > 0 ? S.aS[j] / S.aT[j] : 0.5
   }
-  solve()
+  let edgeOpen = !P.closedEdge
+  solve(edgeOpen)
+  if (edgeOpen && Hn[nx - 1] < Hg) {
+    edgeOpen = false // would pull sediment in across the edge: close it for this substep
+    solve(false)
+  }
   const c = dt / dx
   const Qf = S.Qf, iSs = S.iSs, iMs = S.iMs, order = S.order
   for (let f = 0; f < nx - 1; f++) Qf[f] = Ke[f] * (Hn[f] - Hn[f + 1]) / dx * c // bulk m over the substep
+  Qf[nx - 1] = edgeOpen ? Ke[nx - 1] * (Hn[nx - 1] - Hg) / dx * c : 0
   for (let j = 0; j < nx; j++) {
     iSs[j] = 0
     iMs[j] = 0
@@ -151,10 +179,11 @@ export function transportSubstep(eng: EngineState, P: EngineParams, sl: number, 
   order.sort((a, b) => Hn[b] - Hn[a])
   const open = top * nx
   const { sand, mud } = rec
+  const led = rec.ledger
   for (let o = 0; o < nx; o++) {
     const j = order[o]
     const qL = j > 0 ? Qf[j - 1] : 0
-    const qR = j < nx - 1 ? Qf[j] : 0
+    const qR = Qf[j] // j = nx - 1: flux out across the open edge (0 when closed)
     const outL = qL < 0 ? -qL : 0
     const outR = qR > 0 ? qR : 0
     const Qout = outL + outR
@@ -221,8 +250,24 @@ export function transportSubstep(eng: EngineState, P: EngineParams, sl: number, 
       }
       if (outR > 0) {
         const sh = outR / Qout
-        iSs[j + 1] += oS * sh
-        iMs[j + 1] += oM * sh
+        if (j < nx - 1) {
+          let toS = oS * sh, toM = oM * sh
+          if (!legacy && j === je && Ftc > 0) {
+            // SFM-2: this face is the shelf edge; the turbidity current takes the share Ftc of what crosses it
+            tcS = toS * Ftc
+            tcM = toM * Ftc
+            toS -= tcS
+            toM -= tcM
+          }
+          iSs[j + 1] += toS
+          iMs[j + 1] += toM
+        } else {
+          // leaves the section past the basinward edge (solid m x dx = m^2)
+          led.cumOut.sand += oS * sh * dx
+          led.cumOut.mud += oM * sh * dx
+          led.cumEdge.sand += oS * sh * dx
+          led.cumEdge.mud += oM * sh * dx
+        }
       }
       if (outL > 0) {
         const sh = outL / Qout
@@ -240,13 +285,13 @@ export function transportSubstep(eng: EngineState, P: EngineParams, sl: number, 
       }
     }
   }
-  const led = rec.ledger
   led.cumIn.sand += qS * dt
   led.cumIn.mud += qM * dt
 
   // turbidity currents: bypass steep slope, deposit where gradient decreases
-  if (Ftc > 0) {
-    const q: [number, number] = [qS * Ftc / pS, qM * Ftc / pM]
+  if (legacy ? Ftc > 0 : tcS > 0 || tcM > 0) {
+    const toRate = dx / dt // solid m over the substep -> solid m^2/yr
+    const q: [number, number] = legacy ? [qS * Ftc / pS, qM * Ftc / pM] : [tcS * toRate / pS, tcM * toRate / pM]
     routeTurbidites(H, sand, mud, open, nx, P, je, q, pS, pM, dt)
     led.cumOut.sand += q[0] * pS * dt
     led.cumOut.mud += q[1] * pM * dt

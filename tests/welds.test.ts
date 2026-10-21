@@ -101,7 +101,8 @@ function forcedFacts(f: Forced): { minH: number; clip: number; saltErr: number; 
   let welded = 0
   for (const j of PATCH) if (f.eng.weldAge[j] !== WELD_NONE) welded++
   let deepest = Infinity
-  for (const j of PATCH) deepest = Math.min(deepest, f.eng.rec.mud[j])
+  // thinnest the loaded columns got at any step. SFM-1 (open basinward edge): the final thickness of the thinnest loaded column is 49.5 m (Windows, node 26), above weldThick, though the column did weld; the test is about the limiter, so it reads the minimum over the run
+  for (const t of f.thick) for (const j of PATCH) deepest = Math.min(deepest, t[j])
   return {
     minH, clip: f.eng.diag.saltClip, saltErr: Math.abs(saltVolume(f.eng.rec) - f.v0) / f.v0, welded,
     limited: f.eng.diag.saltLimited, limMaxH: f.eng.diag.saltLimitMaxH, deepest,

@@ -88,6 +88,8 @@ export const PARAMS: readonly ParamDef[] = [
     source: { kind: 'tuned', note: 'A transport-length rule, not flow physics.' } },
   { key: 'sBreak', label: 'Gradient defining the shelf edge', unit: 'm/m', displayUnit: 'm/m', default: 0.01, min: 0.001, max: 0.1, startOnly: false,
     source: { kind: 'tuned', note: 'Shelf-edge definition.' } },
+  { key: 'shelfBreakDepth', label: 'Minimum water depth at the shelf edge', unit: 'm', displayUnit: 'ft', default: 50, min: 0, max: 500, startOnly: false,
+    source: { kind: 'tuned', note: 'SFM-2 (D31.3): a face counts as the shelf edge only where the water is at least this deep, so the steep shoreface the model builds at the coast is not mistaken for it. 50 m is 5 x the sand marine e-folding depth dm (10 m), the depth at which the marine diffusivity has fallen to its deep background value Kg (SFM-R suggestion); it is a tuned model value, not a measured shelf-break depth (real shelf breaks are commonly deeper, 100 m or more; not read for this card).' } },
   { key: 'tcL0', label: 'Turbidite deposition length at reference gradient', unit: 'm', displayUnit: 'km', default: [20000, 400000], min: [1000, 1000], max: [1e6, 1e6], startOnly: false, components: SM,
     source: { kind: 'tuned', note: 'A transport-length rule, not flow physics.' } },
   { key: 'tcSref', label: 'Reference gradient for turbidite length', unit: 'm/m', displayUnit: 'm/m', default: 0.005, min: 0.0005, max: 0.1, startOnly: false,

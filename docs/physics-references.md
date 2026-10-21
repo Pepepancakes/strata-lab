@@ -26,7 +26,7 @@ Papers themselves go in the git-ignored `References/` folder, never in git.
 | Unloading stiffness | 5% of loading compressibility | tuned | |
 | Depth-dependent marine diffusion (form) | K = Km·exp(−d/dm) + Kg | cited (form) | Kaufman, P., Grotzinger, J.P. & McCormick, D.S. (1991). Depth-dependent diffusion algorithm for simulation of sedimentation in shallow marine depositional systems. *Kansas Geol. Survey Bull.* 233. |
 | Two-lithology diffusion (form) | separate K for sand and mud | cited (form) | Rivenæs, J.C. (1992). Application of a dual-lithology, depth-dependent diffusion equation in stratigraphic simulation. *Basin Research* 4, 133–146. |
-| Diffusivities Kc / Km / dm / Kg | see `engine.js` | tuned | Kc 5e4/1e5, Kg 100/1000 m²/yr picked for about 6° muddy slopes and a 0.3 m/km coastal plain |
+| Diffusivities Kc / Km / dm / Kg | see `engine.js` | tuned | Kc 5e4/1e5, Kg 100/1000 m²/yr give steepest marine gradients of about 2° all mud, 5 to 7° at the default mix and 15° all sand (SFM-R F7; measured by `scripts/review/sfm/01-steady.mjs`), and a coastal plain of 0.5 to 1 m/km (see SFM-3 below) |
 | Turbidite routing (share, transport lengths) | see `engine.js` | tuned | A transport-length rule, not flow physics |
 | Sediment supply | 20 m²/yr (solid) | tuned | Order of magnitude for a large-river margin; needs a source |
 | Subsidence | 40–150 m/Myr | tuned | |
@@ -494,7 +494,7 @@ app labels them so: columns (`nx`, default 150), column width (`dx`, 1 km), run 
 Others the registry carries that the sections above do not describe one by one:
 - `sandFrac` (sand share of supply, 0.35), `slAmp` (40 m), `slPeriod` (100 kyr) and `slShift`
   (sea-level offset, 0): tuned. The sine is a teaching option only.
-- `sBreak`, `tcMax`, `tcLambda`, `tcL0`, `tcSref`, `tcN`: the turbidite transport-length rule,
+- `sBreak`, `shelfBreakDepth`, `tcMax`, `tcLambda`, `tcL0`, `tcSref`, `tcN`: the turbidite transport-length rule,
   tuned. It is a rule, not flow physics.
 - `kMudMult` (mud permeability multiplier) and `elastic` (unloading stiffness): tuned.
 - `linear`: the switch for the Gibson benchmark. Never set in the app.
@@ -505,6 +505,70 @@ Others the registry carries that the sections above do not describe one by one:
 
 Ranges the controls allow are guard rails (`min` and `max` in `params.ts`), not published limits.
 Where a source gives a range, it is quoted in the section for that parameter.
+
+## SFM-1 Open basinward boundary for sediment (SFM-R F2, D31.3)
+
+- **Problem.** Transport set zero flux at the last column. Diffusing mud had nowhere to go and ponded against that wall: in the SFM-R test 5 the sea
+  floor at 150 km rose 617 m (2,023 ft) when the wall moved from 150 to 300 km (constant sea level, Windows node 26).
+- **Rule now.** The last column drains into a ghost cell one column beyond it, held at a fixed elevation: the pre-run surface of the last column
+  (basement plus the pre-run layers; it subsides with the basement). The face flux is K (H_last - H_ghost) / dx with the same K as every other face.
+  Sediment piles on the last column until it stands above the ghost; the rest leaves the section. It is booked per grain size in the ledger
+  (`cumOut`, and `cumEdge` as the part of it that left this way, so it is not counted twice with the turbidite run-out). The ghost value is a plain
+  Dirichlet value, so the implicit solve stays tridiagonal. If the solve would draw sediment in across the edge (last column below the ghost) that
+  substep is solved again with the edge closed. The landward boundary and the salt boundaries are unchanged (salt still cannot leave).
+- **Tested** (tests/openBoundary.test.ts): a straight slope that carries the supplied flux to the fixed level is steady to 1e-10 relative; a flat start
+  builds onto the same slope to 1e-6; supply = stored + exported per grain size on the default, an all-mud and the Gulf run.
+- **Tried and dropped:** a ghost that continues the slope above the edge (zero second derivative). It feeds on its own erosion: the last column kept
+  falling (surface 460 m below the fixed-level result).
+- **Limit, measured.** A fixed outflow level cannot copy a longer section. At constant sea level, dx 1 km, sea floor at 150 km: 150 km section -2,331 m
+  (-7,648 ft), 200 km -1,895 m, 300 km -1,677 m (-5,501 ft), 400 km -1,625 m (-5,331 ft) (Windows node 26). The open edge converges as the section grows
+  (300 to 400 km changes it 3 %); the old wall did not (150 to 300 km: -1,046 m to -1,663 m). So the last tens of km of a section still feel the edge;
+  keep the area you read well inboard of it. The 5 % threshold in the test is a round number (D31.5), not a cited target.
+- **Not cited:** the ghost level (pre-run surface) is a modelling choice, not a published boundary condition ("tuned" in kind: it sets how much
+  piles up at the edge, nothing was fitted to a result).
+
+## SFM-2 Shelf edge that cannot see the shoreface (SFM-R F1 and F4, D31.3)
+
+- **Problem.** The shelf edge was the first marine face steeper than `sBreak` (0.01). The model builds a shoreface steeper than that where the
+  diffusivity drops from the land value to the marine one, so the rule fired on the shoreface: the median shelf edge - shoreline distance was
+  0 km at constant sea level, about 60 % of the supply was sent down the slope at every stand, and a bigger sea-level swing gave LESS basin sand.
+- **Rule now.** (1) A face counts as the shelf edge only where the water is at least `shelfBreakDepth` deep (default 50 m, 164 ft) AND the face is
+  steeper than `sBreak`. (2) The turbidity share (`tcMax exp(-(shelf edge - shoreline) / tcLambda)`, unchanged) is taken from the sediment that
+  crosses the shelf-edge face in the transport step (per grain size, as it arrives), not from the supply at the source. A shelf that is storing
+  sediment therefore passes on less. The routed sand and mud are still deposited by the unchanged run-out rule and the leftover is booked as exported,
+  so mass per grain size closes.
+- **`shelfBreakDepth` is tuned.** 50 m is 5 x the sand marine e-folding depth `dm` (10 m), the SFM-R suggestion. A measured shelf-break depth was not
+  read for this card; real shelf breaks are commonly deeper. Sensitivity (Windows node 26, not a tuning): 0, 50 and 150 m all leave the 1 Myr sine
+  with no lowstand signal (corr -0.004, -0.014, -0.138), so the depth value is not what limits it. It does move the highstand share (40 m / 100 kyr sine: 12.5 % at 0 m, 8.8 % at 50 m, 4.4 % at 150 m; Windows node 26; `scripts/review/sfm-fix/02-shelf-depth-sweep.mjs`) but not the orderings.
+- **Tests** (tests/shelfEdge.test.ts; thresholds are round numbers, D31.5): a synthetic surface with the shoreline 30 km inboard of the edge gives share
+  < 0.05; the shoreline on the edge gives more than 0.8 tcMax; the 80 m / 100 kyr sine has corr(sea level, share) < -0.5 and a mean highstand share
+  < 0.05; mass per grain size closes; a rerun is identical.
+- **What it does not fix, measured.** In this model the shelf edge is within 2 km of the shoreline from about 0.03 Myr and the turbidite share is at 0.9 x its cap from about 0.055 Myr (constant sea level; Windows node 26 and Linux node 22), and the shoreline then rides the steep foreset,
+  so the shelf edge stays 1 to 2 km from the shoreline at every stand of a slow cycle. For the 1 Myr, 40 m sine corr(sea level, share) is -0.014,
+  and sand beyond 100 km orders as constant 9.7 % > sine 40 m 5.6 % > sine 80 m 4.7 % (100 kyr period) of the sand supply, the reverse of the SFM-R expectation: at
+  constant sea level the shelf is full from about 0.03 Myr on and bypasses all run, while a cycling sea level spends part of each cycle with a flooded shelf.
+  Both checks are `it.fails` in the test file. The literal SFM-R test 1 ("share < 0.05 for the whole run") cannot hold either: the shelf is full after about 0.03 Myr.
+  The test checks the steps while the shoreline is 24 km or more inboard of the edge.
+- **Legacy switch.** `legacyShelfEdge` (tests only, not in the registry) restores the old rule; spike 001's golden parity runs with it.
+
+## SFM-3 Routed deposits, wording and convergence (SFM-R F3, F5, F7, D31.3)
+
+- **F5, problem.** The routed (turbidite) run-out set the deposition length from the gradient between one column and the next, floored at 1e-5.
+  A one-column flat on the slope (an MTD top, a salt-withdrawal low) then had a length of centimetres and caught all the sand in that one column.
+- **Rule now.** The gradient is averaged over the next `TC_SLOPE_WINDOW` = 3 km (at least one column; about three columns at dx 1 km, six at 0.5 km)
+  before the length is set. **Tuned**, a fixed physical length so the result does not depend on the grid; no source gives a value. Chosen over a cap per
+  column because it needs no second number and keeps the deposition-length formula unchanged. A flat longer than the window still ponds the sand (the
+  gradient there really is flat): that is the intended physics of the rule, not a bug.
+- **Tested** (tests/routedDeposit.test.ts; thresholds are round numbers, D31.5): on a 1 % slope with one 1 km flat, the old rule put the whole deposit in 1
+  column; now at least 3 columns hold more than 10 % of the peak thickness and no column holds half the deposit; the peak thickness agrees between dx 1 km
+  and 0.5 km within 25 %; sand and mud routed = deposited + leftover to 1e-12 on both grids.
+- **F7, wording.** The `Kg` background diffusivities (100 / 1000 m2/yr sand / mud) give steepest marine gradients of 2.6 deg all mud, 6.9 deg at the default
+  mix (35 % sand) and 15.9 deg all sand (Windows node 26, `scripts/review/sfm/01-steady.mjs` cases A, C, B, after SFM-2). They were described as picked
+  for "about 6 deg muddy slopes": 6 to 7 deg is the default mix, not mud. The coastal-plain slope is 0.53 m/km all mud and 0.95 m/km at the default mix,
+  not the 0.3 m/km the table row says.
+- **F3, convergence** (`scripts/review/sfm/05-convergence.mjs`, constant sea level, Windows node 26). dx 1 km to 0.5 km: shoreline +17.05 km before this
+  card, +4.00 km after (target < 2 km: not met); sand beyond 100 km -79.7 % before, -27.8 % after (target < 10 %: not met). Both thresholds are round
+  numbers (D31.5). Linux node 22: +4.75 km and -28.8 %. Nothing was tuned to move them. nSub 1 still gives +7.2 km (keep nSub >= 5, F8).
 
 <!-- registry-index:start -->
 ### Registry index
@@ -541,7 +605,7 @@ References (28):
 - `wagner-jackson-2011`: Wagner & Jackson (2011)
 - `pilcher-2011`: Pilcher et al. (2011) (to verify)
 
-Parameters (83), as `key`: status, reference id:
+Parameters (84), as `key`: status, reference id:
 - `nx`: tuned
 - `dx`: tuned
 - `duration`: tuned
@@ -562,6 +626,7 @@ Parameters (83), as `key`: status, reference id:
 - `tcMax`: tuned
 - `tcLambda`: tuned
 - `sBreak`: tuned
+- `shelfBreakDepth`: tuned
 - `tcL0`: tuned
 - `tcSref`: tuned
 - `tcN`: tuned
