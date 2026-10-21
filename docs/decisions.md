@@ -335,3 +335,28 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
   3. Only values from papers the writer actually read may be quoted; OpenAlex abstracts are paraphrased and marked
      "(abstract only)". Short quotes stay within the public-repo rule (at most two per paper, with page numbers).
   4. The trace script lives under `scripts/lineage/` and is never part of the app build; the app stays offline.
+
+- **D30. M5 becomes sideways motion over salt, and a canopy spike (John, 2026-10-20: "I'm good with your recommendations for 1 and 2").**
+  John's look at the Gulf preset: nothing pushes or pulls the cover sideways, so the basinward half is a flat salt slab with no
+  structure. The only driver is vertical load (columns fixed in x, D10, D17.3). The salt literature review rated "columns fixed
+  in x" inconsistent for canopies, rafts, spreading and stretching (section 8), and option E was left out of M3b (D23, D24).
+  1. **M5 scope:** the growth fault of spike 005 (S5 DESIGN.md cards M5.1 to M5.8, record option A) plus a prescribed linked
+     system: updip extension on the growth fault, the cover between the fault and a toe translated basinward, and the same
+     shortening taken up at the toe over the salt (Gemmer et al. 2004 pp. 214-215 and Vendeville 2005 pp. 1072-1073 describe
+     this pairing). The amount of strain is an input, labelled prescribed, not a prediction. Area and line length balance.
+  2. **First card M5.0:** a read-only cover sliding map from the Gemmer et al. (2004) force balance (Eq. 8, p. 202): per column,
+     whether a frictional cover over the salt would fail in extension or contraction. No record change and no hash change.
+     M5.0 also writes the linked-toe design note; John reads it before the toe card M5.4b runs (a HOLD gate).
+  3. **S5 design picks accepted with this go** (spike 005 DESIGN.md section 4): Q1 kinematic slip (prescribed heave), a
+     load-driven switch in M5.4; Q2 salt as the mobile layer; Q3 a short growth-fault preset first, a fault in the Gulf preset
+     after it is reviewed, at a position John picks; Q4 counter-regional faults later (M5b); Q5 vertical shear by default, the
+     angle a parameter; Q6 the fault curve fixed once from the salt top; Q7 option (c), whole-cell record with a sub-cell read,
+     as measured by S5c.
+  4. **Not in M5:** strain that comes from the forces (a yielding frictional cover, option F). Reopen it if the prescribed
+     system proves useful. A full Stokes solver stays out of the live app (D4).
+  5. **Canopy spike S6 after M5.0:** salt that reaches the seafloor spreads basinward over younger sediment as a second thin
+     salt sheet (a viscous gravity current), stored as salt above sediment (D10). Benchmark: the similarity solution of a 2D
+     viscous gravity current (Huppert 1982; to verify; not read), derived and checked in the spike. No dissolution term: the
+     missing sink is named. Spike only, then a salt-reviewer review (S6-R). The Gulf preset's bare salt wall (AUD-4 question)
+     keeps its keep-and-label default until S6 reports.
+  6. Nothing merges to main without John (D6).

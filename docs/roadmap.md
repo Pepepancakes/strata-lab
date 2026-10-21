@@ -386,10 +386,42 @@ stays on screen at 1920 x 1080, 150 % (AUD-8 N-C).
 - The pore-pressure literature passes its citation check, and each M4 backlog item has a recommended pick for John.
 - John has picked the M5 scope from the S5 design note.
 
-## M5 — Growth faults
-Listric normal faults that start and grow under loading over mobile shale or salt, with
-hanging-wall rollover and thicker growth strata. Columns must be able to move sideways, which is
-a large engine change, so this milestone opens with its own spike (S5, D27.3).
+## M5 — Sideways motion over salt: growth faults and a linked toe  *(John, 2026-10-20: "I'm good with your recommendations"; D30)*
+Until M5 nothing moves the cover sideways: columns ride up and down on the salt (D10, D17.3), so the
+basinward part of the Gulf preset is a flat slab with no structure. M5 adds the first sideways motion: one listric growth
+fault over the salt (spike 005, S5 DESIGN.md option A record, picks Q1 to Q7 in D30.3) and a prescribed linked system,
+in which the updip extension on the fault translates the cover basinward and the same shortening is taken up at a toe
+over the salt. The amount of strain is an input (labelled prescribed), not a prediction; area and line length balance.
+
+| Card | Profile | Scope |
+|---|---|---|
+| M5.0 | coder | Cover sliding map (read-only): where a frictional cover over the salt would fail in extension or contraction, from the Gemmer et al. (2004) force balance (Eq. 8, p. 202). No record change. Plus the linked-toe design note for John |
+| M5.1 | coder | Record: hanging-wall stack, fixed listric fault, prescribed heave, whole-cell remap with the sub-cell read (Q7 option c) |
+| M5.2 | coder | Inclined simple shear (angle a parameter, default vertical), sub-cell remap, smearing report |
+| M5.3 | coder | Fault in the burial physics (compaction, pore pressure, heat) and the planned well across the fault |
+| M5.4 | coder | Salt coupling: withdrawal under the hanging wall feeds the thin sheet; optional load-driven slip switch |
+| HOLD | - | John reads the M5.0 linked-toe design and its picks (gate) |
+| M5.4b | coder | Linked toe: the cover between fault and toe translates; the toe takes the same shortening; area and line-length balance |
+| M5.5 | coder | Growth-fault preset with the linked toe, then a fault in the Gulf preset at a position John picks; speed budget; checks rows |
+| M5.6 | frontend-dev | Views: fault trace, cut layers, toe, sliding map overlay, controls group |
+| M5.7 | doc-writer | User guide, physics references, decisions, handover |
+| M5.8 | safety-reviewer | Integrity review with its own checks, verdict |
+
+**Done when:** the rollover matches the hand construction; the linked system balances (extension on the fault equals
+shortening at the toe, area conserved per material); mass closes per grain size and per material with the fault on; every
+no-fault run and fixture is bit-identical; the sliding map matches a hand calculation of the force balance; M5.8 says
+APPROVE; John has checked the preview. Strain that comes from the forces (a yielding frictional cover, option F) is not
+in M5 (D30.4). M5b (later): counter-regional faults, a second fault, a fault that moves with the salt top, shale as the
+mobile layer.
+
+## S6 — Spike 006: salt canopy  *(after M5.0; D30.5)*
+Salt that reaches the seafloor spreads basinward over younger sediment as a second thin salt sheet (a viscous gravity
+current), the way a canopy advances. The record can already store salt above sediment (D10). Throwaway spike in
+`spikes/006-canopy/`: a benchmark against the similarity solution of a 2D viscous gravity current (Huppert 1982; to verify;
+not read), salt conserved per material, a rerun bit-identical, a design note (record, coupling with the thin sheet at the
+feeder, the missing dissolution sink, cost, card list with recommended picks), then a salt-reviewer review (S6-R). The
+Gulf preset's bare salt wall (AUD-4 question, Backlog) is where a canopy would start; the keep-and-label default holds
+until S6 reports.
 
 ## M6 — 3D
 A 3D version on the GPU (WebGPU). Opens with a spike on speed.
@@ -410,7 +442,7 @@ ranked list of papers to obtain. The mud-permeability re-fit (Backlog, D28.2) st
 - Re-fit the mud permeability law (`kA` / `kB`, `src/engine/params.ts`, tuned with phi0 0.63) for the Gulf preset to a published Gulf permeability-porosity relation; Yang & Aplin (2010) is the named candidate (to verify; not read). Reason: with the Hart mud the shallow Gulf section reads 1 to 2 ppg over hydrostatic (AUD-6 B-1, D26.4). Its own card with its own review; do not tune toward a result. Until then the shallow overpressure is a documented limit (D28.2).
 - AUD-4 section 9, question for John: keep the bare salt toe wall (6.2 to 6.7 km of salt, 0 m cover over the last 3 to 5 km, a step of about 4,170 ft, Windows) and label it as a model limit, which the reviewer recommends, or retune to bury it? Every alternative is a tuning step (salt limit, supply, thickness, section width) and none is planned.
 - AUD-4 F-8: the Gulf weld band (5 km total) sits 1 km under the lowest Linux run (6 km in 7 runs). Not near zero, but thin; if a later physics change moves welds again, report before re-banding.
-- Salt canopies and allochthonous sheets (salt flowing over the seafloor like a glacier).
+- Salt canopies and allochthonous sheets (salt flowing over the seafloor like a glacier): spike S6 first (D30.5).
 - Jurassic-to-present runs (salt deposition onward; D12, moved here by D17): needs a
   redistributable pre-Cenozoic sea-level curve.
 - More published sea-level curves, and tectonic tilt or flexure.
