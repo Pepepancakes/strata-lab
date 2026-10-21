@@ -155,7 +155,7 @@ describe('salt on: full 3 Myr run', () => {
     expect(shelfMin).toBeGreaterThan(100)
     expect(shelfMin).toBeLessThan(400)
     expect(basinMax).toBeGreaterThan(1700)
-    expect(basinMax).toBeLessThan(2300)
+    expect(basinMax).toBeLessThan(2400) // SFM-1 (D31): was 2300; with the open basinward edge the measured maximum is 2325 m (Windows, node 26); band widened to the next round number, not tuned
   })
 })
 

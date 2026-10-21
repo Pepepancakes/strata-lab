@@ -8,7 +8,7 @@
 // surface height, the order of the overpressure. A real change to the physics moves those.
 //
 // What is compared (all from the layer record, no physics here):
-//   sand, mud   total solid volume, m^2 (area of the section). Mass balance fixes it. Measured
+//   sand, mud   total solid volume, m^2 (area of the section). Mass balance fixes it. (SFM-1: sand now also leaves past the open basinward edge, see SUMMARY_TOL.) Measured
 //               spread under 1 ulp noise on the default run: sand 5e-15, mud 2e-4 (relative).
 //   meanH       mean surface height over the columns, m. Spread under noise 1.8e-3 (relative).
 //   maxU        largest excess pore pressure anywhere, Pa. Spread under noise up to 15 %, so it is
@@ -55,7 +55,7 @@ export function summarizeRecord(rec: LayerRecord, events = 0): RunSummary {
 
 /** Relative tolerances, see the header for where each number comes from. */
 export const SUMMARY_TOL = {
-  sand: 1e-6,
+  sand: 3e-4, // SFM-1 (D31): was 1e-6. Sand leaves past the open basinward edge, so the stored total is no longer fixed by the turbidite export alone; measured spread 4e-6 at 1 ulp and 1.4e-4 at 1e-12 noise on the small-grid scenario fixture (Windows, node 26)
   mud: 1e-3,
   meanH: 4e-3,
   maxU: 0.3,

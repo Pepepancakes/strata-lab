@@ -13,7 +13,9 @@ import { SUMMARY_TOL, summarizeRecord } from '../src/engine/summary'
 // One 3 Myr default run (600 steps of 5 kyr), shared by the tests below.
 const full = runFull(undefined, [240, 300])
 // Golden parity is with spike 001, which used the sine, so that comparison runs on the sine.
-const fullSine = runFull(undefined, [], { seaLevelKind: 'sine' })
+// SFM-1: spike 001 had a closed basinward wall, so the parity runs close the edge again (closedEdge, tests only); every other
+// change since the port is still checked against the spike this way. The open edge is the default and is pinned by its own tests.
+const fullSine = runFull(undefined, [], { seaLevelKind: 'sine', closedEdge: true })
 
 describe('default 3 Myr run', () => {
   it('conserves mass: total, sand only, mud only, and no salt appears', () => {
@@ -130,12 +132,12 @@ describe('golden parity with spike 001', () => {
 
   it('still matches when the maths library differs in the last bit, as on the Linux runner', () => {
     for (const [amp, salt] of [[2.2e-16, 1], [2.2e-16, 2], [1e-13, 3]]) {
-      checkAgainstGolden(withUlpNoise(amp, salt, () => runFull(undefined, [], { seaLevelKind: 'sine' })))
+      checkAgainstGolden(withUlpNoise(amp, salt, () => runFull(undefined, [], { seaLevelKind: 'sine', closedEdge: true })))
     }
   }, 60000)
 
   it('fails for a real change: supply +1 % moves the totals outside the tolerances', () => {
-    const run = runFull(undefined, [], { seaLevelKind: 'sine', supply: 20.2 })
+    const run = runFull(undefined, [], { seaLevelKind: 'sine', closedEdge: true, supply: 20.2 })
     expect(() => checkAgainstGolden(run)).toThrow()
   })
 })

@@ -49,7 +49,7 @@ export class Fnv1a {
 }
 
 function hashLedger(h: Fnv1a, l: Ledger): void {
-  for (const v of [l.cumIn, l.cumOut, l.init]) h.number(v.sand).number(v.mud).number(v.salt).number(v.cement)
+  for (const v of [l.cumIn, l.cumOut, l.cumEdge, l.init]) h.number(v.sand).number(v.mud).number(v.salt).number(v.cement)
 }
 
 /** Hash of the whole record (used layers only, so capacity does not matter). */

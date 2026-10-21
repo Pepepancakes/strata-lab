@@ -53,6 +53,8 @@ export interface ClassVolumes {
 export interface Ledger {
   cumIn: ClassVolumes
   cumOut: ClassVolumes
+  /** Part of cumOut that left past the basinward edge by diffusion (SFM-1); the rest is turbidite run-out and failures. */
+  cumEdge: ClassVolumes
   /** Stored at the moment the run began (set by markInitialLedger). */
   init: ClassVolumes
 }
@@ -103,6 +105,7 @@ export const copyVolumes = (v: ClassVolumes): ClassVolumes => ({ sand: v.sand, m
 export const copyLedger = (l: Ledger): Ledger => ({
   cumIn: copyVolumes(l.cumIn),
   cumOut: copyVolumes(l.cumOut),
+  cumEdge: copyVolumes(l.cumEdge),
   init: copyVolumes(l.init),
 })
 
@@ -139,7 +142,7 @@ export function createRecord(opts: RecordOptions): LayerRecord {
     material: new Uint8Array(cells),
     stepDt: new Float64Array(capacity),
     stepAgeMa: new Float64Array(capacity),
-    ledger: { cumIn: zeroVolumes(), cumOut: zeroVolumes(), init: zeroVolumes() },
+    ledger: { cumIn: zeroVolumes(), cumOut: zeroVolumes(), cumEdge: zeroVolumes(), init: zeroVolumes() },
   }
   for (let l = 0; l < nPre; l++) rec.stepAgeMa[l] = startAgeMa
   return rec

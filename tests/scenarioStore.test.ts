@@ -196,7 +196,7 @@ describe('AppStore scenario files', () => {
   it('warns when the file hashes differ from the recomputed ones', async () => {
     const a = makeStore()
     // hash AND summary numbers changed: a real engine change (a hash alone is another machine's maths, D16.4)
-    const tampered = FIXTURE.replace('4ae5129e360641df', '0000000000000000').replace('-964.974508299', '-900.5')
+    const tampered = FIXTURE.replace('3ce20d36a73d7a57', '0000000000000000').replace('-1011.22456889', '-900.5')
     expect(await a.store.openText(tampered)).toBe(true)
     expect(a.store.getState().notice).toMatch(/different engine version; results differ/)
     await settle()

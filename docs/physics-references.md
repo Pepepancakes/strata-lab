@@ -506,6 +506,27 @@ Others the registry carries that the sections above do not describe one by one:
 Ranges the controls allow are guard rails (`min` and `max` in `params.ts`), not published limits.
 Where a source gives a range, it is quoted in the section for that parameter.
 
+## SFM-1 Open basinward boundary for sediment (SFM-R F2, D31.3)
+
+- **Problem.** Transport set zero flux at the last column. Diffusing mud had nowhere to go and ponded against that wall: in the SFM-R test 5 the sea
+  floor at 150 km rose 617 m (2,023 ft) when the wall moved from 150 to 300 km (constant sea level, Windows node 26).
+- **Rule now.** The last column drains into a ghost cell one column beyond it, held at a fixed elevation: the pre-run surface of the last column
+  (basement plus the pre-run layers; it subsides with the basement). The face flux is K (H_last - H_ghost) / dx with the same K as every other face.
+  Sediment piles on the last column until it stands above the ghost; the rest leaves the section. It is booked per grain size in the ledger
+  (`cumOut`, and `cumEdge` as the part of it that left this way, so it is not counted twice with the turbidite run-out). The ghost value is a plain
+  Dirichlet value, so the implicit solve stays tridiagonal. If the solve would draw sediment in across the edge (last column below the ghost) that
+  substep is solved again with the edge closed. The landward boundary and the salt boundaries are unchanged (salt still cannot leave).
+- **Tested** (tests/openBoundary.test.ts): a straight slope that carries the supplied flux to the fixed level is steady to 1e-10 relative; a flat start
+  builds onto the same slope to 1e-6; supply = stored + exported per grain size on the default, an all-mud and the Gulf run.
+- **Tried and dropped:** a ghost that continues the slope above the edge (zero second derivative). It feeds on its own erosion: the last column kept
+  falling (surface 460 m below the fixed-level result).
+- **Limit, measured.** A fixed outflow level cannot copy a longer section. At constant sea level, dx 1 km, sea floor at 150 km: 150 km section -2,331 m
+  (-7,648 ft), 200 km -1,895 m, 300 km -1,677 m (-5,501 ft), 400 km -1,625 m (-5,331 ft) (Windows node 26). The open edge converges as the section grows
+  (300 to 400 km changes it 3 %); the old wall did not (150 to 300 km: -1,046 m to -1,663 m). So the last tens of km of a section still feel the edge;
+  keep the area you read well inboard of it. The 5 % threshold in the test is a round number (D31.5), not a cited target.
+- **Not cited:** the ghost level (pre-run surface) is a modelling choice, not a published boundary condition ("tuned" in kind: it sets how much
+  piles up at the edge, nothing was fitted to a result).
+
 <!-- registry-index:start -->
 ### Registry index
 Generated from `src/engine/references.ts` and `src/engine/params.ts` and checked by
