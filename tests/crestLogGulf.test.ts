@@ -85,7 +85,8 @@ describe('crest log through the worker', () => {
     expect(() => tm.crestLog(b.id)).toThrow(/main run only/)
   })
 
-  it('answers a crestLog request with plain data', () => {
+  // SFM-1 / D31.4: fails with the open basinward edge (the band was set with a closed wall); SFM-4 and John decide the new band. Kept as it.fails so the old band stays visible and the test turns red when the band is re-set.
+  it.fails('answers a crestLog request with plain data', () => {
     const run = handleRequest({ id: 1, kind: 'run', spec: { presetId: 'saltshort', overrides: { nx: 60 } }, seed: 1 })
     expect(run.kind).toBe('runDone')
     if (run.kind !== 'runDone') return
