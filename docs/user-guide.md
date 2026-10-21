@@ -110,7 +110,9 @@ What these three groups do physically:
   flooded. With the 100 kyr sea-level swings of 40 m and 80 m the share follows sea level (correlation
   -0.89 and -0.93; Windows, Node 26). At highstand it averages about 0.7 % for the 80 m swing and about 9 %
   for the 40 m swing (steps at or above 0.8 x the highest sea level; shelf edge in at least 164 ft / 50 m of
-  water). Two things to know. The shelf edge reaches the shoreline within about 0.03 Myr and the share is
+  water). In the app, one step at a time: with the 80 m swing the line under the section reads 0 to 2 % at
+  the top of each swing (sea level +262 ft in the time readout) and 60 %, at its cap, at the bottom (-262 ft);
+  with the 40 m swing about 3 to 12 % at the top (+131 ft) and 53 to 60 % at the bottom (-131 ft). Two things to know. The shelf edge reaches the shoreline within about 0.03 Myr and the share is
   near its cap by 0.055 Myr (Windows and Linux), so at constant sea level, or with a slow 1 Myr cycle, the shoreline sits
   on the shelf edge and the share stays high; in a 1 Myr, 40 m sine it does not follow sea level
   (correlation -0.01), and sand beyond 100 km is highest at constant sea level, not lowest. And the
@@ -301,7 +303,10 @@ Click anywhere on the section to move the pseudo-well to that column. A vertical
 ### The time bar
 Under the section: **Play** (or Pause), **Back** and **Forward** (one step), **Start**,
 **Present**, a slider to drag to any time, and two speed settings (frames per second, steps per
-frame). The readout says which step you are at and its age in Ma (millions of years ago). All
+frame). The readout says which step you are at, its age in Ma (millions of years ago) and the sea
+level at that step in ft, for example `step 585 of 600 — 0.075 Ma (million years ago) — sea level
++262 ft`. Stop the slider where the sea level is highest or lowest and read the **Sent down the
+slope** line just above it. All
 of it is rewind: dragging back gives exactly the state the run had then.
 
 ## 5. Run length, presets and time steps

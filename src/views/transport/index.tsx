@@ -1,5 +1,6 @@
 import { store, useAppState } from '../../app/store'
 import type { ViewDefinition } from '../types'
+import { timeReadout } from './readout'
 
 function TransportView() {
   const s = useAppState()
@@ -33,7 +34,7 @@ function TransportView() {
         onChange={(e) => store.goto(Number(e.target.value))}
       />
       <div className="muted" data-testid="time-readout">
-        step {s.step} of {n}{age !== null ? ` \u2014 ${age.toFixed(3)} Ma (million years ago)` : ''}
+        {timeReadout(s.step, n, age, s.view ? s.view.seaLevelM : null)}
       </div>
     </div>
   )
