@@ -7,7 +7,7 @@
 import { engine, close, platform, median, f } from './lib.mjs'
 
 console.log(`SFM-4 03 Gulf and short-salt bands. ${platform}`)
-const { Step, Presets, SaltS, Noise, Sea, Sched } = await engine()
+const { Step, Presets, SaltS, Noise, Sea } = await engine()
 const MIN_PROM = 300
 const SALT_EDGE_M = 100
 const SIX = [3, 5, 7, 11, 13, 17]
