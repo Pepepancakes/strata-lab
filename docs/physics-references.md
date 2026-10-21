@@ -26,7 +26,7 @@ Papers themselves go in the git-ignored `References/` folder, never in git.
 | Unloading stiffness | 5% of loading compressibility | tuned | |
 | Depth-dependent marine diffusion (form) | K = Km·exp(−d/dm) + Kg | cited (form) | Kaufman, P., Grotzinger, J.P. & McCormick, D.S. (1991). Depth-dependent diffusion algorithm for simulation of sedimentation in shallow marine depositional systems. *Kansas Geol. Survey Bull.* 233. |
 | Two-lithology diffusion (form) | separate K for sand and mud | cited (form) | Rivenæs, J.C. (1992). Application of a dual-lithology, depth-dependent diffusion equation in stratigraphic simulation. *Basin Research* 4, 133–146. |
-| Diffusivities Kc / Km / dm / Kg | see `engine.js` | tuned | Kc 5e4/1e5, Kg 100/1000 m²/yr picked for about 6° muddy slopes and a 0.3 m/km coastal plain |
+| Diffusivities Kc / Km / dm / Kg | see `engine.js` | tuned | Kc 5e4/1e5, Kg 100/1000 m²/yr give steepest marine gradients of about 2° all mud, 5 to 7° at the default mix and 15° all sand (SFM-R F7; measured by `scripts/review/sfm/01-steady.mjs`), and a coastal plain of 0.5 to 1 m/km (see SFM-3 below) |
 | Turbidite routing (share, transport lengths) | see `engine.js` | tuned | A transport-length rule, not flow physics |
 | Sediment supply | 20 m²/yr (solid) | tuned | Order of magnitude for a large-river margin; needs a source |
 | Subsidence | 40–150 m/Myr | tuned | |
@@ -550,6 +550,25 @@ Where a source gives a range, it is quoted in the section for that parameter.
   Both checks are `it.fails` in the test file. The literal SFM-R test 1 ("share < 0.05 for the whole run") cannot hold either: the shelf is full after 0.3 Myr.
   The test checks the steps while the shoreline is 24 km or more inboard of the edge.
 - **Legacy switch.** `legacyShelfEdge` (tests only, not in the registry) restores the old rule; spike 001's golden parity runs with it.
+
+## SFM-3 Routed deposits, wording and convergence (SFM-R F3, F5, F7, D31.3)
+
+- **F5, problem.** The routed (turbidite) run-out set the deposition length from the gradient between one column and the next, floored at 1e-5.
+  A one-column flat on the slope (an MTD top, a salt-withdrawal low) then had a length of centimetres and caught all the sand in that one column.
+- **Rule now.** The gradient is averaged over the next `TC_SLOPE_WINDOW` = 3 km (at least one column; about three columns at dx 1 km, six at 0.5 km)
+  before the length is set. **Tuned**, a fixed physical length so the result does not depend on the grid; no source gives a value. Chosen over a cap per
+  column because it needs no second number and keeps the deposition-length formula unchanged. A flat longer than the window still ponds the sand (the
+  gradient there really is flat): that is the intended physics of the rule, not a bug.
+- **Tested** (tests/routedDeposit.test.ts; thresholds are round numbers, D31.5): on a 1 % slope with one 1 km flat, the old rule put the whole deposit in 1
+  column; now at least 3 columns hold more than 10 % of the peak thickness and no column holds half the deposit; the peak thickness agrees between dx 1 km
+  and 0.5 km within 25 %; sand and mud routed = deposited + leftover to 1e-12 on both grids.
+- **F7, wording.** The `Kg` background diffusivities (100 / 1000 m2/yr sand / mud) give steepest marine gradients of 2.6 deg all mud, 6.9 deg at the default
+  mix (35 % sand) and 15.9 deg all sand (Windows node 26, `scripts/review/sfm/01-steady.mjs` cases A, C, B, after SFM-2). They were described as picked
+  for "about 6 deg muddy slopes": 6 to 7 deg is the default mix, not mud. The coastal-plain slope is 0.53 m/km all mud and 0.95 m/km at the default mix,
+  not the 0.3 m/km the table row says.
+- **F3, convergence** (`scripts/review/sfm/05-convergence.mjs`, constant sea level, Windows node 26). dx 1 km to 0.5 km: shoreline +17.05 km before this
+  card, +4.00 km after (target < 2 km: not met); sand beyond 100 km -79.7 % before, -27.8 % after (target < 10 %: not met). Both thresholds are round
+  numbers (D31.5). Nothing was tuned to move them. nSub 1 still gives +7.2 km (keep nSub >= 5, F8).
 
 <!-- registry-index:start -->
 ### Registry index

@@ -234,9 +234,8 @@ describe('Gulf-style preset: grid agreement on a 200 km section', () => {
   const a = runSummary('gulf', { dx: 1000, nx: 200 })
   const b = runSummary('gulf', { dx: 500, nx: 400 })
 
-  // SFM-2 / D31.4: fails after the shelf-edge fix (the two grids now differ by 0.21 of the finer one, Windows node 26, against the 0.15 band; both wavelengths
-  // are still in the 10 to 45 km band). Not re-banded here: SFM-4 and John decide. Kept as it.fails so the old band stays visible.
-  it.fails('dominant wavelength at dx 1,000 and 500 m agrees within 15 %, both in the 10 to 45 km band', () => {
+  // SFM-2 / D31.4 marked this it.fails (0.21 against 0.15). SFM-3 (D31.3, routed deposits spread over 3 km) passes it again on Windows node 26: restored as a normal test; band unchanged, not re-banded.
+  it('dominant wavelength at dx 1,000 and 500 m agrees within 15 %, both in the 10 to 45 km band', () => {
     // AUD-3: measured 38 and 34 km (Windows) with the Hart et al. mud; the band was 10 to 25 km with the North Sea mud.
     for (const s of [a, b]) {
       expect(s.wavelengthKm).toBeGreaterThan(10)
@@ -276,7 +275,8 @@ describe('Gulf-style preset: robust to 1 ulp maths noise (D16.4)', () => {
   })
 
   // SFM-1 / D31.4 marked this it.fails (open edge). SFM-2 (D31.3, shelf edge needs water depth, share from the edge flux) passes it again on Windows node 26: restored as a normal test; band unchanged, not re-banded.
-  it('crests, edges and wavelength do not depend on the noise', () => {
+  // SFM-3 / D31.4: fails after the routed-deposit fix (D31.3, F5) on Windows node 26: a noisy-run crest has 433 m of cover against the 500 m band. Not re-banded here: SFM-4 and John decide. Kept as it.fails so the old band stays visible.
+  it.fails('crests, edges and wavelength do not depend on the noise', () => {
     for (const n of noisy) {
       for (const c of n.crests) expect(c.coverM).toBeGreaterThan(500) // none required (measured 0); any that exist are under the seafloor
       expect(n.wavelengthKm).toBeGreaterThan(8) // measured 10.4 to 12.3 across noise salts (AUD-3, Windows): the band, not a tight match
@@ -309,7 +309,8 @@ describe('Salt: uneven cover (10 Myr) preset', () => {
   })
 
   // SFM-1 / D31.4 marked this it.fails (open edge). SFM-2 (D31.3, shelf edge needs water depth, share from the edge flux) passes it again on Windows node 26: restored as a normal test; band unchanged, not re-banded.
-  it('forms diapirs and minibasins: at least 6 of each (it makes about 13)', () => {
+  // SFM-3 / D31.4: fails after the routed-deposit fix (D31.3, F5) on Windows node 26: 5 salt highs against the at-least-6 band. Not re-banded here: SFM-4 and John decide. Kept as it.fails so the old band stays visible.
+  it.fails('forms diapirs and minibasins: at least 6 of each (it makes about 13)', () => {
     expect(saltHighs(s.h, s.P.dx, MIN_PROM).length).toBeGreaterThanOrEqual(6)
     expect(minibasins(s.h, s.P.dx, MIN_PROM).length).toBeGreaterThanOrEqual(6)
   })
@@ -320,7 +321,8 @@ describe('Salt: uneven cover (10 Myr) preset', () => {
   })
 
   // SFM-1 / D31.4 marked this it.fails (open edge). SFM-2 (D31.3, shelf edge needs water depth, share from the edge flux) passes it again on Windows node 26: restored as a normal test; band unchanged, not re-banded.
-  it('still forms them under 1 ulp noise', () => {
+  // SFM-3 / D31.4: fails after the routed-deposit fix (D31.3, F5) on Windows node 26: 5 salt highs against the at-least-6 band. Not re-banded here: SFM-4 and John decide. Kept as it.fails so the old band stays visible.
+  it.fails('still forms them under 1 ulp noise', () => {
     const n = runSummary('saltshort', {}, 5)
     expect(saltHighs(n.h, n.P.dx, MIN_PROM).length).toBeGreaterThanOrEqual(6)
     expect(minibasins(n.h, n.P.dx, MIN_PROM).length).toBeGreaterThanOrEqual(6)

@@ -104,10 +104,16 @@ What these three groups do physically:
 - *Supply and sand share* set how much solid is delivered and how much of it is sand. More supply
   makes the shelf edge advance faster and buries mud faster (more overpressure). More sand makes
   more sand available to bypass to the basin floor at lowstand.
-- *Sea level* moves the shoreline across the shelf. At a lowstand the shoreline sits near the
-  shelf edge and sand bypasses to the slope and basin floor; when the shoreline is well inboard (a flooded shelf), little does. In this model the shelf fills quickly, so
-  at constant sea level or a slow cycle the shoreline stays near the edge and bypass stays high. The offset raises or lowers the
-  whole record.
+- *Sea level* moves the shoreline across the shelf. The model sends part of the sediment that
+  reaches the shelf edge down the slope as turbidity currents (the share is shown under the
+  section). The share is large when the shoreline is at the shelf edge and small when the shelf is
+  flooded. With the 100 kyr sea-level swings of 40 m and 80 m the share follows sea level (correlation
+  -0.89 and -0.93; Windows, Node 26) and averages under 5 % at highstand. Two things to know. The shelf
+  fills within about 0.3 Myr, so at constant sea level, or with a slow 1 Myr cycle, the shoreline sits
+  on the shelf edge and the share stays high; in a 1 Myr, 40 m sine it does not follow sea level
+  (correlation -0.01), and sand beyond 100 km is highest at constant sea level, not lowest. And the
+  edge is the first steep face in at least 164 ft (50 m) of water (control *Minimum water depth at the
+  shelf edge*), not the shoreface at the coast. The offset raises or lowers the whole record.
 - *Subsidence* creates room. Where it is faster, more sediment piles up and burial is deeper.
 
 **Subsidence history (piecewise factors)** has no boxes in the app yet. It is a list the engine
@@ -256,7 +262,9 @@ it is stretched). The shoreline and the shelf edge are marked. Water is pale blu
 
 Pick a colour mode with the buttons above it. The legend below the picture shows the ramp.
 - **Grain size**: share of sand in each layer. Grey-green is mud, yellow is sand. Look for yellow
-  tongues out in the basin: sand that bypassed the shelf at a lowstand.
+  tongues out in the basin: sand that the turbidity-current rule sent past the shelf edge. The
+  rule sends the most when the shoreline sits at the shelf edge, which in this model is also true
+  at constant sea level once the shelf has filled.
 - **Age**: when each layer was laid down, purple oldest, yellow youngest. Lines of constant
   colour are time lines. This is the mode for seeing how the clinoform builds out.
 - **Porosity**: from 0.10 (brown) to 0.65 (teal). Deep and sandy layers lose porosity. A porous
@@ -283,6 +291,10 @@ solids. A pink flag marked *headwall #n* shows where a failure started, for thre
 drawn in pink on the seafloor and its deposit is outlined in yellow.
 
 Click anywhere on the section to move the pseudo-well to that column. A vertical line shows where it is.
+
+**Sent down the slope.** Under the section, one line says what share of the sediment that reaches the shelf edge the model sends down the slope as turbidity currents at the step you are looking at, and whether that share is at its cap (the control *Max share routed as turbidity currents*). It says "no shelf edge found" when the shoreline has no steep, deep-enough face seaward of it. Press the (i) button for the plain-words note. It follows the time bar. This is a tuned rule, not flow physics.
+
+**Sand does not pile in a single column.** The sand sent down the slope settles over a length that depends on the slope. That slope is averaged over 3 km, so a one-column flat spot (the top of a slide deposit, a hollow left by moving salt) does not catch all of it. A flat longer than 3 km still does: sand ponds on a real flat.
 
 ### The time bar
 Under the section: **Play** (or Pause), **Back** and **Forward** (one step), **Start**,
@@ -1041,6 +1053,21 @@ of the thin-sheet flow than a lack of salt (medium confidence).
   4.4 s against 2.7 to 3.4 s), the MTD-prone preset +20 % (+16 to +31 %). Every preset finishes in
   under 5 s. Failure off costs nothing.
 - **Slope failure on the Gulf-style preset is very slow (AUD-6 N-3).** Nothing in the preset turns failure on, but if you do, the Hart mud (less permeable at the surface, section 5) makes the slopes fail far more often: about 4,759 events and 37 minutes on Windows node 26 (it was 83 events and 26 s with the North Sea mud). Mass is still conserved.
+- **The basinward end of the section is open for sediment (SFM-1).** Sediment that reaches the last column
+  can leave the section and is counted as *exported*. The sea floor near that end still depends on where the
+  section stops: at constant sea level the sea floor at 150 km was 7,648 ft (2,331 m) deep on a 150 km section
+  and 5,331 ft (1,625 m) on a 400 km section (Windows node 26). Keep the part you read well inboard of the end.
+  Salt cannot leave the section.
+- **Two machines can differ by a kilometre (F6).** Runs with a mix of sand and mud can differ between Windows and
+  Linux by about 1 km in shoreline and a degree or more in foreset angle, from last-digit differences. Read
+  medians over several noise runs, not one run.
+- **Keep at least 5 transport substeps per step (F8).** The land-to-sea jump in diffusivity is applied one
+  substep late at a moving shoreline. With 1 substep the shoreline ran 7 km further basinward in a test.
+- **Supply enters one column and the crust does not flex (F9).** Sediment is delivered at a single point, and
+  the weight of the sediment does not bend the basement. Both are standard simplifications and are labelled.
+- **Grid and step size still matter a little (SFM-3).** Halving the cell size from 1 km to 0.5 km moved the
+  shoreline by 4.0 km (13,100 ft) and the sand beyond 100 km by -28 % at constant sea level (Windows node 26).
+  The review's aim was under 2 km and under 10 %; it is not met. Do not read differences of a few km.
 - **Turbidites are a transport-length rule, not flow physics.** No turbidity-current flow, no
   channels or levees, slope failure is off by default and limited (section 13.6), no faults or 3D yet, and salt is limited (section 14.6).
 - **The slopes are tuned.** Slope and coastal-plain diffusivities were tuned by eye to about 6°

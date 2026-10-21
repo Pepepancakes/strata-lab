@@ -74,6 +74,9 @@ export interface StateView {
   /** Column index of the shoreline / shelf edge after the last step (-1 = none). */
   shore: number
   shelfEdge: number
+  /** SFM-3: share of the flux at the shelf edge sent down the slope at this step, and the cap of the rule (tcMax). Read-out only. */
+  tcShare?: number
+  tcCap?: number
   /** Pre-run layers: 1 (substrate) or 2 with salt (layer 0 salt, layer 1 older cover) (M3.5). */
   nPre?: number
   /** Salt welds (M3.5): age (Ma) of each column's first weld, -1 = never (state.ts WELD_NONE), and the thickness below which a column counts as welded, m. */

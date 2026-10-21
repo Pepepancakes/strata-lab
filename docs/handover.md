@@ -247,6 +247,10 @@ Read with D18 and D19 in `docs/decisions.md`. Full tables: `docs/reviews/m3-10-e
   tuned) stops the shoreface being read as the shelf edge; the share is applied to the flux that crosses the shelf-edge face, not the supply.
   `legacyShelfEdge` (tests only) restores the old rule for spike 001 parity. The mtd preset now makes about 115 events (was 27) and the scenario
   summary tolerances in `summary.ts` were widened (measured, see its header). Two SFM-R checks are not met (1 Myr sine correlation; sand ordering): see physics-references SFM-2.
+- **Trap: routed deposits average the gradient over 3 km (SFM-3, ENGINE_VERSION 6).** `TC_SLOPE_WINDOW` in `turbidites.ts` (tuned, not cited) so a one-cell flat
+  cannot catch all the sand (F5). Convergence F3 is still not met (dx 1 km to 0.5 km: shoreline +4.0 km, sand beyond 100 km -28 %, Windows node 26; targets are
+  round numbers, D31.5). Documented limits, not fixed: F6 (Windows/Linux noise), F8 (keep nSub >= 5), F9 (point source, no flexure); user guide section 15.
+  Four gulfPreset tests moved: one restored from `it.fails`, three newly `it.fails` (D31.4, SFM-3); SFM-4 and John decide the bands.
 
 ## M4 planned well (2026-10-16)
 Chain: `strata-lab/m4-01-well-path` -> `m4-02-well-pressures` -> `m4-03-well-view` (merges UI-1) -> `m4-04-well-export` -> `m4-05-docs`.

@@ -397,6 +397,8 @@ export class TimeMachine {
       ledger: copyLedger(rec.ledger),
       shore: eng.diag.shore,
       shelfEdge: eng.diag.shelfEdge,
+      tcShare: eng.diag.tcShare,
+      tcCap: era.P.tcMax,
       nPre: rec.nPre,
       weldAge: eng.weldAge.slice(),
       weldThick: era.P.weldThick,

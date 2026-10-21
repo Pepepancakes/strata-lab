@@ -7,6 +7,7 @@ import { COVER_LINE, columnAtFraction, drawSection, SECTION_CSS_HEIGHT, WELD_LIN
 import type { SectionWellPath } from './wellPath'
 import { COVER_SHADE, legendFor, MODES, ramp, viewHasMode, viewHasSalt, weldedColumns } from './colors'
 import { CrestKey, CrestMarkers } from '../crests/Markers'
+import { TURBIDITE_INFO, turbiditeReadout } from './turbidite'
 
 const hex = (c: number[]) => `rgb(${c[0]},${c[1]},${c[2]})`
 
@@ -35,6 +36,17 @@ function Legend({ mode, startAgeMa }: { mode: (typeof MODES)[number]['id']; star
       {leg.info ? <WhatItMeans what="the salt thickness scale">{leg.info}</WhatItMeans> : null}
       <span className="muted">{leg.note}</span>
       <span className="hatch" aria-hidden="true" /><span className="muted">MTD (debris deposit)</span>
+    </div>
+  )
+}
+
+/** SFM-3: the share of the shelf-edge flux sent down the slope at the shown step, with its (i) note. */
+function TurbiditeLine({ view }: { view: StateView }) {
+  const r = turbiditeReadout(view.tcShare ?? 0, view.tcCap ?? 0, view.shelfEdge)
+  return (
+    <div className="muted" data-testid="turbidite-share">
+      {r.text}
+      <WhatItMeans what="the turbidite share">{TURBIDITE_INFO}</WhatItMeans>
     </div>
   )
 }
@@ -99,6 +111,7 @@ function SectionView() {
       {showCrests ? <CrestKey /> : null}
       {s.info ? <Legend mode={mode} startAgeMa={s.info.startAgeMa} /> : null}
       {salty && s.view ? <SaltLegend view={s.view} /> : null}
+      {s.view && s.view.tcShare !== undefined && s.view.tcCap !== undefined ? <TurbiditeLine view={s.view} /> : null}
       {s.viewB && s.diff ? (
         <div className="muted">
           Comparing with the other branch: surface differs by up to {Math.round(s.diff.maxAbsDH * 3.28084).toLocaleString('en-US')} ft{s.diff.identical ? ' (identical)' : ''}.
