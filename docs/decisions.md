@@ -388,7 +388,7 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
 
 - **D33. LIN-1 papers: read Yang and Aplin first (John, 2026-10-20: "go with your pick").**
   1. Yang and Aplin 2010 (mud permeability against porosity and clay fraction) and Yang and Aplin 2004 (mudstone
-     porosity against effective stress) are read first; both have free copies. Card LIN-2 reads both full texts and
+     porosity against effective stress) are read first. Neither has a free full text online (checked 2026-10-20), so John supplies the PDFs. Card LIN-2 reads both full texts and
      writes deep-read notes in `docs/pp-notes/`: the 2010 equation checked against the paper, its units, its limits
      (porosity, clay fraction, stress), which flow direction it describes, and whether 2004 gives an unloading ratio
      for `elastic`. It updates sections 2 and 3 of `docs/parameter-lineage.md`. No parameter or code changes.
