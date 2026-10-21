@@ -360,3 +360,20 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      missing sink is named. Spike only, then a salt-reviewer review (S6-R). The Gulf preset's bare salt wall (AUD-4 question)
      keeps its keep-and-label default until S6 reports.
   6. Nothing merges to main without John (D6).
+
+- **D31. CL-1 merged; the SFM-R fixes come before M5.1 (John, 2026-10-20: "merge cl-1, sure they can come before").**
+  1. CL-1 (crest-list height cap, D28.3) merges to main; John's preview check passed on 2026-10-20.
+  2. The SFM-R findings (`docs/reviews/sfm-review.md` on `strata-lab/sfm-review`, verdict NEEDS WORK) are fixed before
+     M5.1, as a chain SFM-1 to SFM-4 (roadmap section "SFM fixes"). M5.0 (read-only) and M5.0v, S6 and S6-R are not
+     held; M5.1 branches from the SFM chain's tip after its review approves.
+  3. Picks, following the reviewer's minimum fixes: F2 open basinward boundary (fixed-elevation outflow, booked as
+     exported in the ledger per grain size), not a wider wall; F1 and F4 a minimum water depth before a face can count
+     as the shelf edge (`shelfBreakDepth`, cited or labelled tuned), with the turbidite feed taken from the flux arriving
+     at the shelf edge rather than from the supply; F5 a routed deposit spread over at least one column width; F7 and
+     the two user-guide sentences reworded; F3 re-measured after F1 and F2. F6, F8 and F9 stay documented limits.
+  4. These are physics fixes to the default behaviour, so goldens, fixture hashes and preset results change. Each card
+     reports old and new numbers (Windows and Linux) and nothing is tuned toward a result. The Gulf preset bands are
+     re-set from new medians only if the review approves (as D27.1).
+  5. The SFM-R test thresholds (share < 0.05 at constant sea level with the shoreline inboard; < 5 % change in sand
+     beyond 100 km when the section is widened) are round numbers, not cited targets; the docs say so.
+  6. Nothing merges to main without John (D6).

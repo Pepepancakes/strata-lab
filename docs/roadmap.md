@@ -386,6 +386,21 @@ stays on screen at 1920 x 1080, 150 % (AUD-8 N-C).
 - The pore-pressure literature passes its citation check, and each M4 backlog item has a recommended pick for John.
 - John has picked the M5 scope from the S5 design note.
 
+## SFM fixes — before M5.1  *(John, 2026-10-20: "sure they can come before"; D31)*
+The forward-modelling review (SFM-R, NEEDS WORK) found that the slope-and-basin part of every section is set by two
+settings, the turbidite cap and the section length, rather than by sea level, supply and shelf geometry.
+
+| Card | Profile | Scope |
+|---|---|---|
+| SFM-1 | coder | F2: open basinward boundary, outflow booked as exported per grain size; sand beyond 100 km changes < 5 % when the section is widened from 150 to 300 km |
+| SFM-2 | coder | F1, F4: a minimum water depth before a face counts as the shelf edge; turbidite feed from the flux at the shelf edge; share < 0.05 with the shoreline inboard, reaches the cap at the shelf edge; more basin sand for a bigger sea-level swing |
+| SFM-3 | coder | F5 routed deposit spread over at least one column; F7 and the user-guide wording; F3 convergence re-measured; turbidite share on screen |
+| SFM-4 | safety-reviewer | Review of the chain with the SFM-R scripts rerun, verdict |
+
+**Done when:** the SFM-R tests for F1, F2, F4 and F5 pass on Windows and Linux; mass closes per grain size with the
+open boundary; the Gulf and default presets' old and new numbers are reported; SFM-4 says APPROVE; John has checked the
+preview.
+
 ## M5 — Sideways motion over salt: growth faults and a linked toe  *(John, 2026-10-20: "I'm good with your recommendations"; D30)*
 Until M5 nothing moves the cover sideways: columns ride up and down on the salt (D10, D17.3), so the
 basinward part of the Gulf preset is a flat slab with no structure. M5 adds the first sideways motion: one listric growth
