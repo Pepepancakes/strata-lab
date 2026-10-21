@@ -385,3 +385,15 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
   4. A REQUEST CHANGES or NEEDS WORK verdict means nothing merges.
   5. Still John's: geology, physics and product decisions (D17.6, including changing a cited default or picking an option), anything only he can test by hand, force-pushes and history rewrites, secrets, and the repo's visibility and licence.
   6. "Nothing merges to main without John" lines in earlier decisions (D6, D31.6) and in the roadmap describe the old rule.
+
+- **D33. LIN-1 papers: read Yang and Aplin first (John, 2026-10-20: "go with your pick").**
+  1. Yang and Aplin 2010 (mud permeability against porosity and clay fraction) and Yang and Aplin 2004 (mudstone
+     porosity against effective stress) are read first; both have free copies. Card LIN-2 reads both full texts and
+     writes deep-read notes in `docs/pp-notes/`: the 2010 equation checked against the paper, its units, its limits
+     (porosity, clay fraction, stress), which flow direction it describes, and whether 2004 gives an unloading ratio
+     for `elastic`. It updates sections 2 and 3 of `docs/parameter-lineage.md`. No parameter or code changes.
+  2. Imran et al. 2001, Clauser and Huenges 1995 and Hampton, Lee and Locat 1996 wait until a card needs them.
+  3. LIN-1 and LIN-2 reach main together once an independent citation check (LIN-R) says APPROVE (D32).
+  4. The mud-permeability re-fit (D28.2) is created after the SFM chain is on main and starts from the LIN-2 notes.
+     Where the clay fraction comes from (one value per lithology, or from the sand share) is a physics choice for
+     John: LIN-2 lists the options with one recommendation, and any new Gulf default stays John's call (D32.5).

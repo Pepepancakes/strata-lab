@@ -453,8 +453,14 @@ A 3D version on the GPU (WebGPU). Opens with a spike on speed.
 expected" line; every quoted value comes from a paper the writer read; the trace script reruns from a clean clone; John has a
 ranked list of papers to obtain. The mud-permeability re-fit (Backlog, D28.2) stays its own card and starts from this lineage.
 
+**Status (2026-10-20, D33):** LIN-1 is built on its branch. John's pick: read Yang and Aplin 2010 and 2004 first.
+- **LIN-2, deep read of Yang and Aplin 2010 and 2004** (doc-writer, `strata-lab/lin-02-yang-aplin`, stacked on LIN-1).
+- **LIN-R, citation check of LIN-1 and LIN-2** (safety-reviewer, `strata-lab/lin-03-review`). On APPROVE the tip merges
+  to main (D32).
+- The mud-permeability re-fit card follows once the SFM chain is on main (D33.4).
+
 ## Backlog
-- Re-fit the mud permeability law (`kA` / `kB`, `src/engine/params.ts`, tuned with phi0 0.63) for the Gulf preset to a published Gulf permeability-porosity relation; Yang & Aplin (2010) is the named candidate (to verify; not read). Reason: with the Hart mud the shallow Gulf section reads 1 to 2 ppg over hydrostatic (AUD-6 B-1, D26.4). Its own card with its own review; do not tune toward a result. Until then the shallow overpressure is a documented limit (D28.2).
+- Re-fit the mud permeability law (`kA` / `kB`, `src/engine/params.ts`, tuned with phi0 0.63) for the Gulf preset to a published Gulf permeability-porosity relation; Yang & Aplin (2010) is the named candidate; card LIN-2 reads it first (D33). Reason: with the Hart mud the shallow Gulf section reads 1 to 2 ppg over hydrostatic (AUD-6 B-1, D26.4). Its own card with its own review; do not tune toward a result. Until then the shallow overpressure is a documented limit (D28.2).
 - AUD-4 section 9, question for John: keep the bare salt toe wall (6.2 to 6.7 km of salt, 0 m cover over the last 3 to 5 km, a step of about 4,170 ft, Windows) and label it as a model limit, which the reviewer recommends, or retune to bury it? Every alternative is a tuning step (salt limit, supply, thickness, section width) and none is planned.
 - AUD-4 F-8: the Gulf weld band (5 km total) sits 1 km under the lowest Linux run (6 km in 7 runs). Not near zero, but thin; if a later physics change moves welds again, report before re-banding.
 - Salt canopies and allochthonous sheets (salt flowing over the seafloor like a glacier): spike S6 first (D30.5).
