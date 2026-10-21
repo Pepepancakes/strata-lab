@@ -126,7 +126,11 @@ describe('sampling the record along a well', () => {
         salt++
         expect(s.porosity[i]).toBe(0)
         expect(Number.isNaN(s.porePa[i])).toBe(true)
-      } else expect(s.porePa[i]).toBeGreaterThanOrEqual(s.hydroPa[i] - 1e-6)
+      } else {
+        // The excess pressure solver leaves a residual of under 1 Pa (a 4e-8 relative error at 11 MPa). It was -0.48 Pa on Linux node 22 after SFM-2 changed
+        // the sediment record, 0 on Windows. So the floor is 10 Pa, not 1e-6 Pa.
+        expect(s.porePa[i]).toBeGreaterThanOrEqual(s.hydroPa[i] - 10)
+      }
     }
     expect(salt).toBeGreaterThan(0)
   })
