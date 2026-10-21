@@ -108,8 +108,10 @@ What these three groups do physically:
   reaches the shelf edge down the slope as turbidity currents (the share is shown under the
   section). The share is large when the shoreline is at the shelf edge and small when the shelf is
   flooded. With the 100 kyr sea-level swings of 40 m and 80 m the share follows sea level (correlation
-  -0.89 and -0.93; Windows, Node 26) and averages under 5 % at highstand. Two things to know. The shelf
-  fills within about 0.3 Myr, so at constant sea level, or with a slow 1 Myr cycle, the shoreline sits
+  -0.89 and -0.93; Windows, Node 26). At highstand it averages about 0.7 % for the 80 m swing and about 9 %
+  for the 40 m swing (steps at or above 0.8 x the highest sea level; shelf edge in at least 164 ft / 50 m of
+  water). Two things to know. The shelf edge reaches the shoreline within about 0.03 Myr and the share is
+  near its cap by 0.055 Myr (Windows and Linux), so at constant sea level, or with a slow 1 Myr cycle, the shoreline sits
   on the shelf edge and the share stays high; in a 1 Myr, 40 m sine it does not follow sea level
   (correlation -0.01), and sand beyond 100 km is highest at constant sea level, not lowest. And the
   edge is the first steep face in at least 164 ft (50 m) of water (control *Minimum water depth at the

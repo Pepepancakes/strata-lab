@@ -64,7 +64,7 @@ describe('shelf edge in a run', () => {
   }, 60000)
 
   // SFM-R expects corr < -0.5 for the 1 Myr sine. Measured -0.014 (Windows node 26): in this model the
-  // delta fills the shelf within about 0.3 Myr and the shoreline then rides the foreset, so the shelf edge
+  // shelf edge is within 2 km of the shoreline from about 0.03 Myr and the shoreline then rides the foreset, so the shelf edge
   // stays within 1 to 2 km of the shoreline at every stand. Not a detector problem; see handoff. Expected fail.
   it.fails('1 Myr sine, 40 m: correlation(sea level, share) < -0.5 (SFM-R, not met: -0.014)', () => {
     const r = runTrace({ seaLevelKind: 'sine', slAmp: 40, slPeriod: 1e6 })
@@ -72,7 +72,7 @@ describe('shelf edge in a run', () => {
   }, 60000)
 
   // SFM-R expects sand beyond 100 km: sine 80 m > sine 40 m > constant. Measured 4.7 % < 5.6 % < 9.7 %
-  // (Windows node 26): at constant sea level the shelf is full from 0.3 Myr on, so the share sits near
+  // (Windows node 26): at constant sea level the shelf is full from about 0.03 Myr on, so the share sits near
   // the cap all run, while a cycling sea level spends part of every cycle at near-zero share.
   it.fails('sand beyond 100 km: sine 80 m > sine 40 m > constant sea level (SFM-R, not met)', () => {
     const sand = (over: Partial<EngineParams>) => {

@@ -401,6 +401,14 @@ settings, the turbidite cap and the section length, rather than by sea level, su
 open boundary; the Gulf and default presets' old and new numbers are reported; SFM-4 says APPROVE; John has checked the
 preview.
 
+**SFM-4 review outcome (F-D; Gulf-style preset, plain run plus six 1 ulp noise salts; `scripts/review/sfm-fix/03-gulf-bands.mjs`; min / median / max, Windows node 26; no band changed, John sets the new values):**
+- Edge fix and no-pile bands: still `it.fails` with the open boundary (SFM-1 decision); they need new values from John.
+- Grid agreement (dx 1000 vs dx 500, wavelength difference, band 0.15): not met on Linux node 22 (plain run 0.32; noise 3 / 5 / 7 = 0.22 / 0.10 / 1.17). Windows plain run 0.09 (noise 3 / 5 / 7 = 0.07 / 0.03 / 0.10).
+- Weld total km 5 / 7 / 9; longest weld km 2 / 3 / 3; salt highs and minibasins 13 / 15 / 18 each; shallow crests 0 / 0 / 1.
+- Salt first 18.5 km and salt front 399.5 km in every run. Wavelength 10.85 / 12.08 / 13.10 km.
+- Shelf-edge position at 56 Ma 98.5 / 99.5 / 101.5 and at 10 Ma 154.5 / 155.5 / 157.5 (script metrics edge56, edge10); progradation between them 54 / 56 / 57 km.
+- Largest salt thickness in the last 20 km 3828 / 3841 / 3846 m; sea floor at the basinward end -3683 / -3670 / -3663 m (-12,084 / -12,041 / -12,018 ft).
+
 ## M5 — Sideways motion over salt: growth faults and a linked toe  *(John, 2026-10-20: "I'm good with your recommendations"; D30)*
 Until M5 nothing moves the cover sideways: columns ride up and down on the salt (D10, D17.3), so the
 basinward part of the Gulf preset is a flat slab with no structure. M5 adds the first sideways motion: one listric growth

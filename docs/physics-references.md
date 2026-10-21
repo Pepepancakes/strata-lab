@@ -539,15 +539,15 @@ Where a source gives a range, it is quoted in the section for that parameter.
   so mass per grain size closes.
 - **`shelfBreakDepth` is tuned.** 50 m is 5 x the sand marine e-folding depth `dm` (10 m), the SFM-R suggestion. A measured shelf-break depth was not
   read for this card; real shelf breaks are commonly deeper. Sensitivity (Windows node 26, not a tuning): 0, 50 and 150 m all leave the 1 Myr sine
-  with no lowstand signal (corr -0.004, -0.014, -0.138), so the depth value is not what limits it.
+  with no lowstand signal (corr -0.004, -0.014, -0.138), so the depth value is not what limits it. It does move the highstand share (40 m / 100 kyr sine: 12.5 % at 0 m, 8.8 % at 50 m, 4.4 % at 150 m; Windows node 26; `scripts/review/sfm-fix/02-shelf-depth-sweep.mjs`) but not the orderings.
 - **Tests** (tests/shelfEdge.test.ts; thresholds are round numbers, D31.5): a synthetic surface with the shoreline 30 km inboard of the edge gives share
   < 0.05; the shoreline on the edge gives more than 0.8 tcMax; the 80 m / 100 kyr sine has corr(sea level, share) < -0.5 and a mean highstand share
   < 0.05; mass per grain size closes; a rerun is identical.
-- **What it does not fix, measured.** In this model the delta fills the shelf within about 0.3 Myr and the shoreline then rides the steep foreset,
+- **What it does not fix, measured.** In this model the shelf edge is within 2 km of the shoreline from about 0.03 Myr and the turbidite share is at 0.9 x its cap from about 0.055 Myr (constant sea level; Windows node 26 and Linux node 22), and the shoreline then rides the steep foreset,
   so the shelf edge stays 1 to 2 km from the shoreline at every stand of a slow cycle. For the 1 Myr, 40 m sine corr(sea level, share) is -0.014,
   and sand beyond 100 km orders as constant 9.7 % > sine 40 m 5.6 % > sine 80 m 4.7 % (100 kyr period) of the sand supply, the reverse of the SFM-R expectation: at
-  constant sea level the shelf is full from 0.3 Myr on and bypasses all run, while a cycling sea level spends part of each cycle with a flooded shelf.
-  Both checks are `it.fails` in the test file. The literal SFM-R test 1 ("share < 0.05 for the whole run") cannot hold either: the shelf is full after 0.3 Myr.
+  constant sea level the shelf is full from about 0.03 Myr on and bypasses all run, while a cycling sea level spends part of each cycle with a flooded shelf.
+  Both checks are `it.fails` in the test file. The literal SFM-R test 1 ("share < 0.05 for the whole run") cannot hold either: the shelf is full after about 0.03 Myr.
   The test checks the steps while the shoreline is 24 km or more inboard of the edge.
 - **Legacy switch.** `legacyShelfEdge` (tests only, not in the registry) restores the old rule; spike 001's golden parity runs with it.
 
