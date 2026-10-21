@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { store, useAppState } from '../../app/store'
 import { APP_VERSION, ENGINE_VERSION } from '../../version'
 import { getPreset } from '../../engine/presets'
@@ -22,6 +22,12 @@ function CrestsView() {
   const [status, setStatus] = useState<string | null>(null)
   const log = s.crestLog
   const rows = useMemo(() => (log ? sortRows(crestRows(log), key, dir) : []), [log, key, dir])
+  // CL-1 (D28.3): a selected row hidden inside the scrolling list is brought into view ('nearest' moves it only as far as needed).
+  const selected = s.selectedCrest
+  useEffect(() => {
+    if (selected === null) return
+    document.querySelector(`[data-crest-row="${selected}"]`)?.scrollIntoView({ block: 'nearest' })
+  }, [selected, rows.length])
   const salty = !!s.view && viewHasSalt(s.view)
   if (!salty) return null // shown only when salt is on
 
@@ -64,7 +70,7 @@ function CrestsView() {
         <p className="small muted" data-testid="crest-none">No salt crest came within 1,640 ft of the seafloor in this run.</p>
       ) : (
         <>
-          <p className="small muted" data-testid="crest-explain">
+          <p className="small muted crest-explain" data-testid="crest-explain">
             {log.episodes.length} crest{log.episodes.length === 1 ? '' : 's'}. Click a row to go to the crest&apos;s last record and move the pseudo-well to it. Sort with the column heads. Greyed rows are not active at the time shown.
           </p>
           <div className="crest-scroll" tabIndex={0} aria-label="List of salt crests (scrolls)">
@@ -112,7 +118,7 @@ function CrestsView() {
                     <div key={k}><dt className="muted">{k}</dt><dd>{v}</dd></div>
                   ))}
                 </dl>
-                <p className="small muted" data-testid="crest-well-note">
+                <p className="small muted crest-well-note" data-testid="crest-well-note">
                   The pseudo-well is at this crest&apos;s column ({fmt.one(selRow.xKm)} km).{' '}
                   {s.wellPlan
                     ? `The planned well stays at ${s.wellPlan.xKm.toFixed(2)} km, so the planned-well comparison does not change.`
@@ -126,7 +132,7 @@ function CrestsView() {
               <button style={{ minHeight: 44 }} onClick={() => save('table')}>Export crests (CSV)</button>
               <button style={{ minHeight: 44 }} onClick={() => save('records')}>Export crest records (CSV)</button>
             </div>
-            <span className="small muted" role="status" data-testid="crest-export-status">{status ?? 'Saves the table (ft, ft/Myr, km, Ma) or the record behind each crest.'}</span>
+            <span className={status ? 'small muted' : 'small muted crest-idle-status'} role="status" data-testid="crest-export-status">{status ?? 'Saves the table (ft, ft/Myr, km, Ma) or the record behind each crest.'}</span>
           </div>
           <p className="small muted">
             Last record is the last record followed; it can be one or two records after the cover passed 1,640 ft, so it can be younger than the burial age.
