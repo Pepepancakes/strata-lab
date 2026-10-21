@@ -49,7 +49,7 @@ export const GROUPS: readonly Group[] = [
     id: 'transport', title: 'Transport and turbidity currents',
     sections: [
       { heading: 'Diffusion', keys: ['Kc', 'Km', 'dm', 'Kg'] },
-      { heading: 'Turbidity currents', keys: ['tcMax', 'tcLambda', 'sBreak', 'tcL0', 'tcSref', 'tcN'] },
+      { heading: 'Turbidity currents', keys: ['tcMax', 'tcLambda', 'sBreak', 'shelfBreakDepth', 'tcL0', 'tcSref', 'tcN'] },
     ],
   },
   { id: 'compaction', title: 'Compaction and pore pressure', sections: [{ keys: ['phi0', 'beta', 'kA', 'kB', 'kMudMult', 'elastic'] }] },

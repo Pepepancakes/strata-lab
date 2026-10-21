@@ -5,4 +5,4 @@
 // too). A scenario file records both; opening a file whose stored hashes do not match the
 // recomputed ones is what actually warns John, these numbers only explain why.
 export const APP_VERSION = '0.1.0'
-export const ENGINE_VERSION = 3
+export const ENGINE_VERSION = 5

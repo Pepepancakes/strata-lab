@@ -294,7 +294,7 @@ describe('full runs', () => {
 describe('rewind across failures', () => {
   // weaker friction so that the default margin fails in the later part of the run
   const weak: Partial<EngineParams> = { failOn: 1, phiFric: [16, 9] }
-  const run = runFull(undefined, [100, 200, 300, 400, 500, 560], weak)
+  const run = runFull(undefined, [20, 40, 100, 200, 300, 400, 500, 560], weak) // SFM-2: the first failure is now at step 56, so snapshots at 20 and 40 precede it
   const total = run.eng.events.length
   const replay = (from: (e: EngineState) => void): EngineState => {
     const eng = createEngine(run.P, run.schedule)

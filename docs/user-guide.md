@@ -105,7 +105,8 @@ What these three groups do physically:
   makes the shelf edge advance faster and buries mud faster (more overpressure). More sand makes
   more sand available to bypass to the basin floor at lowstand.
 - *Sea level* moves the shoreline across the shelf. At a lowstand the shoreline sits near the
-  shelf edge and sand bypasses to the slope and basin floor. The offset raises or lowers the
+  shelf edge and sand bypasses to the slope and basin floor; when the shoreline is well inboard (a flooded shelf), little does. In this model the shelf fills quickly, so
+  at constant sea level or a slow cycle the shoreline stays near the edge and bypass stays high. The offset raises or lowers the
   whole record.
 - *Subsidence* creates room. Where it is faster, more sediment piles up and burial is deeper.
 
@@ -192,7 +193,8 @@ Why did it fail? (M2.3, rule changed in M2.7.) Every failure carries one trigger
 | **Deep-marine background diffusivity** (m²/yr) | 100 / 1,000 | Slow gravity creep on the slope; picked to give about 5 to 7° muddy slopes |
 | **Max share routed as turbidity currents** | 0.6 | Cap on the share of supply sent down as turbidity currents |
 | **Shoreline-to-shelf-edge distance scale** (km) | 8 | Ties turbidity-current share to how close the shoreline is to the shelf edge |
-| **Gradient defining the shelf edge** (m/m) | 0.01 | Where the model puts the shelf edge |
+| **Gradient defining the shelf edge** (m/m) | 0.01 | Where the model puts the shelf edge: a face this steep, in water at least as deep as the next control |
+| **Minimum water depth at the shelf edge** (ft) | 164 (50 m) | tuned. Keeps the steep shoreface at the coast from being mistaken for the shelf edge (SFM-2). Not a measured shelf-break depth |
 | **Turbidite deposition length at reference gradient** (km) | 20 / 400 | How far sand and mud travel before settling |
 | **Reference gradient for turbidite length** (m/m) | 0.005 | |
 | **Turbidite gradient exponent** | 2 | How strongly slope changes that length |

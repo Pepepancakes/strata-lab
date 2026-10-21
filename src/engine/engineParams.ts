@@ -37,6 +37,7 @@ export interface EngineParams {
   tcMax: number
   tcLambda: number
   sBreak: number
+  shelfBreakDepth: number
   tcL0: Pair
   tcSref: number
   tcN: number
@@ -47,6 +48,10 @@ export interface EngineParams {
   kMudMult: number
   elastic: number
   linear: LinearMode | null
+  /** Tests only, not in the registry: true closes the basinward edge again (the pre-SFM-1 wall that spike 001 had). */
+  closedEdge?: boolean
+  /** Tests only, not in the registry: true restores the pre-SFM-2 shelf edge (no depth test) and a turbidite share taken from the supply at the source, as spike 001 had. */
+  legacyShelfEdge?: boolean
   /** Deep compaction is solved once per this many steps (1 = every step, the default). */
   bundleEvery: number
   /** Layers younger than this (years) are updated every step. */

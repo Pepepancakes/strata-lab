@@ -85,6 +85,7 @@ describe('crest log through the worker', () => {
     expect(() => tm.crestLog(b.id)).toThrow(/main run only/)
   })
 
+  // SFM-1 / D31.4 marked this it.fails (open edge). SFM-2 (D31.3, shelf edge needs water depth, share from the edge flux) passes it again on Windows node 26: restored as a normal test; band unchanged, not re-banded.
   it('answers a crestLog request with plain data', () => {
     const run = handleRequest({ id: 1, kind: 'run', spec: { presetId: 'saltshort', overrides: { nx: 60 } }, seed: 1 })
     expect(run.kind).toBe('runDone')

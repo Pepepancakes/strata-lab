@@ -56,7 +56,7 @@ function BalanceView() {
           ))}
         </tbody>
       </table>
-      <p className="muted small">km² of solid in the section (grains only, no pores). Stored is the change since the start of the run. Imbalance = stored − (supplied − exported); it should be zero to rounding.</p>
+      <p className="muted small">km² of solid in the section (grains only, no pores). Stored is the change since the start of the run. Exported = turbidite run-out, slope-failure debris and sediment that diffused out past the basinward edge of the section. Imbalance = stored − (supplied − exported); it should be zero to rounding.</p>
     </div>
   )
 }

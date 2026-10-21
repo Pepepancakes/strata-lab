@@ -316,9 +316,10 @@ describe('pressures on a sampled record', () => {
     const w = verticalWell(61.5, 8000)
     const a = wellPressures(sample(tm.root, w))
     const b = wellPressures(sample(forkId, w))
-    expect(a.n).toBe(b.n)
+    // SFM-2: the two sea floors differ in depth now, so the stations are not the same count; compare the shared stations
+    expect(Math.abs(a.n - b.n)).toBeLessThan(0.05 * a.n)
     let maxDiff = 0
-    for (let i = 0; i < a.n; i++) {
+    for (let i = 0; i < Math.min(a.n, b.n); i++) {
       const d = Math.abs(a.porePsi[i] - b.porePsi[i])
       if (!Number.isNaN(d)) maxDiff = Math.max(maxDiff, d)
     }
