@@ -102,9 +102,9 @@ geoblock, so agents and tooling carry over.
   parent up to its start time.
 
 ## Working rules for agents
-- Work only on your branch. **Never push to main, merge to main, or deploy.** Code from cards
-  waits on its branch until John approves it for main. Only the orchestrator may push, and only
-  docs and spikes. Stacked cards merge the previous card's branch into their own.
+- Work only on your branch. **Worker cards never push, merge to main, or deploy.** Stacked cards
+  merge the previous card's branch into their own. The orchestrator merges to main once the review
+  says APPROVE and the gates pass, and John checks the result afterwards (D32).
 - Test-first for `src/engine`. A new process needs its benchmark test and a mass-balance test
   before it is wired into the UI.
 - Don't change a published parameter's default without updating `docs/physics-references.md`

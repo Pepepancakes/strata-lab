@@ -376,4 +376,12 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
      re-set from new medians only if the review approves (as D27.1).
   5. The SFM-R test thresholds (share < 0.05 at constant sea level with the shoreline inboard; < 5 % change in sand
      beyond 100 km when the section is widened) are round numbers, not cited targets; the docs say so.
-  6. Nothing merges to main without John (D6).
+  6. Nothing merges to main without John (D6). Superseded by D32.
+
+- **D32. Merge policy: the orchestrator merges when the gates pass; John checks afterwards (John, 2026-10-20: "I'm good with your recommendations"). Replaces D6 and the one-time grants (D13); the same policy applies to all of John's projects.**
+  1. Worker cards never push or merge to main. Unchanged: cards run in parallel and stack on each other's branches.
+  2. The orchestrator (Hermes, or a shepherd job it writes) merges a card's branch or a chain's tip to main with `--no-ff` and pushes it when all of these hold: the review says APPROVE; `npm ci`, `npm run check`, `npm run build` and `npm run check:offline` pass on a fresh clone; the Linux parity run passes; and the diff has no secrets, local paths or personal data (the repo is public). After the push, the CI run for that commit must go green, or the merge is reverted with `git revert`.
+  3. After a merge John gets a plain summary and his checks on the Checks page. He decides keep or revert; a revert is one `git revert`, and nothing deploys from main.
+  4. A REQUEST CHANGES or NEEDS WORK verdict means nothing merges.
+  5. Still John's: geology, physics and product decisions (D17.6, including changing a cited default or picking an option), anything only he can test by hand, force-pushes and history rewrites, secrets, and the repo's visibility and licence.
+  6. "Nothing merges to main without John" lines in earlier decisions (D6, D31.6) and in the roadmap describe the old rule.

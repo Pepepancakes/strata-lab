@@ -10,4 +10,4 @@ Non-negotiables, in short:
 - One stratigraphic record, many views.
 - Synthetic data, or published examples with a citation. Never company or confidential data. The repo is public: never commit secrets, local paths or personal data.
 - No runtime network requests; works offline from a single file. Permissive licences only.
-- Agents never push, merge to main, or deploy.
+- Worker cards never push or merge to main. The orchestrator merges once review and gates pass (D32).
