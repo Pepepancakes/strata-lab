@@ -568,7 +568,7 @@ Where a source gives a range, it is quoted in the section for that parameter.
   not the 0.3 m/km the table row says.
 - **F3, convergence** (`scripts/review/sfm/05-convergence.mjs`, constant sea level, Windows node 26). dx 1 km to 0.5 km: shoreline +17.05 km before this
   card, +4.00 km after (target < 2 km: not met); sand beyond 100 km -79.7 % before, -27.8 % after (target < 10 %: not met). Both thresholds are round
-  numbers (D31.5). Nothing was tuned to move them. nSub 1 still gives +7.2 km (keep nSub >= 5, F8).
+  numbers (D31.5). Linux node 22: +4.75 km and -28.8 %. Nothing was tuned to move them. nSub 1 still gives +7.2 km (keep nSub >= 5, F8).
 
 <!-- registry-index:start -->
 ### Registry index
