@@ -37,6 +37,10 @@ LIT-PP-2b (practice and salt papers):
 - `hauser-couzens-effective-stress.md`: Hauser and Couzens-Schultz, Can compaction modeling and pore pressure prediction
   be simplified by the definition of effective stress? SSRN preprint 5128263, not peer reviewed
   (refs/hauser-couzens-effective-stress.json)
+- `yang-aplin-2010.md`: Yang and Aplin 2010, A permeability-porosity relationship for mudstones, Marine and Petroleum
+  Geology 27, 1692-1697
+- `yang-aplin-2004.md`: Yang and Aplin 2004, Definition and practical application of mudstone porosity-effective stress
+  relationships, Petroleum Geoscience 10, 153-162
 
 Page conventions: journal pages where the copy prints them (Eaton, Hart, Alberty & McLean, Hauser 2020 MPG); otherwise
 "pdf p. N" counted from the first page of the file (Traugott, Zhang & Yin, Tahvildari) or the page numbering each note
