@@ -1,0 +1,1054 @@
+{
+  "param": "mtd-porosity",
+  "query": "mass transport deposit porosity consolidation",
+  "seed": "W2078879321",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W2078879321",
+      "title": "Petrophysical and consolidation behavior of mass transport deposits from the northern Gulf of Mexico, IODP Expedition 308",
+      "year": 2012,
+      "doi": "10.1016/j.margeo.2012.05.001",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3006916434",
+      "title": "Petrophysics of fine-grained mass-transport deposits: A critical review",
+      "year": 2020,
+      "doi": "10.1016/j.jseaes.2020.104291",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2793939065",
+      "title": "Formation of excess fluid pressure, sediment fluidization and mass-transport deposits in the Plio-Pleistocene Boso forearc basin, central Japan",
+      "year": 2018,
+      "doi": "10.1144/sp477.20",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2013593297",
+      "title": "Retrogressive failures recorded in mass transport deposits in the Ursa Basin, Northern Gulf of Mexico",
+      "year": 2009,
+      "doi": "10.1029/2008jb006159",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2317818258",
+      "title": "The influence of depositional processes on the porosity of chalk",
+      "year": 2012,
+      "doi": "10.1144/0016-76492011-079",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4321499451",
+      "title": "Seismic amplitude response to internal heterogeneity of mass-transport deposits",
+      "year": 2023,
+      "doi": "10.5194/se-14-137-2023",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2567744667",
+      "title": "Free gas accumulations in basal shear zones of mass-transport deposits (Pearl River Mouth Basin, South China Sea): An important geohazard on continental slope basins",
+      "year": 2017,
+      "doi": "10.1016/j.marpetgeo.2016.12.029",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2113201175",
+      "title": "Verification of porosity predictors for fluvial sand‐gravel deposits",
+      "year": 2011,
+      "doi": "10.1029/2010wr009690",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2278652762",
+      "title": "Characterization and Analysis of Porosity and Pore Structures",
+      "year": 2015,
+      "doi": "10.2138/rmg.2015.80.04",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3083933044",
+      "title": "Finding order in chaos -- a multi scale study of mass-transport deposits",
+      "year": 2020,
+      "doi": null,
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W2087452412",
+      "title": "The Electrical Resistivity Log as an Aid in Determining Some Reservoir Characteristics",
+      "authors": [
+        "Gustave Erdman Archie"
+      ],
+      "year": 1942,
+      "venue": "Transactions of the AIME",
+      "doi": "10.2118/942054-g",
+      "type": "article",
+      "cited_by_count": 7787,
+      "open_access": true,
+      "oa_url": "https://onepetro.org/TRANS/article-pdf/146/01/54/2179020/spe-942054-g.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2134010836",
+      "title": "The consolidation of clays by gravitational compaction",
+      "authors": [
+        "Alec Westley Skempton"
+      ],
+      "year": 1969,
+      "venue": "Quarterly Journal of the Geological Society",
+      "doi": "10.1144/gsjgs.125.1.0373",
+      "type": "article",
+      "cited_by_count": 459,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2054533513",
+      "title": "Discussion: Correlations between index tests and the properties of remoulded clays",
+      "authors": [
+        "W. D. Carrier",
+        "Jay F. Beckman"
+      ],
+      "year": 1985,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1985.35.2.223",
+      "type": "article",
+      "cited_by_count": 25,
+      "open_access": true,
+      "oa_url": "https://www.icevirtuallibrary.com/doi/pdf/10.1680/geot.1985.35.2.223",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2112558023",
+      "title": "Work as a criterion for determining in situ and yield stresses in clays",
+      "authors": [
+        "Dennis Becker",
+        "J. H. A. Crooks",
+        "Ken Been",
+        "Michael G. Jefferies"
+      ],
+      "year": 1987,
+      "venue": "Canadian Geotechnical Journal",
+      "doi": "10.1139/t87-070",
+      "type": "article",
+      "cited_by_count": 222,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1964306993",
+      "title": "On the compressibility and shear strength of natural clays",
+      "authors": [
+        "John Boscawen Burland"
+      ],
+      "year": 1990,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1990.40.3.329",
+      "type": "article",
+      "cited_by_count": 1737,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1698701323",
+      "title": "Soil behaviour and critical state soil mechanics",
+      "authors": [],
+      "year": 1992,
+      "venue": "International Journal of Rock Mechanics and Mining Sciences & Geomechanics Abstracts",
+      "doi": "10.1016/0148-9062(92)90570-p",
+      "type": "article",
+      "cited_by_count": 1269,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4210955136",
+      "title": "Submarine landslides",
+      "authors": [
+        "Monty A. Hampton",
+        "Homa J. Lee",
+        "Jacques Locat"
+      ],
+      "year": 1996,
+      "venue": "Reviews of Geophysics",
+      "doi": "10.1029/95rg03287",
+      "type": "article",
+      "cited_by_count": 990,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2255315049",
+      "title": "Mass-transport deposits of the Amazon Fan",
+      "authors": [
+        "David J. W. Piper",
+        "Carlos Pirmez",
+        "P. L. Manley",
+        "D. Long",
+        "Roger D. Flood",
+        "William R. Normark",
+        "William Showers"
+      ],
+      "year": 1997,
+      "venue": null,
+      "doi": "10.2973/odp.proc.sr.155.212.1997",
+      "type": "book-chapter",
+      "cited_by_count": 153,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2004987984",
+      "title": "Drilling Through Deepwater Shallow Water Flow Zones at Ursa",
+      "authors": [
+        "Luke F. Eaton"
+      ],
+      "year": 1999,
+      "venue": "SPE/IADC Drilling Conference",
+      "doi": "10.2118/52780-ms",
+      "type": "conference-paper",
+      "cited_by_count": 28,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1964701267",
+      "title": "Submarine landslide geomorphology, US continental slope",
+      "authors": [
+        "Brian G. McAdoo",
+        "Lincoln F. Pratson",
+        "Daniel L. Orange"
+      ],
+      "year": 2000,
+      "venue": "Marine Geology",
+      "doi": "10.1016/s0025-3227(00)00050-5",
+      "type": "article",
+      "cited_by_count": 448,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1985207211",
+      "title": "Dealing with Shallow-Water Flow in the Deepwater Gulf of Mexico",
+      "authors": [
+        "R.M. Ostermeier",
+        "J.H. Pelletier",
+        "Charles D. Winker",
+        "J.W. Nicholson",
+        "Frederick H. K. Rambow",
+        "K. M. Cowan"
+      ],
+      "year": 2000,
+      "venue": "Offshore Technology Conference",
+      "doi": "10.4043/11972-ms",
+      "type": "conference-paper",
+      "cited_by_count": 39,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2330416411",
+      "title": "Sedimentary Dynamics of the Salt-Dominated Continental Slope, Gulf of Mexico: Integration of Observations from the Seafloor, Near-Surface, and Deep Subsurface",
+      "authors": [
+        "Charles D. Winker",
+        "James R. Booth"
+      ],
+      "year": 2000,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.5724/gcs.00.15.1059",
+      "type": "book-chapter",
+      "cited_by_count": 108,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2041326290",
+      "title": "Sampling Disturbance Effects in Normally Consolidated Clays",
+      "authors": [
+        "Marika Santagata",
+        "John T. Germaine"
+      ],
+      "year": 2002,
+      "venue": "Journal of Geotechnical and Geoenvironmental Engineering",
+      "doi": "10.1061/(asce)1090-0241(2002)128:12(997)",
+      "type": "article",
+      "cited_by_count": 72,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1974268535",
+      "title": "High Mobility Of Subaqueous Debris Flows And The Lubricating-Layer Model",
+      "authors": [
+        "Fabio Vittorio De Blasio",
+        "Trygve Ilstad",
+        "Anders Elverhøi",
+        "Dieter Issler",
+        "Carl Bonnevie Harbitz"
+      ],
+      "year": 2004,
+      "venue": "Offshore Technology Conference",
+      "doi": "10.4043/16747-ms",
+      "type": "conference-paper",
+      "cited_by_count": 8,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2059809072",
+      "title": "Stratigraphy and Geomorphology of Deep-Water Mass Transport Complexes Based on 3D Seismic Data",
+      "authors": [
+        "Henry W. Posamentier"
+      ],
+      "year": 2004,
+      "venue": "Offshore Technology Conference",
+      "doi": "10.4043/16740-ms",
+      "type": "conference-paper",
+      "cited_by_count": 17,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2016107470",
+      "title": "The Storegga slide: evaluation of triggering sources and slide mechanics",
+      "authors": [
+        "Tore J. Kvalstad",
+        "Lars Andresen",
+        "Carl Fredrik Forsberg",
+        "Kjell Berg",
+        "Petter Bryn",
+        "Magnus Wangen"
+      ],
+      "year": 2005,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/j.marpetgeo.2004.10.019",
+      "type": "article",
+      "cited_by_count": 349,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2045149940",
+      "title": "The Storegga Slide complex: repetitive large scale sliding with similar cause and development",
+      "authors": [
+        "Anders Solheim",
+        "Kjell Berg",
+        "Carl Fredrik Forsberg",
+        "Petter Bryn"
+      ],
+      "year": 2005,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/j.marpetgeo.2004.10.013",
+      "type": "article",
+      "cited_by_count": 213,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W3020185997",
+      "title": "Fabric contribution to sediment physical properties in Gulf of Mexico: Preliminary Results of IODP Expedition 308",
+      "authors": [
+        "Yuhji Yamamoto",
+        "Derek E. Sawyer",
+        "Jan H. Behrmann",
+        "Peter B. Flemings",
+        "Cédric M. John"
+      ],
+      "year": 2005,
+      "venue": "AGUFM",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 4,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2084107403",
+      "title": "Pore pressure penetrometers document high overpressure near the seafloor where multiple submarine landslides have occurred on the continental slope, offshore Louisiana, Gulf of Mexico",
+      "authors": [
+        "Peter B. Flemings",
+        "H LONG",
+        "Brandon Dugan",
+        "John T. Germaine",
+        "Cédric M. John",
+        "J.H. Behrmann",
+        "Derek E. Sawyer"
+      ],
+      "year": 2007,
+      "venue": "Earth and Planetary Science Letters",
+      "doi": "10.1016/j.epsl.2007.12.005",
+      "type": "article",
+      "cited_by_count": 151,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2112927878",
+      "title": "Seismic geomorphology, lithology, and evolution of the late Pleistocene Mars-Ursa turbidite region, Mississippi Canyon area, northern Gulf of Mexico",
+      "authors": [
+        "Derek E. Sawyer",
+        "Peter B. Flemings",
+        "R. Craig Shipp",
+        "Charles D. Winker"
+      ],
+      "year": 2007,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/08290605190",
+      "type": "article",
+      "cited_by_count": 113,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2084008930",
+      "title": "Near‐seafloor overpressure in the deepwater Mississippi Canyon, northern Gulf of Mexico",
+      "authors": [
+        "Brandon Dugan",
+        "John T. Germaine"
+      ],
+      "year": 2008,
+      "venue": "Geophysical Research Letters",
+      "doi": "10.1029/2007gl032275",
+      "type": "article",
+      "cited_by_count": 40,
+      "open_access": true,
+      "oa_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1029/2007GL032275",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2141268867",
+      "title": "A subsurface evacuation model for submarine slope failure",
+      "authors": [
+        "Suzanne Bull",
+        "Joe A. Cartwright",
+        "Mads Huuse"
+      ],
+      "year": 2008,
+      "venue": "Basin Research",
+      "doi": "10.1111/j.1365-2117.2008.00390.x",
+      "type": "article",
+      "cited_by_count": 37,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2153438067",
+      "title": "Erratum to \"Pore pressure penetrometers document high overpressure near the seafloor where multiple submarine landslides have occurred on the continental slope, offshore Louisiana, Gulf of Mexico\" [Earth and Planetary Science Letters 269/3-4 (2008) 309-32]",
+      "authors": [
+        "Peter B. Flemings",
+        "H. Long",
+        "Brandon Dugan",
+        "John T. Germaine",
+        "Cédric M. John",
+        "Jan H. Behrmann",
+        "Derek E. Sawyer"
+      ],
+      "year": 2008,
+      "venue": "Earth and Planetary Science Letters",
+      "doi": "10.1016/j.epsl.2008.06.027",
+      "type": "erratum",
+      "cited_by_count": 43,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2181671321",
+      "title": "Data report: penetrometer measurements of in situ temperature and pressure, IODP Expedition 308",
+      "authors": [
+        "H. Long",
+        "Peter B. Flemings",
+        "Brandon Dugan",
+        "John T. Germaine",
+        "D. Ferrell"
+      ],
+      "year": 2008,
+      "venue": "Proceedings of the Integrated Ocean Drilling Program. Expedition reports/Proceedings of the Integrated Ocean Drilling Program",
+      "doi": "10.2204/iodp.proc.308.203.2008",
+      "type": "book-chapter",
+      "cited_by_count": 14,
+      "open_access": true,
+      "oa_url": "http://publications.iodp.org/proceedings/308/ERR/CHAPTERS/308_203.PDF",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2497243788",
+      "title": "Data report: consolidation characteristics of sediments from IODP Expedition 308, Ursa Basin, Gulf of Mexico",
+      "authors": [
+        "H. Long",
+        "Peter B. Flemings",
+        "John T. Germaine",
+        "D. M. Saffer",
+        "Brandon Dugan"
+      ],
+      "year": 2008,
+      "venue": "Proceedings of the Integrated Ocean Drilling Program. Expedition reports/Proceedings of the Integrated Ocean Drilling Program",
+      "doi": "10.2204/iodp.proc.308.204.2008",
+      "type": "book-chapter",
+      "cited_by_count": 31,
+      "open_access": true,
+      "oa_url": "http://publications.iodp.org/proceedings/308/ERR/CHAPTERS/308_204.PDF",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2503703998",
+      "title": "Data report: particle size analysis of sediments in the Ursa Basin, IODP Expedition 308 Sites U1324 and U1322, northern Gulf of Mexico",
+      "authors": [
+        "Derek E. Sawyer",
+        "Ryan Jacoby",
+        "Peter B. Flemings",
+        "John T. Germaine"
+      ],
+      "year": 2008,
+      "venue": "Proceedings of the Integrated Ocean Drilling Program. Expedition reports/Proceedings of the Integrated Ocean Drilling Program",
+      "doi": "10.2204/iodp.proc.308.205.2008",
+      "type": "book-chapter",
+      "cited_by_count": 37,
+      "open_access": true,
+      "oa_url": "http://publications.iodp.org/proceedings/308/ERR/CHAPTERS/308_205.PDF",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W3028735912",
+      "title": "Porosity vs. Permeability Behavior of Shallow Mudstones in the Ursa Basin, Deepwater Gulf of Mexico",
+      "authors": [
+        "J. Schneider",
+        "Peter B. Flemings",
+        "Brandon Dugan",
+        "H. Long",
+        "John T. Germaine",
+        "D. M. Saffer"
+      ],
+      "year": 2008,
+      "venue": "AGUFM",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 4,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W106150921",
+      "title": "009 Offshore Technology Conference",
+      "authors": [
+        "E. Corbin",
+        "Immediate Past President"
+      ],
+      "year": 2009,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 2340,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2013593297",
+      "title": "Retrogressive failures recorded in mass transport deposits in the Ursa Basin, Northern Gulf of Mexico",
+      "authors": [
+        "Derek E. Sawyer",
+        "Peter B. Flemings",
+        "Brandon Dugan",
+        "John T. Germaine"
+      ],
+      "year": 2009,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/2008jb006159",
+      "type": "article",
+      "cited_by_count": 145,
+      "open_access": true,
+      "oa_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1029/2008JB006159",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2168509842",
+      "title": "Geomorphology, stability and mobility of the Currituck slide",
+      "authors": [
+        "Jacques Locat",
+        "Homa J. Lee",
+        "Uri S. ten Brink",
+        "David C. Twichell",
+        "Eric L. Geist",
+        "M. Sansoucy"
+      ],
+      "year": 2009,
+      "venue": "Marine Geology",
+      "doi": "10.1016/j.margeo.2008.12.005",
+      "type": "article",
+      "cited_by_count": 69,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2182322877",
+      "title": "Data report: X-ray analyses of bulk sediment in IODP Holes U1320A and U1324B, northern Gulf of Mexico",
+      "authors": [
+        "Cédric M. John",
+        "Thierry Adatte"
+      ],
+      "year": 2009,
+      "venue": "Proceedings of the Integrated Ocean Drilling Program. Expedition reports/Proceedings of the Integrated Ocean Drilling Program",
+      "doi": "10.2204/iodp.proc.308.214.2009",
+      "type": "book-chapter",
+      "cited_by_count": 10,
+      "open_access": true,
+      "oa_url": "http://publications.iodp.org/proceedings/308/ERR/CHAPTERS/308_214.PDF",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2187792255",
+      "title": "Data report: strength characteristics of sediments from IODP Expedition 308, Sites U1322 and U1324",
+      "authors": [
+        "Brandon Dugan",
+        "John T. Germaine"
+      ],
+      "year": 2009,
+      "venue": "Proceedings of the Integrated Ocean Drilling Program. Expedition reports/Proceedings of the Integrated Ocean Drilling Program",
+      "doi": "10.2204/iodp.proc.308.210.2009",
+      "type": "book-chapter",
+      "cited_by_count": 15,
+      "open_access": true,
+      "oa_url": "http://publications.iodp.org/proceedings/308/ERR/CHAPTERS/308_210.PDF",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1970530701",
+      "title": "Overpressure and earthquake initiated slope failure in the Ursa region, northern Gulf of Mexico",
+      "authors": [
+        "J. Stigall",
+        "Brandon Dugan"
+      ],
+      "year": 2010,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/2009jb006848",
+      "type": "article",
+      "cited_by_count": 120,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2155335750",
+      "title": "Data report: preliminary assessment of Pleistocene sediment strength in the Ursa Basin (Gulf of Mexico continental slope) from triaxial and ring shear test data",
+      "authors": [
+        "Sandra Meissl",
+        "Jan H. Behrmann",
+        "J.A. Behrmann"
+      ],
+      "year": 2010,
+      "venue": "Proceedings of the Integrated Ocean Drilling Program. Expedition reports/Proceedings of the Integrated Ocean Drilling Program",
+      "doi": "10.2204/iodp.proc.308.211.2010",
+      "type": "book-chapter",
+      "cited_by_count": 10,
+      "open_access": true,
+      "oa_url": "http://publications.iodp.org/proceedings/308/ERR/CHAPTERS/308_211.PDF",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1509092905",
+      "title": "Slumping and mass transport deposition in the Nankai fore arc: Evidence from IODP drilling and 3‐D reflection seismic data",
+      "authors": [
+        "Michael Strasser",
+        "Gregory F. Moore",
+        "Gaku Kimura",
+        "Achim Kopf",
+        "Michael B. Underwood",
+        "Junhua Guo",
+        "Elizabeth J. Screaton"
+      ],
+      "year": 2011,
+      "venue": "Geochemistry Geophysics Geosystems",
+      "doi": "10.1029/2010gc003431",
+      "type": "article",
+      "cited_by_count": 124,
+      "open_access": true,
+      "oa_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1029/2010GC003431",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2032053568",
+      "title": "Consolidation and overpressure near the seafloor in the Ursa Basin, Deepwater Gulf of Mexico",
+      "authors": [
+        "H. Long",
+        "Peter B. Flemings",
+        "John T. Germaine",
+        "D. M. Saffer"
+      ],
+      "year": 2011,
+      "venue": "Earth and Planetary Science Letters",
+      "doi": "10.1016/j.epsl.2011.02.007",
+      "type": "article",
+      "cited_by_count": 72,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2078879321",
+      "title": "Petrophysical and consolidation behavior of mass transport deposits from the northern Gulf of Mexico, IODP Expedition 308",
+      "authors": [
+        "Brandon Dugan"
+      ],
+      "year": 2012,
+      "venue": "Marine Geology",
+      "doi": "10.1016/j.margeo.2012.05.001",
+      "type": "article",
+      "cited_by_count": 48,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "seed",
+      "read": "none"
+    },
+    {
+      "id": "W2952363878",
+      "title": "Soil behavior and critical state soil mechanics",
+      "authors": [
+        "An-Bin Huang",
+        "Hai‐Sui Yu"
+      ],
+      "year": 2017,
+      "venue": "CRC Press eBooks",
+      "doi": "10.1201/9781351255400-1",
+      "type": "book-chapter",
+      "cited_by_count": 242,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W2078879321",
+      "to": "W106150921",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W1509092905",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W1698701323",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W1964306993",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W1964701267",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W1970530701",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W1974268535",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W1985207211",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2004987984",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2013593297",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2016107470",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2032053568",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2041326290",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2045149940",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2054533513",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2059809072",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2084008930",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2084107403",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2087452412",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2112558023",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2112927878",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2134010836",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2141268867",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2153438067",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2155335750",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2168509842",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2181671321",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2182322877",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2187792255",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2255315049",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2330416411",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2497243788",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2503703998",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W2952363878",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W3020185997",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W3028735912",
+      "kind": "verified"
+    },
+    {
+      "from": "W2078879321",
+      "to": "W4210955136",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 38,
+    "edges": 37,
+    "verified": 37,
+    "inferred": 0,
+    "seed_references_in_openalex": 45,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:29:48.303Z"
+}

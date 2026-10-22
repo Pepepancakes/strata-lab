@@ -1,0 +1,857 @@
+{
+  "param": "unloading-stiffness",
+  "query": "unloading compressibility mudstone hysteresis effective stress",
+  "seed": "W2103433309",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W2593739717",
+      "title": "Microstructural controls on the pressure-dependent permeability of Whitby mudstone",
+      "year": 2017,
+      "doi": "10.1144/sp454.15",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4234825817",
+      "title": "Microstructural controls on the pressure-dependent permeability of Whitby Mudstone",
+      "year": 2018,
+      "doi": "10.31223/osf.io/kyvbg",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W35317684",
+      "title": "A surface-charge model for mudstones and the application to Pore Pressure Prediction",
+      "year": 2005,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W7211967901",
+      "title": "Impact of compaction-induced stress path hysteresis on fault stability during CO2 storage",
+      "year": 2026,
+      "doi": "10.1016/j.jrmge.2026.06.035",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2913153402",
+      "title": "Permeability and physical properties of semi-compacted fine-grained sediments – A laboratory study to constrain mudstone compaction trends",
+      "year": 2019,
+      "doi": "10.1016/j.marpetgeo.2019.01.019",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3173096749",
+      "title": "Stress sensitivity of porosity and permeability under varying hydrostatic stress conditions for different carbonate rock types of the geothermal Malm reservoir in Southern Germany",
+      "year": 2021,
+      "doi": "10.1186/s40517-021-00197-w",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3046524242",
+      "title": "Influence of Loading Rate on the Energy Evolution Characteristics of Rocks under Cyclic Loading and Unloading",
+      "year": 2020,
+      "doi": "10.3390/en13154003",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4416992061",
+      "title": "Experimental study on moisture-dependent energy stage evolution and damage mechanisms of siltstone under cyclic loading-unloading in brazilian splitting tests",
+      "year": 2025,
+      "doi": "10.3389/feart.2025.1704719",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2988044356",
+      "title": "Effects of stress reduction on geomechanical and acoustic relationship of overconsolidated sands",
+      "year": 2019,
+      "doi": "10.1111/1365-2478.12902",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4296407080",
+      "title": "Experimental Study on the Influence of Effective Stress on the Adsorption–Desorption Behavior of Tectonically Deformed Coal Compared with Primary Undeformed Coal in Huainan Coalfield, China",
+      "year": 2022,
+      "doi": "10.3390/en15186501",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W2032834880",
+      "title": "Density, Porosity, and Compaction of Sedimentary Rocks",
+      "authors": [
+        "L. F. Athy"
+      ],
+      "year": 1930,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/3d93289e-16b1-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 1419,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1977727715",
+      "title": "Theoretical Soil Mechanics",
+      "authors": [
+        "Karl v. Terzaghi"
+      ],
+      "year": 1943,
+      "venue": "Wiley eBooks",
+      "doi": "10.1002/9780470172766",
+      "type": "book",
+      "cited_by_count": 8683,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2047898003",
+      "title": "Notes on the compressibility of clays",
+      "authors": [
+        "Alec Westley Skempton",
+        "O. T. Jones"
+      ],
+      "year": 1944,
+      "venue": "Quarterly Journal of the Geological Society",
+      "doi": "10.1144/gsl.jgs.1944.100.01-04.08",
+      "type": "article",
+      "cited_by_count": 499,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2159778482",
+      "title": "Estimation of Formation Pressures from Log-Derived Shale Properties",
+      "authors": [
+        "C.E. Hottman",
+        "R.K. Johnson"
+      ],
+      "year": 1965,
+      "venue": "Journal of Petroleum Technology",
+      "doi": "10.2118/1110-pa",
+      "type": "article",
+      "cited_by_count": 478,
+      "open_access": true,
+      "oa_url": "https://onepetro.org/JPT/article-pdf/17/06/717/2217046/spe-1110-pa.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2134010836",
+      "title": "The consolidation of clays by gravitational compaction",
+      "authors": [
+        "Alec Westley Skempton"
+      ],
+      "year": 1969,
+      "venue": "Quarterly Journal of the Geological Society",
+      "doi": "10.1144/gsjgs.125.1.0373",
+      "type": "article",
+      "cited_by_count": 459,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1996822265",
+      "title": "The dynamics of shale compaction and evolution of pore-fluid pressures",
+      "authors": [
+        "James Edward Smith"
+      ],
+      "year": 1971,
+      "venue": "Mathematical Geology",
+      "doi": "10.1007/bf02045794",
+      "type": "article",
+      "cited_by_count": 214,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2050377387",
+      "title": "The Equation for Geopressure Prediction from Well Logs",
+      "authors": [
+        "Ben A. Eaton"
+      ],
+      "year": 1975,
+      "venue": "Fall Meeting of the Society of Petroleum Engineers of AIME",
+      "doi": "10.2118/5544-ms",
+      "type": "conference-paper",
+      "cited_by_count": 853,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2054451458",
+      "title": "Energy transport in thick sequences of compacting sediment",
+      "authors": [
+        "John M. Sharp",
+        "Patrick A. Domenico"
+      ],
+      "year": 1976,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1976)87<390:etitso>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 127,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2082384804",
+      "title": "One-dimensional model to simulate geologic, hydrodynamic and thermodynamic development of a sedimentary basin",
+      "authors": [
+        "A. Yükler",
+        "C. Cornford",
+        "Dietrich H. Welte"
+      ],
+      "year": 1978,
+      "venue": "Geologische Rundschau",
+      "doi": "10.1007/bf01983248",
+      "type": "article",
+      "cited_by_count": 68,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2170384715",
+      "title": "A numerical model of compaction‐driven groundwater flow and heat transfer and its application to the paleohydrology of intracratonic sedimentary basins",
+      "authors": [
+        "Craig M. Bethke"
+      ],
+      "year": 1985,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb090ib08p06817",
+      "type": "article",
+      "cited_by_count": 445,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2510900122",
+      "title": "The Concept Of Acoustic Formation Factor For More Accurate Porosity Determination From Sonic Transit Time Data",
+      "authors": [
+        "J.P. Martin",
+        "S. Nicoletis",
+        "Jean Raiga-Clemenceau"
+      ],
+      "year": 1988,
+      "venue": "The Log analyst/The log analyst",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 113,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1876719815",
+      "title": "Basin Evaluation by Integrated Two-Dimensional Modeling of Heat Transfer, Fluid Flow, Hydrocarbon Generation, and Migration",
+      "authors": [
+        "Philippe Ungerer",
+        "J. Burrus",
+        "B. Doligez",
+        "P. Y. Chénet",
+        "F. Bessis"
+      ],
+      "year": 1990,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/0c9b22db-1710-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 394,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1964306993",
+      "title": "On the compressibility and shear strength of natural clays",
+      "authors": [
+        "John Boscawen Burland"
+      ],
+      "year": 1990,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1990.40.3.329",
+      "type": "article",
+      "cited_by_count": 1737,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W637476854",
+      "title": "Basin analysis : quantitative methods",
+      "authors": [
+        "I. Lerche"
+      ],
+      "year": 1990,
+      "venue": null,
+      "doi": null,
+      "type": "other",
+      "cited_by_count": 126,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2015325362",
+      "title": "Explicit Pore-Pressure Evaluation: Concept and Application",
+      "authors": [
+        "Jean-Louis Alixant",
+        "Robert Desbrandes"
+      ],
+      "year": 1991,
+      "venue": "SPE Drilling Engineering",
+      "doi": "10.2118/19336-pa",
+      "type": "article",
+      "cited_by_count": 18,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2147906693",
+      "title": "Contributions of Compaction and Aquathermal Pressuring to Geopressure and the Influence of Environmental Conditions",
+      "authors": [
+        "Xiaorong Luo",
+        "G. Vasseur"
+      ],
+      "year": 1992,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/bdff8a42-1718-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 180,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2312698862",
+      "title": "Basin modelling: Advances and applications",
+      "authors": [
+        "Trevor P. Burchette"
+      ],
+      "year": 1994,
+      "venue": "Marine Geology",
+      "doi": "10.1016/0025-3227(94)90026-4",
+      "type": "article",
+      "cited_by_count": 188,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2038943450",
+      "title": "Assessment of β the compression coefficient of mudstones and its relationship with detailed lithology",
+      "authors": [
+        "Andrew C. Aplin",
+        "Yunlai Yang",
+        "Sven Hansen"
+      ],
+      "year": 1995,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/0264-8172(95)98858-3",
+      "type": "article",
+      "cited_by_count": 111,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2127686527",
+      "title": "Compaction and overpressuring in Pleistocene sediments on the Louisiana Shelf, Gulf of Mexico",
+      "authors": [
+        "Denis Marc Audet"
+      ],
+      "year": 1996,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/0264-8172(95)00073-9",
+      "type": "article",
+      "cited_by_count": 32,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2020919432",
+      "title": "A method for the disaggregation of mudstones",
+      "authors": [
+        "Yunlai Yang",
+        "Andrew C. Aplin"
+      ],
+      "year": 1997,
+      "venue": "Sedimentology",
+      "doi": "10.1046/j.1365-3091.1997.d01-37.x",
+      "type": "article",
+      "cited_by_count": 20,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25405/ncl.34091916",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1997501207",
+      "title": "Influence of lithology and compaction on the pore size distribution and modelled permeability of some mudstones from the Norwegian margin",
+      "authors": [
+        "Yunlai Yang",
+        "Andrew C. Aplin"
+      ],
+      "year": 1998,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/s0264-8172(98)00008-7",
+      "type": "article",
+      "cited_by_count": 182,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25405/ncl.34641582",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2129141336",
+      "title": "Clay Mineral Diagenesis in Sedimentary Basins — A Key to the Prediction of Rock Properties. Examples from the North Sea Basin",
+      "authors": [
+        "Knut Olav Bjørlykke"
+      ],
+      "year": 1998,
+      "venue": "Clay Minerals",
+      "doi": "10.1180/000985598545390",
+      "type": "article",
+      "cited_by_count": 379,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2020834108",
+      "title": "Permeability and fluid flow in natural mudstones",
+      "authors": [
+        "David N. Dewhurst",
+        "Yunlai Yang",
+        "Andrew C. Aplin"
+      ],
+      "year": 1999,
+      "venue": "Geological Society London Special Publications",
+      "doi": "10.1144/gsl.sp.1999.158.01.03",
+      "type": "article",
+      "cited_by_count": 172,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25405/ncl.34595439",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2130355649",
+      "title": "Preferred Orientation of Phyllosilicates in Gulf Coast Mudstones and Relation to the Smectite-Illite Transition",
+      "authors": [
+        "Nei-Che Ho",
+        "Donald R. Peacor",
+        "Ben A. van der Pluijm"
+      ],
+      "year": 1999,
+      "venue": "Clays and Clay Minerals",
+      "doi": "10.1346/ccmn.1999.0470412",
+      "type": "article",
+      "cited_by_count": 116,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1987435719",
+      "title": "Lateral transfer: a source of additional overpressure?",
+      "authors": [
+        "G S Yardley",
+        "Richard E. Swarbrick"
+      ],
+      "year": 2000,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/s0264-8172(00)00007-6",
+      "type": "article",
+      "cited_by_count": 189,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2139458242",
+      "title": "The Third Glossop Lecture",
+      "authors": [
+        "Richard John Chandler"
+      ],
+      "year": 2000,
+      "venue": "Quarterly Journal of Engineering Geology and Hydrogeology",
+      "doi": "10.1144/qjegh.33.1.7",
+      "type": "article",
+      "cited_by_count": 162,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2301139709",
+      "title": "I-S precipitation in pore space as the cause of geopressuring in Mesozoic mudstones, Egersund Basin, Norwegian continental shelf",
+      "authors": [
+        "Paul H. Nadeau",
+        "Donald R. Peacor",
+        "Jessie Yan",
+        "Stephen Hillier"
+      ],
+      "year": 2002,
+      "venue": "American Mineralogist",
+      "doi": "10.2138/am-2002-11-1208",
+      "type": "article",
+      "cited_by_count": 58,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2018189980",
+      "title": "Fabric development and the smectite to illite transition in Gulf ofMexico mudstones: an image analysis approach",
+      "authors": [
+        "Delphine Charpentier",
+        "Richard Henry Worden",
+        "Cathal G. Dillon",
+        "Andrew C. Aplin"
+      ],
+      "year": 2003,
+      "venue": "Journal of Geochemical Exploration",
+      "doi": "10.1016/s0375-6742(03)00073-6",
+      "type": "article",
+      "cited_by_count": 32,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2139631296",
+      "title": "Highly oxidised gold skarn fluids evolution in the Mezcala deposit, Guerrero, Mexico",
+      "authors": [
+        "Gilles Lévresse",
+        "Eduardo Gonzáléz-Partida"
+      ],
+      "year": 2003,
+      "venue": "Journal of Geochemical Exploration",
+      "doi": "10.1016/s0375-6742(03)00099-2",
+      "type": "article",
+      "cited_by_count": 422,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2149833725",
+      "title": "Influence of mechanical compaction and chemical diagenesis on the microfabric and fluid flow properties of Gulf of Mexico mudstones",
+      "authors": [
+        "Andrew C. Aplin",
+        "Ingo F. Matenaar",
+        "Ben A. van der Pluijm"
+      ],
+      "year": 2003,
+      "venue": "Journal of Geochemical Exploration",
+      "doi": "10.1016/s0375-6742(03)00035-9",
+      "type": "article",
+      "cited_by_count": 36,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25405/ncl.34090362",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2103433309",
+      "title": "Definition and practical application of mudstone porosity–effective stress relationships",
+      "authors": [
+        "Yunlai Yang",
+        "Andrew C. Aplin"
+      ],
+      "year": 2004,
+      "venue": "Petroleum Geoscience",
+      "doi": "10.1144/1354-079302-567",
+      "type": "article",
+      "cited_by_count": 126,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25405/ncl.34653996",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "none"
+    },
+    {
+      "id": "W2131422549",
+      "title": "Quantitative assessment of mudstone lithology using geophysical wireline logs and artificial neural networks",
+      "authors": [
+        "Yunlai Yang",
+        "Andrew C. Aplin",
+        "Steve Larter"
+      ],
+      "year": 2004,
+      "venue": "Petroleum Geoscience",
+      "doi": "10.1144/1354-079302-566",
+      "type": "article",
+      "cited_by_count": 35,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25405/ncl.34653993",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W2103433309",
+      "to": "W1876719815",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W1964306993",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W1977727715",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W1987435719",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W1996822265",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W1997501207",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2015325362",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2018189980",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2020834108",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2020919432",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2032834880",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2038943450",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2047898003",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2050377387",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2054451458",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2082384804",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2127686527",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2129141336",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2130355649",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2131422549",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2134010836",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2139458242",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2139631296",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2147906693",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2149833725",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2159778482",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2170384715",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2301139709",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2312698862",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W2510900122",
+      "kind": "verified"
+    },
+    {
+      "from": "W2103433309",
+      "to": "W637476854",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 32,
+    "edges": 31,
+    "verified": 31,
+    "inferred": 0,
+    "seed_references_in_openalex": 32,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:27:57.565Z"
+}

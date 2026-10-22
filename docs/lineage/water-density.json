@@ -1,0 +1,233 @@
+{
+  "param": "water-density",
+  "query": "seawater density equation of state",
+  "seed": "W2055232078",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W2055232078",
+      "title": "International one-atmosphere equation of state of seawater",
+      "year": 1981,
+      "doi": "10.1016/0198-0149(81)90122-9",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2041000317",
+      "title": "Physical properties of seawater: A new salinity scale and equation of state for seawater",
+      "year": 1985,
+      "doi": "10.1029/jc090ic02p03332",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2173433507",
+      "title": "Algorithms for Density, Potential Temperature, Conservative Temperature, and the Freezing Temperature of Seawater",
+      "year": 2006,
+      "doi": "10.1175/jtech1946.1",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2752243944",
+      "title": "The density–salinity relation of standard seawater",
+      "year": 2018,
+      "doi": "10.5194/os-14-15-2018",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2132321716",
+      "title": "A new approximation of the equation of state for seawater, suitable for numerical ocean models",
+      "year": 1999,
+      "doi": "10.1029/1998jc900059",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2115827432",
+      "title": "Accurate and Computationally Efficient Algorithms for Potential Temperature and Density of Seawater",
+      "year": 2003,
+      "doi": "10.1175/1520-0426(2003)20<730:aaceaf>2.0.co;2",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1977559254",
+      "title": "Determination of the Density of Seawater",
+      "year": 1971,
+      "doi": "10.1038/233329a0",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2124286001",
+      "title": "The effects of biogeochemical processes on oceanic conductivity/salinity/density relationships and the characterization of real seawater",
+      "year": 2011,
+      "doi": "10.5194/os-7-363-2011",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2324284300",
+      "title": "History of the Equation of State of Seawater",
+      "year": 2010,
+      "doi": "10.5670/oceanog.2010.21",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2064756041",
+      "title": "Seawater densities intercompared dilatometrically",
+      "year": 1988,
+      "doi": "10.1016/0198-0149(88)90110-0",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W4253361323",
+      "title": "Mathematical Statistics.",
+      "authors": [
+        "Peter Whittle",
+        "Samuel Stanley Wilks"
+      ],
+      "year": 1963,
+      "venue": "Journal of the Royal Statistical Society Series A (General)",
+      "doi": "10.2307/2982451",
+      "type": "article",
+      "cited_by_count": 444,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2031749828",
+      "title": "Density of water in SI units over the range 0-40 C",
+      "authors": [
+        "P H Bigg"
+      ],
+      "year": 1967,
+      "venue": "British Journal of Applied Physics",
+      "doi": "10.1088/0508-3443/18/4/315",
+      "type": "article",
+      "cited_by_count": 105,
+      "open_access": true,
+      "oa_url": "https://iopscience.iop.org/article/10.1088/0508-3443/18/4/315/pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W7057982713",
+      "title": "Mathematical Statistics",
+      "authors": [
+        "Freund, John E. 1921-2004",
+        "Ronald E. Walpole"
+      ],
+      "year": 1972,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 95,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2054078987",
+      "title": "A new high pressure equation of state for seawater",
+      "authors": [
+        "Frank J. Millero",
+        "Chen‐Tung Arthur Chen",
+        "Alvin L. Bradshaw",
+        "Karl E. Schleicher"
+      ],
+      "year": 1980,
+      "venue": "Deep Sea Research Part A Oceanographic Research Papers",
+      "doi": "10.1016/0198-0149(80)90016-3",
+      "type": "article",
+      "cited_by_count": 286,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2075784792",
+      "title": "Density of standard seawater solutions at atmospheric pressure",
+      "authors": [
+        "Alain Poisson B",
+        "C. Brunet",
+        "Jean‐Claude Brun‐Cottan"
+      ],
+      "year": 1980,
+      "venue": "Deep Sea Research Part A Oceanographic Research Papers",
+      "doi": "10.1016/0198-0149(80)90062-x",
+      "type": "article",
+      "cited_by_count": 29,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2055232078",
+      "title": "International one-atmosphere equation of state of seawater",
+      "authors": [
+        "Frank J. Millero",
+        "Alain Poisson B"
+      ],
+      "year": 1981,
+      "venue": "Deep Sea Research Part A Oceanographic Research Papers",
+      "doi": "10.1016/0198-0149(81)90122-9",
+      "type": "article",
+      "cited_by_count": 706,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "seed",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W2055232078",
+      "to": "W2031749828",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055232078",
+      "to": "W2054078987",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055232078",
+      "to": "W2075784792",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055232078",
+      "to": "W4253361323",
+      "kind": "verified"
+    },
+    {
+      "from": "W2055232078",
+      "to": "W7057982713",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 6,
+    "edges": 5,
+    "verified": 5,
+    "inferred": 0,
+    "seed_references_in_openalex": 7,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:29:29.182Z"
+}

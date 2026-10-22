@@ -1,0 +1,1189 @@
+{
+  "param": "diffusivity",
+  "query": "diffusion sediment transport stratigraphic simulation marine",
+  "seed": "W1977840933",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W1977840933",
+      "title": "Application of a dual‐lithology, depth‐dependent diffusion equation in stratigraphic simulation",
+      "year": 1992,
+      "doi": "10.1111/j.1365-2117.1992.tb00136.x",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2801365790",
+      "title": "pyBadlands: A framework to simulate sediment transport, landscape dynamics and basin stratigraphic evolution through space and time",
+      "year": 2018,
+      "doi": "10.1371/journal.pone.0195557",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2964695374",
+      "title": "Linking continental erosion to marine sediment transport and deposition: A new implicit and O(N) method for inverse analysis",
+      "year": 2019,
+      "doi": "10.1016/j.epsl.2019.115728",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2086818894",
+      "title": "Balancing efficiency and accuracy for sediment transport simulations",
+      "year": 2013,
+      "doi": "10.1088/1749-4699/6/1/015011",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1995144893",
+      "title": "Aeolian Sediment Transport Integration in General Stratigraphic Forward Modeling",
+      "year": 2011,
+      "doi": "10.1155/2011/186062",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1845298866",
+      "title": "Depth-dependent diffusion algorithm for simulation of sedimentation in shallow marine depositional systems",
+      "year": 2024,
+      "doi": "10.17161/kgsbulletin.no.233.20474",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3191917150",
+      "title": "Sedapp v2021: a nonlinear diffusion-based forward stratigraphic model for shallow marine environments",
+      "year": 2021,
+      "doi": "10.5194/gmd-14-4925-2021",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2770811858",
+      "title": "Mineralogy, early marine diagenesis, and the chemistry of shallow-water carbonate sediments",
+      "year": 2017,
+      "doi": "10.1016/j.gca.2017.09.046",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2975698096",
+      "title": "Experimental Simulation of the Self-Trapping Mechanism for CO2 Sequestration into Marine Sediments",
+      "year": 2019,
+      "doi": "10.3390/min9100579",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4389200415",
+      "title": "An experimental study on monitoring of marine sediment transport by using a 3D sediment trap",
+      "year": 2023,
+      "doi": "10.3389/fmars.2023.1290527",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W1484922527",
+      "title": "Formulas for Bed-Load transport",
+      "authors": [
+        "E. Meyer-Peter",
+        "Rasmus Müller"
+      ],
+      "year": 1948,
+      "venue": "Research Repository (Delft University of Technology)",
+      "doi": null,
+      "type": "report",
+      "cited_by_count": 2013,
+      "open_access": true,
+      "oa_url": "http://resolver.tudelft.nl/uuid:4fda9b61-be28-4703-ab06-43cdc2a21bd7",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1981672833",
+      "title": "Analytical Theory of Erosion",
+      "authors": [
+        "W. E. H. Culling"
+      ],
+      "year": 1960,
+      "venue": "The Journal of Geology",
+      "doi": "10.1086/626663",
+      "type": "article",
+      "cited_by_count": 463,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W257180531",
+      "title": "Mathematical Simulation of Marine Sedimentation with IBM 7090/7094 Computers",
+      "authors": [
+        "John W. Harbaugh"
+      ],
+      "year": 1966,
+      "venue": "Bulletin (Kansas Geological Survey)",
+      "doi": "10.17161/kgsbulletin.no..23506",
+      "type": "article",
+      "cited_by_count": 21,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.17161/kgsbulletin.no..23506",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1601558836",
+      "title": "Mathematical Model and FORTRAN IV Program for Computer Simulation of Deltaic Sedimentation",
+      "authors": [
+        "Graeme Bonham-Carter",
+        "Alex J. Sutherland"
+      ],
+      "year": 1968,
+      "venue": "Bulletin (Kansas Geological Survey)",
+      "doi": "10.17161/kgsbulletin.no..23482",
+      "type": "article",
+      "cited_by_count": 23,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.17161/kgsbulletin.no..23482",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2043396789",
+      "title": "Coastal Erosion and Transgressive Stratigraphy",
+      "authors": [
+        "Donald J. P. Swift"
+      ],
+      "year": 1968,
+      "venue": "The Journal of Geology",
+      "doi": "10.1086/627342",
+      "type": "article",
+      "cited_by_count": 426,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W126336724",
+      "title": "DATA PROCESSING IN BIOLOGY AND GEOLOGY",
+      "authors": [
+        "Frans A. Stafleu"
+      ],
+      "year": 1971,
+      "venue": "Taxon",
+      "doi": "10.2307/1218265",
+      "type": "article",
+      "cited_by_count": 38,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1963924652",
+      "title": "Computer simulation in geology",
+      "authors": [
+        "Robert L. Miller"
+      ],
+      "year": 1971,
+      "venue": "Earth-Science Reviews",
+      "doi": "10.1016/0012-8252(71)90020-1",
+      "type": "article",
+      "cited_by_count": 204,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1989573058",
+      "title": "Simulation of Developmental Process of Interfluvial Slopes with Reference to Graded Form",
+      "authors": [
+        "Masashige Hirano"
+      ],
+      "year": 1975,
+      "venue": "The Journal of Geology",
+      "doi": "10.1086/628048",
+      "type": "article",
+      "cited_by_count": 42,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2326565381",
+      "title": "The mathematics of diffusion",
+      "authors": [
+        "G.S. Park"
+      ],
+      "year": 1975,
+      "venue": "Polymer",
+      "doi": "10.1016/0032-3861(75)90130-5",
+      "type": "article",
+      "cited_by_count": 14967,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4206222041",
+      "title": "Sedimentation Models and Quantitative Stratigraphy",
+      "authors": [],
+      "year": 1975,
+      "venue": "Developments in sedimentology",
+      "doi": "10.1016/s0070-4571(08)x7020-7",
+      "type": "book",
+      "cited_by_count": 64,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W70376587",
+      "title": "MATHEMATICAL MODELING OF SEDIMENT ACCUMULATION IN PROGRADING DELTAIC SYSTEMS",
+      "authors": [
+        "Daniel H. Horowitz"
+      ],
+      "year": 1976,
+      "venue": "Elsevier eBooks",
+      "doi": "10.1016/b978-0-08-020613-4.50015-x",
+      "type": "book-chapter",
+      "cited_by_count": 9,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W3160761443",
+      "title": "Seismic Stratigraphy and Global Changes of Sea Level",
+      "authors": [
+        "Peter R. Vail",
+        "R. M. Mitchum",
+        "R. G. Todd",
+        "J. M. Widmier",
+        "S. Thompson",
+        "J. B. Sangree",
+        "J. N. Bubb",
+        "W. G. Hatlelid"
+      ],
+      "year": 1977,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 1723,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2079207245",
+      "title": "Relationship between eustacy and stratigraphic sequences of passive margins",
+      "authors": [
+        "Walter C. Pitman"
+      ],
+      "year": 1978,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1978)89<1389:rbeass>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 613,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2093408096",
+      "title": "Studies in fluviatile sedimentation: an exploratory quantitative model for the architecture of avulsion-controlled alluvial suites",
+      "authors": [
+        "J.R.L. Allen"
+      ],
+      "year": 1978,
+      "venue": "Sedimentary Geology",
+      "doi": "10.1016/0037-0738(78)90002-7",
+      "type": "article",
+      "cited_by_count": 410,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2091350509",
+      "title": "A simulation model of alluvial stratigraphy",
+      "authors": [
+        "John Bridge",
+        "Michael Robert Leeder"
+      ],
+      "year": 1979,
+      "venue": "Sedimentology",
+      "doi": "10.1111/j.1365-3091.1979.tb00935.x",
+      "type": "article",
+      "cited_by_count": 655,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2024543196",
+      "title": "Morphologic Dating of Degraded Normal Fault Scarps",
+      "authors": [
+        "David B. Nash"
+      ],
+      "year": 1980,
+      "venue": "The Journal of Geology",
+      "doi": "10.1086/628513",
+      "type": "article",
+      "cited_by_count": 222,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2013553421",
+      "title": "Development of longitudinal profiles of alluvial channels in response to base‐level lowering",
+      "authors": [
+        "Ze’ev B. Begin",
+        "David F. Meyer",
+        "Stanley A. Schumm"
+      ],
+      "year": 1981,
+      "venue": "Earth Surface Processes and Landforms",
+      "doi": "10.1002/esp.3290060106",
+      "type": "article",
+      "cited_by_count": 279,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1980965079",
+      "title": "Ages Estimated from a Diffusion Equation Model for Scarp Degradation",
+      "authors": [
+        "Steven M. Colman",
+        "Ken Watson"
+      ],
+      "year": 1983,
+      "venue": "Science",
+      "doi": "10.1126/science.221.4607.263",
+      "type": "article",
+      "cited_by_count": 107,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2150723720",
+      "title": "Geodynamics: Applications of Continuum Physics to Geological Problems",
+      "authors": [
+        "Philip Christopher England"
+      ],
+      "year": 1983,
+      "venue": "Eos",
+      "doi": "10.1029/eo064i011p00106-01",
+      "type": "article",
+      "cited_by_count": 1605,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2013066204",
+      "title": "Modification of wave‐cut and faulting‐controlled landforms",
+      "authors": [
+        "Thomas C. Hanks",
+        "Robert C. Bucknam",
+        "K.R. Lajoie",
+        "Robert E. Wallace"
+      ],
+      "year": 1984,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb089ib07p05771",
+      "type": "article",
+      "cited_by_count": 313,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2143212628",
+      "title": "Morphology of a delta prograding by bulk sediment transport",
+      "authors": [
+        "Patricia M. Kenyon",
+        "D. L. Turcotte"
+      ],
+      "year": 1985,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1985)96<1457:moadpb>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 183,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1522934698",
+      "title": "Deltaic Depositional Processes in A Glacier-Fed Lake",
+      "authors": [
+        "Jim Bogen"
+      ],
+      "year": 1987,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.2110/pec.87.39.0121",
+      "type": "book-chapter",
+      "cited_by_count": 11,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2016086956",
+      "title": "Fitting degradation of shoreline scarps by a nonlinear diffusion model",
+      "authors": [
+        "D. J. Andrews",
+        "Robert C. Bucknam"
+      ],
+      "year": 1987,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb092ib12p12857",
+      "type": "article",
+      "cited_by_count": 199,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2048151108",
+      "title": "ERFUS 6—a FORTRAN program for calculating the response of alluvial channels to baselevel lowering",
+      "authors": [
+        "Ze’ev B. Begin"
+      ],
+      "year": 1987,
+      "venue": "Computers & Geosciences",
+      "doi": "10.1016/0098-3004(87)90011-2",
+      "type": "article",
+      "cited_by_count": 11,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1937848784",
+      "title": "Quantitative Geological Modeling of Siliciclastic Rock Sequences and Their Seismic Expression",
+      "authors": [
+        "Macomb T. Jervey"
+      ],
+      "year": 1988,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.2110/pec.88.01.0047",
+      "type": "book-chapter",
+      "cited_by_count": 698,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2047281401",
+      "title": "Basin sedimentation and the growth of prograding deltas",
+      "authors": [
+        "James P. M. Syvitski",
+        "John Norton Smith",
+        "Emily Calabrese",
+        "Bernard P. Boudreau"
+      ],
+      "year": 1988,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jc093ic06p06895",
+      "type": "article",
+      "cited_by_count": 104,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2059761378",
+      "title": "A simulation of continental basin margin sedimentation in response to crustal movements, eustatic sea level change, and sediment accumulation rates",
+      "authors": [
+        "William Helland‐Hansen",
+        "Christopher Kendall",
+        "I. Lerche",
+        "Kazuo Nakayama"
+      ],
+      "year": 1988,
+      "venue": "Mathematical Geology",
+      "doi": "10.1007/bf00890191",
+      "type": "article",
+      "cited_by_count": 28,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2105520272",
+      "title": "Application of a diffusion‐erosion model to alluvial channels which degrade due to base‐level lowering",
+      "authors": [
+        "Ze’ev B. Begin"
+      ],
+      "year": 1988,
+      "venue": "Earth Surface Processes and Landforms",
+      "doi": "10.1002/esp.3290130603",
+      "type": "article",
+      "cited_by_count": 65,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2153222505",
+      "title": "Eustatic Controls on Clastic Deposition II—Sequence and Systems Tract Models",
+      "authors": [
+        "Henry W. Posamentier",
+        "Peter R. Vail"
+      ],
+      "year": 1988,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.2110/pec.88.01.0125",
+      "type": "book-chapter",
+      "cited_by_count": 1501,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1533766981",
+      "title": "Simulating Clastic Sedimentation",
+      "authors": [
+        "Daniel Matias Tetzlaff",
+        "John W. Harbaugh"
+      ],
+      "year": 1989,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-1-4757-0692-5",
+      "type": "book",
+      "cited_by_count": 231,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2078197085",
+      "title": "Interactive (SEDPAK) simulation of clastic and carbonate sediments in shelf to basin settings",
+      "authors": [
+        "John Strobel",
+        "Robert Cannon",
+        "Christopher G. St",
+        "C.St. Kendall",
+        "Gautam Biswas",
+        "James C. Bezdek"
+      ],
+      "year": 1989,
+      "venue": "Computers & Geosciences",
+      "doi": "10.1016/0098-3004(89)90092-7",
+      "type": "article",
+      "cited_by_count": 57,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2102264361",
+      "title": "A synthetic stratigraphic model of foreland basin development",
+      "authors": [
+        "Peter B. Flemings",
+        "Teresa E. Jordan"
+      ],
+      "year": 1989,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb094ib04p03851",
+      "type": "article",
+      "cited_by_count": 447,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2136493303",
+      "title": "Genetic Stratigraphic Sequences in Basin Analysis I: Architecture and Genesis of Flooding-Surface Bounded Depositional Units",
+      "authors": [
+        "William E. Galloway"
+      ],
+      "year": 1989,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/703c9af5-1707-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 1040,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1884236331",
+      "title": "Stratigraphic Simulation of Sedimentary Basins: Concepts and Calibration",
+      "authors": [
+        "David T. Lawrence",
+        "M. Doyle",
+        "Thomas Aigner"
+      ],
+      "year": 1990,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/0c9b22c7-1710-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 103,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2157061841",
+      "title": "Stratigraphic modeling of foreland basins: Interpreting thrust deformation and lithosphere rheology",
+      "authors": [
+        "Peter B. Flemings",
+        "Teresa E. Jordan"
+      ],
+      "year": 1990,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1990)018<0430:smofbi>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 246,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2318877923",
+      "title": "Facies modeling and sequence stratigraphy",
+      "authors": [
+        "R. G. Walker"
+      ],
+      "year": 1990,
+      "venue": "Journal of Sedimentary Research",
+      "doi": "10.1306/212f926e-2b24-11d7-8648000102c1865d",
+      "type": "article",
+      "cited_by_count": 167,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2403805344",
+      "title": "Quantitative Sedimentary Basin Modeling",
+      "authors": [
+        "Charles L. Angevine",
+        "Paul L. Heller",
+        "Chris Paola"
+      ],
+      "year": 1990,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/ce32509",
+      "type": "book",
+      "cited_by_count": 179,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2769127843",
+      "title": "Fluvial armor",
+      "authors": [
+        "G. Parker",
+        "Alexander J. Sutherland"
+      ],
+      "year": 1990,
+      "venue": "Journal of Hydraulic Research",
+      "doi": "10.1080/00221689009499044",
+      "type": "article",
+      "cited_by_count": 181,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2012207124",
+      "title": "Anomalous cyclicity in climate and stratigraphy and modeling nonlinear oscillations",
+      "authors": [
+        "Stuart R. Gaffin",
+        "Kirk Allen Maasch"
+      ],
+      "year": 1991,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/90jb02475",
+      "type": "article",
+      "cited_by_count": 12,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2067418142",
+      "title": "Stratigraphic sequences and their chronostratigraphic correlation",
+      "authors": [
+        "Andrew D. Miall"
+      ],
+      "year": 1991,
+      "venue": "Journal of Sedimentary Research",
+      "doi": "10.1306/d4267744-2b26-11d7-8648000102c1865d",
+      "type": "article",
+      "cited_by_count": 247,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2142956098",
+      "title": "Large‐scale stratigraphic architecture, eustatic variation, and unsteady tectonism: A theoretical evaluation",
+      "authors": [
+        "Teresa E. Jordan",
+        "Peter B. Flemings"
+      ],
+      "year": 1991,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/90jb01399",
+      "type": "article",
+      "cited_by_count": 234,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2149966643",
+      "title": "The role of the sediment load in sequence stratigraphy: The influence of flexural isostasy and compaction",
+      "authors": [
+        "David J. Reynolds",
+        "Michael S. Steckler",
+        "Bernard Coakley"
+      ],
+      "year": 1991,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/90jb01914",
+      "type": "article",
+      "cited_by_count": 146,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2161761265",
+      "title": "Simulation of Foreland Basin Stratigraphy using a diffusion model of mountain belt uplift and erosion: An example from the central Alps, Switzerland",
+      "authors": [
+        "Hugh D. Sinclair",
+        "Bernard Coakley",
+        "Philip A. Allen",
+        "A. B. Watts"
+      ],
+      "year": 1991,
+      "venue": "Tectonics",
+      "doi": "10.1029/90tc02507",
+      "type": "article",
+      "cited_by_count": 309,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2921076795",
+      "title": "Quantitative Dynamic Stratigraphy",
+      "authors": [
+        "Frits P. Agterberg"
+      ],
+      "year": 1991,
+      "venue": "Computers & Geosciences",
+      "doi": "10.1016/0098-3004(91)90056-j",
+      "type": "article",
+      "cited_by_count": 152,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1977840933",
+      "title": "Application of a dual‐lithology, depth‐dependent diffusion equation in stratigraphic simulation",
+      "authors": [
+        "Jan C. Rivenæs"
+      ],
+      "year": 1992,
+      "venue": "Basin Research",
+      "doi": "10.1111/j.1365-2117.1992.tb00136.x",
+      "type": "article",
+      "cited_by_count": 86,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "none"
+    },
+    {
+      "id": "W2068484625",
+      "title": "Numerical Methods for Unconstrained Optimization and Nonlinear Equations",
+      "authors": [
+        "John E. Dennis",
+        "Robert B. Schnabel"
+      ],
+      "year": 1996,
+      "venue": "Society for Industrial and Applied Mathematics eBooks",
+      "doi": "10.1137/1.9781611971200",
+      "type": "book",
+      "cited_by_count": 7615,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W1977840933",
+      "to": "W126336724",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W1484922527",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W1522934698",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W1533766981",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W1601558836",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W1884236331",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W1937848784",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W1963924652",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W1980965079",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W1981672833",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W1989573058",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2012207124",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2013066204",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2013553421",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2016086956",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2024543196",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2043396789",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2047281401",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2048151108",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2059761378",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2067418142",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2068484625",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2078197085",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2079207245",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2091350509",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2093408096",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2102264361",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2105520272",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2136493303",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2142956098",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2143212628",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2149966643",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2150723720",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2153222505",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2157061841",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2161761265",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2318877923",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2326565381",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2403805344",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W257180531",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2769127843",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W2921076795",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W3160761443",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W4206222041",
+      "kind": "verified"
+    },
+    {
+      "from": "W1977840933",
+      "to": "W70376587",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 46,
+    "edges": 45,
+    "verified": 45,
+    "inferred": 0,
+    "seed_references_in_openalex": 46,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:29:29.918Z"
+}

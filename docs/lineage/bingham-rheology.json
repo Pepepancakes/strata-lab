@@ -1,0 +1,742 @@
+{
+  "param": "bingham-rheology",
+  "query": "Bingham rheology submarine debris flow",
+  "seed": "W2020506809",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W2008624443",
+      "title": "Grain size dependent rheology on the mobility of debris flows",
+      "year": 2010,
+      "doi": "10.1007/s12303-010-0036-y",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2020506809",
+      "title": "A numerical model of submarine debris flow with graphical user interface",
+      "year": 2001,
+      "doi": "10.1016/s0098-3004(00)00124-2",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2170852390",
+      "title": "Emerging insights into the dynamics of submarine debris flows",
+      "year": 2005,
+      "doi": "10.5194/nhess-5-633-2005",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2135965997",
+      "title": "Numerical Modeling of the Submarine Debris Flows Run-Out Using SPH",
+      "year": 2014,
+      "doi": "10.1007/978-3-319-08660-6_29",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2782114855",
+      "title": "Centrifuge study on the runout distance of submarine debris flows",
+      "year": 2018,
+      "doi": "10.1080/1064119x.2017.1411407",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4403428562",
+      "title": "Study of the influence of rheological parameters on the behavior of a submarine debris flow",
+      "year": 2024,
+      "doi": "10.28927/sr.2024.001524",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4408486794",
+      "title": "Rheology of marine sediments at the eastern margin of the Korea Peninsula and its implications for submarine debris flow mobility",
+      "year": 2025,
+      "doi": "10.5194/egusphere-egu25-16317",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W3125294824",
+      "title": "Influence of biopolymers on the rheological properties of seafloor sediments and the runout behavior of submarine debris flows",
+      "year": 2021,
+      "doi": "10.1038/s41598-021-81186-8",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W7161538287",
+      "title": "Rheological behavior of marine soil in submarine debris flows subjected to low temperatures",
+      "year": 2026,
+      "doi": "10.28927/sr.2026.006225",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1999012271",
+      "title": "Determining the viscosity and yield surface of marine sediments using modified Bingham models",
+      "year": 2013,
+      "doi": "10.1007/s12303-013-0038-7",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W2317563576",
+      "title": "Turbidity currents and submarine slumps, and the 1929 Grand Banks [Newfoundland] earthquake",
+      "authors": [
+        "Bruce Charles Heezen",
+        "W. Maurice Ewing"
+      ],
+      "year": 1952,
+      "venue": "American Journal of Science",
+      "doi": "10.2475/ajs.250.12.849",
+      "type": "article",
+      "cited_by_count": 690,
+      "open_access": true,
+      "oa_url": "https://ajs.scholasticahq.com/article/58374.pdf",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1998888494",
+      "title": "ORIGIN OF ALLUVIAL FANS, WHITE MOUNTAINS, CALIFORNIA AND NEVADA1",
+      "authors": [
+        "Chester B. Beaty"
+      ],
+      "year": 1963,
+      "venue": "Annals of the Association of American Geographers",
+      "doi": "10.1111/j.1467-8306.1963.tb00464.x",
+      "type": "article",
+      "cited_by_count": 102,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2516141943",
+      "title": "Submarine slumping and the initiation of turbidity currents",
+      "authors": [
+        "N. R. Morgenstern"
+      ],
+      "year": 1967,
+      "venue": "Pages",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 259,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2157840852",
+      "title": "Physical Processes in Geology",
+      "authors": [
+        "Arvid M. Johnson",
+        "Ralph O. Kehle"
+      ],
+      "year": 1972,
+      "venue": "Physics Today",
+      "doi": "10.1063/1.3070726",
+      "type": "article",
+      "cited_by_count": 606,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1985975295",
+      "title": "Deposit from a Giant Wave on the Island of Lanai, Hawaii",
+      "authors": [
+        "James Gregory Moore",
+        "George Winfred Moore"
+      ],
+      "year": 1984,
+      "venue": "Science",
+      "doi": "10.1126/science.226.4680.1312",
+      "type": "article",
+      "cited_by_count": 228,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2142593311",
+      "title": "Time-dependent hydrodynamic models of turbidity currents analyzed with data from the Grand Banks and Orleansville events",
+      "authors": [
+        "A. D. Kirwan",
+        "L.J. Doyle",
+        "Walter Bowles",
+        "Gregg R. Brooks"
+      ],
+      "year": 1986,
+      "venue": "Journal of Sedimentary Research",
+      "doi": "10.1306/212f891d-2b24-11d7-8648000102c1865d",
+      "type": "article",
+      "cited_by_count": 21,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2030597540",
+      "title": "A Bingham‐Plastic Model for a muddy seabed under long waves",
+      "authors": [
+        "Chiang C. Mei",
+        "Ko-Fei Liu"
+      ],
+      "year": 1987,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jc092ic13p14581",
+      "type": "article",
+      "cited_by_count": 123,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2284465507",
+      "title": "Viscous analysis of submarine flows",
+      "authors": [],
+      "year": 1987,
+      "venue": "International Journal of Rock Mechanics and Mining Sciences & Geomechanics Abstracts",
+      "doi": "10.1016/0148-9062(87)92581-2",
+      "type": "conference-abstract",
+      "cited_by_count": 16,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2999351165",
+      "title": "Gravity Currents",
+      "authors": [
+        "John Simpson"
+      ],
+      "year": 1987,
+      "venue": null,
+      "doi": null,
+      "type": "book",
+      "cited_by_count": 237,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1993466701",
+      "title": "Viscosity, yield stress, remolded strength, and liquidity index relationships for sensitive clays",
+      "authors": [
+        "Jacques Locat",
+        "Denis Demers"
+      ],
+      "year": 1988,
+      "venue": "Canadian Geotechnical Journal",
+      "doi": "10.1139/t88-088",
+      "type": "article",
+      "cited_by_count": 251,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2307302882",
+      "title": "Large-scale bedforms in boulder gravel produced by giant waves in Hawaii",
+      "authors": [
+        "George Winfred Moore",
+        "James Gregory Moore"
+      ],
+      "year": 1988,
+      "venue": "Geological Society of America eBooks",
+      "doi": "10.1130/spe229-p101",
+      "type": "book-chapter",
+      "cited_by_count": 113,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2057306121",
+      "title": "Approximate equations for the slow spreading of a thin sheet of Bingham plastic fluid",
+      "authors": [
+        "Ko-Fei Liu",
+        "Chiang C. Mei"
+      ],
+      "year": 1990,
+      "venue": "Physics of Fluids A Fluid Dynamics",
+      "doi": "10.1063/1.857821",
+      "type": "article",
+      "cited_by_count": 102,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2055013676",
+      "title": "The dynamics of avalanches of granular materials from initiation to runout. Part I: Analysis",
+      "authors": [
+        "Stuart B. Savage",
+        "Kolumban Hutter"
+      ],
+      "year": 1991,
+      "venue": "Acta Mechanica",
+      "doi": "10.1007/bf01175958",
+      "type": "article",
+      "cited_by_count": 506,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1973124328",
+      "title": "The coupling of a submarine slide and the surface waves which it generates",
+      "authors": [
+        "L. Jiang",
+        "Paul H. LeBlond"
+      ],
+      "year": 1992,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/92jc00912",
+      "type": "article",
+      "cited_by_count": 211,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2080750138",
+      "title": "Model simulations of tsunamis generated by the Storegga Slides",
+      "authors": [
+        "Carl Bonnevie Harbitz"
+      ],
+      "year": 1992,
+      "venue": "Marine Geology",
+      "doi": "10.1016/0025-3227(92)90178-k",
+      "type": "article",
+      "cited_by_count": 255,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2072607836",
+      "title": "Numerical modeling of an underwater Bingham plastic mudslide and the waves which it generates",
+      "authors": [
+        "Lin Jiang",
+        "Paul H. LeBlond"
+      ],
+      "year": 1993,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/93jc00393",
+      "type": "article",
+      "cited_by_count": 141,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2154030828",
+      "title": "Steady, laminar, flow of concentrated mud suspensions in open channel",
+      "authors": [
+        "Philippe Coussot"
+      ],
+      "year": 1994,
+      "venue": "Journal of Hydraulic Research",
+      "doi": "10.1080/00221686.1994.9728354",
+      "type": "article",
+      "cited_by_count": 233,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4255848038",
+      "title": "Steady, laminar, flow of concentrated mud suspensions in open channel",
+      "authors": [
+        "Philippe Coussot"
+      ],
+      "year": 1994,
+      "venue": "Journal of Hydraulic Research",
+      "doi": "10.1080/00221686.1994.9640151",
+      "type": "article",
+      "cited_by_count": 36,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2067923119",
+      "title": "Late Weichselian submarine debris flow deposits on the Bear Island Trough Mouth Fan",
+      "authors": [
+        "Jan Sverre Laberg",
+        "Tore O. Vorren"
+      ],
+      "year": 1995,
+      "venue": "Marine Geology",
+      "doi": "10.1016/0025-3227(95)00055-4",
+      "type": "article",
+      "cited_by_count": 276,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2030351607",
+      "title": "On the origin and flow behavior of submarine slides on deep-sea fans along the Norwegian-Barents Sea continental margin",
+      "authors": [
+        "Anders Elverhøi",
+        "Harald Norem",
+        "E. S. Andersen",
+        "Julian A. Dowdeswell",
+        "Ingrid Fossen",
+        "Haflidi Haflidason",
+        "NEIL H. KENYON",
+        "Jan Sverre Laberg",
+        "Edward L. King",
+        "Hans Petter Sejrup",
+        "Anders Solheim",
+        "Tore O. Vorren"
+      ],
+      "year": 1997,
+      "venue": "Geo-Marine Letters",
+      "doi": "10.1007/s003670050016",
+      "type": "article",
+      "cited_by_count": 132,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2064407996",
+      "title": "A Perturbation Solution for Bingham-Plastic Mudflows",
+      "authors": [
+        "Xin Huang",
+        "Marcelo Horacio Garcia"
+      ],
+      "year": 1997,
+      "venue": "Journal of Hydraulic Engineering",
+      "doi": "10.1061/(asce)0733-9429(1997)123:11(986)",
+      "type": "article",
+      "cited_by_count": 95,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2337311536",
+      "title": "Normalized Rheological Behaviour of Fine Muds and Their Flow Properties in a Pseudoplastic Regime",
+      "authors": [
+        "Jacques Locat"
+      ],
+      "year": 1997,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 76,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2057171595",
+      "title": "Hydroplaning of subaqueous debris flows",
+      "authors": [
+        "David C. Mohrig",
+        "Chris Ellis",
+        "Gary Parker",
+        "K. X. Whipple",
+        "Midhat Hondzo"
+      ],
+      "year": 1998,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1998)110<0387:hosdf>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 421,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2088425059",
+      "title": "Gravity currents in the environment and the laboratory",
+      "authors": [],
+      "year": 1998,
+      "venue": "Choice Reviews Online",
+      "doi": "10.5860/choice.35-2778",
+      "type": "book-review",
+      "cited_by_count": 790,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1640711487",
+      "title": "Stratigraphic Predictions of Continental Margins for The U.S. Navy",
+      "authors": [
+        "James P. M. Syvitski",
+        "Lincoln F. Pratson",
+        "Damian B. O’Grady"
+      ],
+      "year": 1999,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.2110/pec.99.62.0219",
+      "type": "book-chapter",
+      "cited_by_count": 8,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1661470948",
+      "title": "BANG1D:",
+      "authors": [
+        "Lincoln F. Pratson",
+        "Jasim Imran",
+        "Eric W. H. Hutton",
+        "Gary Parker",
+        "James P. M. Syvitski"
+      ],
+      "year": 2001,
+      "venue": "Computers & Geosciences",
+      "doi": "10.1016/s0098-3004(00)00123-0",
+      "type": "article",
+      "cited_by_count": 36,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2020506809",
+      "title": "A numerical model of submarine debris flow with graphical user interface",
+      "authors": [
+        "Jasim Imran",
+        "Peter A. Harff",
+        "Gary Parker"
+      ],
+      "year": 2001,
+      "venue": "Computers & Geosciences",
+      "doi": "10.1016/s0098-3004(00)00124-2",
+      "type": "article",
+      "cited_by_count": 188,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "seed",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W2020506809",
+      "to": "W1640711487",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W1661470948",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W1973124328",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W1985975295",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W1993466701",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W1998888494",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2030351607",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2030597540",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2055013676",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2057171595",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2057306121",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2064407996",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2067923119",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2072607836",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2080750138",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2088425059",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2142593311",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2154030828",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2157840852",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2284465507",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2307302882",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2317563576",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2337311536",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2516141943",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W2999351165",
+      "kind": "verified"
+    },
+    {
+      "from": "W2020506809",
+      "to": "W4255848038",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 27,
+    "edges": 26,
+    "verified": 26,
+    "inferred": 0,
+    "seed_references_in_openalex": 27,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:29:46.040Z"
+}

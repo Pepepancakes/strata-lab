@@ -1,0 +1,3389 @@
+{
+  "param": "perm-mud",
+  "query": "mudstone permeability porosity relationship",
+  "seed": "W1995654536",
+  "ancestors": [
+    "W1964306993",
+    "W1971332826",
+    "W2154880694",
+    "W2080246391",
+    "W2048572409"
+  ],
+  "candidates": [
+    {
+      "id": "W1995654536",
+      "title": "A permeability–porosity relationship for mudstones",
+      "year": 2009,
+      "doi": "10.1016/j.marpetgeo.2009.07.001",
+      "found_by": "title"
+    },
+    {
+      "id": "W2015883816",
+      "title": "Permeability‐porosity relationships of shallow mudstones in the Ursa Basin, northern deepwater Gulf of Mexico",
+      "year": 2012,
+      "doi": "10.1029/2012jb009438",
+      "found_by": "title"
+    },
+    {
+      "id": "W2971749617",
+      "title": "Shear Fracture Growth in Granular Rocks and Porosity-Permeability Relationships in Mudstones",
+      "year": 2019,
+      "doi": null,
+      "found_by": "title"
+    },
+    {
+      "id": "W756558700",
+      "title": "Modelling stress-dependent effective porosity-permeability relationships of metre-scale heterogeneous mudstones",
+      "year": 2012,
+      "doi": null,
+      "found_by": "title"
+    },
+    {
+      "id": "W2965061138",
+      "title": "Porosity‐Permeability Relationships in Mudstone from Pore‐Scale Fluid Flow Simulations using the Lattice Boltzmann Method",
+      "year": 2019,
+      "doi": "10.1029/2019wr024985",
+      "found_by": "title"
+    },
+    {
+      "id": "W2003040010",
+      "title": "Compaction‐driven evolution of porosity and permeability in natural mudstones: An experimental study",
+      "year": 1998,
+      "doi": "10.1029/97jb02540",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2080246391",
+      "title": "Permeability and petrophysical properties of 30 natural mudstones",
+      "year": 2007,
+      "doi": "10.1029/2005jb004243",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2099612568",
+      "title": "Experimental compaction of clays: relationship between permeability and petrophysical properties in mudstones",
+      "year": 2008,
+      "doi": "10.1144/1354-079308-773",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4401152740",
+      "title": "Permeability and Induced Polarization of Mudstones",
+      "year": 2024,
+      "doi": "10.1029/2024wr037455",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2754307741",
+      "title": "Synthetic Rock Analogue for Permeability Studies of Rock Salt with Mudstone",
+      "year": 2017,
+      "doi": "10.3390/app7090946",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W2032834880",
+      "title": "Density, Porosity, and Compaction of Sedimentary Rocks",
+      "authors": [
+        "L. F. Athy"
+      ],
+      "year": 1930,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/3d93289e-16b1-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 1419,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W3214750717",
+      "title": "The structure of clay and its importance in foundation engineering",
+      "authors": [
+        "A. Casagrande"
+      ],
+      "year": 1932,
+      "venue": "Medical Entomology and Zoology",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 190,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1966177669",
+      "title": "CAPILLARY RISE AND CAPILLARY MOVEMENT OF MOISTURE IN FINE SANDS",
+      "authors": [
+        "Philip C. Carman"
+      ],
+      "year": 1941,
+      "venue": "Soil Science",
+      "doi": "10.1097/00010694-194107000-00001",
+      "type": "article",
+      "cited_by_count": 77,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1977727715",
+      "title": "Theoretical Soil Mechanics",
+      "authors": [
+        "Karl v. Terzaghi"
+      ],
+      "year": 1943,
+      "venue": "Wiley eBooks",
+      "doi": "10.1002/9780470172766",
+      "type": "book",
+      "cited_by_count": 8683,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2047898003",
+      "title": "Notes on the compressibility of clays",
+      "authors": [
+        "Alec Westley Skempton",
+        "O. T. Jones"
+      ],
+      "year": 1944,
+      "venue": "Quarterly Journal of the Geological Society",
+      "doi": "10.1144/gsl.jgs.1944.100.01-04.08",
+      "type": "article",
+      "cited_by_count": 499,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2060905767",
+      "title": "Fundamentals of Soil Mechanics",
+      "authors": [
+        "Donald W. Taylor"
+      ],
+      "year": 1948,
+      "venue": "Soil Science",
+      "doi": "10.1097/00010694-194808000-00008",
+      "type": "article",
+      "cited_by_count": 2768,
+      "open_access": true,
+      "oa_url": "http://infoscience.epfl.ch/record/26612",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2741209954",
+      "title": "The Structure of Inorganic Soil",
+      "authors": [
+        "T. William Lambe"
+      ],
+      "year": 1953,
+      "venue": "Proceedings of the American Society of Civil Engineers",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 132,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2009299834",
+      "title": "Permeability of Kaolinite",
+      "authors": [
+        "Alan S. Michaels",
+        "C. S. Lin"
+      ],
+      "year": 1954,
+      "venue": "Industrial & Engineering Chemistry",
+      "doi": "10.1021/ie50534a041",
+      "type": "article",
+      "cited_by_count": 104,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2157271530",
+      "title": "The swelling of montmorillonite",
+      "authors": [
+        "Keith Norrish"
+      ],
+      "year": 1954,
+      "venue": "Discussions of the Faraday Society",
+      "doi": "10.1039/df9541800120",
+      "type": "article",
+      "cited_by_count": 1275,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W133142017",
+      "title": "THE FABRIC OF NATURAL CLAYS AND ITS RELATION TO ENGINEERING PROPERTIES",
+      "authors": [
+        "J K Mitchell"
+      ],
+      "year": 1956,
+      "venue": "Highway Research Board Proceedings",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 170,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2052819160",
+      "title": "Some Experiments With Artificially Sedimented Clays",
+      "authors": [
+        "Lars Bjerrum",
+        "Ivan Th. Rosenqvist"
+      ],
+      "year": 1956,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1956.6.3.124",
+      "type": "article",
+      "cited_by_count": 87,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2094910499",
+      "title": "Physics of Flow Through Porous Media",
+      "authors": [
+        "L. A. Richards"
+      ],
+      "year": 1958,
+      "venue": "Agronomy Journal",
+      "doi": "10.2134/agronj1958.00021962005000050021x",
+      "type": "article",
+      "cited_by_count": 372,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2111815272",
+      "title": "The Progress of Consolidation in a Clay Layer Increasing in Thickness with Time",
+      "authors": [
+        "R. E. Gibson"
+      ],
+      "year": 1958,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1958.8.4.171",
+      "type": "article",
+      "cited_by_count": 354,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2165214321",
+      "title": "The Physics of Flow Through Porous Media",
+      "authors": [
+        "Adrian E. Scheidegger"
+      ],
+      "year": 1958,
+      "venue": "Soil Science",
+      "doi": "10.1097/00010694-195812000-00015",
+      "type": "article",
+      "cited_by_count": 2596,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2071428759",
+      "title": "Swelling of Clay–Water Systems",
+      "authors": [
+        "L. A. G. Aylmore",
+        "James Patrick Quirk"
+      ],
+      "year": 1959,
+      "venue": "Nature",
+      "doi": "10.1038/1831752a0",
+      "type": "article",
+      "cited_by_count": 122,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2094045326",
+      "title": "THE STRUCTURE OF SOIL CRUMBS",
+      "authors": [
+        "W. W. Emerson"
+      ],
+      "year": 1959,
+      "venue": "Journal of Soil Science",
+      "doi": "10.1111/j.1365-2389.1959.tb02346.x",
+      "type": "article",
+      "cited_by_count": 169,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2588373281",
+      "title": "ROLE OF FLUID PRESSURE IN MECHANICS OF OVERTHRUST FAULTING",
+      "authors": [
+        "W. W. Rubey",
+        "M. King Hubbert"
+      ],
+      "year": 1959,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1959)70[167:rofpim]2.0.co;2",
+      "type": "article",
+      "cited_by_count": 585,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2724477917",
+      "title": "ROLE OF FLUID PRESSURE IN MECHANICS OF OVERTHRUST FAULTING",
+      "authors": [
+        "M. King Hubbert",
+        "W. W. Rubey"
+      ],
+      "year": 1959,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1959)70[115:rofpim]2.0.co;2",
+      "type": "article",
+      "cited_by_count": 2101,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W3023993856",
+      "title": "Hydraulic Flow Through Saturated Clays",
+      "authors": [
+        "Harold W. Olsen"
+      ],
+      "year": 1960,
+      "venue": "Clays and clay minerals (National Conference on Clays and Clay Minerals)",
+      "doi": "10.1346/ccmn.1960.0090108",
+      "type": "conference-paper",
+      "cited_by_count": 100,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W988646963",
+      "title": "Time Effects in the Consolidation of Clays",
+      "authors": [
+        "G. A. Leonards",
+        "B K Ramiah"
+      ],
+      "year": 1960,
+      "venue": null,
+      "doi": "10.1520/stp44309s",
+      "type": "book-chapter",
+      "cited_by_count": 101,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2031511282",
+      "title": "Physics of Flow through Porous Media",
+      "authors": [
+        "W. R. Gardner"
+      ],
+      "year": 1961,
+      "venue": "Agronomy Journal",
+      "doi": "10.2134/agronj1961.00021962005300040028x",
+      "type": "article",
+      "cited_by_count": 664,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2056510490",
+      "title": "Tactoid Size and Osmotic Swelling in Calcium Montmorillonite",
+      "authors": [
+        "AV Blackmore",
+        "R. D. Miller"
+      ],
+      "year": 1961,
+      "venue": "Soil Science Society of America Journal",
+      "doi": "10.2136/sssaj1961.03615995002500030009x",
+      "type": "article",
+      "cited_by_count": 100,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2059844043",
+      "title": "HYDRAULIC FLOW THROUGH SATURATED CLAYS",
+      "authors": [
+        "Harold W. Olsen"
+      ],
+      "year": 1962,
+      "venue": "Clays and Clay Minerals",
+      "doi": "10.1016/b978-1-4831-9842-2.50011-0",
+      "type": "book-chapter",
+      "cited_by_count": 172,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2009900834",
+      "title": "Undisturbed Samples of London Clay from the Ashford Common Shaft: Strength–Effective Stress Relationships",
+      "authors": [
+        "Alan W. Bishop",
+        "Desmond L. Webb",
+        "P. I. Lewin"
+      ],
+      "year": 1965,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1965.15.1.1",
+      "type": "article",
+      "cited_by_count": 199,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2026912324",
+      "title": "Properties of the London Clay at the Ashford Common Shaft: in-Situ and Undrained Strength Tests",
+      "authors": [
+        "W. H. Ward",
+        "A. Marsland",
+        "S. G. Samuels"
+      ],
+      "year": 1965,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1965.15.4.321",
+      "type": "article",
+      "cited_by_count": 104,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2202563572",
+      "title": "Permeability of Compacted Clay",
+      "authors": [
+        "James K. Mitchell",
+        "Don R. Hooper",
+        "Richard G. Campenella"
+      ],
+      "year": 1965,
+      "venue": "Journal of the Soil Mechanics and Foundations Division",
+      "doi": "10.1061/jsfeaq.0000775",
+      "type": "article",
+      "cited_by_count": 340,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1970691126",
+      "title": "The Fabric of Anisotropically Consolidated Sensitive Marine Clay",
+      "authors": [
+        "Robert M. Quigley",
+        "C D Thompson"
+      ],
+      "year": 1966,
+      "venue": "Canadian Geotechnical Journal",
+      "doi": "10.1139/t66-008",
+      "type": "article",
+      "cited_by_count": 119,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1998938053",
+      "title": "On the Maintenance of Anomalous Fluid Pressures: I. Thick Sedimentary Sequences",
+      "authors": [
+        "John D. Bredehoeft",
+        "Bruce B. Hanshaw"
+      ],
+      "year": 1968,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1968)79[1097:otmoaf]2.0.co;2",
+      "type": "article",
+      "cited_by_count": 352,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2027065708",
+      "title": "Permeability of granite under high pressure",
+      "authors": [
+        "William F. Brace",
+        "J. B. Walsh",
+        "William Frangos"
+      ],
+      "year": 1968,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb073i006p02225",
+      "type": "article",
+      "cited_by_count": 1704,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2134010836",
+      "title": "The consolidation of clays by gravitational compaction",
+      "authors": [
+        "Alec Westley Skempton"
+      ],
+      "year": 1969,
+      "venue": "Quarterly Journal of the Geological Society",
+      "doi": "10.1144/gsjgs.125.1.0373",
+      "type": "article",
+      "cited_by_count": 459,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1542409329",
+      "title": "Mechanisms Controlling Compressibility of Clays",
+      "authors": [
+        "Roy E. Olson",
+        "Gholamreza Mesri"
+      ],
+      "year": 1970,
+      "venue": "Journal of the Soil Mechanics and Foundations Division",
+      "doi": "10.1061/jsfeaq.0001475",
+      "type": "article",
+      "cited_by_count": 202,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1971332826",
+      "title": "Mechanisms Controlling the Permeability of Clays",
+      "authors": [
+        "Gholamreza Mesri",
+        "Roy E. Olson"
+      ],
+      "year": 1971,
+      "venue": "Clays and Clay Minerals",
+      "doi": "10.1346/ccmn.1971.0190303",
+      "type": "article",
+      "cited_by_count": 535,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "ancestor",
+      "read": "none"
+    },
+    {
+      "id": "W1996822265",
+      "title": "The dynamics of shale compaction and evolution of pore-fluid pressures",
+      "authors": [
+        "James Edward Smith"
+      ],
+      "year": 1971,
+      "venue": "Mathematical Geology",
+      "doi": "10.1007/bf02045794",
+      "type": "article",
+      "cited_by_count": 214,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2044233272",
+      "title": "Diffusion of ions in sea water and in deep-sea sediments",
+      "authors": [
+        "Yuanhui Li",
+        "Sandra Gregory"
+      ],
+      "year": 1974,
+      "venue": "Geochimica et Cosmochimica Acta",
+      "doi": "10.1016/0016-7037(74)90145-8",
+      "type": "article",
+      "cited_by_count": 2869,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2054451458",
+      "title": "Energy transport in thick sequences of compacting sediment",
+      "authors": [
+        "John M. Sharp",
+        "Patrick A. Domenico"
+      ],
+      "year": 1976,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1976)87<390:etitso>2.0.co;2",
+      "type": "article",
+      "cited_by_count": 127,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2910607811",
+      "title": "Current research: part A",
+      "authors": [
+        "R G Blackadar",
+        "Geological Survey of Canada",
+        "P J Griffin",
+        "H Dumych",
+        "E J\nW Irish"
+      ],
+      "year": 1978,
+      "venue": null,
+      "doi": "10.4095/119799",
+      "type": "report",
+      "cited_by_count": 197,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2563165260",
+      "title": "Pore Distribution and Permeability of Silty Clays",
+      "authors": [
+        "Ignacio Garcia-Bengochea",
+        "Adolph G. Altschaeffl",
+        "Charles William Lovell"
+      ],
+      "year": 1979,
+      "venue": "Journal of the Geotechnical Engineering Division",
+      "doi": "10.1061/ajgeb6.0000833",
+      "type": "article",
+      "cited_by_count": 217,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W3147177386",
+      "title": "Engineering Properties of Soils",
+      "authors": [],
+      "year": 1979,
+      "venue": "Developments in geotechnical engineering",
+      "doi": "10.1016/b978-0-444-99789-0.50010-8",
+      "type": "book-chapter",
+      "cited_by_count": 20,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2044368181",
+      "title": "Permeability of crystalline and argillaceous rocks",
+      "authors": [
+        "William F. Brace"
+      ],
+      "year": 1980,
+      "venue": "International Journal of Rock Mechanics and Mining Sciences & Geomechanics Abstracts",
+      "doi": "10.1016/0148-9062(80)90807-4",
+      "type": "article",
+      "cited_by_count": 672,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2151514917",
+      "title": "Clay orientation in some Upper Carboniferous mudrocks, its relationship to quartz content and some inferences about fissility, porosity and compactional history",
+      "authors": [
+        "Charles David Curtis",
+        "Steven R. Lipshie",
+        "Gerhard Oertel",
+        "Mike J. Pearson"
+      ],
+      "year": 1980,
+      "venue": "Sedimentology",
+      "doi": "10.1111/j.1365-3091.1980.tb01183.x",
+      "type": "article",
+      "cited_by_count": 72,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2003732287",
+      "title": "Causes of sampling disturbance and design of a new sampler for sensitive soils",
+      "authors": [
+        "Pierre La Rochelle",
+        "J. Sarrailh",
+        "Francois A. Tavenas",
+        "M. Roy",
+        "Serge Leroueil"
+      ],
+      "year": 1981,
+      "venue": "Canadian Geotechnical Journal",
+      "doi": "10.1139/t81-006",
+      "type": "article",
+      "cited_by_count": 162,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2044129693",
+      "title": "A transient laboratory method for determining the hydraulic properties of ‘tight’ rocks—I. Theory",
+      "authors": [
+        "Paul A. Hsieh",
+        "Joseph Tracy",
+        "Christopher E. Neuzil",
+        "John D. Bredehoeft",
+        "Stephen E. Silliman"
+      ],
+      "year": 1981,
+      "venue": "International Journal of Rock Mechanics and Mining Sciences & Geomechanics Abstracts",
+      "doi": "10.1016/0148-9062(81)90979-7",
+      "type": "article",
+      "cited_by_count": 421,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2165551458",
+      "title": "Submarine Canyons: Multiple Causes and Long-Time Persistence",
+      "authors": [
+        "Francis Parker Shepard"
+      ],
+      "year": 1981,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/03b59459-16d1-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 312,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1999286571",
+      "title": "Some effects of compaction and geological time on the pore parameters of argillaceous rocks",
+      "authors": [
+        "Roger L. Borst"
+      ],
+      "year": 1982,
+      "venue": "Sedimentology",
+      "doi": "10.1111/j.1365-3091.1982.tb01726.x",
+      "type": "article",
+      "cited_by_count": 40,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2072370938",
+      "title": "A simple axial displacement gauge for use in the triaxial apparatus",
+      "authors": [
+        "John Boscawen Burland",
+        "M. J. P. R. Symes"
+      ],
+      "year": 1982,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1982.32.1.62",
+      "type": "article",
+      "cited_by_count": 118,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2544460777",
+      "title": "Stress-strain and strength characteristics of a low plasticity clay",
+      "authors": [
+        "Antonio Gens"
+      ],
+      "year": 1982,
+      "venue": null,
+      "doi": null,
+      "type": "dissertation",
+      "cited_by_count": 95,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1525396034",
+      "title": "Regional flow in the Dakota aquifer: A study of the role of confining layers",
+      "authors": [
+        "John D. Bredehoeft",
+        "Christopher E. Neuzil",
+        "Paul C. D. Milly"
+      ],
+      "year": 1983,
+      "venue": null,
+      "doi": "10.3133/wsp2237",
+      "type": "report",
+      "cited_by_count": 160,
+      "open_access": true,
+      "oa_url": "https://pubs.usgs.gov/wsp/2237/report.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2016847884",
+      "title": "The permeability of natural soft clays. Part II: Permeability characteristics",
+      "authors": [
+        "Francois A. Tavenas",
+        "P. Jean",
+        "P. Leblond",
+        "Serge Leroueil"
+      ],
+      "year": 1983,
+      "venue": "Canadian Geotechnical Journal",
+      "doi": "10.1139/t83-073",
+      "type": "article",
+      "cited_by_count": 427,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1987324139",
+      "title": "Study of the structure of a sensitive Champlain clay and of its evolution during consolidation",
+      "authors": [
+        "Pierre Delage",
+        "Guy Lefèbvre"
+      ],
+      "year": 1984,
+      "venue": "Canadian Geotechnical Journal",
+      "doi": "10.1139/t84-003",
+      "type": "article",
+      "cited_by_count": 623,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1999429858",
+      "title": "Biological Communities at the Florida Escarpment Resemble Hydrothermal Vent Taxa",
+      "authors": [
+        "C. K. Paull",
+        "Barbara Hecker",
+        "Robert F. Commeau",
+        "Raymond Freeman-Lynde",
+        "Christian H. Neumann",
+        "William Corso",
+        "Stjepko Golubić",
+        "James E. Hook",
+        "Elisabeth L. Sikes",
+        "Joseph R. Curray"
+      ],
+      "year": 1984,
+      "venue": "Science",
+      "doi": "10.1126/science.226.4677.965",
+      "type": "article",
+      "cited_by_count": 590,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2070736018",
+      "title": "The Measurement of soil stiffness in the triaxial apparatus",
+      "authors": [
+        "Richard James Jardine",
+        "M. J. P. R. Symes",
+        "John Boscawen Burland"
+      ],
+      "year": 1984,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1984.34.3.323",
+      "type": "article",
+      "cited_by_count": 386,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2505239112",
+      "title": "Slope Stability of Cuttings in Brown London Clay",
+      "authors": [
+        "Alec Westley Skempton"
+      ],
+      "year": 1984,
+      "venue": null,
+      "doi": "10.1680/sposm.02050.0021",
+      "type": "book-chapter",
+      "cited_by_count": 117,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2141104216",
+      "title": "The role of regional fluid flow in the genesis of the Pine Point Deposit, Western Canada sedimentary basin",
+      "authors": [
+        "Grant Garven"
+      ],
+      "year": 1985,
+      "venue": "Economic Geology",
+      "doi": "10.2113/gsecongeo.80.2.307",
+      "type": "article",
+      "cited_by_count": 265,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2170384715",
+      "title": "A numerical model of compaction‐driven groundwater flow and heat transfer and its application to the paleohydrology of intracratonic sedimentary basins",
+      "authors": [
+        "Craig M. Bethke"
+      ],
+      "year": 1985,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb090ib08p06817",
+      "type": "article",
+      "cited_by_count": 445,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2534421152",
+      "title": "Investigations of pile-soil behaviour, with special reference to the foundations of offshore structures",
+      "authors": [
+        "Richard James Jardine"
+      ],
+      "year": 1985,
+      "venue": "Spiral (Imperial College London)",
+      "doi": null,
+      "type": "dissertation",
+      "cited_by_count": 63,
+      "open_access": true,
+      "oa_url": "http://hdl.handle.net/10044/1/8519",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1968576340",
+      "title": "A critical reappraisal of compression index equations",
+      "authors": [
+        "T. Sakthi Nagaraj",
+        "B. R. Srinivasa Murthy"
+      ],
+      "year": 1986,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1986.36.1.27",
+      "type": "article",
+      "cited_by_count": 181,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1996897663",
+      "title": "Hydrologic constraints on the genesis of the Upper Mississippi Valley mineral district from Illinois Basin brines",
+      "authors": [
+        "Craig M. Bethke"
+      ],
+      "year": 1986,
+      "venue": "Economic Geology",
+      "doi": "10.2113/gsecongeo.81.2.233",
+      "type": "article",
+      "cited_by_count": 233,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2131414224",
+      "title": "Groundwater Flow in Low‐Permeability Environments",
+      "authors": [
+        "Christopher E. Neuzil"
+      ],
+      "year": 1986,
+      "venue": "Water Resources Research",
+      "doi": "10.1029/wr022i008p01163",
+      "type": "article",
+      "cited_by_count": 403,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2140606492",
+      "title": "Inverse hydrologic analysis of the distribution and origin of Gulf Coast‐type geopressured zones",
+      "authors": [
+        "Craig M. Bethke"
+      ],
+      "year": 1986,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jb091ib06p06535",
+      "type": "article",
+      "cited_by_count": 191,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1972219059",
+      "title": "Theoretical aspects of cap-rock and fault seals for single- and two-phase hydrocarbon columns",
+      "authors": [
+        "N. L. Watts"
+      ],
+      "year": 1987,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/0264-8172(87)90008-0",
+      "type": "article",
+      "cited_by_count": 387,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2100930499",
+      "title": "The movement and entrapment of petroleum fluids in the subsurface",
+      "authors": [
+        "William A. England",
+        "Andrew S. Mackenzie",
+        "David M. Mann",
+        "T. M. QUIGLEY"
+      ],
+      "year": 1987,
+      "venue": "Journal of the Geological Society",
+      "doi": "10.1144/gsjgs.144.2.0327",
+      "type": "article",
+      "cited_by_count": 771,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2013477939",
+      "title": "Constitutive Parameters Estimated by Plasticity Index",
+      "authors": [
+        "Akio Nakase",
+        "Takeshi KAMEI",
+        "Osamu Kusakabe"
+      ],
+      "year": 1988,
+      "venue": "Journal of Geotechnical Engineering",
+      "doi": "10.1061/(asce)0733-9410(1988)114:7(844)",
+      "type": "article",
+      "cited_by_count": 147,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2000807003",
+      "title": "A multiscale study of the permeability of a thick clayey till",
+      "authors": [
+        "C. Kent Keller",
+        "Garth van der Kamp",
+        "John A. Cherry"
+      ],
+      "year": 1989,
+      "venue": "Water Resources Research",
+      "doi": "10.1029/wr025i011p02299",
+      "type": "article",
+      "cited_by_count": 170,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2157271042",
+      "title": "Change in pore size distribution due to consolidation of clays",
+      "authors": [
+        "Fred J. Griffiths",
+        "R. C. Joshi"
+      ],
+      "year": 1989,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1989.39.1.159",
+      "type": "article",
+      "cited_by_count": 209,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2333344449",
+      "title": "A hydrogeologic model for the formation of the giant oil sands deposits of the Western Canada sedimentary basin",
+      "authors": [
+        "Grant Garven"
+      ],
+      "year": 1989,
+      "venue": "American Journal of Science",
+      "doi": "10.2475/ajs.289.2.105",
+      "type": "article",
+      "cited_by_count": 183,
+      "open_access": true,
+      "oa_url": "https://ajs.scholasticahq.com/article/60475.pdf",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1964306993",
+      "title": "On the compressibility and shear strength of natural clays",
+      "authors": [
+        "John Boscawen Burland"
+      ],
+      "year": 1990,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1990.40.3.329",
+      "type": "article",
+      "cited_by_count": 1737,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "ancestor",
+      "read": "none"
+    },
+    {
+      "id": "W2004529208",
+      "title": "Mercury intrusion and permeability of Louiseville clay",
+      "authors": [
+        "Clément Lapierre",
+        "Serge Leroueil",
+        "Jacques Locat"
+      ],
+      "year": 1990,
+      "venue": "Canadian Geotechnical Journal",
+      "doi": "10.1139/t90-090",
+      "type": "article",
+      "cited_by_count": 188,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2062799508",
+      "title": "Permeability anisotropy of natural clays as a function of strain",
+      "authors": [
+        "Serge Leroueil",
+        "G. Bouclin",
+        "Francois A. Tavenas",
+        "L. Bergeron",
+        "Pierre La Rochelle"
+      ],
+      "year": 1990,
+      "venue": "Canadian Geotechnical Journal",
+      "doi": "10.1139/t90-072",
+      "type": "article",
+      "cited_by_count": 118,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2160817486",
+      "title": "Gulf of Mexico hydrocarbon seep communities: VI. Patterns in community structure and habitat",
+      "authors": [
+        "Ian R. MacDonald",
+        "Norman L. Guinasso",
+        "James F. Reilly",
+        "James M. Brooks",
+        "W. Russell Callender",
+        "Steve G. Gabrielle"
+      ],
+      "year": 1990,
+      "venue": "Geo-Marine Letters",
+      "doi": "10.1007/bf02431071",
+      "type": "article",
+      "cited_by_count": 117,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W191750805",
+      "title": "Determinants of Clay and Shale Microfabric Signatures: Processes and Mechanisms",
+      "authors": [
+        "Richard H. Bennett",
+        "Neal R. O’Brien",
+        "Matthew H. Hulbert"
+      ],
+      "year": 1991,
+      "venue": "Frontiers in sedimentary geology",
+      "doi": "10.1007/978-1-4612-4428-8_2",
+      "type": "book-chapter",
+      "cited_by_count": 166,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2086602606",
+      "title": "Petrophysical characteristics of shales from the Scotian Shelf",
+      "authors": [
+        "T J Katsube",
+        "Brett S. Mudford",
+        "Melvyn E. Best"
+      ],
+      "year": 1991,
+      "venue": "Geophysics",
+      "doi": "10.1190/1.1442980",
+      "type": "article",
+      "cited_by_count": 129,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2320725276",
+      "title": "Paleohydrology of the Gulf of Mexico basin",
+      "authors": [
+        "Wendy J. Harrison",
+        "Lori L. Summa"
+      ],
+      "year": 1991,
+      "venue": "American Journal of Science",
+      "doi": "10.2475/ajs.291.2.109",
+      "type": "article",
+      "cited_by_count": 241,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2499606533",
+      "title": "Microstructure of Fine-Grained Sediments",
+      "authors": [],
+      "year": 1991,
+      "venue": "Frontiers in sedimentary geology",
+      "doi": "10.1007/978-1-4612-4428-8",
+      "type": "book",
+      "cited_by_count": 149,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1698701323",
+      "title": "Soil behaviour and critical state soil mechanics",
+      "authors": [],
+      "year": 1992,
+      "venue": "International Journal of Rock Mechanics and Mining Sciences & Geomechanics Abstracts",
+      "doi": "10.1016/0148-9062(92)90570-p",
+      "type": "article",
+      "cited_by_count": 1269,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2069153185",
+      "title": "Relationship of Porosity and Permeability to Various Parameters Derived from Mercury Injection-Capillary Pressure Curves for Sandstone",
+      "authors": [
+        "Edward D. Pittman"
+      ],
+      "year": 1992,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/bdff87a4-1718-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 744,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2147906693",
+      "title": "Contributions of Compaction and Aquathermal Pressuring to Geopressure and the Influence of Environmental Conditions",
+      "authors": [
+        "Xiaorong Luo",
+        "G. Vasseur"
+      ],
+      "year": 1992,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/bdff8a42-1718-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 180,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4246608436",
+      "title": "Soil Mechanics",
+      "authors": [
+        "Robert F. Craig"
+      ],
+      "year": 1992,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-1-4899-3772-8",
+      "type": "book",
+      "cited_by_count": 97,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W598995065",
+      "title": "Stress Regimes in the Lithosphere",
+      "authors": [
+        "Terry Engelder"
+      ],
+      "year": 1992,
+      "venue": "Princeton University Press eBooks",
+      "doi": "10.1515/9781400863150",
+      "type": "book",
+      "cited_by_count": 415,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1972914084",
+      "title": "Matrix Permeability Measurement of Gas Productive Shales",
+      "authors": [
+        "D.L. Luffel",
+        "Chris W. Hopkins",
+        "P. D. Schettler"
+      ],
+      "year": 1993,
+      "venue": "SPE Annual Technical Conference and Exhibition",
+      "doi": "10.2118/26633-ms",
+      "type": "conference-paper",
+      "cited_by_count": 220,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2145918879",
+      "title": "Physically representative network models of transport in porous media",
+      "authors": [
+        "Steven Lawrence Bryant",
+        "David W. Mellor",
+        "Christopher A. Cade"
+      ],
+      "year": 1993,
+      "venue": "AIChE Journal",
+      "doi": "10.1002/aic.690390303",
+      "type": "article",
+      "cited_by_count": 264,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2910385350",
+      "title": "Gas and water permeability of tight shales from the Venture gas field, offshore Nova Scotia",
+      "authors": [
+        "Karl B. Coyner",
+        "T J Katsube",
+        "Melvyn E. Best",
+        "M Williamson"
+      ],
+      "year": 1993,
+      "venue": null,
+      "doi": "10.4095/134279",
+      "type": "report",
+      "cited_by_count": 8,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2093553781",
+      "title": "Analysis of permeability controls: a new approach",
+      "authors": [
+        "Christopher A. Cade",
+        "I. J. Evans",
+        "Steven Lawrence Bryant"
+      ],
+      "year": 1994,
+      "venue": "Clay Minerals",
+      "doi": "10.1180/claymin.1994.029.4.08",
+      "type": "article",
+      "cited_by_count": 85,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2154880694",
+      "title": "How permeable are clays and shales?",
+      "authors": [
+        "Christopher E. Neuzil"
+      ],
+      "year": 1994,
+      "venue": "Water Resources Research",
+      "doi": "10.1029/93wr02930",
+      "type": "article",
+      "cited_by_count": 602,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "ancestor",
+      "read": "none"
+    },
+    {
+      "id": "W2312698862",
+      "title": "Basin modelling: Advances and applications",
+      "authors": [
+        "Trevor P. Burchette"
+      ],
+      "year": 1994,
+      "venue": "Marine Geology",
+      "doi": "10.1016/0025-3227(94)90026-4",
+      "type": "article",
+      "cited_by_count": 188,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4235790112",
+      "title": "Stress-state—permeability relations for overconsolidated clays",
+      "authors": [
+        "T. Sakthi Nagaraj",
+        "N. S. Pandian",
+        "P. S. R. Narasimha Raju"
+      ],
+      "year": 1994,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1994.44.2.349",
+      "type": "article",
+      "cited_by_count": 76,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2004482114",
+      "title": "Porosity and pressure: Role of compaction disequilibrium in the development of geopressures in a Gulf Coast Pleistocene basin",
+      "authors": [
+        "Bruce S. Hart",
+        "Peter B. Flemings",
+        "Asim A. Deshpande"
+      ],
+      "year": 1995,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1995)023<0045:paproc>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 192,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2038943450",
+      "title": "Assessment of β the compression coefficient of mudstones and its relationship with detailed lithology",
+      "authors": [
+        "Andrew C. Aplin",
+        "Yunlai Yang",
+        "Sven Hansen"
+      ],
+      "year": 1995,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/0264-8172(95)98858-3",
+      "type": "article",
+      "cited_by_count": 111,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2135971719",
+      "title": "Hydraulic Conductivity of Thirteen Compacted Clays",
+      "authors": [
+        "Craig H. Benson",
+        "John M. Trast"
+      ],
+      "year": 1995,
+      "venue": "Clays and Clay Minerals",
+      "doi": "10.1346/ccmn.1995.0430603",
+      "type": "article",
+      "cited_by_count": 260,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2086046118",
+      "title": "A model for the headward erosion of submarine canyons induced by downslope-eroding sediment flows",
+      "authors": [
+        "Lincoln F. Pratson",
+        "Bernard Coakley"
+      ],
+      "year": 1996,
+      "venue": "Geological Society of America Bulletin",
+      "doi": "10.1130/0016-7606(1996)108<0225:amfthe>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 261,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2163860632",
+      "title": "Stress-state—permeability relations for overconsolidated clays",
+      "authors": [
+        "T. Sakthi Nagaraj",
+        "N. S. Pandian",
+        "P. S. R. Narasimha Raju"
+      ],
+      "year": 1996,
+      "venue": "Géotechnique",
+      "doi": "10.1680/geot.1996.46.2.363",
+      "type": "article",
+      "cited_by_count": 60,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2001473364",
+      "title": "Cold seep communities as indicators of fluid expulsion patterns through mud volcanoes seaward of the Barbados accretionary prism",
+      "authors": [
+        "Karine Olu",
+        "Sophie Lance",
+        "Myriam Sibuet",
+        "Pierre Henry",
+        "Aline Fiala‐Médioni",
+        "Alain Dinet"
+      ],
+      "year": 1997,
+      "venue": "Deep Sea Research Part I Oceanographic Research Papers",
+      "doi": "10.1016/s0967-0637(96)00123-9",
+      "type": "article",
+      "cited_by_count": 198,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2018464728",
+      "title": "Experimental characterisation of the hydrocarbon sealing efficiency of cap rocks",
+      "authors": [
+        "Stefan Schlömer",
+        "Bernhard M. Krooß"
+      ],
+      "year": 1997,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/s0264-8172(97)00022-6",
+      "type": "article",
+      "cited_by_count": 255,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2020919432",
+      "title": "A method for the disaggregation of mudstones",
+      "authors": [
+        "Yunlai Yang",
+        "Andrew C. Aplin"
+      ],
+      "year": 1997,
+      "venue": "Sedimentology",
+      "doi": "10.1046/j.1365-3091.1997.d01-37.x",
+      "type": "article",
+      "cited_by_count": 20,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25405/ncl.34091916",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2039056822",
+      "title": "Fluid flow through granular beds",
+      "authors": [
+        "Philip C. Carman"
+      ],
+      "year": 1997,
+      "venue": "Process Safety and Environmental Protection",
+      "doi": "10.1016/s0263-8762(97)80003-2",
+      "type": "article",
+      "cited_by_count": 3300,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1997501207",
+      "title": "Influence of lithology and compaction on the pore size distribution and modelled permeability of some mudstones from the Norwegian margin",
+      "authors": [
+        "Yunlai Yang",
+        "Andrew C. Aplin"
+      ],
+      "year": 1998,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/s0264-8172(98)00008-7",
+      "type": "article",
+      "cited_by_count": 182,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25405/ncl.34641582",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2003040010",
+      "title": "Compaction‐driven evolution of porosity and permeability in natural mudstones: An experimental study",
+      "authors": [
+        "David N. Dewhurst",
+        "Andrew C. Aplin",
+        "Jean‐Paul Sarda",
+        "Yunlai Yang"
+      ],
+      "year": 1998,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/97jb02540",
+      "type": "article",
+      "cited_by_count": 245,
+      "open_access": true,
+      "oa_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1029/97JB02540",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2159563922",
+      "title": "Generation of overpressure and compaction‐driven fluid flow in a Plio‐Pleistocene growth‐faulted basin, Eugene Island 330, offshore Louisiana",
+      "authors": [
+        "David S. Gordon",
+        "Peter B. Flemings"
+      ],
+      "year": 1998,
+      "venue": "Basin Research",
+      "doi": "10.1046/j.1365-2117.1998.00052.x",
+      "type": "article",
+      "cited_by_count": 88,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1989176121",
+      "title": "Influence of clay fraction on pore‐scale properties and hydraulic conductivity of experimentally compacted mudstones",
+      "authors": [
+        "David N. Dewhurst",
+        "Andrew C. Aplin",
+        "Jean‐Paul Sarda"
+      ],
+      "year": 1999,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/1999jb900276",
+      "type": "article",
+      "cited_by_count": 134,
+      "open_access": true,
+      "oa_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1029/1999JB900276",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2020834108",
+      "title": "Permeability and fluid flow in natural mudstones",
+      "authors": [
+        "David N. Dewhurst",
+        "Yunlai Yang",
+        "Andrew C. Aplin"
+      ],
+      "year": 1999,
+      "venue": "Geological Society London Special Publications",
+      "doi": "10.1144/gsl.sp.1999.158.01.03",
+      "type": "article",
+      "cited_by_count": 172,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25405/ncl.34595439",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2130355649",
+      "title": "Preferred Orientation of Phyllosilicates in Gulf Coast Mudstones and Relation to the Smectite-Illite Transition",
+      "authors": [
+        "Nei-Che Ho",
+        "Donald R. Peacor",
+        "Ben A. van der Pluijm"
+      ],
+      "year": 1999,
+      "venue": "Clays and Clay Minerals",
+      "doi": "10.1346/ccmn.1999.0470412",
+      "type": "article",
+      "cited_by_count": 116,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2159337923",
+      "title": "Floods, channel change, and the hyporheic zone",
+      "authors": [
+        "Steven M. Wondzell",
+        "Frederick J. Swanson"
+      ],
+      "year": 1999,
+      "venue": "Water Resources Research",
+      "doi": "10.1029/1998wr900047",
+      "type": "article",
+      "cited_by_count": 1432,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1991816052",
+      "title": "Worldwide distribution of submarine mud volcanoes and associated gas hydrates",
+      "authors": [
+        "Alexei V. Milkov"
+      ],
+      "year": 2000,
+      "venue": "Marine Geology",
+      "doi": "10.1016/s0025-3227(00)00022-0",
+      "type": "article",
+      "cited_by_count": 681,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2032101789",
+      "title": "Potential for large-scale submarine slope failure and tsunami generation along the U.S. mid-Atlantic coast",
+      "authors": [
+        "Neal W. Driscoll",
+        "Jeffrey K. Weissel",
+        "John A. Goff"
+      ],
+      "year": 2000,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(2000)028<0407:pflsss>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 129,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2043946902",
+      "title": "Mud volcanoes in deepwater Nigeria",
+      "authors": [
+        "Knut Graue"
+      ],
+      "year": 2000,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/s0264-8172(00)00016-7",
+      "type": "article",
+      "cited_by_count": 176,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2048572409",
+      "title": "Overpressure and Fluid Flow in the New Jersey Continental Slope: Implications for Slope Failure and Cold Seeps",
+      "authors": [
+        "Brandon Dugan",
+        "Peter B. Flemings"
+      ],
+      "year": 2000,
+      "venue": "Science",
+      "doi": "10.1126/science.289.5477.288",
+      "type": "article",
+      "cited_by_count": 326,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "ancestor",
+      "read": "none"
+    },
+    {
+      "id": "W2062697770",
+      "title": "Fault reactivation and fluid flow along a previously dormant normal fault in the northern North Sea",
+      "authors": [
+        "David Wiprut",
+        "Mark D. Zoback"
+      ],
+      "year": 2000,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(2000)028<0595:fraffa>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 261,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2078204385",
+      "title": "Anisotropic permeability and bimodal pore-size distributions of fine-grained marine sediments",
+      "authors": [
+        "Alistair J. Bolton",
+        "Alex J. Maltman",
+        "Quentin J Fisher"
+      ],
+      "year": 2000,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/s0264-8172(00)00019-2",
+      "type": "article",
+      "cited_by_count": 105,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2096326532",
+      "title": "Hydraulic Fracturing During the Formation and Deformation of a Basin: A Factor in the Dewatering of Low-Permeability Sediments",
+      "authors": [
+        "John Cosgrove"
+      ],
+      "year": 2001,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/8626c997-173b-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 241,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2154608034",
+      "title": "Stress, Pore Pressure, and Dynamically Constrained Hydrocarbon Columns in the South Eugene Island 330 Field, Northern Gulf of Mexico",
+      "authors": [
+        "Thomas Finkbeiner",
+        "Mark D. Zoback",
+        "Peter Flemings",
+        "Beth Stump"
+      ],
+      "year": 2001,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/8626ca55-173b-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 172,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W2180166314",
+      "title": "S TORAGE OF F OSSIL F UEL -D ERIVED C ARBON D IOXIDE B ENEATH THE S URFACE OF THE E ARTH",
+      "authors": [
+        "Sam Holloway"
+      ],
+      "year": 2001,
+      "venue": "Annual Review of Energy and the Environment",
+      "doi": "10.1146/annurev.energy.26.1.145",
+      "type": "article",
+      "cited_by_count": 209,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1979702386",
+      "title": "Gas breakthrough experiments on fine‐grained sedimentary rocks",
+      "authors": [
+        "Alexandra Amann‐Hildenbrand",
+        "Stefan Schlömer",
+        "Bernhard M. Krooß"
+      ],
+      "year": 2002,
+      "venue": "Geofluids",
+      "doi": "10.1046/j.1468-8123.2002.00031.x",
+      "type": "article",
+      "cited_by_count": 354,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2078226319",
+      "title": "Geochemical evidence for efficient aquifer isolation over geological timeframes",
+      "authors": [
+        "Bernard M Marty",
+        "S. Dewonck",
+        "Christian France‐Lanord"
+      ],
+      "year": 2003,
+      "venue": "Nature",
+      "doi": "10.1038/nature01966",
+      "type": "article",
+      "cited_by_count": 76,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2103433309",
+      "title": "Definition and practical application of mudstone porosity–effective stress relationships",
+      "authors": [
+        "Yunlai Yang",
+        "Andrew C. Aplin"
+      ],
+      "year": 2004,
+      "venue": "Petroleum Geoscience",
+      "doi": "10.1144/1354-079302-567",
+      "type": "article",
+      "cited_by_count": 126,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25405/ncl.34653996",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2127477904",
+      "title": "Permeability of illite‐bearing shale: 1. Anisotropy and effects of clay content and loading",
+      "authors": [
+        "Ohmyoung Kwon",
+        "A. K. Kronenberg",
+        "Anthony F. Gangi",
+        "Brann Johnson",
+        "Bruce Herbert"
+      ],
+      "year": 2004,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/2004jb003052",
+      "type": "article",
+      "cited_by_count": 253,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2131422549",
+      "title": "Quantitative assessment of mudstone lithology using geophysical wireline logs and artificial neural networks",
+      "authors": [
+        "Yunlai Yang",
+        "Andrew C. Aplin",
+        "Steve Larter"
+      ],
+      "year": 2004,
+      "venue": "Petroleum Geoscience",
+      "doi": "10.1144/1354-079302-566",
+      "type": "article",
+      "cited_by_count": 35,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25405/ncl.34653993",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2170042235",
+      "title": "Gas breakthrough experiments on pelitic rocks: comparative study with N2, CO2 and CH4",
+      "authors": [
+        "Alexandra Amann‐Hildenbrand",
+        "Stefan Schlömer",
+        "Bernhard M. Krooß",
+        "Ralf Littke"
+      ],
+      "year": 2004,
+      "venue": "Geofluids",
+      "doi": "10.1111/j.1468-8123.2004.00073.x",
+      "type": "article",
+      "cited_by_count": 233,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "level2",
+      "read": "none"
+    },
+    {
+      "id": "W1608203235",
+      "title": "Effect of Salt Concentrations on the Permeability and Compressibility of Soil-Bentonite Mixtures",
+      "authors": [
+        "Anil Kumar Mishra",
+        "Masami Ohtsubo",
+        "Loretta Y. Li",
+        "Takahiro Higashi"
+      ],
+      "year": 2005,
+      "venue": "Journal of the Faculty of Agriculture Kyushu University",
+      "doi": "10.5109/4692",
+      "type": "article",
+      "cited_by_count": 62,
+      "open_access": true,
+      "oa_url": "https://catalog.lib.kyushu-u.ac.jp/opac_download_md/4692/p837.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2154072920",
+      "title": "Permeability of fine-grained rocks: New evidence from chalks",
+      "authors": [
+        "Anthony J. Mallon",
+        "Richard E. Swarbrick",
+        "T J Katsube"
+      ],
+      "year": 2005,
+      "venue": "Geology",
+      "doi": "10.1130/g20951.1",
+      "type": "article",
+      "cited_by_count": 31,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2024268439",
+      "title": "Hydrogeological modeling of radionuclide transport in low permeability media: a comparison between Boom Clay and Ypresian Clay",
+      "authors": [
+        "Marijke Huysmans",
+        "Alain Dassargues"
+      ],
+      "year": 2006,
+      "venue": "Environmental Geology",
+      "doi": "10.1007/s00254-006-0191-7",
+      "type": "article",
+      "cited_by_count": 10,
+      "open_access": true,
+      "oa_url": "https://orbi.uliege.be/handle/2268/3378",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2060998519",
+      "title": "Influence of Mechanical Compaction and Clay Mineral Diagenesis on the Microfabric and Pore-Scale Properties of Deep-Water Gulf of Mexico Mudstones",
+      "authors": [
+        "Andrew C. Aplin",
+        "Ingo F. Matenaar",
+        "Douglas K. McCarty",
+        "Ben A. van der Pluijm"
+      ],
+      "year": 2006,
+      "venue": "Clays and Clay Minerals",
+      "doi": "10.1346/ccmn.2006.0540411",
+      "type": "article",
+      "cited_by_count": 243,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.25405/ncl.34653246",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2037058368",
+      "title": "Influence of soil permeability on rainfall-induced flowslides in laboratory flume tests",
+      "authors": [
+        "Fawu Wang",
+        "Hiroki Shibata"
+      ],
+      "year": 2007,
+      "venue": "Canadian Geotechnical Journal",
+      "doi": "10.1139/t07-042",
+      "type": "article",
+      "cited_by_count": 27,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2080246391",
+      "title": "Permeability and petrophysical properties of 30 natural mudstones",
+      "authors": [
+        "Yunlai Yang",
+        "Andrew C. Aplin"
+      ],
+      "year": 2007,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/2005jb004243",
+      "type": "article",
+      "cited_by_count": 303,
+      "open_access": true,
+      "oa_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1029/2005JB004243",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "ancestor",
+      "read": "none"
+    },
+    {
+      "id": "W2127887153",
+      "title": "Modelling carbon dioxide accumulation at Sleipner: Implications for underground carbon storage",
+      "authors": [
+        "M. J. Bickle",
+        "Andy Chadwick",
+        "Herbert E. Huppert",
+        "Mark A. Hallworth",
+        "Sarah M. Lyle"
+      ],
+      "year": 2007,
+      "venue": "Earth and Planetary Science Letters",
+      "doi": "10.1016/j.epsl.2006.12.013",
+      "type": "article",
+      "cited_by_count": 252,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2384384346",
+      "title": "PERMEABILITY AND CONSOLIDATION OF SEDIMENT MIXTURES AS FUNCTION OF SAND CONTENT AND CLAY MINERALOGY",
+      "authors": [
+        "Van K",
+        "D Candidate"
+      ],
+      "year": 2007,
+      "venue": null,
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 9,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W3145951124",
+      "title": "PERMEABILITY AND CONSOLIDATION OF SEDIMENT MIXTURES AS FUNCTION OF SAND CONTENT AND CLAY MINERALOGY",
+      "authors": [
+        "Jacobs",
+        "van",
+        "Kesteren.",
+        "Winterwerp"
+      ],
+      "year": 2007,
+      "venue": "Acta Scientiarum Naturalium Universitatis Sunyatseni",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 14,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1499674039",
+      "title": "Diagenetic reorientation of phyllosilicate minerals in Paleogene mudstones of the Podhale Basin, southern Poland",
+      "authors": [
+        "Ruarri J. Day-Stirrat",
+        "Andrew C. Aplin",
+        "Jan Środoń",
+        "Ben A. van der Pluijm"
+      ],
+      "year": 2008,
+      "venue": "Clays and Clay Minerals",
+      "doi": "10.1346/ccmn.2008.0560109",
+      "type": "article",
+      "cited_by_count": 92,
+      "open_access": true,
+      "oa_url": "https://durham-repository.worktribe.com/output/1486963",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1995654536",
+      "title": "A permeability–porosity relationship for mudstones",
+      "authors": [
+        "Yunlai Yang",
+        "Andrew C. Aplin"
+      ],
+      "year": 2009,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/j.marpetgeo.2009.07.001",
+      "type": "article",
+      "cited_by_count": 313,
+      "open_access": true,
+      "oa_url": "https://durham-repository.worktribe.com/output/1478086",
+      "has_abstract": false,
+      "abstract": null,
+      "role": "seed",
+      "read": "abstract"
+    },
+    {
+      "id": "W575653240",
+      "title": "Engineering Properties of Soils",
+      "authors": [
+        "Krishan Kaul"
+      ],
+      "year": 2010,
+      "venue": "CRC Press eBooks",
+      "doi": "10.1201/9781482266399-21",
+      "type": "book-chapter",
+      "cited_by_count": 219,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W1964306993",
+      "to": "W1698701323",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W1968576340",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W2003732287",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W2009900834",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W2013477939",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W2026912324",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W2047898003",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W2052819160",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W2070736018",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W2072370938",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W2134010836",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W2505239112",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W2534421152",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W2544460777",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W3214750717",
+      "kind": "verified"
+    },
+    {
+      "from": "W1964306993",
+      "to": "W988646963",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W133142017",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W1542409329",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W1966177669",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W1970691126",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W1977727715",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W2009299834",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W2031511282",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W2056510490",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W2059844043",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W2060905767",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W2071428759",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W2094045326",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W2157271530",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W2165214321",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W2741209954",
+      "kind": "verified"
+    },
+    {
+      "from": "W1971332826",
+      "to": "W3023993856",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1499674039",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1608203235",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W191750805",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1964306993",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1971332826",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1972219059",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1972914084",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1977727715",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1979702386",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1989176121",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1991816052",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1996822265",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1997501207",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W1999286571",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2003040010",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2004529208",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2018464728",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2020834108",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2020919432",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2024268439",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2037058368",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2043946902",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2044129693",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2047898003",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2048572409",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2060998519",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2078204385",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2078226319",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2080246391",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2093553781",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2100930499",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2103433309",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2127477904",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2127887153",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2130355649",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2131422549",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2145918879",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2147906693",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2154072920",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2154880694",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2163860632",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2170384715",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2180166314",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2312698862",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2384384346",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2499606533",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2910385350",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W2910607811",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W3145951124",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W3147177386",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W4235790112",
+      "kind": "verified"
+    },
+    {
+      "from": "W1995654536",
+      "to": "W575653240",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W1977727715",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W1998938053",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W1999429858",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2001473364",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2004482114",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2032101789",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2032834880",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2044233272",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2086046118",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2111815272",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2140606492",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2154880694",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2159563922",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2160817486",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2165551458",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2588373281",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W2724477917",
+      "kind": "verified"
+    },
+    {
+      "from": "W2048572409",
+      "to": "W4246608436",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W191750805",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W1964306993",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W1971332826",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W1987324139",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W1989176121",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W1996822265",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W1997501207",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2003040010",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2004529208",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2018464728",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2020834108",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2020919432",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2027065708",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2038943450",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2044129693",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2048572409",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2054451458",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2060998519",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2062697770",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2062799508",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2069153185",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2086602606",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2096326532",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2103433309",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2127477904",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2130355649",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2134010836",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2135971719",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2151514917",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2154072920",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2154608034",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2154880694",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2157271042",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2163860632",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2165214321",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2170042235",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2312698862",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2563165260",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W2910385350",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W4235790112",
+      "kind": "verified"
+    },
+    {
+      "from": "W2080246391",
+      "to": "W575653240",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W1525396034",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W1996897663",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2000807003",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2016847884",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2039056822",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2044368181",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2094910499",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2131414224",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2140606492",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2141104216",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2159337923",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2165214321",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2170384715",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2202563572",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2320725276",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W2333344449",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W3023993856",
+      "kind": "verified"
+    },
+    {
+      "from": "W2154880694",
+      "to": "W598995065",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 128,
+    "edges": 161,
+    "verified": 161,
+    "inferred": 0,
+    "seed_references_in_openalex": 52,
+    "level2": {
+      "W1964306993": {
+        "references_in_openalex": 30,
+        "kept": 15
+      },
+      "W1971332826": {
+        "references_in_openalex": 21,
+        "kept": 15
+      },
+      "W2154880694": {
+        "references_in_openalex": 43,
+        "kept": 15
+      },
+      "W2080246391": {
+        "references_in_openalex": 48,
+        "kept": 15
+      },
+      "W2048572409": {
+        "references_in_openalex": 25,
+        "kept": 15
+      }
+    }
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:30:06.215Z"
+}

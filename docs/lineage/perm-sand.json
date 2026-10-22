@@ -1,0 +1,1569 @@
+{
+  "param": "perm-sand",
+  "query": "porosity permeability relationship sandstone",
+  "seed": "W2141657015",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W2141657015",
+      "title": "Sandstone vs. carbonate petroleum reservoirs: A global perspective on porosity-depth and porosity-permeability relationships",
+      "year": 2005,
+      "doi": "10.1306/11230404071",
+      "found_by": "title"
+    },
+    {
+      "id": "W2772420521",
+      "title": "An investigation of permeability, porosity and residual water saturation relationships for sandstone reservoirs",
+      "year": 1995,
+      "doi": null,
+      "found_by": "title"
+    },
+    {
+      "id": "W1195254246",
+      "title": "Relationship Between Porosity, Permeability, and Grain-Size Distribution of Sands and Sandstones",
+      "year": 1964,
+      "doi": "10.1016/s0070-4571(08)70469-2",
+      "found_by": "title"
+    },
+    {
+      "id": "W2046943352",
+      "title": "Specific surface and porosity relationship for sandstones for prediction of permeability",
+      "year": 2014,
+      "doi": "10.1016/j.ijrmms.2014.06.013",
+      "found_by": "title"
+    },
+    {
+      "id": "W2439342613",
+      "title": "An Investigation Of Permeability, Porosity, & Residual Water Saturation Relationships For Sandstone Reservoirs",
+      "year": 1968,
+      "doi": null,
+      "found_by": "title"
+    },
+    {
+      "id": "W2121219558",
+      "title": "Relationships among compressional wave attenuation, porosity, clay content, and permeability in sandstones",
+      "year": 1990,
+      "doi": "10.1190/1.1442928",
+      "found_by": "title"
+    },
+    {
+      "id": "W2069153185",
+      "title": "Relationship of Porosity and Permeability to Various Parameters Derived from Mercury Injection-Capillary Pressure Curves for Sandstone",
+      "year": 1992,
+      "doi": "10.1306/bdff87a4-1718-11d7-8645000102c1865d",
+      "found_by": "title"
+    },
+    {
+      "id": "W2520641382",
+      "title": "A laboratory study of the porosity-permeability relationships of shale and sandstone under effective stress",
+      "year": 2015,
+      "doi": "10.1016/j.ijrmms.2015.11.006",
+      "found_by": "title"
+    },
+    {
+      "id": "W2748103584",
+      "title": "Classifying Multiscale Pores and Investigating Their Relationship with Porosity and Permeability in Tight Sandstone Gas Reservoirs",
+      "year": 2017,
+      "doi": "10.1021/acs.energyfuels.7b01487",
+      "found_by": "title"
+    },
+    {
+      "id": "W1921227989",
+      "title": "The Relationship of Ultra-Low Permeability Sandstone Aspect Ratio With Porosity, Permeability",
+      "year": 2014,
+      "doi": "10.3968/j.aped.1925543820140701.1516",
+      "found_by": "title"
+    },
+    {
+      "id": "W2924565070",
+      "title": "IMPORTANCE OF POROSITY-PERMEABILITY RELATIONSHIP IN SANDSTONES: PETROPHYSICAL PROPERTIES",
+      "year": 2015,
+      "doi": null,
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W1533729466",
+      "title": "Classification of Carbonate Rocks According to Depositional Textures",
+      "authors": [
+        "Robert J. Dunham"
+      ],
+      "year": 1962,
+      "venue": "Helmholtz Centre for Ocean Research Kiel (GEOMAR)",
+      "doi": null,
+      "type": "conference-paper",
+      "cited_by_count": 3110,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1971900279",
+      "title": "The Effect of Decrease in Porosity with Depth on Future Development of Oil and Gas Reserves in South Louisiana: ABSTRACT",
+      "authors": [
+        "Gordon Atwater"
+      ],
+      "year": 1965,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/a6633546-16c0-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 40,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2078297508",
+      "title": "Genesis of Carbonate Reservoir Facies: ABSTRACT",
+      "authors": [
+        "Lloyd Charles Pray"
+      ],
+      "year": 1966,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/5d25b56d-16c1-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 12,
+      "open_access": true,
+      "oa_url": "https://doi.org/10.1306/5d25b56d-16c1-11d7-8645000102c1865d",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W41725289",
+      "title": "Aspects of Diagenesis and Shape Change in Stylolitic Limestone Reservoirs",
+      "authors": [
+        "H. V. Dunnington"
+      ],
+      "year": 1967,
+      "venue": "7th World Petroleum Congress",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 124,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1976160172",
+      "title": "Diagenesis of Gulf Coast Clayey Sediments and Its Possible Relation to Petroleum Migration",
+      "authors": [
+        "J. F. Burst"
+      ],
+      "year": 1969,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/5d25c595-16c1-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 585,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2029837300",
+      "title": "Geologic Nomenclature and Classification of Porosity in Sedimentary Carbonates",
+      "authors": [
+        "Philip W. Choquette",
+        "Lloyd Charles Pray"
+      ],
+      "year": 1970,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/5d25c98b-16c1-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 1700,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2002488699",
+      "title": "Origin of Sedimentary Rocks",
+      "authors": [
+        "Harvey Blatt"
+      ],
+      "year": 1973,
+      "venue": "Soil Science",
+      "doi": "10.1097/00010694-197305000-00019",
+      "type": "article",
+      "cited_by_count": 1074,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2156213224",
+      "title": "Influence of Texture on Porosity and Permeability of Unconsolidated Sand",
+      "authors": [
+        "P. K. Weyl D. C. Beard",
+        "P. K. Weyl"
+      ],
+      "year": 1973,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/819a4272-16c5-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 877,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1885229739",
+      "title": "PORE GEOMETRY AND RESERVOIR ASPECTS OF SECONDARY POROSITY IN SANDSTONES",
+      "authors": [
+        "Volkmar Schmidt",
+        "David A. McDonald",
+        "R. L. Platt"
+      ],
+      "year": 1977,
+      "venue": "Bulletin of Canadian Petroleum Geology",
+      "doi": "10.35767/gscpgbull.25.2.271",
+      "type": "article",
+      "cited_by_count": 43,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2056413647",
+      "title": "Chalk Diagenesis and Its Relation to Petroleum Exploration: Oil from Chalks, a Modern Miracle?",
+      "authors": [
+        "Peter A. Scholle"
+      ],
+      "year": 1977,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/c1ea43b5-16c9-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 315,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2032292073",
+      "title": "Pore networks in Holocene carbonate sediments",
+      "authors": [
+        "Paul Enos",
+        "Les F. Sawatsky"
+      ],
+      "year": 1981,
+      "venue": "Journal of Sedimentary Research",
+      "doi": "10.1306/212f7df1-2b24-11d7-8648000102c1865d",
+      "type": "article",
+      "cited_by_count": 219,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2167163594",
+      "title": "Carbonate Porosity Versus Depth: A Predictable Relation for South Florida",
+      "authors": [
+        "James W. Schmoker",
+        "Robert B. Halley"
+      ],
+      "year": 1982,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/03b5ac73-16d1-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 402,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1995820726",
+      "title": "Empirical Relation Between Carbonate Porosity and Thermal Maturity: An Approach to Regional Porosity Prediction",
+      "authors": [
+        "James W. Schmoker"
+      ],
+      "year": 1984,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/ad46197b-16f7-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 49,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W3106807097",
+      "title": "Regional Controls on Diagenesis and Reservoir Quality in Lower Tertiary Sandstones along the Texas Gulf Coast",
+      "authors": [
+        "Robert G. Loucks",
+        "M.M. Dodge",
+        "William E. Galloway"
+      ],
+      "year": 1984,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m37435c2",
+      "type": "book-chapter",
+      "cited_by_count": 112,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W3125667765",
+      "title": "Formation of Secondary Porosity",
+      "authors": [
+        "Knut Olav Bjørlykke"
+      ],
+      "year": 1984,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m37435c16",
+      "type": "book-chapter",
+      "cited_by_count": 110,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1518328241",
+      "title": "Thermal Mass Transfer in Systems Containing Quartz and Calcite",
+      "authors": [
+        "James R. Wood"
+      ],
+      "year": 1985,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.2110/pec.86.38.0169",
+      "type": "book-chapter",
+      "cited_by_count": 17,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2096680331",
+      "title": "Prevention of Carbonate Cementation in Petroleum Reservoirs",
+      "authors": [
+        "Charles T. Feazel",
+        "Richard A. Schatzinger"
+      ],
+      "year": 1985,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.2110/pec.85.36.0097",
+      "type": "book-chapter",
+      "cited_by_count": 62,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4239610765",
+      "title": "Burial Diagenesis",
+      "authors": [
+        "Peter A. Scholle",
+        "Robert B. Halley"
+      ],
+      "year": 1985,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.2110/pec.85.36.0309",
+      "type": "book-chapter",
+      "cited_by_count": 105,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1544006629",
+      "title": "DIAGENESIS #12. Diagenesis in Limestones - 3. The Deep Burial Environment",
+      "authors": [
+        "Philip W. Choquette",
+        "Noël P. James"
+      ],
+      "year": 1987,
+      "venue": "Geoscience Canada",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 181,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1970873501",
+      "title": "Distribution and Permeability of Stylolite-Bearing Horizons Within a Lower Cretaceous Carbonate Reservoir in the Middle East",
+      "authors": [
+        "R. B. Koepnick"
+      ],
+      "year": 1987,
+      "venue": "SPE Formation Evaluation",
+      "doi": "10.2118/14173-pa",
+      "type": "article",
+      "cited_by_count": 60,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2110599389",
+      "title": "Sandstone porosity as a function of thermal maturity",
+      "authors": [
+        "James W. Schmoker",
+        "Donald L. Gautier"
+      ],
+      "year": 1988,
+      "venue": "Geology",
+      "doi": "10.1130/0091-7613(1988)016<1007:spaafo>2.3.co;2",
+      "type": "article",
+      "cited_by_count": 102,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1563935532",
+      "title": "Burial diagenesis: Out of sight, out of mind!",
+      "authors": [
+        "Peter A. Scholle",
+        "Robert B. Halley"
+      ],
+      "year": 1989,
+      "venue": "American Geophysical Union eBooks",
+      "doi": "10.1029/sc004p0135",
+      "type": "book-chapter",
+      "cited_by_count": 100,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2171971145",
+      "title": "Organic-Inorganic Interactions and Sandstone Diagenesis",
+      "authors": [
+        "C. Surdam Ronald",
+        "Laura J. Crossey",
+        "E. Sven Hagen",
+        "Henry P. Heasler"
+      ],
+      "year": 1989,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/703c9ad7-1707-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 465,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1964668356",
+      "title": "Origin and significance of redistributional secondary porosity",
+      "authors": [
+        "Melvyn R. Giles",
+        "R.B. de Boer"
+      ],
+      "year": 1990,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/0264-8172(90)90016-a",
+      "type": "article",
+      "cited_by_count": 214,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2017388555",
+      "title": "Relationship Between Diagenesis and Reservoir Quality in Sandstones of the Garn Formation, Haltenbanken, Mid-Norwegian Continental Shelf",
+      "authors": [
+        "S. N. Ehrenberg"
+      ],
+      "year": 1990,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/0c9b2515-1710-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 237,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2120759047",
+      "title": "The role of the late Cimmerian unconformity for the distribution of kaolinite in the Gullfaks Field, northern North Sea",
+      "authors": [
+        "Per Arne Bjørkum",
+        "Rune Mjøs",
+        "Olav Walderhaug",
+        "Andrew R. Hurst"
+      ],
+      "year": 1990,
+      "venue": "Sedimentology",
+      "doi": "10.1111/j.1365-3091.1990.tb00143.x",
+      "type": "article",
+      "cited_by_count": 45,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4250980847",
+      "title": "Carbonate Sedimentology",
+      "authors": [
+        "Maurice E. Tucker",
+        "V. Paul Wright"
+      ],
+      "year": 1990,
+      "venue": "Wiley eBooks",
+      "doi": "10.1002/9781444314175",
+      "type": "book",
+      "cited_by_count": 2787,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1846255149",
+      "title": "Compaction of Lithic Sands: Experimental Results and Applications",
+      "authors": [
+        "Edward D. Pittman",
+        "Richard E. Larese"
+      ],
+      "year": 1991,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/0c9b292f-1710-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 228,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2063097503",
+      "title": "Permeability Prediction from Geological Models",
+      "authors": [
+        "Steven Lawrence Bryant",
+        "Christopher A. Cade"
+      ],
+      "year": 1992,
+      "venue": null,
+      "doi": "10.3997/2214-4609.201411076",
+      "type": "conference-paper",
+      "cited_by_count": 26,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2106405666",
+      "title": "Mesogenetic Dissolution: Its Role in Porosity Development in Carbonate Reservoirs",
+      "authors": [
+        "S. J. Mazzullo",
+        "P. M. Harris"
+      ],
+      "year": 1992,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/bdff8880-1718-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 163,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2115917281",
+      "title": "The reservoir properties and diagenesis of the Brent Group: a regional perspective",
+      "authors": [
+        "Melvyn R. Giles",
+        "S Stevenson",
+        "Susanne Martin",
+        "S. J. C. Cannon",
+        "P. J. Hamilton",
+        "JD Marshall",
+        "G Samways"
+      ],
+      "year": 1992,
+      "venue": "Geological Society London Special Publications",
+      "doi": "10.1144/gsl.sp.1992.061.01.16",
+      "type": "article",
+      "cited_by_count": 140,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2096402342",
+      "title": "Preservation of Anomalously High Porosity in Deeply Buried Sandstones by Grain-Coating Chlorite: Examples from the Norwegian Continental Shelf",
+      "authors": [
+        "Stephen Neville Ehrenberg"
+      ],
+      "year": 1993,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/bdff8e5c-1718-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 407,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2113334639",
+      "title": "Permeability Prediction from Geologic Models",
+      "authors": [
+        "Steven Lawrence Bryant",
+        "Christopher A. Cade",
+        "David W. Mellor"
+      ],
+      "year": 1993,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/bdff8e84-1718-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 135,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2316131249",
+      "title": "The link between petroleum emplacement and sandstone cementation",
+      "authors": [
+        "Jon Gluyas",
+        "A. G. ROBINSON",
+        "Dominic Emery",
+        "Shona M. Grant",
+        "Norman H. Oxtoby"
+      ],
+      "year": 1993,
+      "venue": "Geological Society London Petroleum Geology Conference series",
+      "doi": "10.1144/0041395",
+      "type": "conference-paper",
+      "cited_by_count": 67,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W127042527",
+      "title": "Pore-Water Flow and Mass Transfer of Solids in Solution in Sedimentary Basins",
+      "authors": [
+        "Knut Olav Bjørlykke"
+      ],
+      "year": 1994,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-94-011-0189-9_6",
+      "type": "book-chapter",
+      "cited_by_count": 20,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2076221198",
+      "title": "Porosity/depth trends in reservoir sandstones: assessing the quantitative effects of varying pore-pressure, temperature history and mineralogy, Norwegian Shelf data",
+      "authors": [
+        "Mogens Ramm",
+        "Knut Olav Bjørlykke"
+      ],
+      "year": 1994,
+      "venue": "Clay Minerals",
+      "doi": "10.1180/claymin.1994.029.4.07",
+      "type": "article",
+      "cited_by_count": 183,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2121699921",
+      "title": "Regional-Scale Porosity and Permeability Variations in Upper Devonian Leduc Buildups: Implications for Reservoir Development and Prediction in Carbonates",
+      "authors": [
+        "Joachim E. Amthor",
+        "ERIC W. MOUNTJOY",
+        "Hans G. Machel"
+      ],
+      "year": 1994,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/a25ff215-171b-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 69,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W54635318",
+      "title": "Permeability-porosity relationships in sedimentary rocks",
+      "authors": [
+        "Phillip H. Nelson"
+      ],
+      "year": 1994,
+      "venue": "The Log analyst/The log analyst",
+      "doi": null,
+      "type": "article",
+      "cited_by_count": 347,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2007701263",
+      "title": "Controls on Porosity Evolution in Thamama Group Carbonate Reservoirs in Abu Dhabi, U.A.E.",
+      "authors": [
+        "E. J. Oswald",
+        "H. W. MUELLER",
+        "Douglas F. Goff",
+        "HASSAN AL-HABSHI"
+      ],
+      "year": 1995,
+      "venue": "Middle East Oil Show",
+      "doi": "10.2118/29797-ms",
+      "type": "conference-paper",
+      "cited_by_count": 45,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2067261112",
+      "title": "Kinetic Modeling of Quartz Cementation and Porosity Loss in Deeply Buried Sandstone Reservoirs",
+      "authors": [
+        "Olav Walderhaug"
+      ],
+      "year": 1996,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/64ed88a4-1724-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 344,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1822533600",
+      "title": "Reservoir Quality Prediction in Sandstones and Carbonates",
+      "authors": [
+        "J. A. Kupecz",
+        "Jon Gluyas",
+        "Salman Bloch"
+      ],
+      "year": 1997,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m69613",
+      "type": "book",
+      "cited_by_count": 110,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1904658174",
+      "title": "Porosity Variation in Carbonates as a Function of Depth",
+      "authors": [
+        "Alton A. Brown"
+      ],
+      "year": 1997,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m69613c3",
+      "type": "book-chapter",
+      "cited_by_count": 32,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2161781678",
+      "title": "Predicting Reservoir Properties in Dolomites",
+      "authors": [
+        "ERIC W. MOUNTJOY",
+        "Xiomara Marquez"
+      ],
+      "year": 1997,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m69613c17",
+      "type": "book-chapter",
+      "cited_by_count": 13,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2244898384",
+      "title": "The Role of Mixing and Migration of Basinal Waters in Carbonate Mineral Mass Transport",
+      "authors": [
+        "John W. Morse",
+        "Jeffrey S. Hanor",
+        "Shiliang He"
+      ],
+      "year": 1997,
+      "venue": "SEPM (Society for Sedimentary Geology) eBooks",
+      "doi": "10.2110/pec.97.57.0041",
+      "type": "book-chapter",
+      "cited_by_count": 21,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1987445729",
+      "title": "Can oil emplacement prevent quartz cementation in sandstones?",
+      "authors": [
+        "Richard Henry Worden",
+        "Norman H. Oxtoby",
+        "P. C. Smalley"
+      ],
+      "year": 1998,
+      "venue": "Petroleum Geoscience",
+      "doi": "10.1144/petgeo.4.2.129",
+      "type": "article",
+      "cited_by_count": 140,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2025289959",
+      "title": "The relationship between petroleum emplacement and carbonate reservoir quality: examples from Abu Dhabi and the Amu Darya Basin",
+      "authors": [
+        "Joyce Neilson",
+        "Norman H. Oxtoby",
+        "Michael D. Simmons",
+        "Ivor R. Simpson",
+        "Фортунатова Наталья Константиновна"
+      ],
+      "year": 1998,
+      "venue": "Marine and Petroleum Geology",
+      "doi": "10.1016/s0264-8172(97)00033-0",
+      "type": "article",
+      "cited_by_count": 73,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2139902873",
+      "title": "Porosity Prediction in Quartzose Sandstones as a Function of Time, Temperature, Depth, Stylolite Frequency, and Hydrocarbon Saturation",
+      "authors": [
+        "Per Arne Bjørkum",
+        "Éric H. Oelkers",
+        "Paul H. Nadeau",
+        "Olav Walderhaug",
+        "William M. Murphy"
+      ],
+      "year": 1998,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/1d9bc5cf-172d-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 184,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2746321372",
+      "title": "TEMPERATURE CONTROLLED POROSITY/PERMEABILITY REDUCTION, FLUID MIGRATION, AND PETROLEUM EXPLORATION IN SEDIMENTARY BASINS",
+      "authors": [
+        "Per Arne Bjørkum",
+        "Paul H. Nadeau"
+      ],
+      "year": 1998,
+      "venue": "The APPEA Journal",
+      "doi": "10.1071/aj97022",
+      "type": "article",
+      "cited_by_count": 128,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2134472253",
+      "title": "Carbonate reservoir characterization",
+      "authors": [],
+      "year": 1999,
+      "venue": "Choice Reviews Online",
+      "doi": "10.5860/choice.36-6300",
+      "type": "book-review",
+      "cited_by_count": 401,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2279132834",
+      "title": "Paleotemperature History of Two Transects Across the Western Canada Sedimentary Basin: Constraints from Apatite Fission Track Analysis",
+      "authors": [
+        "Dale R. Issler",
+        "Sean Douglas Willett",
+        "Christopher Beaumont",
+        "Raymond A. Donelick",
+        "A. M. Grist"
+      ],
+      "year": 1999,
+      "venue": "Bulletin of Canadian Petroleum Geology",
+      "doi": "10.35767/gscpgbull.47.4.475",
+      "type": "article",
+      "cited_by_count": 33,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W4298840606",
+      "title": "Carbonate Reservoir Characterization",
+      "authors": [
+        "F. Jerry Lucia"
+      ],
+      "year": 1999,
+      "venue": "Springer eBooks",
+      "doi": "10.1007/978-3-662-03985-4",
+      "type": "book",
+      "cited_by_count": 360,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1985290758",
+      "title": "Interfacial Phenomena: Reservoir Wettability in Oil Recovery",
+      "authors": [
+        "M. Robin"
+      ],
+      "year": 2001,
+      "venue": "Oil & Gas Science and Technology – Revue d’IFP Energies nouvelles",
+      "doi": "10.2516/ogst:2001007",
+      "type": "article",
+      "cited_by_count": 30,
+      "open_access": true,
+      "oa_url": "https://ogst.ifpenergiesnouvelles.fr/articles/ogst/pdf/2001/01/robin_v56n1.pdf",
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2051150223",
+      "title": "Plagioclase dissolution related to biodegradation of oil in Brent Group sandstones (Middle Jurassic) of Gullfaks Field, northern North Sea",
+      "authors": [
+        "Stephen Neville Ehrenberg",
+        "K. G. Jakobsen"
+      ],
+      "year": 2001,
+      "venue": "Sedimentology",
+      "doi": "10.1046/j.1365-3091.2001.00387.x",
+      "type": "article",
+      "cited_by_count": 61,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W601879019",
+      "title": "Carbonate Reservoirs - Porosity Evolution and Diagenesis in a Sequence Stratigraphic Framework",
+      "authors": [],
+      "year": 2001,
+      "venue": "Developments in sedimentology",
+      "doi": "10.1016/s0070-4571(01)x8001-1",
+      "type": "book",
+      "cited_by_count": 358,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2161960613",
+      "title": "Anomalously High Porosity and Permeability in Deeply Buried Sandstone Reservoirs: Origin and Predictability",
+      "authors": [
+        "Salman Bloch",
+        "Robert H. Lander",
+        "Linda Bonnell"
+      ],
+      "year": 2002,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/61eedabc-173e-11d7-8645000102c1865d",
+      "type": "article",
+      "cited_by_count": 573,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2089487085",
+      "title": "Secondary porosity development during late burial in carbonate reservoirs as a result of mixing and/or cooling of brines",
+      "authors": [
+        "M. Esteban",
+        "Conxita Taberner"
+      ],
+      "year": 2003,
+      "venue": "Journal of Geochemical Exploration",
+      "doi": "10.1016/s0375-6742(03)00111-0",
+      "type": "article",
+      "cited_by_count": 137,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1938764212",
+      "title": "An Integrated Reservoir Study of the Liuhua 11-1 Field Using a High-Resolution Three-Dimensional Seismic Data Set",
+      "authors": [
+        "Christoph Heubeck",
+        "Kenneth Story",
+        "Patrick Peng",
+        "Claire Sullivan",
+        "Stuart Duff"
+      ],
+      "year": 2004,
+      "venue": "American Association of Petroleum Geologists eBooks",
+      "doi": "10.1306/m81928c7",
+      "type": "book-chapter",
+      "cited_by_count": 20,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1997139935",
+      "title": "Seawater as IOR Fluid in Fractured Chalk",
+      "authors": [
+        "Tor Austad",
+        "Skule Strand",
+        "Eli J. Høgnesen",
+        "P. Zhang"
+      ],
+      "year": 2005,
+      "venue": "SPE International Symposium on Oilfield Chemistry",
+      "doi": "10.2118/93000-ms",
+      "type": "conference-paper",
+      "cited_by_count": 248,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2141657015",
+      "title": "Sandstone vs. carbonate petroleum reservoirs: A global perspective on porosity-depth and porosity-permeability relationships",
+      "authors": [
+        "Stephen Neville Ehrenberg",
+        "Paul H. Nadeau"
+      ],
+      "year": 2005,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/11230404071",
+      "type": "article",
+      "cited_by_count": 486,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "none"
+    },
+    {
+      "id": "W2275339514",
+      "title": "Petroleum system analysis: impact of shale diagenesis on reservoir fluid pressure, hydrocarbon migration, and biodegradation risks",
+      "authors": [
+        "Paul H. Nadeau",
+        "Per Arne Bjørkum",
+        "Olav Walderhaug"
+      ],
+      "year": 2005,
+      "venue": "Geological Society London Petroleum Geology Conference series",
+      "doi": "10.1144/0061267",
+      "type": "conference-paper",
+      "cited_by_count": 34,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2170381731",
+      "title": "Sandstone vs. carbonate petroleum reservoirs: A global perspective on porosity-depth and porosity-permeability relationships: Discussion*",
+      "authors": [
+        "Roberto Aguilera"
+      ],
+      "year": 2006,
+      "venue": "AAPG Bulletin",
+      "doi": "10.1306/09140505131",
+      "type": "article",
+      "cited_by_count": 20,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W2141657015",
+      "to": "W127042527",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1518328241",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1533729466",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1544006629",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1563935532",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1822533600",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1846255149",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1885229739",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1904658174",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1938764212",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1964668356",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1970873501",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1971900279",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1976160172",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1985290758",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1987445729",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1995820726",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W1997139935",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2002488699",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2007701263",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2017388555",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2025289959",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2029837300",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2032292073",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2051150223",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2056413647",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2063097503",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2067261112",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2076221198",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2078297508",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2089487085",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2096402342",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2096680331",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2106405666",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2110599389",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2113334639",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2115917281",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2120759047",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2121699921",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2134472253",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2139902873",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2156213224",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2161781678",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2161960613",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2167163594",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2170381731",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2171971145",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2244898384",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2275339514",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2279132834",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2316131249",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W2746321372",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W3106807097",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W3125667765",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W41725289",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W4239610765",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W4250980847",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W4298840606",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W54635318",
+      "kind": "verified"
+    },
+    {
+      "from": "W2141657015",
+      "to": "W601879019",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 61,
+    "edges": 60,
+    "verified": 60,
+    "inferred": 0,
+    "seed_references_in_openalex": 62,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:27:12.580Z"
+}

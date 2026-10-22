@@ -1,0 +1,109 @@
+{
+  "param": "heat-flow",
+  "query": "heat flow geothermal gradient Gulf of Mexico",
+  "seed": "W2145531644",
+  "ancestors": [],
+  "candidates": [
+    {
+      "id": "W2133204429",
+      "title": "Geothermal Gradients and Subsurface Temperatures in the Northern Gulf of Mexico",
+      "year": 2005,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W4234048009",
+      "title": "Heat flow map and geothermal resources in Mexico",
+      "year": 2018,
+      "doi": "10.22201/igg.25940694.2018.2.51",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2261197468",
+      "title": "Geothermal gradients of the northern continental shelf of the Gulf of Mexico",
+      "year": 2015,
+      "doi": "10.1130/ges01163.1",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2906473434",
+      "title": "Heat flow and geothermal provinces in Mexico",
+      "year": 2018,
+      "doi": "10.1016/j.geothermics.2018.12.009",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2787108893",
+      "title": "Possible causes for the variation of geothermal gradients across the northern continental shelf of the Gulf of Mexico",
+      "year": 2014,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2145531644",
+      "title": "The Regional Geothermal Heat Flow Regime of the North-Central Gulf of Mexico Continental Slope",
+      "year": 2003,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2241013499",
+      "title": "Geothermal and Hydrocarbon Regimes, Northern Gulf of Mexico Basin",
+      "year": 1975,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1545076752",
+      "title": "Pitfalls in Marine Heat Flow Probe Data Acquisition and Interpretations: Examples from the Gulf of Mexico",
+      "year": 2006,
+      "doi": null,
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W1554309365",
+      "title": "Geothermal resource potential of the Socorro Area, New Mexico",
+      "year": 1979,
+      "doi": "10.2172/894518",
+      "found_by": "title+abstract"
+    },
+    {
+      "id": "W2131586751",
+      "title": "Heat flow at the Platanares, Honduras, geothermal site",
+      "year": 1991,
+      "doi": "10.1016/0377-0273(91)90024-t",
+      "found_by": "title+abstract"
+    }
+  ],
+  "papers": [
+    {
+      "id": "W2145531644",
+      "title": "The Regional Geothermal Heat Flow Regime of the North-Central Gulf of Mexico Continental Slope",
+      "authors": [
+        "Michael Jones"
+      ],
+      "year": 2003,
+      "venue": "ThinkTech (Texas Tech University)",
+      "doi": null,
+      "type": "dissertation",
+      "cited_by_count": 8,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "abstract"
+    }
+  ],
+  "edges": [],
+  "counts": {
+    "papers": 1,
+    "edges": 0,
+    "verified": 0,
+    "inferred": 0,
+    "seed_references_in_openalex": 0,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:29:46.152Z"
+}

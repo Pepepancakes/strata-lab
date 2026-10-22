@@ -1,0 +1,159 @@
+{
+  "param": "grain-water-conductivity",
+  "query": "thermal conductivity of porous media",
+  "seed": "W2041559997",
+  "ancestors": [],
+  "candidates": [],
+  "papers": [
+    {
+      "id": "W2312199777",
+      "title": "The Determination of Pore Volume and Area Distributions in Porous Substances. I. Computations from Nitrogen Isotherms",
+      "authors": [
+        "Elliott Pierce Barrett",
+        "Leslie G. Joyner",
+        "Paul P. Halenda"
+      ],
+      "year": 1951,
+      "venue": "Journal of the American Chemical Society",
+      "doi": "10.1021/ja01145a126",
+      "type": "article",
+      "cited_by_count": 13293,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2143508526",
+      "title": "THE AXIAL-FLOW ERROR IN THE THERMAL-CONDUCTIVITY PROBE",
+      "authors": [
+        "J. H. Blackwell"
+      ],
+      "year": 1956,
+      "venue": "Canadian Journal of Physics",
+      "doi": "10.1139/p56-048",
+      "type": "article",
+      "cited_by_count": 177,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2965916475",
+      "title": "Kinetic theory of gases",
+      "authors": [
+        "Richard D. Present"
+      ],
+      "year": 1958,
+      "venue": "McGraw-Hill eBooks",
+      "doi": null,
+      "type": "book",
+      "cited_by_count": 1994,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": false,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W1969072221",
+      "title": "Thermal conductivity of diatomic gases: Liquid and gaseous states",
+      "authors": [
+        "Charles A. Schaefer",
+        "George Thodos"
+      ],
+      "year": 1959,
+      "venue": "AIChE Journal",
+      "doi": "10.1002/aic.690050322",
+      "type": "article",
+      "cited_by_count": 28,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2011605006",
+      "title": "Molecular effects in heat conduction through porous rocks",
+      "authors": [
+        "William F. Woodside",
+        "J. H. Messmer"
+      ],
+      "year": 1960,
+      "venue": "Journal of Geophysical Research Atmospheres",
+      "doi": "10.1029/jz065i010p03481",
+      "type": "article",
+      "cited_by_count": 10,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "reference",
+      "read": "none"
+    },
+    {
+      "id": "W2041559997",
+      "title": "Thermal Conductivity of Porous Media. II. Consolidated Rocks",
+      "authors": [
+        "William F. Woodside",
+        "J. H. Messmer"
+      ],
+      "year": 1961,
+      "venue": "Journal of Applied Physics",
+      "doi": "10.1063/1.1728420",
+      "type": "article",
+      "cited_by_count": 215,
+      "open_access": false,
+      "oa_url": null,
+      "has_abstract": true,
+      "abstract": null,
+      "role": "seed",
+      "read": "none"
+    }
+  ],
+  "edges": [
+    {
+      "from": "W2041559997",
+      "to": "W1969072221",
+      "kind": "verified"
+    },
+    {
+      "from": "W2041559997",
+      "to": "W2011605006",
+      "kind": "verified"
+    },
+    {
+      "from": "W2041559997",
+      "to": "W2143508526",
+      "kind": "verified"
+    },
+    {
+      "from": "W2041559997",
+      "to": "W2312199777",
+      "kind": "verified"
+    },
+    {
+      "from": "W2041559997",
+      "to": "W2965916475",
+      "kind": "verified"
+    }
+  ],
+  "counts": {
+    "papers": 6,
+    "edges": 5,
+    "verified": 5,
+    "inferred": 0,
+    "seed_references_in_openalex": 5,
+    "level2": {}
+  },
+  "note": "verified = the citing paper's OpenAlex reference list contains the cited one (a reference relationship, not proof a value came from it). inferred = believed, not in the data. read = what the writer read: full | abstract | none. Abstracts are not stored here.",
+  "fetched_at": "2026-10-19T05:27:57.227Z"
+}
