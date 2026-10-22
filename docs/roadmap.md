@@ -408,6 +408,7 @@ preview.
 - Salt first 18.5 km and salt front 399.5 km in every run. Wavelength 10.85 / 12.08 / 13.10 km.
 - Shelf-edge position at 56 Ma 98.5 / 99.5 / 101.5 and at 10 Ma 154.5 / 155.5 / 157.5 (script metrics edge56, edge10); progradation between them 54 / 56 / 57 km.
 - Largest salt thickness in the last 20 km 3828 / 3841 / 3846 m; sea floor at the basinward end -3683 / -3670 / -3663 m (-12,084 / -12,041 / -12,018 ft).
+- **Bands re-set (D34, John 2026-10-21 "Go for it").** From these tables and the Linux node 22 runs: crest cover 300 m, final shelf edge 140 km, no-pile 1.2 times the start (the salt reaches the edge at about 12 Ma, a documented limit), noise welds 3 km in every run and a 2 km run in 6 of 7, short salt 4 highs. The 15 % grid agreement is not widened and stays a Linux expected failure. Open for John: an open salt edge or a longer section, to decide with M5.4b.
 
 ## M5 — Sideways motion over salt: growth faults and a linked toe  *(John, 2026-10-20: "I'm good with your recommendations"; D30)*
 Until M5 nothing moves the cover sideways: columns ride up and down on the salt (D10, D17.3), so the
