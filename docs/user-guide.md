@@ -886,7 +886,7 @@ the run, with structures counted when their relief is at least 300 m (984 ft):
   salt starts out between 10 and 240 km and spreads basinward. Nowhere past 250 km is it thicker than about 3.8 km,
   under the 4 km it starts with, so nothing piles against the end (the no-pile test allows 1.2 times the start).
 - **The salt reaches the end of the section.** Since the basinward end was opened for sediment, the salt keeps
-  spreading and reaches the end of the section at about 12 Ma (Windows and Linux). At the end of the run it is 3.4 to
+  spreading and reaches the end of the section at about 12 Ma (Windows and Linux). At the end of the run it is 3.3 to
   3.8 km thick over the last 110 km, with only a few metres of cover over the very last column. Sediment can leave
   through the end of the section but salt cannot, so what the salt does in the last tens of km after 12 Ma is an edge
   effect: a limit of the model, not a result.
@@ -899,7 +899,7 @@ the run, with structures counted when their relief is at least 300 m (984 ft):
   veneer of cover; the exact cover at one column moves with the maths library, but the wall and its marker do not.
   This is a limit of the model, not a result (14.6).
 - Spacing: the dominant wavelength of the salt thickness is about 11 to 13 km (Windows; 9.5 to 12.6 km on Linux). On
-  a 200 km section it is 19 to 27 km; the two grid sizes agree within 15 % on Windows but not on Linux (32 %), so
+  a 200 km section it is 19 to 27 km in the plain run; the two grid sizes agree within 15 % on Windows but not on Linux (32 %), so
   the spacing is not settled by the grid. The counts of highs and
   minibasins and their spacing do **not** hold, so do not trust a count.
 - Total salt is conserved to about 1e-14 (relative), with nothing clipped.

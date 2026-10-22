@@ -186,7 +186,7 @@ describe('Gulf-style preset: the D18 targets (66 Myr, 400 km, dx 1,000 m)', () =
   // D34: since SFM-1 (open basinward edge for sediment) the salt sheet keeps spreading and reaches the basinward edge at
   // about 12 Ma (salt front 399.5 km in all 14 runs, Windows node 26 and Linux node 22; it stopped at 335.5 km before
   // SFM-1). The salt edge itself is still closed, so from then on the last columns are an edge effect: a documented
-  // model limit (physics-references, "Salt at the basinward edge"), not a result. The old "salt has not reached the
+  // model limit (physics-references M3.10, "After the SFM fixes"), not a result. The old "salt has not reached the
   // edge" check is dropped; what M3.10 guarded against (a pile against the closed edge, 9 km in the M3.9 preset) is
   // checked by the no-pile band below.
   it('edge: no salt high, shallow or not, inside the last 20 km of the section', () => {
