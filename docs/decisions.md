@@ -397,3 +397,26 @@ Newest at the bottom. Each entry gives the date, the decision, who made it, and 
   4. The mud-permeability re-fit (D28.2) is created after the SFM chain is on main and starts from the LIN-2 notes.
      Where the clay fraction comes from (one value per lithology, or from the sand share) is a physics choice for
      John: LIN-2 lists the options with one recommendation, and any new Gulf default stays John's call (D32.5).
+
+- **D34. Gulf-preset bands re-set after the SFM fixes (John, 2026-10-21: "Go for it").**
+  1. As D27.1 and D31.4: the bands in `tests/gulfPreset.test.ts` are re-set from measurements on Windows node 26 and Linux
+     node 22, plain run plus the six 1 ulp noise salts (14 runs; `scripts/review/sfm-fix/03-gulf-bands.mjs` and
+     `06-gulf-salt-profile.mjs`). Nothing in the engine or the presets changed, and no band was moved toward a result
+     the model does not reach on both platforms.
+  2. New bands: any shallow crest under more than 300 m of cover (was 500 m; measured 431 to 433 m); final shelf edge at
+     140 km or more (was 150; measured 148.5 to 152.5 km, it was 208 to 219 km before the SFM-2 shelf-edge rule); no pile:
+     nowhere beyond 250 km, the last 20 km included, more than 1.2 times the start thickness (was: under 100 m in the last
+     20 km and under 2 times beyond 250 km; measured 0.96 times); noise welds: 3 km or more in every run and a run of 2 km
+     or more in at least 6 of the 7 (was 5 km and 2 km in all 7; Linux salt 5 has only 1 km runs); short salt preset: 4 or
+     more highs and minibasins (was 6; measured 5 in every run on both platforms). The D18 weld target (a run of 2 km or
+     more) is still asserted on the plain run.
+  3. Dropped: "the salt has not reached the edge". Since SFM-1 the salt reaches the closed basinward edge at about 12 Ma
+     (front at 399.5 km in all 14 runs; it stopped at 335.5 km before SFM-1). Sediment leaves through that edge and salt
+     cannot, so after 12 Ma the last columns are an edge effect, a model limit (physics-references M3.10, "After the SFM
+     fixes"). The salt there is 3.8 km thick, about as thick as the sheet 30 to 60 km inboard, so it has not piled up; the
+     M3.9 preset (no salt limit) still fails the new no-pile band.
+  4. Not widened: the 15 % grid agreement (dx 1,000 against 500 m) is a D17 target, not a band. It holds on Windows (0.09)
+     and not on Linux (0.32), so it stays a Linux expected failure, split from the 10 to 45 km band test, which passes on both.
+  5. For John (physics, D32.5), not decided here: whether the salt should also be able to leave through the basinward edge,
+     or the section be longer (the record holds 400 columns). Recommended: keep it as a documented limit and decide it with
+     the M5.4b linked toe, where the position of the salt front matters.

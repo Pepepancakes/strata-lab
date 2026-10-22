@@ -250,7 +250,10 @@ Read with D18 and D19 in `docs/decisions.md`. Full tables: `docs/reviews/m3-10-e
 - **Trap: routed deposits average the gradient over 3 km (SFM-3, ENGINE_VERSION 6).** `TC_SLOPE_WINDOW` in `turbidites.ts` (tuned, not cited) so a one-cell flat
   cannot catch all the sand (F5). Convergence F3 is still not met (dx 1 km to 0.5 km: shoreline +4.0 km, sand beyond 100 km -28 %, Windows node 26; targets are
   round numbers, D31.5). Documented limits, not fixed: F6 (Windows/Linux noise), F8 (keep nSub >= 5), F9 (point source, no flexure); user guide section 15.
-  Four gulfPreset tests moved: one restored from `it.fails`, three newly `it.fails` (D31.4, SFM-3); SFM-4 and John decide the bands.
+  The gulfPreset bands were re-set after the chain (D34): all pass on both platforms except the 15 % grid agreement, a Linux expected failure.
+- **Trap: the Gulf salt reaches the basinward edge at about 12 Ma (since SFM-1, D34).** Sediment leaves through the open edge, salt cannot; the
+  last columns after 12 Ma are an edge effect. Do not read a crest, weld or pressure in the last 20 km of the Gulf preset as a result, and
+  decide the salt edge (open, or a longer section) before the M5.4b toe is placed.
 
 ## M4 planned well (2026-10-16)
 Chain: `strata-lab/m4-01-well-path` -> `m4-02-well-pressures` -> `m4-03-well-view` (merges UI-1) -> `m4-04-well-export` -> `m4-05-docs`.

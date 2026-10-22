@@ -25,6 +25,12 @@ const LONG = 600_000 // ms; generous so a slow CI machine does not time out
 const NO_LIMIT = { saltLimitStart: defaultEngineParams().saltLimitStart, saltLimitEnd: defaultEngineParams().saltLimitEnd }
 const SALT_EDGE_M = 100 // m; a column with more salt than this is inside the salt basin
 const SIX_SALTS = [3, 5, 7, 11, 13, 17]
+// D34 bands (re-set after the SFM fixes from the Windows and Linux medians, D27.1 / D31.4):
+const CREST_COVER_M = 300 // m; any shallow crest is under at least this much cover (measured 431 to 433 m)
+const PILE = 1.2 // times the start salt thickness; most salt anywhere beyond 250 km (measured 0.96)
+// km; final shelf edge. Measured 148.5 to 151.5 (Windows node 26) and 149.5 to 152.5 (Linux node 22) over the plain run and
+// six noise salts: the SFM-2 shelf-edge rule (a minimum water depth) moved it from 208 to 219 km to about 150 km; 150 sat on the band edge.
+const SHELF_EDGE_END_KM = 140
 
 interface Summary {
   P: EngineParams
@@ -161,14 +167,15 @@ describe('Gulf-style preset: the D18 targets (66 Myr, 400 km, dx 1,000 m)', () =
     }
   })
 
-  // SFM-1 / D31.4 marked this it.fails (open edge). SFM-2 (D31.3, shelf edge needs water depth, share from the edge flux) passes it again on Windows node 26: restored as a normal test; band unchanged, not re-banded.
+  // D34 (bands re-set after the SFM fixes): the cover band is 300 m, was 500 m. Measured after SFM-3: the one crest that
+  // appears in some noise salts has 431 to 433 m of cover (Windows node 26 and Linux node 22), under the seafloor.
   it('crests: any salt high with under 2 km of cover is under the seafloor and obeys the 20 km exclusion; none is required', () => {
     // D18 asked for two. With the Hart et al. (1995) mud (AUD-3, D26.4) the count is 0 (it was 2 to 5, ripples of
     // the cover seed over light, over-porous mud), so the target is dropped for this preset and no count is
     // asserted (D16.4: nothing is built on a count near zero). Only the sanity is asserted: never through the
     // seafloor, and the 20 km exclusion holds for any that exist.
     for (const c of main.crests) {
-      expect(c.coverM).toBeGreaterThan(500) // under the seafloor, not through it
+      expect(c.coverM).toBeGreaterThan(CREST_COVER_M) // under the seafloor, not through it
       expect(mToFt(c.coverM)).toBeLessThan(6600)
       expect(c.xKm).toBeLessThanOrEqual(main.P.nx * main.P.dx / 1000 - 20)
       expect(c.xKm).toBeLessThanOrEqual(main.saltFrontKm - 20)
@@ -176,25 +183,28 @@ describe('Gulf-style preset: the D18 targets (66 Myr, 400 km, dx 1,000 m)', () =
     }
   })
 
-  // SFM-1 / D31.4: fails with the open basinward edge (the band was set with a closed wall); SFM-4 and John decide the new band. Kept as it.fails so the old band stays visible and the test turns red when the band is re-set.
-  it.fails('edge: no salt crest, shallow or not, inside the last 20 km of the section, and the salt has not reached the edge', () => {
+  // D34: since SFM-1 (open basinward edge for sediment) the salt sheet keeps spreading and reaches the basinward edge at
+  // about 12 Ma (salt front 399.5 km in all 14 runs, Windows node 26 and Linux node 22; it stopped at 335.5 km before
+  // SFM-1). The salt edge itself is still closed, so from then on the last columns are an edge effect: a documented
+  // model limit (physics-references, "Salt at the basinward edge"), not a result. The old "salt has not reached the
+  // edge" check is dropped; what M3.10 guarded against (a pile against the closed edge, 9 km in the M3.9 preset) is
+  // checked by the no-pile band below.
+  it('edge: no salt high, shallow or not, inside the last 20 km of the section', () => {
     const L = main.P.nx * main.P.dx / 1000
     for (const x of main.shallowKm) expect(x).toBeLessThanOrEqual(L - 20)
     for (const q of saltHighs(main.h, main.P.dx, MIN_PROM)) expect(q.x / 1000).toBeLessThanOrEqual(L - 20)
-    expect(main.saltFrontKm).toBeLessThanOrEqual(L - 20)
   })
 
-  // SFM-1 / D31.4: fails with the open basinward edge (the band was set with a closed wall); SFM-4 and John decide the new band. Kept as it.fails so the old band stays visible and the test turns red when the band is re-set.
-  it.fails('no pile: under 100 m of salt within 20 km of the basinward edge, and nowhere beyond 250 km thicker than 2 times the start', () => {
-    expect(main.maxLast20).toBeLessThan(100) // measured 0
-    // AUD-4b: the 6.4 km beyond 250 km is the exposed toe wall, not a pile against the section edge (the original M3.9 purpose)
-    // AUD-3: measured 1.6 times (6.4 to 6.6 km; Windows, 4 runs; was 1.25 times with the North Sea mud); the M3.9 preset gave 2.3 times
-    expect(main.maxBeyond250).toBeLessThan(2 * main.P.saltThick)
+  // D34: re-set from the SFM-4 medians. The salt within 20 km of the edge is 3.83 to 3.85 km thick (0.96 times the
+  // 4 km start; 14 runs, Windows and Linux), about the thickness of the sheet 30 to 60 km inboard (3.4 to 3.7 km), so it
+  // has reached the edge without piling there. Band 1.2 times the start (4.8 km).
+  it('no pile: nowhere beyond 250 km, the last 20 km included, is the salt thicker than 1.2 times the start', () => {
+    expect(main.maxLast20).toBeLessThan(PILE * main.P.saltThick)
+    expect(main.maxBeyond250).toBeLessThan(PILE * main.P.saltThick)
   })
 
-  it('the M3.9 values (no basinward limit) fail the edge and no-pile checks, so they can fail', () => {
-    expect(m39.maxLast20).toBeGreaterThan(1000) // the salt had piled against the closed edge (measured about 9 km)
-    expect(m39.maxBeyond250).toBeGreaterThan(2 * m39.P.saltThick)
+  it('the M3.9 values (no basinward limit) fail the no-pile check, so it can fail', () => {
+    expect(m39.maxLast20).toBeGreaterThan(PILE * m39.P.saltThick) // the salt piles against the closed edge
     expect(m39.saltFrontKm).toBeGreaterThan(m39.P.nx * m39.P.dx / 1000 - 20)
   })
 
@@ -202,7 +212,7 @@ describe('Gulf-style preset: the D18 targets (66 Myr, 400 km, dx 1,000 m)', () =
   it('the wedge prograded: shelf edge km at 10 Ma at least 50 km beyond its place at 56 Ma', () => {
     expect(main.edge56Km).toBeGreaterThan(0)
     expect(main.edge10Km - main.edge56Km).toBeGreaterThanOrEqual(50)
-    expect(main.edgeEndKm).toBeGreaterThanOrEqual(150)
+    expect(main.edgeEndKm).toBeGreaterThanOrEqual(SHELF_EDGE_END_KM)
   })
 
   it('salt moved basinward and is conserved with the clip off', () => {
@@ -237,14 +247,19 @@ describe('Gulf-style preset: grid agreement on a 200 km section', () => {
   const a = runSummary('gulf', { dx: 1000, nx: 200 })
   const b = runSummary('gulf', { dx: 500, nx: 400 })
 
-  // SFM-2 / D31.4 marked this it.fails (0.21 against 0.15). SFM-3 (D31.3, routed deposits spread over 3 km) passes it again on Windows node 26: restored as a normal test; band unchanged, not re-banded.
-  // SFM-3 / D31.4: on Linux node 22 the two grids differ by 0.32 of the finer one (Windows node 26 passes, under 0.15): a result that sits on the band edge is platform dependent (D16.4), so on Linux it is it.fails. SFM-4 and John decide the band.
-  itFailsOnLinux('dominant wavelength at dx 1,000 and 500 m agrees within 15 %, both in the 10 to 45 km band', () => {
+  // D34: the two parts are split. The 10 to 45 km band holds on both grids and both platforms (19.1 to 26.6 km on the plain
+  // run). The 15 % agreement is a target (D17), not a band, so it is not widened: it holds on Windows node 26 (0.09; noise
+  // 3/5/7 0.07/0.03/0.10) and not on Linux node 22 (0.32; noise 3/5/7 0.22/0.10/1.17, the last a jump to another peak at
+  // dx 500 m). The wavelength is not grid-converged to 15 % on Linux; it stays visible here as a Linux expected failure.
+  it('dominant wavelength at dx 1,000 and 500 m is in the 10 to 45 km band on both grids', () => {
     // AUD-3: measured 38 and 34 km (Windows) with the Hart et al. mud; the band was 10 to 25 km with the North Sea mud.
     for (const s of [a, b]) {
       expect(s.wavelengthKm).toBeGreaterThan(10)
       expect(s.wavelengthKm).toBeLessThan(45)
     }
+  })
+
+  itFailsOnLinux('dominant wavelength at dx 1,000 and 500 m agrees within 15 % (D17 target; not met on Linux, see above)', () => {
     expect(Math.abs(a.wavelengthKm - b.wavelengthKm) / b.wavelengthKm).toBeLessThan(0.15)
   })
 
@@ -267,36 +282,32 @@ describe('Gulf-style preset: robust to 1 ulp maths noise (D16.4)', () => {
   const main = runSummary('gulf')
   const noisy = SIX_SALTS.map((salt) => runSummary('gulf', {}, salt))
 
-  // SFM-1 / D31.4 marked this it.fails (open edge). SFM-2 (D31.3, shelf edge needs water depth, share from the edge flux) passes it again on Windows node 26: restored as a normal test; band unchanged, not re-banded.
-  // SFM-3 / D31.4: on Linux node 22 the longest weld run is 1 km against the 2 km band (Windows node 26 passes): it.fails on Linux only (D16.4). SFM-4 and John decide the band.
-  itFailsOnLinux('weld band: total weld length of 5 km or more and a run of 2 km or more, in all six noise salts and the plain run', () => {
-    // AUD-3 (Hart et al. mud), measured (Windows, Node 26; plain and three noise salts): total 8 to 11 km, longest
-    // run 2 to 3 km, 1 to 3 runs of 2 km or more (it was 12 to 20 km, 3 to 4 km, 6 to 11 runs with the North Sea
-    // mud). Only the band is asserted, not a count or a place.
-    for (const n of [main, ...noisy]) {
-      expect(n.weldTotalKm).toBeGreaterThanOrEqual(5)
-      expect(n.weldLongestKm).toBeGreaterThanOrEqual(2)
-    }
+  // D34: re-set from the SFM-4 medians (D27.1). After the SFM fixes, over the plain run and six noise salts: total 5 to 9 km and
+  // longest run 2 to 3 km on Windows node 26; total 4 to 9 km and longest 1 to 3 km on Linux node 22 (one salt, 5, has
+  // only 1 km runs). The D18 weld target (a run of 2 km or more) is asserted on the plain run above; here every run must
+  // have welds (total 3 km or more) and at least six of the seven a run of 2 km or more.
+  it('weld band: total weld length of 3 km or more in every run, and a run of 2 km or more in at least 6 of the 7', () => {
+    const all = [main, ...noisy]
+    for (const n of all) expect(n.weldTotalKm).toBeGreaterThanOrEqual(3)
+    expect(all.filter((n) => n.weldLongestKm >= 2).length).toBeGreaterThanOrEqual(6)
   })
 
-  // SFM-1 / D31.4 marked this it.fails (open edge). SFM-2 (D31.3, shelf edge needs water depth, share from the edge flux) passes it again on Windows node 26: restored as a normal test; band unchanged, not re-banded.
-  // SFM-3 / D31.4: fails after the routed-deposit fix (D31.3, F5) on Windows node 26: a noisy-run crest has 433 m of cover against the 500 m band. Not re-banded here: SFM-4 and John decide. Kept as it.fails so the old band stays visible.
-  it.fails('crests, edges and wavelength do not depend on the noise', () => {
+  // D34: the crest cover band is CREST_COVER_M (300 m), see the plain-run crest test; the rest is unchanged.
+  it('crests, edges and wavelength do not depend on the noise', () => {
     for (const n of noisy) {
-      for (const c of n.crests) expect(c.coverM).toBeGreaterThan(500) // none required (measured 0); any that exist are under the seafloor
-      expect(n.wavelengthKm).toBeGreaterThan(8) // measured 10.4 to 12.3 across noise salts (AUD-3, Windows): the band, not a tight match
+      for (const c of n.crests) expect(c.coverM).toBeGreaterThan(CREST_COVER_M) // none required; any that exist are under the seafloor
+      expect(n.wavelengthKm).toBeGreaterThan(8) // measured 9.5 to 13.1 across noise salts (SFM-4, Windows and Linux): the band, not a tight match
       expect(n.wavelengthKm).toBeLessThan(25)
-      expect(n.edgeEndKm).toBeGreaterThanOrEqual(150)
+      expect(n.edgeEndKm).toBeGreaterThanOrEqual(SHELF_EDGE_END_KM)
       expect(Math.abs(n.volumeChange)).toBeLessThan(1e-12)
     }
   })
 
-  // SFM-1 / D31.4: fails with the open basinward edge (the band was set with a closed wall); SFM-4 and John decide the new band. Kept as it.fails so the old band stays visible and the test turns red when the band is re-set.
-  it.fails('the edge fix holds in every noise salt: no pile, no crest in the last 20 km', () => {
+  // D34: as the plain-run edge and no-pile tests (the salt reaches the edge at about 12 Ma in every salt, without a pile).
+  it('the edge fix holds in every noise salt: no pile, no crest in the last 20 km', () => {
     for (const n of noisy) {
-      expect(n.maxLast20).toBeLessThan(100) // measured 0
-      expect(n.maxBeyond250).toBeLessThan(2 * n.P.saltThick) // measured 1.6 times (AUD-3)
-      expect(n.saltFrontKm).toBeLessThanOrEqual(n.P.nx * n.P.dx / 1000 - 20)
+      expect(n.maxLast20).toBeLessThan(PILE * n.P.saltThick) // measured 0.96 times
+      expect(n.maxBeyond250).toBeLessThan(PILE * n.P.saltThick)
       for (const x of n.shallowKm) expect(x).toBeLessThanOrEqual(n.P.nx * n.P.dx / 1000 - 20)
     }
   })
@@ -313,11 +324,11 @@ describe('Salt: uneven cover (10 Myr) preset', () => {
     expect(p.note).not.toBe('draft')
   })
 
-  // SFM-1 / D31.4 marked this it.fails (open edge). SFM-2 (D31.3, shelf edge needs water depth, share from the edge flux) passes it again on Windows node 26: restored as a normal test; band unchanged, not re-banded.
-  // SFM-3 / D31.4: fails after the routed-deposit fix (D31.3, F5) on Windows node 26: 5 salt highs against the at-least-6 band. Not re-banded here: SFM-4 and John decide. Kept as it.fails so the old band stays visible.
-  it.fails('forms diapirs and minibasins: at least 6 of each (it makes about 13)', () => {
-    expect(saltHighs(s.h, s.P.dx, MIN_PROM).length).toBeGreaterThanOrEqual(6)
-    expect(minibasins(s.h, s.P.dx, MIN_PROM).length).toBeGreaterThanOrEqual(6)
+  // D34: re-set from the SFM-4 measurement: 5 salt highs and 5 minibasins after the routed-deposit fix (SFM-3), in the plain
+  // run and all six noise salts, on Windows node 26 and Linux node 22 (it made about 13 before). Band 4 or more.
+  it('forms diapirs and minibasins: at least 4 of each (it makes 5)', () => {
+    expect(saltHighs(s.h, s.P.dx, MIN_PROM).length).toBeGreaterThanOrEqual(4)
+    expect(minibasins(s.h, s.P.dx, MIN_PROM).length).toBeGreaterThanOrEqual(4)
   })
 
   it('conserves salt and the clip stays off', () => {
@@ -325,12 +336,11 @@ describe('Salt: uneven cover (10 Myr) preset', () => {
     expect(s.clip).toBe(0)
   })
 
-  // SFM-1 / D31.4 marked this it.fails (open edge). SFM-2 (D31.3, shelf edge needs water depth, share from the edge flux) passes it again on Windows node 26: restored as a normal test; band unchanged, not re-banded.
-  // SFM-3 / D31.4: fails after the routed-deposit fix (D31.3, F5) on Windows node 26: 5 salt highs against the at-least-6 band. Not re-banded here: SFM-4 and John decide. Kept as it.fails so the old band stays visible.
-  it.fails('still forms them under 1 ulp noise', () => {
+  // D34: band 4 or more, as above (measured 5 in every noise salt).
+  it('still forms them under 1 ulp noise', () => {
     const n = runSummary('saltshort', {}, 5)
-    expect(saltHighs(n.h, n.P.dx, MIN_PROM).length).toBeGreaterThanOrEqual(6)
-    expect(minibasins(n.h, n.P.dx, MIN_PROM).length).toBeGreaterThanOrEqual(6)
+    expect(saltHighs(n.h, n.P.dx, MIN_PROM).length).toBeGreaterThanOrEqual(4)
+    expect(minibasins(n.h, n.P.dx, MIN_PROM).length).toBeGreaterThanOrEqual(4)
   })
 
   it('a second run gives the same bits', () => {

@@ -883,18 +883,24 @@ the run, with structures counted when their relief is at least 300 m (984 ft):
   highs from the beginning, when they were near the seafloor).
 - **The salt basin has its own end.** Before the basin limit was added, the salt pushed basinward piled up against
   the closed end of the section, 8 to 9 km thick, and the earlier "crests" were ripples on that pile. Now the
-  salt starts out between 10 and 240 km, flows about 100 km past its limit, stops about 60 km short of the end of
-  the section and is 6.4 to 6.6 km thick at most (it was 5 km with the North Sea mud; the no-pile test now allows
-  twice the start thickness).
-- **The toe of the salt is bare.** With the Gulf shale mud the front of the salt does not stay buried. Over the last
+  salt starts out between 10 and 240 km and spreads basinward. Nowhere past 250 km is it thicker than about 3.8 km,
+  under the 4 km it starts with, so nothing piles against the end (the no-pile test allows 1.2 times the start).
+- **The salt reaches the end of the section.** Since the basinward end was opened for sediment, the salt keeps
+  spreading and reaches the end of the section at about 12 Ma (Windows and Linux). At the end of the run it is 3.4 to
+  3.8 km thick over the last 110 km, with only a few metres of cover over the very last column. Sediment can leave
+  through the end of the section but salt cannot, so what the salt does in the last tens of km after 12 Ma is an edge
+  effect: a limit of the model, not a result.
+- **Before the end was opened, the toe of the salt was bare** (the next lines describe that run; the bare wall is gone
+  now). With the Gulf shale mud the front of the salt did not stay buried. Over the last
   3 to 5 km before the front the salt is at the seafloor with no cover, and there it is 6.2 to 6.7 km (20,000 to
   22,000 ft) thick (Windows node 26 and Linux node 22, 7 runs each, AUD-4). The seafloor drops by a step of about
   1,270 m (4,170 ft) there in the plain run (Windows), and the front has been bare since about 21 Ma. The crest log
   carries it as one crest that ends "run end", exposed for 44 to 57 Myr. In Chrome the toe column keeps a thin
   veneer of cover; the exact cover at one column moves with the maths library, but the wall and its marker do not.
   This is a limit of the model, not a result (14.6).
-- Spacing: the dominant wavelength of the salt thickness is about 10 to 12 km (Windows; it was 13 to 14 km). On
-  a 200 km section it is 34 to 38 km and the two grids still agree within 15 %. The counts of highs and
+- Spacing: the dominant wavelength of the salt thickness is about 11 to 13 km (Windows; 9.5 to 12.6 km on Linux). On
+  a 200 km section it is 19 to 27 km; the two grid sizes agree within 15 % on Windows but not on Linux (32 %), so
+  the spacing is not settled by the grid. The counts of highs and
   minibasins and their spacing do **not** hold, so do not trust a count.
 - Total salt is conserved to about 1e-14 (relative), with nothing clipped.
 
